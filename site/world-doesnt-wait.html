@@ -247,6 +247,18 @@
 .ap-bud dd { margin:0; color:#c2ccd4; text-align:right; font-variant-numeric:tabular-nums; }
 .ap-bud p { margin:10px 0 0; font-size:11.5px; line-height:1.55; color:#7c8891; }
 
+/* heater ladder: a real table, because the whole point is two columns side by side */
+.ap-heat { display:grid; grid-template-columns:1.15fr 1fr 1fr 1.1fr; gap:1px; background:#1a212a;
+           border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 9px;
+           font-variant-numeric:tabular-nums; }
+.ap-heat > * { background:#0d1116; padding:11px 13px; font-size:12.5px; color:#d4dade; }
+.ap-heat > .h { font-family:var(--mono); font-size:8.5px; letter-spacing:.13em; line-height:1.35;
+                text-transform:uppercase; color:#5f6b76; padding:10px 13px 9px; }
+.ap-heat > .n { color:#7c8891; }
+.ap-heat > .e { color:#e9eff3; font-weight:600; }
+.ap-tcap { margin:0 0 17px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em;
+           line-height:1.6; color:#5a6672; }
+
 .ap-phs { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
           overflow:hidden; margin:0 0 20px; }
 .ap-phs > div { background:#0d1116; padding:12px 14px 13px; }
@@ -363,6 +375,9 @@
   .ap-flora svg { transform:translateX(-50%) scale(calc(var(--s,1) * .76)); }
   .ap-badge b { font-size:14px; }
   .ap-bud { grid-template-columns:1fr; }
+  .ap-heat { grid-template-columns:.9fr 1fr 1fr 1.05fr; font-size:11.5px; }
+  .ap-heat > * { padding:10px 7px; }
+  .ap-heat > .h { padding:9px 7px 8px; font-size:8px; letter-spacing:.06em; }
   .ap-figs { grid-template-columns:1fr; }
   .ap-pass > div { flex-wrap:wrap; }
   .ap-pass b { flex-basis:auto; }
@@ -546,12 +561,39 @@
       <p>Surface survival becomes lethal at minus forty-five. Obsidian freezes. Coal ore crystallizes. Magma blocks go out. Dense fog, near darkness. Checks go to five times base.</p>
       <s>obsidian freezes</s><s>coal crystallizes</s><s>packed ice</s><s>5&times; checks</s></div>
     <div><h4><i style="background:#0d081a"></i>Eternal Winter<u>Phase 5 &middot; 0.46</u></h4>
-      <p>Endgame cold, minus seventy and falling. Permanent midnight, blizzard whiteout, clouds and celestial bodies stop rendering entirely. Only deep underground is survivable, and even there your heat sources shrink: unsheltered heat radius drops to sixty percent.</p>
+      <p>Endgame cold, minus seventy and falling. Permanent midnight, blizzard whiteout, clouds and celestial bodies stop rendering entirely. Only deep underground is survivable, and even there your heaters shrink: an exposed thermal heater keeps sixty percent of its radius.</p>
       <s>blizzard whiteout</s><s>permanent night</s><s>masonry begins to crack</s></div>
     <div><h4><i style="background:#000005;box-shadow:0 0 0 1px #2a3440"></i>Atmospheric Collapse<u>Phase 6 &middot; 0.60</u></h4>
       <p>The last forty percent. Minus one twenty down to absolute zero. It has its own three stages, and it is the only phase where the world gets <em>clearer</em> as it gets worse.</p>
       <s>see the next section</s></div>
   </div>
+
+  <div class="ap-h3">And your heat shrinks with it</div>
+  <p class="ap-p">Phase 5 does not only raise the bill, it quietly shortens your reach. Every lit thermal heater checks one line before deciding how far it warms, and from phase 5 onward a heater with no roof over it keeps only sixty percent of its radius, rounded down.</p>
+
+  <details class="ap-src">
+    <summary>The radius cut, and the number it was tuned against<em>Java</em></summary>
+    <div class="ap-code"><c>/**
+ * In phase 5+, exposed heaters (no roof) have 60% radius (distSq &times; 0.36).
+ * This ensures Diamond exposed (r&asymp;8.4) &gt; Base enclosed (r=7).
+ */</c>
+<v>int</v> baseRadius = hasCapacitor ? 28 : 14;   <c>// diamond tier</c>
+<k>if</k> (phase &gt;= 5 &amp;&amp; !sheltered)
+    baseRadius = Math.max(2, (<v>int</v>) (baseRadius * 0.6f));</div>
+  </details>
+
+  <div class="ap-heat">
+    <span class="h">Heater</span><span class="h">Sheltered</span><span class="h">Exposed</span><span class="h">Warmth</span>
+    <span>Stone</span><span class="n">7 / 14</span><span class="e">4 / 8</span><span class="n">35 / 52.5</span>
+    <span>Iron</span><span class="n">9 / 18</span><span class="e">5 / 10</span><span class="n">50 / 75</span>
+    <span>Gold</span><span class="n">11 / 22</span><span class="e">6 / 13</span><span class="n">65 / 97.5</span>
+    <span>Diamond</span><span class="n">14 / 28</span><span class="e">8 / 16</span><span class="n">80 / 120</span>
+  </div>
+  <p class="ap-tcap">Radius in blocks, bare / with capacitor. Warmth in degrees, flat anywhere inside the radius.</p>
+
+  <p class="ap-p">That comment is the whole balance decision in one line. <strong>A diamond heater standing in the open still out-reaches a plain one under a roof</strong>, eight blocks against seven, so the top tier never turns into a downgrade and a roof never turns into a requirement. Shelter only makes what you already built go further.</p>
+  <p class="ap-p">Campfires, furnaces and lava never take the cut at all. They sit on a different code path that is handed no phase at all, so they keep every block of their radius and simply stop mattering instead: a soul campfire is worth twenty eight degrees against an ambient minus seventy.</p>
+  <p class="ap-p">One phase later, a roof stops being enough by itself. What a room has to hold in is no longer heat, and the question changes from how warm you are to whether you can breathe at all. That is the next section.</p>
 
   <div class="ap-h3">Depth is the answer, and it is also a curve</div>
   <p class="ap-p">The one honest escape is downward. Temperature gets a depth modifier that is its own ladder, from minus ten at build height to plus eighty at bedrock. Deep enough and the surface reading stops mattering, which is exactly why phase 6 eventually reaches down and takes that away too.</p>
@@ -776,7 +818,7 @@
     '<b>The cold becomes real.</b> Water freezes, grass and farmland die back, snow starts to settle. This is the first phase the block freezer runs at all.',
     '<b>The first survival wall.</b> Permanent storms, fog closing in, lava beginning to cool. The freezer now runs twice as many checks per tick.',
     '<b>The surface turns lethal.</b> Obsidian freezes, coal ore crystallizes, magma goes out. Near darkness, five times the checks. Underground stops being optional.',
-    '<b>Endgame cold.</b> Permanent midnight and blizzard whiteout. Clouds and celestial bodies stop rendering entirely, and unsheltered heat sources lose forty percent of their radius.',
+    '<b>Endgame cold.</b> Permanent midnight and blizzard whiteout. Clouds and celestial bodies stop rendering entirely, and exposed thermal heaters lose forty percent of their radius.',
     '<b>Atmospheric collapse.</b> The last forty percent of the world, and the only phase with stages of its own.'
   ];
   var P6 = [
