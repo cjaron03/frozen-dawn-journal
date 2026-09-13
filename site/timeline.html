@@ -1,0 +1,296 @@
+<h2>The homepage</h2>
+<p class="subtitle">The line is commits per day across 192 days, so drawing it in draws the real shape of the project. Hover any dot. The amber dot is the Architect. Every number here is read from the repository at build time.</p>
+
+<style>
+.tl { --mono: ui-monospace,"SF Mono",Menlo,monospace; --ice:#7dd3fc; --amb:#ffb454; }
+.tl-frame { position:relative; background:#0f1216; border:1px solid #1d232a; border-radius:10px; overflow:hidden; }
+
+/* ---- snow ---- */
+.tl-snow { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; }
+.tl-snow span { position:absolute; top:-8px; border-radius:50%; background:#dbe9f5; animation-name:tlfall; animation-timing-function:linear; animation-iteration-count:infinite; }
+@keyframes tlfall { from { transform:translate3d(0,-10px,0) } to { transform:translate3d(var(--dx),460px,0) } }
+
+/* ---- header ---- */
+.tl-head { position:relative; z-index:3; display:flex; align-items:baseline; gap:10px; padding:16px 22px 0; }
+.tl-head b { color:#f2f6f8; font-size:15px; font-weight:700; letter-spacing:-.015em; }
+.tl-head i { color:#7c8891; font-size:11px; font-style:normal; letter-spacing:.06em; }
+.tl-head nav { margin-left:auto; display:flex; gap:16px; font-size:11px; color:#6c7782; }
+.tl-meta { position:relative; z-index:3; padding:2px 22px 0; font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase; color:#4e5a66; }
+
+/* ---- stage ---- */
+.tl-stage { position:relative; z-index:2; height:238px; margin:10px 22px 0; }
+.tl-stage svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.tl-trace { fill:none; stroke:#2c688a; stroke-width:2; stroke-linejoin:round; stroke-dasharray:1766; stroke-dashoffset:1766; animation:tldraw 3.6s cubic-bezier(.32,.02,.2,1) forwards; }
+.tl-glow { fill:none; stroke:#7dd3fc; stroke-width:5; opacity:.13; filter:blur(3px); stroke-dasharray:1766; stroke-dashoffset:1766; animation:tldraw 3.6s cubic-bezier(.32,.02,.2,1) forwards; }
+@keyframes tldraw { to { stroke-dashoffset:0 } }
+
+/* ---- dots ---- */
+.tl-d { position:absolute; width:26px; height:26px; margin:-13px 0 0 -13px; display:grid; place-items:center; cursor:pointer; opacity:0; transform:scale(.2); animation:tlpop .5s cubic-bezier(.2,1.5,.4,1) forwards; text-decoration:none; }
+@keyframes tlpop { to { opacity:1; transform:scale(1) } }
+.tl-d i { width:7px; height:7px; border-radius:50%; background:#7dd3fc; transition:transform .18s, box-shadow .18s; }
+.tl-d.major i { width:10px; height:10px; box-shadow:0 0 0 3px #0f1216, 0 0 0 4px #7dd3fc4d; }
+.tl-d.arch2 i { width:10px; height:10px; box-shadow:0 0 0 3px #0f1216, 0 0 0 4px #7dd3fc4d; }
+.tl-d.arch i { width:12px; height:12px; background:#ffb454; box-shadow:0 0 0 3px #0f1216, 0 0 0 5px #ffb4543d, 0 0 16px #ffb45480; }
+.tl-d:hover i { transform:scale(1.45); }
+.tl-d:hover { z-index:20; }
+.tl-d.arch:after { content:""; position:absolute; top:50%; left:50%; width:12px; height:12px; margin:-6px 0 0 -6px; border-radius:50%; border:1px solid #ffb454; opacity:0; animation:tlring 3.6s ease-out 4.1s infinite; pointer-events:none; }
+@keyframes tlring { 0% { transform:scale(1); opacity:.5 } 60% { transform:scale(3); opacity:0 } 100% { transform:scale(3); opacity:0 } }
+
+/* ---- hover card ---- */
+.tl-card { position:absolute; left:50%; transform:translate(-50%,4px); width:212px; background:#151b22; border:1px solid #26303b; border-radius:7px; padding:9px 11px 10px; opacity:0; pointer-events:none; transition:opacity .16s, transform .16s; }
+.tl-card.above { bottom:22px; }
+.tl-card.below { top:22px; }
+.tl-d:hover .tl-card { opacity:1; transform:translate(-50%,0); }
+.tl-card.edgeL { left:-13px; transform:translate(0,4px); }
+.tl-card.edgeR { left:auto; right:-13px; transform:translate(0,4px); }
+.tl-d:hover .tl-card.edgeL, .tl-d:hover .tl-card.edgeR { transform:translate(0,0); }
+.tl-card em { display:block; font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#7c8891; font-style:normal; }
+.tl-card b { display:block; font-size:13px; font-weight:600; color:#f2f6f8; letter-spacing:-.01em; margin:3px 0 6px; }
+.tl-card code { display:block; font-family:var(--mono); font-size:9.5px; line-height:1.5; color:#7e8a96; border-top:1px solid #212831; padding-top:6px; }
+.tl-d.arch .tl-card { border-color:#3a3020; }
+.tl-d.arch .tl-card b { color:#ffb454; }
+
+/* ---- silence bracket ---- */
+.tl-sil { position:absolute; left:39.27%; width:32.98%; bottom:4px; text-align:center; opacity:0; animation:tlfade .8s ease 2.05s forwards; }
+.tl-sil div { height:5px; border:1px solid #2a3440; border-top:none; border-radius:0 0 3px 3px; }
+.tl-sil span { display:block; margin-top:5px; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#54626e; }
+@keyframes tlfade { to { opacity:1 } }
+
+/* ---- chapter bands ---- */
+.tl-bands { position:relative; z-index:2; display:flex; margin:0 22px; padding-top:9px; border-top:1px solid #1b212a; gap:1px; }
+.tl-bands div { padding:7px 0 16px; font-size:10.5px; color:#77828c; position:relative; opacity:0; animation:tlfade .6s ease forwards; }
+.tl-bands div:before { content:""; position:absolute; top:-1px; left:0; right:1px; height:1px; background:#2c688a; }
+.tl-bands div.q:before { background:#1e2932; }
+.tl-bands div.p:before { background:#7dd3fc; }
+.tl-bands b { color:#aeb8c0; font-weight:500; }
+
+/* ---- notes + themes ---- */
+
+.tl-th { margin-top:22px; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.tl-thc { border:1px solid #1d232a; border-radius:8px; overflow:hidden; background:#0f1216; }
+.tl-thb { height:62px; position:relative; overflow:hidden; border-bottom:1px solid #1a2029; }
+.tl-thb u { position:absolute; inset:0; text-decoration:none; }
+.tl-thn { padding:10px 12px 12px; }
+.tl-thn b { display:block; font-size:12px; color:#f2f6f8; font-weight:600; margin-bottom:4px; }
+.tl-thn span { display:block; font-size:11px; line-height:1.5; color:#828d96; }
+
+/* ---- ambient sky, one pass ---- */
+.tl-sky { position:relative; aspect-ratio:1000/74; z-index:2; }
+.tl-sky svg { position:absolute; inset:0; width:100%; height:100%; overflow:hidden; }
+
+/* ---- hero ---- */
+.tl-hero { position:relative; z-index:3; padding:18px 22px 4px; }
+.tl-hero h1 { margin:0; font-size:26px; line-height:1.22; letter-spacing:-.022em; font-weight:650; color:#f2f6f8; max-width:20ch; }
+.tl-stats { display:flex; gap:30px; margin-top:16px; }
+.tl-stats div b { display:block; font-size:23px; font-weight:600; letter-spacing:-.02em; color:#7dd3fc; font-variant-numeric:tabular-nums; }
+.tl-stats div span { display:block; margin-top:2px; font-family:var(--mono); font-size:9px; letter-spacing:.13em; text-transform:uppercase; color:#6a7783; }
+.tl-stats div.dim b { color:#6a7783; }
+.tl-cta { display:flex; gap:9px; margin-top:18px; flex-wrap:wrap; }
+.tl-cta a { font-size:12.5px; padding:8px 14px; border-radius:6px; text-decoration:none; color:#c4ced6; border:1px solid #232b34; background:#141920; transition:border-color .18s, color .18s; }
+.tl-cta a:hover { border-color:#33404c; color:#eef3f7; }
+.tl-cta a.pri { background:#16303f; border-color:#23506b; color:#bfe6fb; }
+.tl-cta a.pri:hover { border-color:#3a7ea3; color:#e4f5ff; }
+
+/* ---- scan pulse on the finished line ---- */
+.tl-scan { fill:none; stroke:#7dd3fc; stroke-width:2.5; opacity:0; stroke-linejoin:round;
+  stroke-dasharray:52 1766; stroke-dashoffset:52; animation:tlscan 9s linear 5.0s infinite; }
+@keyframes tlscan {
+  0%   { opacity:0; stroke-dashoffset:52 }
+  6%   { opacity:.55 }
+  44%  { opacity:.55 }
+  50%  { opacity:0; stroke-dashoffset:-1766 }
+  100% { opacity:0; stroke-dashoffset:-1766 }
+}
+
+/* ---- scroll reveal, the only script on this page ---- */
+.tl-rev { opacity:0; transform:translateY(14px); transition:opacity .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1); }
+.tl-rev.in { opacity:1; transform:none; }
+
+@property --v0 { syntax:'<integer>'; initial-value:0; inherits:false }
+.tl-stats div:nth-child(1) b { --v0:480; counter-reset:c var(--v0); animation:k0 1.7s cubic-bezier(.15,.85,.25,1) 0.35s; }
+.tl-stats div:nth-child(1) b:after { content:counter(c) }
+@keyframes k0 { from { --v0:0 } }
+@property --v1 { syntax:'<integer>'; initial-value:0; inherits:false }
+.tl-stats div:nth-child(2) b { --v1:192; counter-reset:c var(--v1); animation:k1 1.7s cubic-bezier(.15,.85,.25,1) 0.43s; }
+.tl-stats div:nth-child(2) b:after { content:counter(c) }
+@keyframes k1 { from { --v1:0 } }
+@property --v2 { syntax:'<integer>'; initial-value:0; inherits:false }
+.tl-stats div:nth-child(3) b { --v2:41; counter-reset:c var(--v2); animation:k2 1.7s cubic-bezier(.15,.85,.25,1) 0.51s; }
+.tl-stats div:nth-child(3) b:after { content:counter(c) }
+@keyframes k2 { from { --v2:0 } }
+@property --v3 { syntax:'<integer>'; initial-value:0; inherits:false }
+.tl-stats div:nth-child(4) b { --v3:1; counter-reset:c var(--v3); animation:k3 1.7s cubic-bezier(.15,.85,.25,1) 0.59s; }
+.tl-stats div:nth-child(4) b:after { content:counter(c) }
+@keyframes k3 { from { --v3:0 } }
+
+@media (prefers-reduced-motion: reduce) {
+  .tl-snow span, .tl-earth, .tl-earth *, .tl-scan { animation:none !important; }
+  .tl-trace, .tl-glow { animation:none !important; stroke-dashoffset:0 !important; }
+  .tl-d, .tl-bands div, .tl-sil { animation:none !important; opacity:1 !important; transform:none !important; }
+  .tl-stats div b { animation:none !important; }
+  .tl-rev { opacity:1; transform:none; transition:none; }
+}
+</style>
+
+<div class="tl">
+
+  <!-- ================= THE HOMEPAGE ================= -->
+  <div class="tl-frame">
+    <div class="tl-snow">
+      <span style="left:15.1%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:28.3s;animation-delay:-18.4s;--dx:-31px"></span>
+      <span style="left:9.4%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:24.7s;animation-delay:-14.4s;--dx:24px"></span>
+      <span style="left:8.6%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:15.5s;animation-delay:-6.5s;--dx:-10px"></span>
+      <span style="left:42.5%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:26.6s;animation-delay:-22.0s;--dx:-25px"></span>
+      <span style="left:63.1%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:25.6s;animation-delay:-14.9s;--dx:-33px"></span>
+      <span style="left:39.7%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:18.0s;animation-delay:-17.6s;--dx:-35px"></span>
+      <span style="left:13.3%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:29.9s;animation-delay:-12.5s;--dx:29px"></span>
+      <span style="left:30.8%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:19.8s;animation-delay:-16.2s;--dx:-17px"></span>
+      <span style="left:57.1%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:14.7s;animation-delay:-2.8s;--dx:-28px"></span>
+      <span style="left:6.3%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:29.8s;animation-delay:-1.8s;--dx:-14px"></span>
+      <span style="left:53.2%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:22.5s;animation-delay:-17.5s;--dx:19px"></span>
+      <span style="left:45.3%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:18.1s;animation-delay:-5.4s;--dx:-17px"></span>
+      <span style="left:24.4%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:30.9s;animation-delay:-17.7s;--dx:27px"></span>
+      <span style="left:34.3%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:22.5s;animation-delay:-10.1s;--dx:37px"></span>
+      <span style="left:11.8%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:20.9s;animation-delay:-8.7s;--dx:3px"></span>
+      <span style="left:48.9%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:27.1s;animation-delay:-1.1s;--dx:-31px"></span>
+      <span style="left:57.3%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:24.4s;animation-delay:-21.3s;--dx:0px"></span>
+      <span style="left:35.0%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:16.4s;animation-delay:-8.1s;--dx:18px"></span>
+      <span style="left:9.4%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:26.5s;animation-delay:-7.1s;--dx:-32px"></span>
+      <span style="left:70.1%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:19.4s;animation-delay:-12.6s;--dx:17px"></span>
+      <span style="left:38.6%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:16.0s;animation-delay:-10.7s;--dx:-38px"></span>
+      <span style="left:35.5%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:32.6s;animation-delay:-19.9s;--dx:23px"></span>
+      <span style="left:76.8%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:19.4s;animation-delay:-2.5s;--dx:-9px"></span>
+      <span style="left:91.7%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:16.8s;animation-delay:-8.3s;--dx:-19px"></span>
+      <span style="left:54.9%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:29.1s;animation-delay:-25.7s;--dx:15px"></span>
+      <span style="left:27.8%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:25.0s;animation-delay:-10.4s;--dx:5px"></span>
+    </div>
+
+    <div class="tl-sky">
+      <svg viewBox="0 0 1000 74">
+        <defs>
+          <clipPath id="gclip"><circle cx="0" cy="0" r="9"/></clipPath>
+          <radialGradient id="gshade" cx="33%" cy="29%" r="80%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity=".13"/>
+            <stop offset="52%" stop-color="#ffffff" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#000000" stop-opacity=".52"/>
+          </radialGradient>
+        </defs>
+        <path d="M 34 46 C 250 14, 640 11, 1078 40" fill="none" stroke="#1b242e" stroke-width="1"/>
+        <g transform="translate(34,46)">
+          <g><circle r="14" fill="#ffd257" opacity=".06"/>
+            <animateTransform attributeName="transform" type="scale" dur="11.3s" repeatCount="indefinite"
+              values="1;1.09;0.97;1.05;1" keyTimes="0;0.28;0.55;0.79;1" calcMode="spline"
+              keySplines=".4 0 .6 1;.4 0 .6 1;.4 0 .6 1;.4 0 .6 1"/></g>
+          <g><circle r="7.5" fill="#ffd257" opacity=".11"/>
+            <animateTransform attributeName="transform" type="scale" dur="7.1s" repeatCount="indefinite"
+              values="1;1.07;0.98;1" keyTimes="0;0.34;0.68;1" calcMode="spline"
+              keySplines=".4 0 .6 1;.4 0 .6 1;.4 0 .6 1"/></g>
+          <circle r="3.9" fill="#ffdc78" opacity=".92">
+            <animate attributeName="opacity" dur="5.9s" repeatCount="indefinite"
+              values=".92;.99;.88;.95;.92" keyTimes="0;0.22;0.49;0.74;1" calcMode="spline"
+              keySplines=".4 0 .6 1;.4 0 .6 1;.4 0 .6 1;.4 0 .6 1"/>
+          </circle>
+        </g>
+        <g class="tl-earth">
+          <circle r="9" fill="#2b74a8"/>
+          <g clip-path="url(#gclip)">
+            <g fill="#4f9c64">
+              <animate attributeName="opacity" dur="72.0s" fill="freeze" values="1;1;.85;.45;.1;.05" keyTimes="0;0.3;0.45;0.62;0.85;1"/>
+              <animateTransform attributeName="transform" type="translate" from="0 0" to="-18 0" dur="7.0s" repeatCount="10.3"/>
+              <g transform="translate(-18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g transform="translate(18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g>
+            </g>
+            <ellipse cx="0" cy="-9" rx="9" fill="#eaf4fb"><animate attributeName="ry" dur="72.0s" fill="freeze" values="1.1;2.2;4.6;7.2;9;9" keyTimes="0;0.3;0.5;0.7;0.88;1"/></ellipse>
+            <ellipse cx="0" cy="9" rx="9" fill="#eaf4fb"><animate attributeName="ry" dur="72.0s" fill="freeze" values="1.1;2.2;4.6;7.2;9;9" keyTimes="0;0.3;0.5;0.7;0.88;1"/></ellipse>
+            <circle r="9" fill="#cfe2f0"><animate attributeName="opacity" dur="72.0s" fill="freeze" values="0;0.05;0.3;0.68;0.92;0.95" keyTimes="0;0.3;0.5;0.7;0.88;1"/></circle>
+            <circle r="9" fill="#04060b"><animate attributeName="opacity" dur="72.0s" fill="freeze" values="0;0;0.1;0.42;0.7;0.78" keyTimes="0;0.5;0.68;0.82;0.94;1"/></circle>
+          </g>
+          <circle r="9" fill="url(#gshade)"/>
+          <animateMotion dur="72.0s" fill="freeze" path="M 34 46 C 250 14, 640 11, 1078 40"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="tl-head"><b>Frozen Dawn</b><i>DEV JOURNAL</i>
+      <nav><span>The Architect</span><span>Get the mod</span><span>About</span></nav>
+    </div>
+    <div class="tl-meta">480 commits &middot; 23 Feb to 02 Sep 2026 &middot; one person</div>
+
+    <div class="tl-hero">
+      <h1>One person, 480 commits, and a thing that learned to think.</h1>
+      <div class="tl-stats"><div><b></b><span>commits</span></div><div><b></b><span>days</span></div><div class="dim"><b></b><span>days dark</span></div><div><b></b><span>person</span></div></div>
+      <div class="tl-cta"><a class="pri" href="/architect">Meet the Architect</a><a href="/journal">Read the journal</a><a href="https://github.com/cjaron03/frozen-dawn">Get the mod</a></div>
+    </div>
+
+    <div class="tl-stage">
+      <svg viewBox="0 0 1000 200" preserveAspectRatio="none">
+        <polyline class="tl-glow" points="0.0,144.2 5.2,112.8 10.5,43.6 15.7,71.9 20.9,78.8 26.2,93.9 31.4,102.9 36.6,104.7 41.9,119.1 47.1,158.6 52.4,162.2 57.6,173.0 62.8,174.8 68.1,176.6 73.3,178.4 78.5,176.6 83.8,169.4 89.0,162.2 94.2,151.4 99.5,147.8 104.7,144.2 109.9,140.7 115.2,140.7 120.4,147.8 125.7,155.0 130.9,165.8 136.1,167.6 141.4,171.2 146.6,173.0 151.8,167.6 157.1,162.2 162.3,149.6 167.5,140.7 172.8,142.4 178.0,144.2 183.2,147.8 188.5,142.4 193.7,142.4 199.0,135.3 204.2,120.9 209.4,120.9 214.7,120.9 219.9,120.9 225.1,104.7 230.4,77.7 235.6,41.8 240.8,31.0 246.1,25.6 251.3,22.0 256.5,22.0 261.8,34.6 267.0,61.6 272.3,90.3 277.5,119.1 282.7,124.5 288.0,128.1 293.2,128.1 298.4,97.5 303.7,93.9 308.9,104.7 314.1,61.6 319.4,54.4 324.6,54.4 329.8,54.4 335.1,97.5 340.3,102.9 345.5,93.9 350.8,128.1 356.0,131.7 361.3,129.9 366.5,129.9 371.7,133.5 377.0,124.5 382.2,137.1 387.4,149.6 392.7,153.2 397.9,155.0 403.1,155.0 408.4,155.0 413.6,167.6 418.8,180.2 424.1,182.0 429.3,182.0 434.6,182.0 439.8,182.0 445.0,182.0 450.3,182.0 455.5,182.0 460.7,182.0 466.0,182.0 471.2,182.0 476.4,180.2 481.7,180.2 486.9,180.2 492.1,180.2 497.4,180.2 502.6,178.4 507.9,178.4 513.1,180.2 518.3,180.2 523.6,180.2 528.8,180.2 534.0,180.2 539.3,182.0 544.5,182.0 549.7,182.0 555.0,182.0 560.2,182.0 565.4,182.0 570.7,182.0 575.9,182.0 581.2,182.0 586.4,182.0 591.6,182.0 596.9,182.0 602.1,182.0 607.3,182.0 612.6,182.0 617.8,182.0 623.0,182.0 628.3,182.0 633.5,182.0 638.7,182.0 644.0,182.0 649.2,182.0 654.5,182.0 659.7,182.0 664.9,182.0 670.2,182.0 675.4,182.0 680.6,182.0 685.9,182.0 691.1,182.0 696.3,182.0 701.6,182.0 706.8,182.0 712.0,182.0 717.3,178.4 722.5,174.8 727.7,165.8 733.0,164.0 738.2,162.2 743.5,151.4 748.7,140.7 753.9,144.2 759.2,147.8 764.4,147.8 769.6,149.6 774.9,149.6 780.1,160.4 785.3,171.2 790.6,171.2 795.8,164.0 801.0,169.4 806.3,162.2 811.5,151.4 816.8,151.4 822.0,146.0 827.2,144.2 832.5,149.6 837.7,153.2 842.9,137.1 848.2,149.6 853.4,146.0 858.6,151.4 863.9,153.2 869.1,151.4 874.3,146.0 879.6,169.4 884.8,169.4 890.1,165.8 895.3,160.4 900.5,153.2 905.8,156.8 911.0,155.0 916.2,155.0 921.5,155.0 926.7,155.0 931.9,155.0 937.2,162.2 942.4,160.4 947.6,167.6 952.9,149.6 958.1,149.6 963.4,156.8 968.6,155.0 973.8,153.2 979.1,155.0 984.3,155.0 989.5,173.0 994.8,165.8 1000.0,162.2"/>
+        <polyline class="tl-trace" points="0.0,144.2 5.2,112.8 10.5,43.6 15.7,71.9 20.9,78.8 26.2,93.9 31.4,102.9 36.6,104.7 41.9,119.1 47.1,158.6 52.4,162.2 57.6,173.0 62.8,174.8 68.1,176.6 73.3,178.4 78.5,176.6 83.8,169.4 89.0,162.2 94.2,151.4 99.5,147.8 104.7,144.2 109.9,140.7 115.2,140.7 120.4,147.8 125.7,155.0 130.9,165.8 136.1,167.6 141.4,171.2 146.6,173.0 151.8,167.6 157.1,162.2 162.3,149.6 167.5,140.7 172.8,142.4 178.0,144.2 183.2,147.8 188.5,142.4 193.7,142.4 199.0,135.3 204.2,120.9 209.4,120.9 214.7,120.9 219.9,120.9 225.1,104.7 230.4,77.7 235.6,41.8 240.8,31.0 246.1,25.6 251.3,22.0 256.5,22.0 261.8,34.6 267.0,61.6 272.3,90.3 277.5,119.1 282.7,124.5 288.0,128.1 293.2,128.1 298.4,97.5 303.7,93.9 308.9,104.7 314.1,61.6 319.4,54.4 324.6,54.4 329.8,54.4 335.1,97.5 340.3,102.9 345.5,93.9 350.8,128.1 356.0,131.7 361.3,129.9 366.5,129.9 371.7,133.5 377.0,124.5 382.2,137.1 387.4,149.6 392.7,153.2 397.9,155.0 403.1,155.0 408.4,155.0 413.6,167.6 418.8,180.2 424.1,182.0 429.3,182.0 434.6,182.0 439.8,182.0 445.0,182.0 450.3,182.0 455.5,182.0 460.7,182.0 466.0,182.0 471.2,182.0 476.4,180.2 481.7,180.2 486.9,180.2 492.1,180.2 497.4,180.2 502.6,178.4 507.9,178.4 513.1,180.2 518.3,180.2 523.6,180.2 528.8,180.2 534.0,180.2 539.3,182.0 544.5,182.0 549.7,182.0 555.0,182.0 560.2,182.0 565.4,182.0 570.7,182.0 575.9,182.0 581.2,182.0 586.4,182.0 591.6,182.0 596.9,182.0 602.1,182.0 607.3,182.0 612.6,182.0 617.8,182.0 623.0,182.0 628.3,182.0 633.5,182.0 638.7,182.0 644.0,182.0 649.2,182.0 654.5,182.0 659.7,182.0 664.9,182.0 670.2,182.0 675.4,182.0 680.6,182.0 685.9,182.0 691.1,182.0 696.3,182.0 701.6,182.0 706.8,182.0 712.0,182.0 717.3,178.4 722.5,174.8 727.7,165.8 733.0,164.0 738.2,162.2 743.5,151.4 748.7,140.7 753.9,144.2 759.2,147.8 764.4,147.8 769.6,149.6 774.9,149.6 780.1,160.4 785.3,171.2 790.6,171.2 795.8,164.0 801.0,169.4 806.3,162.2 811.5,151.4 816.8,151.4 822.0,146.0 827.2,144.2 832.5,149.6 837.7,153.2 842.9,137.1 848.2,149.6 853.4,146.0 858.6,151.4 863.9,153.2 869.1,151.4 874.3,146.0 879.6,169.4 884.8,169.4 890.1,165.8 895.3,160.4 900.5,153.2 905.8,156.8 911.0,155.0 916.2,155.0 921.5,155.0 926.7,155.0 931.9,155.0 937.2,162.2 942.4,160.4 947.6,167.6 952.9,149.6 958.1,149.6 963.4,156.8 968.6,155.0 973.8,153.2 979.1,155.0 984.3,155.0 989.5,173.0 994.8,165.8 1000.0,162.2"/>
+        <polyline class="tl-scan" points="0.0,144.2 5.2,112.8 10.5,43.6 15.7,71.9 20.9,78.8 26.2,93.9 31.4,102.9 36.6,104.7 41.9,119.1 47.1,158.6 52.4,162.2 57.6,173.0 62.8,174.8 68.1,176.6 73.3,178.4 78.5,176.6 83.8,169.4 89.0,162.2 94.2,151.4 99.5,147.8 104.7,144.2 109.9,140.7 115.2,140.7 120.4,147.8 125.7,155.0 130.9,165.8 136.1,167.6 141.4,171.2 146.6,173.0 151.8,167.6 157.1,162.2 162.3,149.6 167.5,140.7 172.8,142.4 178.0,144.2 183.2,147.8 188.5,142.4 193.7,142.4 199.0,135.3 204.2,120.9 209.4,120.9 214.7,120.9 219.9,120.9 225.1,104.7 230.4,77.7 235.6,41.8 240.8,31.0 246.1,25.6 251.3,22.0 256.5,22.0 261.8,34.6 267.0,61.6 272.3,90.3 277.5,119.1 282.7,124.5 288.0,128.1 293.2,128.1 298.4,97.5 303.7,93.9 308.9,104.7 314.1,61.6 319.4,54.4 324.6,54.4 329.8,54.4 335.1,97.5 340.3,102.9 345.5,93.9 350.8,128.1 356.0,131.7 361.3,129.9 366.5,129.9 371.7,133.5 377.0,124.5 382.2,137.1 387.4,149.6 392.7,153.2 397.9,155.0 403.1,155.0 408.4,155.0 413.6,167.6 418.8,180.2 424.1,182.0 429.3,182.0 434.6,182.0 439.8,182.0 445.0,182.0 450.3,182.0 455.5,182.0 460.7,182.0 466.0,182.0 471.2,182.0 476.4,180.2 481.7,180.2 486.9,180.2 492.1,180.2 497.4,180.2 502.6,178.4 507.9,178.4 513.1,180.2 518.3,180.2 523.6,180.2 528.8,180.2 534.0,180.2 539.3,182.0 544.5,182.0 549.7,182.0 555.0,182.0 560.2,182.0 565.4,182.0 570.7,182.0 575.9,182.0 581.2,182.0 586.4,182.0 591.6,182.0 596.9,182.0 602.1,182.0 607.3,182.0 612.6,182.0 617.8,182.0 623.0,182.0 628.3,182.0 633.5,182.0 638.7,182.0 644.0,182.0 649.2,182.0 654.5,182.0 659.7,182.0 664.9,182.0 670.2,182.0 675.4,182.0 680.6,182.0 685.9,182.0 691.1,182.0 696.3,182.0 701.6,182.0 706.8,182.0 712.0,182.0 717.3,178.4 722.5,174.8 727.7,165.8 733.0,164.0 738.2,162.2 743.5,151.4 748.7,140.7 753.9,144.2 759.2,147.8 764.4,147.8 769.6,149.6 774.9,149.6 780.1,160.4 785.3,171.2 790.6,171.2 795.8,164.0 801.0,169.4 806.3,162.2 811.5,151.4 816.8,151.4 822.0,146.0 827.2,144.2 832.5,149.6 837.7,153.2 842.9,137.1 848.2,149.6 853.4,146.0 858.6,151.4 863.9,153.2 869.1,151.4 874.3,146.0 879.6,169.4 884.8,169.4 890.1,165.8 895.3,160.4 900.5,153.2 905.8,156.8 911.0,155.0 916.2,155.0 921.5,155.0 926.7,155.0 931.9,155.0 937.2,162.2 942.4,160.4 947.6,167.6 952.9,149.6 958.1,149.6 963.4,156.8 968.6,155.0 973.8,153.2 979.1,155.0 984.3,155.0 989.5,173.0 994.8,165.8 1000.0,162.2"/>
+      </svg>
+      <a class="tl-d major" style="left:0.00%;top:72.12%;animation-delay:0.15s"><i></i><span class="tl-card below edgeL"><em>23 Feb</em><b>Frozen Dawn begins</b><code>Initial commit: Frozen Dawn mod (NeoForge 1.21.1)</code></span></a>
+      <a class="tl-d minor" style="left:1.05%;top:21.79%;animation-delay:0.36s"><i></i><span class="tl-card below edgeL"><em>25 Feb</em><b>The phase system</b><code>Add ORSA Document item, 5-book lore system, armor heat trapping, and phase 0 temp HUD</code></span></a>
+      <a class="tl-d minor" style="left:3.66%;top:52.35%;animation-delay:0.50s"><i></i><span class="tl-card above edgeL"><em>02 Mar</em><b>Returned Hunter</b><code>Add Returned Hunter mob, mob spawn multiplier, and spawner sky access checks</code></span></a>
+      <a class="tl-d arch" style="left:6.81%;top:88.30%;animation-delay:0.67s"><i></i><span class="tl-card above edgeL"><em>08 Mar</em><b>The Architect arrives</b><code>Add Architect and Mimic mobs with D* Lite pathfinding and walk oscillation fix</code></span></a>
+      <a class="tl-d minor" style="left:7.85%;top:88.30%;animation-delay:0.69s"><i></i><span class="tl-card above edgeL"><em>10 Mar</em><b>Two days later</b><code>architect finally done</code></span></a>
+      <a class="tl-d minor" style="left:14.14%;top:85.61%;animation-delay:0.89s"><i></i><span class="tl-card above"><em>22 Mar</em><b>Tower terminal</b><code>Refine tower terminal UI and unlock compass recovery</code></span></a>
+      <a class="tl-d major" style="left:19.90%;top:67.63%;animation-delay:1.06s"><i></i><span class="tl-card above"><em>02 Apr</em><b>Everything changes</b><code>fix(atmosphere): add breathable zone authority pass 1</code></span></a>
+      <a class="tl-d arch2" style="left:22.51%;top:52.35%;animation-delay:1.16s"><i></i><span class="tl-card below"><em>07 Apr</em><b>The decision engine</b><code>refactor(architect): extract decision engine</code></span></a>
+      <a class="tl-d minor" style="left:24.08%;top:15.49%;animation-delay:1.31s"><i></i><span class="tl-card below"><em>10 Apr</em><b>Instruments</b><code>feat(blizzard_goggles): add Curios whiteout optics</code></span></a>
+      <a class="tl-d minor" style="left:27.23%;top:45.16%;animation-delay:1.49s"><i></i><span class="tl-card above"><em>16 Apr</em><b>The way out</b><code>feat(endgame): add blast pit launch pad and rocket launch entity</code></span></a>
+      <a class="tl-d major" style="left:34.55%;top:46.96%;animation-delay:1.95s"><i></i><span class="tl-card above"><em>30 Apr</em><b>alpha-1.0</b><code>Merge pull request #31 from cjaron03/release/alpha-1.0-release</code></span></a>
+      <a class="tl-d minor" style="left:38.74%;top:74.82%;animation-delay:2.14s"><i></i><span class="tl-card above"><em>08 May</em><b>The last commit</b><code>chore(release): bump alpha hotfix version</code></span></a>
+      <a class="tl-d major" style="left:71.73%;top:89.20%;animation-delay:2.86s"><i></i><span class="tl-card above"><em>10 Jul</em><b>Coming back</b><code>fix(world): reconcile snow after tree catch-up</code></span></a>
+      <a class="tl-d major" style="left:74.35%;top:75.72%;animation-delay:2.94s"><i></i><span class="tl-card above"><em>15 Jul</em><b>Master Architect</b><code>feat(homo-reliquus): add Master Architect combat suite</code></span></a>
+      <a class="tl-d minor" style="left:90.05%;top:76.62%;animation-delay:3.45s"><i></i><span class="tl-card above edgeR"><em>14 Aug</em><b>The Aggregate</b><code>feat(homo-reliquus): add the Aggregate</code></span></a>
+      <a class="tl-d major" style="left:96.86%;top:77.52%;animation-delay:3.65s"><i></i><span class="tl-card above edgeR"><em>27 Aug</em><b>The Long Silence</b><code>docs(release): prepare The Long Silence launch notes</code></span></a>
+      <div class="tl-sil" style="left:50.26%;width:21.47%"><div></div><span>41 days</span></div>
+    </div>
+
+    <div class="tl-bands"><div style="flex:6.77;animation-delay:0.20s">The Cold<br><b>46</b></div>
+      <div style="flex:12.50;animation-delay:0.72s">Building a Mind<br><b>56</b></div>
+      <div class="p" style="flex:19.79;animation-delay:1.09s">The Crunch<br><b>261</b></div>
+      <div class="q" style="flex:32.29;animation-delay:2.20s">The Silence<br><b>2</b></div>
+      <div style="flex:25.00;animation-delay:2.91s">Homo Reliquus<br><b>104</b></div>
+      <div style="flex:3.65;animation-delay:3.70s">Now<br><b>11</b></div></div>
+    </div>
+  </div>
+
+  <!-- ================= PER-PAGE THEMES ================= -->
+  <div class="tl-th">
+    <div class="tl-thc tl-rev">
+      <div class="tl-thb" style="background:linear-gradient(160deg,#0b1016,#121a22)">
+        <u style="background:repeating-linear-gradient(115deg,transparent 0 13px,#7dd3fc0f 13px 14px)"></u>
+      </div>
+      <div class="tl-thn"><b>The Cold</b><span>Thin diagonal frost. Widest line-height on the site. It should feel empty.</span></div>
+    </div>
+    <div class="tl-thc tl-rev">
+      <div class="tl-thb" style="background:#0a0d11">
+        <u style="background:radial-gradient(circle at 30% 55%,#ffb4541f,transparent 58%),repeating-linear-gradient(0deg,transparent 0 6px,#ffb4540a 6px 7px)"></u>
+      </div>
+      <div class="tl-thn"><b>The Architect</b><span>The only amber page. Scanlines, mono headers, and it watches your cursor.</span></div>
+    </div>
+    <div class="tl-thc tl-rev">
+      <div class="tl-thb" style="background:#0f1216">
+        <u style="background:linear-gradient(90deg,#7dd3fc00,#7dd3fc26 42%,#7dd3fc00 44%,#7dd3fc00)"></u>
+      </div>
+      <div class="tl-thn"><b>The Crunch</b><span>Dense. Tight leading, two columns, commits stacked like a wall.</span></div>
+    </div>
+    <div class="tl-thc tl-rev">
+      <div class="tl-thb" style="background:#0c0f13"><u style="background:linear-gradient(180deg,#0c0f13,#10151b)"></u></div>
+      <div class="tl-thn"><b>The Silence</b><span>No texture at all. One paragraph, centred, enormous margins. Snow stops.</span></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* The one script on the homepage: lift each section in as it arrives. */
+(function () {
+  var items = document.querySelectorAll('.tl-rev');
+  if (!window.IntersectionObserver) { for (var i = 0; i < items.length; i++) items[i].classList.add('in'); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '0px 0px -12% 0px' });
+  items.forEach(function (el) { io.observe(el); });
+})();
+</script>

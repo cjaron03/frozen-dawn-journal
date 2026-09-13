@@ -1,0 +1,163 @@
+<h2>Section 4a &middot; Chapters, from first-appearance dates</h2>
+<p class="subtitle">I pulled all 480 commits and asked when each major system first shows up. The chapter boundaries were already in the data. I did not invent a single one of these dates.</p>
+
+<style>
+.ch { --mono: ui-monospace,"SF Mono",Menlo,monospace; }
+.ch-sheet { background:#0f1216; border:1px solid #1d232a; border-radius:10px; overflow:hidden; margin-bottom:13px; }
+.ch-hd { padding:12px 18px; background:#0b0e11; border-bottom:1px solid #1d232a; display:flex; align-items:baseline; gap:12px; }
+.ch-hd b { font-size:12.5px; color:#f2f6f8; font-weight:600; }
+.ch-hd span { font-size:11px; color:#6f7a83; }
+.ch-hd em { margin-left:auto; font-style:normal; font-family:var(--mono); font-size:10px; color:#5d6b7a; letter-spacing:.06em; }
+
+/* spine */
+.ch-spine { padding:20px 18px 14px; }
+.ch-track { display:flex; gap:2px; height:52px; align-items:flex-end; }
+.ch-seg { position:relative; border-radius:3px 3px 0 0; background:#151b22; display:flex; align-items:flex-end; justify-content:center; overflow:hidden; }
+.ch-dens { width:100%; background:#2c688a; }
+.ch-seg.quiet .ch-dens { background:#1e2932; }
+.ch-seg.peak .ch-dens { background:#7dd3fc; }
+.ch-axis { display:flex; gap:2px; margin-top:7px; }
+.ch-ax { font-size:10px; color:#6f7a83; text-align:center; line-height:1.35; overflow:hidden; }
+.ch-ax b { display:block; color:#c3ccd2; font-weight:600; font-size:10.5px; white-space:nowrap; }
+.ch-note { margin-top:13px; font-size:11.5px; color:#7c8891; text-align:center; }
+
+/* cards */
+.ch-cards { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:#1d232a; }
+.ch-card { background:#0f1216; padding:15px 16px; }
+.ch-n { font-family:var(--mono); font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:#5d6b7a; }
+.ch-t { font-size:16px; font-weight:600; color:#f2f6f8; letter-spacing:-.02em; margin:6px 0 3px; }
+.ch-d { font-size:10.5px; color:#7c8891; font-family:var(--mono); }
+.ch-s { font-size:11.5px; line-height:1.6; color:#96a1aa; margin:9px 0 0; }
+.ch-s b { color:#d4dade; font-weight:600; }
+.ch-q { margin-top:10px; padding-left:9px; border-left:2px solid #243442; font-family:var(--mono); font-size:10.5px; color:#8b97a3; line-height:1.5; }
+
+/* first appearance */
+.ch-fa { padding:16px 18px 18px; }
+.ch-grp { margin-bottom:15px; }
+.ch-grp:last-child { margin-bottom:0; }
+.ch-gl { font-size:11px; color:#7dd3fc; font-weight:600; margin-bottom:8px; padding-bottom:5px; border-bottom:1px solid #1a2029; }
+.ch-r { display:grid; grid-template-columns:62px 148px 1fr; gap:10px; padding:3px 0; font-size:11.5px; align-items:baseline; }
+.ch-r time { font-family:var(--mono); font-size:10px; color:#6f7a83; }
+.ch-r strong { color:#d4dade; font-weight:600; }
+.ch-r span { color:#7e8a96; font-family:var(--mono); font-size:10px; }
+.ch-foot { margin-top:15px; padding-top:13px; border-top:1px solid #1a2029; font-size:11.5px; line-height:1.65; color:#8d98a1; }
+.ch-foot b { color:#d4dade; font-weight:600; }
+.ch-foot code { font-family:var(--mono); font-size:10.5px; color:#9fb4c4; background:#151b22; padding:1px 5px; border-radius:3px; }
+</style>
+
+<div class="ch">
+
+  <div class="ch-sheet">
+    <div class="ch-hd"><b>Six chapters</b><span>width is calendar time, height is commits per active day</span><em>480 COMMITS &middot; 192 DAYS</em></div>
+    <div class="ch-spine">
+      <div class="ch-track">
+        <div class="ch-seg" style="flex:13"><b class="ch-dens" style="height:22%"></b></div>
+        <div class="ch-seg" style="flex:25"><b class="ch-dens" style="height:28%"></b></div>
+        <div class="ch-seg peak" style="flex:37"><b class="ch-dens" style="height:100%"></b></div>
+        <div class="ch-seg quiet" style="flex:63"><b class="ch-dens" style="height:4%"></b></div>
+        <div class="ch-seg" style="flex:48"><b class="ch-dens" style="height:36%"></b></div>
+        <div class="ch-seg" style="flex:6"><b class="ch-dens" style="height:21%"></b></div>
+      </div>
+      <div class="ch-axis">
+        <div class="ch-ax" style="flex:13"><b>The Cold</b>46</div>
+        <div class="ch-ax" style="flex:25"><b>Building a Mind</b>59</div>
+        <div class="ch-ax" style="flex:37"><b>The Crunch</b>258</div>
+        <div class="ch-ax" style="flex:63"><b>The Silence</b>4</div>
+        <div class="ch-ax" style="flex:48"><b>Homo Reliquus</b>106</div>
+        <div class="ch-ax" style="flex:6"><b>Now</b>7</div>
+      </div>
+      <div class="ch-note">The longest chapter is the empty one. Nobody has to explain that to a visitor.</div>
+    </div>
+  </div>
+
+  <div class="ch-sheet">
+    <div class="ch-cards">
+      <div class="ch-card">
+        <div class="ch-n">Chapter one</div><div class="ch-t">The Cold</div>
+        <div class="ch-d">23 Feb to 07 Mar &middot; 46</div>
+        <p class="ch-s">Before any monster, the enemy is temperature. Cold effects, the phase system, ORSA, the transponder win condition. <b>The mod is a survival sim first.</b></p>
+      </div>
+      <div class="ch-card">
+        <div class="ch-n">Chapter two</div><div class="ch-t">Building a Mind</div>
+        <div class="ch-d">08 Mar to 01 Apr &middot; 59</div>
+        <p class="ch-s">The Architect arrives with D* Lite pathfinding on day one. Two days later you call it finished.</p>
+        <div class="ch-q">10 Mar &nbsp;architect finally done</div>
+      </div>
+      <div class="ch-card">
+        <div class="ch-n">Chapter three</div><div class="ch-t">The Crunch</div>
+        <div class="ch-d">02 Apr to 08 May &middot; 258</div>
+        <p class="ch-s">Over half the project in five weeks. On 07 Apr you tear the Architect's brain back out. <b>A month after "finally done."</b></p>
+        <div class="ch-q">07 Apr &nbsp;refactor(architect):<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;extract decision engine</div>
+      </div>
+      <div class="ch-card">
+        <div class="ch-n">Chapter four</div><div class="ch-t">The Silence</div>
+        <div class="ch-d">09 May to 10 Jul &middot; 4</div>
+        <p class="ch-s">Four commits in sixty three days. Two in late May on chunk catch-up, then nothing for forty one days.</p>
+        <div class="ch-q">10 Jul &nbsp;fix(world): reconcile snow<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;after tree catch-up</div>
+      </div>
+      <div class="ch-card">
+        <div class="ch-n">Chapter five</div><div class="ch-t">Homo Reliquus</div>
+        <div class="ch-d">11 Jul to 27 Aug &middot; 106</div>
+        <p class="ch-s">You came back with a name for it. <b>79 commits share one scope tag.</b> Hearth, Master Architect, Archivist, Resonant, Rimebound, Remnant, Aggregate.</p>
+      </div>
+      <div class="ch-card">
+        <div class="ch-n">Chapter six</div><div class="ch-t">Now</div>
+        <div class="ch-d">28 Aug to 02 Sep &middot; 7</div>
+        <p class="ch-s">The Long Silence ships. The last week is almost entirely audio provenance auditing. <b>Where the journal catches up to you.</b></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ch-sheet">
+    <div class="ch-hd"><b>First appearance, per system</b><span>the generated map that makes chapters possible</span><em>25 ENTRIES</em></div>
+    <div class="ch-fa">
+
+      <div class="ch-grp"><div class="ch-gl">The Cold</div>
+        <div class="ch-r"><time>23 Feb</time><strong>Temperature</strong><span>Initial commit: Frozen Dawn mod (NeoForge 1.21.1)</span></div>
+        <div class="ch-r"><time>24 Feb</time><strong>ORSA</strong><span>Add 6 features: ... ORSA narrative, docs</span></div>
+        <div class="ch-r"><time>24 Feb</time><strong>Cold effects</strong><span>breath particles, shivering, frost overlay, crop freeze</span></div>
+        <div class="ch-r"><time>25 Feb</time><strong>Phases</strong><span>Add Phase 6: Atmospheric Collapse</span></div>
+        <div class="ch-r"><time>27 Feb</time><strong>Transponder</strong><span>Gate transponder on ENABLE_WIN_CONDITION</span></div>
+        <div class="ch-r"><time>28 Feb</time><strong>JEI</strong><span>Add JEI integration, fix shelter detection</span></div>
+        <div class="ch-r"><time>02 Mar</time><strong>Returned Hunter</strong><span>Add Returned Hunter mob, mob spawn multiplier</span></div>
+      </div>
+
+      <div class="ch-grp"><div class="ch-gl">Building a Mind</div>
+        <div class="ch-r"><time>08 Mar</time><strong>Architect</strong><span>Add Architect and Mimic mobs with D* Lite pathfinding</span></div>
+        <div class="ch-r"><time>08 Mar</time><strong>Mimic</strong><span>Add Architect and Mimic mobs with D* Lite pathfinding</span></div>
+        <div class="ch-r"><time>13 Mar</time><strong>Trophy heads</strong><span>add architect trophy head</span></div>
+        <div class="ch-r"><time>22 Mar</time><strong>Tower terminal</strong><span>Refine tower terminal UI and unlock compass recovery</span></div>
+        <div class="ch-r"><time>31 Mar</time><strong>Towns</strong><span>town pass 1</span></div>
+      </div>
+
+      <div class="ch-grp"><div class="ch-gl">The Crunch</div>
+        <div class="ch-r"><time>07 Apr</time><strong>Decision engine</strong><span>refactor(architect): extract decision engine</span></div>
+        <div class="ch-r"><time>10 Apr</time><strong>Phase barometer</strong><span>feat(phase_barometer): add pass 1 forecast instrument</span></div>
+        <div class="ch-r"><time>10 Apr</time><strong>Blizzard goggles</strong><span>feat(blizzard_goggles): add Curios whiteout optics</span></div>
+        <div class="ch-r"><time>14 Apr</time><strong>Rocket endgame</strong><span>feat(endgame): rewire transponder into rocket unlock</span></div>
+        <div class="ch-r"><time>16 Apr</time><strong>Launch pad</strong><span>feat(endgame): add blast pit launch pad</span></div>
+      </div>
+
+      <div class="ch-grp"><div class="ch-gl">The Silence</div>
+        <div class="ch-r"><time>25 May</time><strong>Chunk catch-up</strong><span>feat(world): add chunk catch-up epoch processing</span></div>
+      </div>
+
+      <div class="ch-grp"><div class="ch-gl">Homo Reliquus</div>
+        <div class="ch-r"><time>11 Jul</time><strong>Hearth</strong><span>feat(homo-reliquus): add Hearth persistence foundation</span></div>
+        <div class="ch-r"><time>12 Jul</time><strong>Thaeven</strong><span>add Thaeven first-contact transmissions</span></div>
+        <div class="ch-r"><time>15 Jul</time><strong>Master Architect</strong><span>add Major Hearth Master Architect</span></div>
+        <div class="ch-r"><time>03 Aug</time><strong>Bloom</strong><span>Merge Bloom counter-loop</span></div>
+        <div class="ch-r"><time>09 Aug</time><strong>Archivist</strong><span>feat(homo-reliquus): add the Archivist</span></div>
+        <div class="ch-r"><time>12 Aug</time><strong>Resonant</strong><span>feat(homo-reliquus): add the Resonant</span></div>
+        <div class="ch-r"><time>12 Aug</time><strong>Rimebound</strong><span>feat/homo-reliquus-rimebound</span></div>
+        <div class="ch-r"><time>13 Aug</time><strong>Remnant</strong><span>feat/homo-reliquus-remnant</span></div>
+        <div class="ch-r"><time>14 Aug</time><strong>Aggregate</strong><span>add first Aggregate visual pass</span></div>
+      </div>
+
+      <div class="ch-foot">
+        Generated into <code>repo.json</code> as <code>firstAppearances</code>, one line per system. Every system page and timeline entry can then say <b>"first appeared 8 March, chapter two"</b> without you typing a date twice. Wrong entry, wrong name, missing system: fix the list, rebuild.
+      </div>
+    </div>
+  </div>
+
+</div>

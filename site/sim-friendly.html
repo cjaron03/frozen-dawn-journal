@@ -1,0 +1,152 @@
+<h2>Section 3, revised &middot; plain language, and "Building a Mind"</h2>
+<p class="subtitle">Every constant name, raw number and piece of jargon is gone from the public view. What is left is a creature, two sentences, and a row of bars. The code names come back only when someone asks for them.</p>
+
+<style>
+.sf { --mono: ui-monospace,"SF Mono",Menlo,monospace; }
+.sf-sheet { background:#0f1216; border:1px solid #1d232a; border-radius:10px; overflow:hidden; margin-bottom:13px; }
+.sf-top { padding:12px 18px; background:#0b0e11; border-bottom:1px solid #1d232a; }
+.sf-ttl { font-size:13px; font-weight:600; color:#f2f6f8; letter-spacing:-.01em; }
+.sf-sub { font-size:11.5px; color:#7c8891; margin-top:3px; }
+
+.sf-grid { display:grid; grid-template-columns:270px 1fr; gap:1px; background:#1d232a; }
+.sf-pane { background:#0f1216; padding:15px 18px; }
+.sf-scene { background:#0b0e11; border:1px solid #1a2029; border-radius:7px; }
+.sf-leg { display:flex; gap:13px; margin-top:9px; font-size:10.5px; color:#7c8891; }
+.sf-leg i { width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:5px; font-style:normal; vertical-align:1px; }
+.sf-knobs { margin-top:11px; display:flex; flex-wrap:wrap; gap:5px; }
+.sf-knob { font-size:10.5px; padding:3px 9px; border-radius:11px; background:#141920; border:1px solid #212831; color:#7c8891; }
+
+.sf-lbl { font-size:11px; color:#6f7a83; margin-bottom:11px; }
+.sf-row { display:flex; align-items:center; gap:10px; margin-bottom:7px; font-size:12px; color:#96a1aa; }
+.sf-row span:first-child { width:132px; flex-shrink:0; }
+.sf-meter { flex:1; height:6px; border-radius:3px; background:#151b22; overflow:hidden; }
+.sf-fill { height:100%; display:block; background:#38434e; border-radius:3px; }
+.sf-fill.on { background:#ffb454; box-shadow:0 0 7px #ffb45455; }
+.sf-row.win span:first-child { color:#ffb454; font-weight:600; }
+.sf-row.out span:first-child { color:#4a545e; }
+.sf-row.out .sf-meter { background:#12171d; }
+
+.sf-says { margin-top:13px; font-size:14px; line-height:1.5; color:#e6ecef; font-weight:500; letter-spacing:-.01em; }
+.sf-why { margin-top:6px; font-size:12px; line-height:1.6; color:#8d98a1; }
+.sf-why b { color:#c3ccd2; font-weight:600; }
+
+.sf-dev { display:flex; align-items:center; gap:12px; padding:11px 18px; background:#0c0f13; border-top:1px solid #1d232a; font-size:11.5px; color:#6f7a83; }
+.sf-sw { width:29px; height:16px; border-radius:8px; background:#1d232a; border:1px solid #2a323b; position:relative; flex-shrink:0; }
+.sf-sw:after { content:""; position:absolute; top:2px; left:2px; width:10px; height:10px; border-radius:50%; background:#5e6874; }
+.sf-devrow { font-family:var(--mono); font-size:10.5px; color:#5d6b7a; margin-left:auto; }
+.sf-devrow b { color:#8b97a3; font-weight:400; }
+
+/* chapter */
+.sf-ch { padding:20px 22px 18px; }
+.sf-chlbl { font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:#5d6b7a; }
+.sf-chttl { font-size:25px; font-weight:600; color:#f2f6f8; letter-spacing:-.025em; margin:7px 0 5px; }
+.sf-chdate { font-size:12px; color:#7c8891; }
+.sf-chp { font-size:12.5px; line-height:1.65; color:#96a1aa; margin:13px 0 0; max-width:62ch; }
+.sf-ev { margin-top:16px; border-top:1px solid #1a2029; padding-top:14px; }
+.sf-evl { font-family:var(--mono); font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:#5d6b7a; margin-bottom:11px; }
+.sf-c { display:grid; grid-template-columns:76px 1fr; gap:12px; padding:4px 0; font-size:11.5px; align-items:baseline; }
+.sf-c time { font-family:var(--mono); font-size:10.5px; color:#6f7a83; }
+.sf-c span { color:#9aa6af; }
+.sf-c.key span { color:#e6ecef; }
+.sf-c.key time { color:#7dd3fc; }
+.sf-gapline { display:grid; grid-template-columns:76px 1fr; gap:12px; padding:7px 0; font-size:11px; color:#5b656e; font-style:italic; }
+</style>
+
+<div class="sf">
+
+  <!-- A -->
+  <div class="sf-sheet">
+    <div class="sf-top">
+      <div class="sf-ttl">What it's thinking</div>
+      <div class="sf-sub">You're 22 blocks out. It hasn't hurt. It hasn't seen you yet.</div>
+    </div>
+    <div class="sf-grid">
+      <div class="sf-pane">
+        <svg class="sf-scene" viewBox="0 0 250 160" width="100%">
+          <rect x="16" y="18" width="116" height="126" rx="6" fill="#0e1319" stroke="#222b34" stroke-dasharray="3 3"/>
+          <line x1="74" y1="80" x2="206" y2="52" stroke="#242d37" stroke-dasharray="2 3"/>
+          <text x="124" y="61" font-family="ui-sans-serif,sans-serif" font-size="8.5" fill="#5d6b7a">22 blocks</text>
+          <circle cx="74" cy="80" r="7" fill="#eef3f7"/>
+          <circle cx="206" cy="52" r="6" fill="#7dd3fc"/>
+          <text x="190" y="38" font-family="ui-sans-serif,sans-serif" font-size="9" fill="#7dd3fc">you</text>
+        </svg>
+        <div class="sf-leg"><span><i style="background:#eef3f7"></i>The Architect</span><span><i style="background:#7dd3fc"></i>You &middot; drag to move</span></div>
+        <div class="sf-knobs"><span class="sf-knob">shoot at it</span><span class="sf-knob">hurt it</span><span class="sf-knob">take its ice</span><span class="sf-knob">hide at a corner</span></div>
+      </div>
+      <div class="sf-pane">
+        <div class="sf-lbl">Seven things it could do right now</div>
+        <div class="sf-row win"><span>Watch you</span><span class="sf-meter"><b class="sf-fill on" style="width:90%"></b></span></div>
+        <div class="sf-row"><span>Move in</span><span class="sf-meter"><b class="sf-fill" style="width:29%"></b></span></div>
+        <div class="sf-row out"><span>Strike</span><span class="sf-meter"><b class="sf-fill" style="width:0%"></b></span></div>
+        <div class="sf-row"><span>Back off</span><span class="sf-meter"><b class="sf-fill" style="width:10%"></b></span></div>
+        <div class="sf-row"><span>Wall itself in</span><span class="sf-meter"><b class="sf-fill" style="width:10%"></b></span></div>
+        <div class="sf-row"><span>Set a trap</span><span class="sf-meter"><b class="sf-fill" style="width:18%"></b></span></div>
+        <div class="sf-row out"><span>Peek around a corner</span><span class="sf-meter"><b class="sf-fill" style="width:0%"></b></span></div>
+        <div class="sf-says">It watches you.</div>
+        <div class="sf-why">It has never seen you before, and studying something is cheap when you are this far away. <b>Nothing else comes close.</b></div>
+      </div>
+    </div>
+    <div class="sf-dev"><span class="sf-sw"></span>Show the engineering<span class="sf-devrow">off &middot; turn on for <b>OBSERVE 1.80</b>, the other six numbers, and the function that produced them</span></div>
+  </div>
+
+  <!-- B -->
+  <div class="sf-sheet">
+    <div class="sf-top">
+      <div class="sf-ttl">What it's thinking</div>
+      <div class="sf-sub">You walked ten blocks closer. Nothing else changed.</div>
+    </div>
+    <div class="sf-grid">
+      <div class="sf-pane">
+        <svg class="sf-scene" viewBox="0 0 250 160" width="100%">
+          <rect x="16" y="18" width="116" height="126" rx="6" fill="#0e1319" stroke="#222b34" stroke-dasharray="3 3"/>
+          <circle cx="74" cy="80" r="66" fill="none" stroke="#243442" stroke-dasharray="2 4"/>
+          <text x="128" y="134" font-family="ui-sans-serif,sans-serif" font-size="8" fill="#3f5566">16 blocks</text>
+          <line x1="74" y1="80" x2="140" y2="66" stroke="#242d37" stroke-dasharray="2 3"/>
+          <circle cx="74" cy="80" r="7" fill="#eef3f7"/>
+          <circle cx="140" cy="66" r="6" fill="#7dd3fc"/>
+          <text x="148" y="62" font-family="ui-sans-serif,sans-serif" font-size="9" fill="#7dd3fc">you</text>
+        </svg>
+        <div class="sf-leg"><span><i style="background:#eef3f7"></i>The Architect</span><span><i style="background:#7dd3fc"></i>You &middot; 12 blocks</span></div>
+        <div class="sf-knobs"><span class="sf-knob">shoot at it</span><span class="sf-knob">hurt it</span><span class="sf-knob">take its ice</span><span class="sf-knob">hide at a corner</span></div>
+      </div>
+      <div class="sf-pane">
+        <div class="sf-lbl">Seven things it could do right now</div>
+        <div class="sf-row out"><span>Watch you</span><span class="sf-meter"><b class="sf-fill" style="width:0%"></b></span></div>
+        <div class="sf-row win"><span>Move in</span><span class="sf-meter"><b class="sf-fill on" style="width:24%"></b></span></div>
+        <div class="sf-row out"><span>Strike</span><span class="sf-meter"><b class="sf-fill" style="width:0%"></b></span></div>
+        <div class="sf-row"><span>Back off</span><span class="sf-meter"><b class="sf-fill" style="width:10%"></b></span></div>
+        <div class="sf-row"><span>Wall itself in</span><span class="sf-meter"><b class="sf-fill" style="width:10%"></b></span></div>
+        <div class="sf-row"><span>Set a trap</span><span class="sf-meter"><b class="sf-fill" style="width:18%"></b></span></div>
+        <div class="sf-row out"><span>Peek around a corner</span><span class="sf-meter"><b class="sf-fill" style="width:0%"></b></span></div>
+        <div class="sf-says">It stops watching, and starts closing.</div>
+        <div class="sf-why">Watching didn't lose. It stopped being possible. <b>Inside sixteen blocks, the Architect will not study you at all</b>, no matter how hurt it is or what else is happening. It is a creature that observes from a distance or not at all.</div>
+      </div>
+    </div>
+    <div class="sf-dev"><span class="sf-sw"></span>Show the engineering<span class="sf-devrow">off &middot; the cliff above is a literal <b>return 0f</b> on line 5 of scoreObserve</span></div>
+  </div>
+
+  <!-- chapter -->
+  <div class="sf-sheet">
+    <div class="sf-ch">
+      <div class="sf-chlbl">Chapter three</div>
+      <div class="sf-chttl">Building a Mind</div>
+      <div class="sf-chdate">8 March to 7 April 2026 &middot; 30 days</div>
+      <p class="sf-chp">The chapter opens the day the Architect first exists and closes the day its brain gets torn out and rebuilt. You do not have to write a word for this span to be interesting, because your own commit messages already tell the story. All the site does is put two of them next to each other.</p>
+      <div class="sf-ev">
+        <div class="sf-evl">Pulled straight from the log</div>
+        <div class="sf-c"><time>8 Mar</time><span>Add Architect and Mimic mobs with D* Lite pathfinding</span></div>
+        <div class="sf-c key"><time>10 Mar</time><span>architect finally done</span></div>
+        <div class="sf-c"><time>11 Mar</time><span>architect polish pass 1</span></div>
+        <div class="sf-c"><time>11 Mar</time><span>architect polish pass 2</span></div>
+        <div class="sf-c"><time>13 Mar</time><span>add architect trophy head</span></div>
+        <div class="sf-gapline"><time>&nbsp;</time><span>twenty five quiet days</span></div>
+        <div class="sf-c"><time>7 Apr</time><span>fix(architect): separate brain state from render sync</span></div>
+        <div class="sf-c key"><time>7 Apr</time><span>refactor(architect): extract decision engine</span></div>
+        <div class="sf-c"><time>7 Apr</time><span>refactor(architect): extract fx controller</span></div>
+        <div class="sf-c"><time>7 Apr</time><span>fix(architect): anchor observe movement</span></div>
+        <div class="sf-c"><time>7 Apr</time><span>feat(architect): refine observe body language</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>

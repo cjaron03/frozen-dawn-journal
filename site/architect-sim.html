@@ -1,0 +1,130 @@
+<h2>Section 3 &middot; The Architect, and the sim</h2>
+<p class="subtitle">The Context record has 19 fields. Exposing 19 sliders makes a debug panel, which is the exact failure you just called out. So the primary control is a <em>scene</em>: drag the player, and one intuitive action drives five of those fields at once. Below is the same sim at two player positions. Nothing changed but distance.</p>
+
+<style>
+.as { --mono: ui-monospace,"SF Mono",Menlo,monospace; }
+.as-sheet { background:#0f1216; border:1px solid #1d232a; border-radius:10px; overflow:hidden; margin-bottom:13px; }
+.as-top { display:flex; align-items:center; gap:10px; padding:10px 18px; background:#0b0e11; border-bottom:1px solid #1d232a; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#5d6b7a; }
+.as-top b { color:#d4dade; font-weight:600; letter-spacing:.1em; }
+.as-top i { margin-left:auto; font-style:normal; color:#7c8891; letter-spacing:.06em; }
+
+.as-grid { display:grid; grid-template-columns:290px 1fr; gap:1px; background:#1d232a; }
+.as-pane { background:#0f1216; padding:16px 18px; }
+
+.as-scene { background:#0b0e11; border:1px solid #1a2029; border-radius:7px; }
+.as-legend { display:flex; gap:14px; margin-top:10px; font-size:10.5px; color:#7c8891; }
+.as-legend i { width:7px; height:7px; border-radius:50%; display:inline-block; margin-right:5px; font-style:normal; vertical-align:1px; }
+
+.as-knobs { margin-top:13px; display:flex; flex-wrap:wrap; gap:5px; }
+.as-knob { font-size:10.5px; padding:3px 8px; border-radius:11px; background:#141920; border:1px solid #212831; color:#7c8891; }
+.as-knob.on { background:#15202b; border-color:#1e3446; color:#7dd3fc; }
+
+.as-lbl { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#5d6b7a; margin-bottom:11px; }
+.as-row { display:flex; align-items:center; gap:9px; margin-bottom:6px; font-family:var(--mono); font-size:10.5px; color:#7e8a96; }
+.as-row span:first-child { width:82px; flex-shrink:0; }
+.as-meter { flex:1; height:6px; border-radius:3px; background:#151b22; overflow:hidden; }
+.as-fill { height:100%; display:block; background:#38434e; border-radius:3px; }
+.as-fill.on { background:#ffb454; box-shadow:0 0 7px #ffb45455; }
+.as-num { width:34px; text-align:right; color:#5d6b7a; flex-shrink:0; }
+.as-row.win span:first-child, .as-row.win .as-num { color:#ffb454; }
+.as-row.out span:first-child, .as-row.out .as-num { color:#4a545e; }
+
+.as-gate { margin-top:12px; padding:9px 12px; background:#111823; border-left:2px solid #7dd3fc; border-radius:0 5px 5px 0; font-size:11.5px; line-height:1.55; color:#9aa6af; }
+.as-gate b { color:#7dd3fc; font-weight:600; font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; }
+.as-gate code { font-family:var(--mono); font-size:10.5px; color:#c3ccd2; }
+
+.as-note { padding:11px 18px; background:#0c0f13; border-top:1px solid #1d232a; font-size:11.5px; line-height:1.6; color:#828d96; }
+.as-note em { color:#c3ccd2; font-style:normal; }
+
+.as-pre { display:flex; gap:6px; flex-wrap:wrap; padding:13px 18px; background:#0c0f13; border-top:1px solid #1d232a; }
+.as-chip { font-size:11.5px; padding:5px 11px; border-radius:13px; background:#141920; border:1px solid #212831; color:#a9b3bb; }
+.as-chip.sel { background:#15202b; border-color:#1e3446; color:#7dd3fc; }
+.as-prel { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#5d6b7a; padding:13px 0 0 18px; }
+</style>
+
+<div class="as">
+
+  <!-- ============ STATE A ============ -->
+  <div class="as-sheet">
+    <div class="as-top"><b>Decision Engine</b> <span>state A</span> <i>distance 22 &middot; health 100% &middot; not yet observed</i></div>
+    <div class="as-grid">
+      <div class="as-pane">
+        <svg class="as-scene" viewBox="0 0 260 180" width="100%">
+          <rect x="20" y="22" width="122" height="138" rx="6" fill="#0e1319" stroke="#222b34" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="26" y="36" font-family="ui-monospace,Menlo,monospace" font-size="7.5" fill="#3f4a55" letter-spacing="1.2">BASE</text>
+          <line x1="80" y1="90" x2="212" y2="60" stroke="#242d37" stroke-width="1" stroke-dasharray="2 3"/>
+          <text x="132" y="70" font-family="ui-monospace,Menlo,monospace" font-size="8" fill="#5d6b7a">22 blk</text>
+          <circle cx="80" cy="90" r="7" fill="#eef3f7"/>
+          <circle cx="212" cy="60" r="6" fill="#7dd3fc"/>
+          <text x="196" y="45" font-family="ui-sans-serif,sans-serif" font-size="9" fill="#7dd3fc">you</text>
+        </svg>
+        <div class="as-legend"><span><i style="background:#eef3f7"></i>Architect</span><span><i style="background:#7dd3fc"></i>Player &middot; drag me</span></div>
+        <div class="as-knobs">
+          <span class="as-knob">taking ranged fire</span>
+          <span class="as-knob">recently hurt</span>
+          <span class="as-knob">out of ice</span>
+          <span class="as-knob">at a corner</span>
+        </div>
+      </div>
+      <div class="as-pane">
+        <div class="as-lbl">Scores this tick</div>
+        <div class="as-row win"><span>OBSERVE</span><span class="as-meter"><b class="as-fill on" style="width:90%"></b></span><span class="as-num">1.80</span></div>
+        <div class="as-row"><span>APPROACH</span><span class="as-meter"><b class="as-fill" style="width:29%"></b></span><span class="as-num">0.58</span></div>
+        <div class="as-row out"><span>ATTACK_MELEE</span><span class="as-meter"><b class="as-fill" style="width:0%"></b></span><span class="as-num">0</span></div>
+        <div class="as-row"><span>RETREAT</span><span class="as-meter"><b class="as-fill" style="width:10%"></b></span><span class="as-num">0.20</span></div>
+        <div class="as-row"><span>FORTIFY</span><span class="as-meter"><b class="as-fill" style="width:10%"></b></span><span class="as-num">0.20</span></div>
+        <div class="as-row"><span>TRAP_SET</span><span class="as-meter"><b class="as-fill" style="width:18%"></b></span><span class="as-num">0.35</span></div>
+        <div class="as-row out"><span>PEEK</span><span class="as-meter"><b class="as-fill" style="width:0%"></b></span><span class="as-num">0</span></div>
+        <div class="as-gate">It has not seen you yet, and you are far enough away that looking is cheap. <code>OBSERVE</code> doubles when nothing has been observed, so it wins outright.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ STATE B ============ -->
+  <div class="as-sheet">
+    <div class="as-top"><b>Decision Engine</b> <span>state B</span> <i>distance 12 &middot; everything else identical</i></div>
+    <div class="as-grid">
+      <div class="as-pane">
+        <svg class="as-scene" viewBox="0 0 260 180" width="100%">
+          <rect x="20" y="22" width="122" height="138" rx="6" fill="#0e1319" stroke="#222b34" stroke-width="1" stroke-dasharray="3 3"/>
+          <text x="26" y="36" font-family="ui-monospace,Menlo,monospace" font-size="7.5" fill="#3f4a55" letter-spacing="1.2">BASE</text>
+          <circle cx="80" cy="90" r="72" fill="none" stroke="#243442" stroke-width="1" stroke-dasharray="2 4"/>
+          <text x="141" y="150" font-family="ui-monospace,Menlo,monospace" font-size="7.5" fill="#3f5566" letter-spacing=".6">16 blk</text>
+          <line x1="80" y1="90" x2="150" y2="74" stroke="#242d37" stroke-width="1" stroke-dasharray="2 3"/>
+          <text x="100" y="76" font-family="ui-monospace,Menlo,monospace" font-size="8" fill="#5d6b7a">12 blk</text>
+          <circle cx="80" cy="90" r="7" fill="#eef3f7"/>
+          <circle cx="150" cy="74" r="6" fill="#7dd3fc"/>
+          <text x="158" y="70" font-family="ui-sans-serif,sans-serif" font-size="9" fill="#7dd3fc">you</text>
+        </svg>
+        <div class="as-legend"><span><i style="background:#eef3f7"></i>Architect</span><span><i style="background:#7dd3fc"></i>Player &middot; moved 10 blocks in</span></div>
+        <div class="as-knobs">
+          <span class="as-knob">taking ranged fire</span>
+          <span class="as-knob">recently hurt</span>
+          <span class="as-knob">out of ice</span>
+          <span class="as-knob">at a corner</span>
+        </div>
+      </div>
+      <div class="as-pane">
+        <div class="as-lbl">Scores this tick &middot; same scale</div>
+        <div class="as-row out"><span>OBSERVE</span><span class="as-meter"><b class="as-fill" style="width:0%"></b></span><span class="as-num">0</span></div>
+        <div class="as-row win"><span>APPROACH</span><span class="as-meter"><b class="as-fill on" style="width:24%"></b></span><span class="as-num">0.48</span></div>
+        <div class="as-row out"><span>ATTACK_MELEE</span><span class="as-meter"><b class="as-fill" style="width:0%"></b></span><span class="as-num">0</span></div>
+        <div class="as-row"><span>RETREAT</span><span class="as-meter"><b class="as-fill" style="width:10%"></b></span><span class="as-num">0.20</span></div>
+        <div class="as-row"><span>FORTIFY</span><span class="as-meter"><b class="as-fill" style="width:10%"></b></span><span class="as-num">0.20</span></div>
+        <div class="as-row"><span>TRAP_SET</span><span class="as-meter"><b class="as-fill" style="width:18%"></b></span><span class="as-num">0.35</span></div>
+        <div class="as-row out"><span>PEEK</span><span class="as-meter"><b class="as-fill" style="width:0%"></b></span><span class="as-num">0</span></div>
+        <div class="as-gate"><b>OBSERVE ruled out</b><br>Inside 16 blocks the function returns <code>0</code> before any weighting runs. It did not score low. It stopped being an option. Watching is something it only does from a distance.</div>
+      </div>
+    </div>
+    <div class="as-prel">Presets, for anyone who would rather not fiddle</div>
+    <div class="as-pre">
+      <span class="as-chip sel">First contact</span>
+      <span class="as-chip">Cornered and bleeding</span>
+      <span class="as-chip">Under fire from range</span>
+      <span class="as-chip">You walked into its base</span>
+      <span class="as-chip">It has nothing left to build with</span>
+    </div>
+    <div class="as-note">Only one of these two panels exists on the real page. Shown together here so you can see the collapse. <em>Amber still appears once per viewport in the shipped version.</em></div>
+  </div>
+
+</div>

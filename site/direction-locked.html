@@ -1,0 +1,102 @@
+<h2>Locked — Deep Field, with ORSA amber</h2>
+<p class="subtitle">Two accents is usually a mistake. It works here only if each one <em>means</em> something. Proposed rule: <strong>ice-blue is your voice, amber is the machine's.</strong> Amber never decorates — it only appears where the reader is looking at the artifact itself rather than at you describing it.</p>
+
+<style>
+.lk { --mono: ui-monospace, "SF Mono", Menlo, monospace; }
+.lk-sheet { background:#0f1216; border-radius:10px; overflow:hidden; border:1px solid #1d232a; }
+.lk-bar { display:flex; align-items:center; gap:18px; padding:11px 18px; font-size:12px; background:#0b0e11; border-bottom:1px solid #1d232a; color:#79848d; letter-spacing:.03em; }
+.lk-bar strong { color:#f2f6f8; font-weight:700; letter-spacing:-.01em; }
+.lk-swatches { display:flex; gap:8px; margin-left:auto; }
+.lk-sw { width:16px; height:16px; border-radius:4px; }
+
+.lk-cols { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#1d232a; }
+.lk-col { background:#0f1216; padding:20px; }
+.lk-role { font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase; margin-bottom:16px; display:flex; align-items:center; gap:7px; }
+.lk-role i { width:7px; height:7px; border-radius:50%; display:inline-block; font-style:normal; }
+.lk-ice .lk-role { color:#7dd3fc; }
+.lk-ice .lk-role i { background:#7dd3fc; }
+.lk-amb .lk-role { color:#ffb454; }
+.lk-amb .lk-role i { background:#ffb454; box-shadow:0 0 8px #ffb45466; }
+
+.lk-rail { position:relative; padding-left:20px; }
+.lk-dot { position:absolute; left:0; top:6px; width:9px; height:9px; border-radius:50%; background:#7dd3fc; }
+.lk-line { position:absolute; left:4px; top:15px; bottom:-6px; width:1px; background:#232a32; }
+.lk-date { font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:#7c8891; text-transform:uppercase; }
+.lk-h { font-size:16px; font-weight:600; color:#f2f6f8; letter-spacing:-.015em; margin:4px 0 6px; }
+.lk-p { font-size:12.5px; line-height:1.6; color:#96a1aa; margin:0 0 9px; }
+.lk-p a { color:#7dd3fc; text-decoration:none; border-bottom:1px solid #7dd3fc44; }
+.lk-tags { display:flex; gap:6px; flex-wrap:wrap; }
+.lk-tag { font-family:var(--mono); font-size:9.5px; padding:2.5px 7px; border-radius:3px; background:#171c22; color:#93a3ad; border:1px solid #232a32; letter-spacing:.04em; }
+
+.lk-term { background:#0a0c0f; border:1px solid #241f18; border-left:2px solid #ffb454; border-radius:5px; padding:12px 14px; font-family:var(--mono); font-size:11px; line-height:1.65; color:#8b97a3; }
+.lk-term b { color:#ffb454; font-weight:600; }
+.lk-eng { margin-top:12px; background:#0d1116; border:1px solid #1c242e; border-radius:6px; padding:13px; }
+.lk-lbl { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#5d6b7a; margin-bottom:10px; }
+.lk-row { display:flex; align-items:center; gap:8px; margin-bottom:5px; font-family:var(--mono); font-size:10.5px; color:#7e8a96; }
+.lk-row span:first-child { width:64px; flex-shrink:0; }
+.lk-row.win span:first-child { color:#ffb454; }
+.lk-meter { flex:1; height:5px; border-radius:3px; background:#151b22; overflow:hidden; }
+.lk-fill { height:100%; display:block; background:#38434e; }
+.lk-fill.on { background:#ffb454; box-shadow:0 0 6px #ffb45455; }
+
+.lk-rules { padding:16px 20px; border-top:1px solid #1d232a; background:#0c0f13; display:grid; grid-template-columns:1fr 1fr; gap:7px 22px; }
+.lk-rule { font-size:11.5px; line-height:1.5; color:#8d98a1; padding-left:13px; position:relative; }
+.lk-rule:before { content:""; position:absolute; left:0; top:6px; width:5px; height:5px; border-radius:50%; }
+.lk-rule.i:before { background:#7dd3fc; }
+.lk-rule.a:before { background:#ffb454; }
+.lk-rule em { color:#d4dade; font-style:normal; }
+</style>
+
+<div class="lk">
+  <div class="lk-sheet">
+
+    <div class="lk-bar">
+      <strong>Frozen Dawn</strong><span>Dev Journal</span>
+      <div class="lk-swatches">
+        <span class="lk-sw" style="background:#0f1216;border:1px solid #2a323b"></span>
+        <span class="lk-sw" style="background:#141920"></span>
+        <span class="lk-sw" style="background:#d4dade"></span>
+        <span class="lk-sw" style="background:#7dd3fc"></span>
+        <span class="lk-sw" style="background:#ffb454"></span>
+      </div>
+    </div>
+
+    <div class="lk-cols">
+
+      <div class="lk-col lk-ice">
+        <div class="lk-role"><i></i>Your voice — ice-blue</div>
+        <div class="lk-rail">
+          <div class="lk-dot"></div><div class="lk-line"></div>
+          <div class="lk-date">10 July 2026 · alpha-1.1.0</div>
+          <div class="lk-h">Back from the dark</div>
+          <div class="lk-p">Hearth encounters got rebuilt from scratch. The old resident logic couldn't hold state across chunk unloads and I'd been patching around it since March — see <a href="#">the fortify rewrite</a> for where that thread actually started.</div>
+          <div class="lk-tags"><span class="lk-tag">Hearth</span><span class="lk-tag">Rewrite</span><span class="lk-tag">Post-break</span></div>
+        </div>
+      </div>
+
+      <div class="lk-col lk-amb">
+        <div class="lk-role"><i></i>The machine — amber</div>
+        <div class="lk-term">ORSA // ARCHIVE FRAGMENT<br>status: <b>DEGRADED</b><br>subject designation: <b>ARCHITECT</b><br>note: it does not hunt. it <b>waits</b>, and it<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;builds while it waits.</div>
+        <div class="lk-eng">
+          <div class="lk-lbl">Decision Engine · tick 4,812</div>
+          <div class="lk-row"><span>OBSERVE</span><span class="lk-meter"><b class="lk-fill" style="width:22%"></b></span></div>
+          <div class="lk-row win"><span>APPROACH</span><span class="lk-meter"><b class="lk-fill on" style="width:71%"></b></span></div>
+          <div class="lk-row"><span>RETREAT</span><span class="lk-meter"><b class="lk-fill" style="width:14%"></b></span></div>
+          <div class="lk-row"><span>FORTIFY</span><span class="lk-meter"><b class="lk-fill" style="width:45%"></b></span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="lk-rules">
+      <div class="lk-rule i">Ice-blue: <em>timeline dots, links, section markers, your headings.</em></div>
+      <div class="lk-rule a">Amber: <em>ORSA terminal blocks and in-fiction text.</em></div>
+      <div class="lk-rule i">Ice-blue: <em>charts of real git data — commits, files, dates.</em></div>
+      <div class="lk-rule a">Amber: <em>the winning action in the Decision Engine, only ever one at a time.</em></div>
+      <div class="lk-rule i">Ice-blue: <em>anything you wrote as yourself.</em></div>
+      <div class="lk-rule a">Amber: <em>the spoiler gate — crossing into deep-dive territory.</em></div>
+      <div class="lk-rule i" style="grid-column:1/-1;color:#6f7a83;padding-left:0"><em style="color:#8d98a1">The constraint that keeps it from getting flashy:</em> amber is never a background, never a border on a whole card, never two things at once on the same screen. If amber shows up in more than one place per viewport, it's decoration and it comes out.</div>
+    </div>
+
+  </div>
+</div>

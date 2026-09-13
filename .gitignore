@@ -1,0 +1,8 @@
+# plugin scratch space, not source of truth
+.superpowers/
+
+# throwaway mobile test harness
+rig/
+
+# macOS
+.DS_Store

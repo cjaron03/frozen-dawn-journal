@@ -1,0 +1,164 @@
+<h2>Which direction feels like Frozen Dawn?</h2>
+<p class="subtitle">Same real content in all three — a timeline entry, the June silence, and an Architect chip. "Modern but not flashy" pulls one way; a survival-horror mod about a dead frozen Earth pulls another. These are three different resolutions of that tension. Click the one that feels right.</p>
+
+<style>
+.fd { --mono: ui-monospace, "SF Mono", Menlo, monospace; }
+.fd-strip { border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
+.fd-bar { display:flex; align-items:center; gap:18px; padding:11px 18px; font-size:12px; letter-spacing:.04em; }
+.fd-body { padding: 18px; display:grid; grid-template-columns: 1.25fr .75fr; gap:18px; }
+.fd-rail { position:relative; padding-left:20px; }
+.fd-dot { position:absolute; left:0; top:5px; width:9px; height:9px; border-radius:50%; }
+.fd-line { position:absolute; left:4px; top:14px; bottom:-18px; width:1px; }
+.fd-date { font-family:var(--mono); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; }
+.fd-h { font-size:15px; font-weight:600; margin:3px 0 5px; }
+.fd-p { font-size:12px; line-height:1.55; margin:0; }
+.fd-tags { display:flex; gap:6px; margin-top:9px; flex-wrap:wrap; }
+.fd-tag { font-family:var(--mono); font-size:9.5px; padding:2.5px 7px; border-radius:3px; letter-spacing:.05em; }
+.fd-gap { margin-top:16px; padding:9px 12px; border-radius:6px; font-size:11.5px; font-style:italic; }
+.fd-arch { border-radius:8px; padding:14px; }
+.fd-lbl { font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:10px; }
+.fd-row { display:flex; align-items:center; gap:8px; margin-bottom:5px; font-family:var(--mono); font-size:10.5px; }
+.fd-row span:first-child { width:62px; flex-shrink:0; }
+.fd-meter { flex:1; height:5px; border-radius:3px; overflow:hidden; }
+.fd-fill { height:100%; display:block; }
+.fd-cap { font-size:11px; margin-top:11px; line-height:1.5; }
+
+/* ---------- A : ORSA INSTRUMENT ---------- */
+.a { background:#0a0c0f; color:#c9d2da; font-family:var(--mono); }
+.a .fd-bar { background:#05070a; border-bottom:1px solid #1a2029; color:#5d6b7a; }
+.a .fd-bar strong { color:#ffb454; font-weight:600; letter-spacing:.12em; }
+.a .fd-dot { background:#ffb454; box-shadow:0 0 8px #ffb45480; }
+.a .fd-line { background:#1e2630; }
+.a .fd-date { color:#ffb454; }
+.a .fd-h { color:#eef3f7; font-family:var(--mono); font-weight:600; }
+.a .fd-p { color:#8b97a3; }
+.a .fd-tag { background:#131920; color:#6fa8c9; border:1px solid #1e2831; }
+.a .fd-gap { background:#0e1116; border-left:2px solid #3d4650; color:#6b7783; }
+.a .fd-arch { background:#0d1116; border:1px solid #1c242e; }
+.a .fd-lbl { color:#5d6b7a; }
+.a .fd-meter { background:#151b22; }
+.a .fd-cap { color:#7e8a96; }
+
+/* ---------- B : COLD ARCHIVE ---------- */
+.b { background:#f7f8f9; color:#1e2429; font-family:ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
+.b .fd-bar { background:#fff; border-bottom:1px solid #e3e7ea; color:#7c878f; }
+.b .fd-bar strong { color:#12181d; font-weight:700; letter-spacing:.01em; }
+.b .fd-dot { background:#2f6d8f; }
+.b .fd-line { background:#dfe4e8; }
+.b .fd-date { color:#8a959d; }
+.b .fd-h { color:#12181d; font-size:16px; letter-spacing:-.015em; }
+.b .fd-p { color:#5b666e; }
+.b .fd-tag { background:#eef1f3; color:#5b666e; border:1px solid #e0e5e9; }
+.b .fd-gap { background:#f0f2f4; border-left:2px solid #c2cbd1; color:#6d777e; }
+.b .fd-arch { background:#fff; border:1px solid #e3e7ea; }
+.b .fd-lbl { color:#8a959d; }
+.b .fd-meter { background:#eaeef0; }
+.b .fd-cap { color:#6d777e; }
+
+/* ---------- C : DEEP FIELD ---------- */
+.c { background:#0f1216; color:#d4dade; font-family:ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
+.c .fd-bar { background:#0b0e11; border-bottom:1px solid #1d232a; color:#79848d; }
+.c .fd-bar strong { color:#f2f6f8; font-weight:700; letter-spacing:-.01em; }
+.c .fd-dot { background:#7dd3fc; }
+.c .fd-line { background:#232a32; }
+.c .fd-date { color:#7c8891; }
+.c .fd-h { color:#f2f6f8; font-size:16px; letter-spacing:-.015em; }
+.c .fd-p { color:#96a1aa; }
+.c .fd-tag { background:#171c22; color:#93a3ad; border:1px solid #232a32; }
+.c .fd-gap { background:#131820; border-left:2px solid #2f3944; color:#828d96; }
+.c .fd-arch { background:#141920; border:1px solid #212831; }
+.c .fd-lbl { color:#7c8891; }
+.c .fd-meter { background:#1b2128; }
+.c .fd-cap { color:#8d98a1; }
+</style>
+
+<div class="fd">
+
+  <div class="cards" style="grid-template-columns:1fr; gap:26px;">
+
+    <!-- ============ A ============ -->
+    <div class="card" data-choice="a" onclick="toggleSelect(this)" style="padding:0;overflow:hidden">
+      <div class="fd-strip a">
+        <div class="fd-bar"><strong>FROZEN DAWN</strong><span>// DEV LOG</span><span style="margin-left:auto">ORSA ARCHIVE · 479 ENTRIES</span></div>
+        <div class="fd-body">
+          <div>
+            <div class="fd-rail">
+              <div class="fd-dot"></div><div class="fd-line"></div>
+              <div class="fd-date">2026.07.10 — ALPHA-1.1.0</div>
+              <div class="fd-h">The Hearth Returns</div>
+              <div class="fd-p">First release after the silence. Hearth encounters rebuilt from scratch — the old resident logic couldn't hold state across chunk unloads.</div>
+              <div class="fd-tags"><span class="fd-tag">+34 FILES</span><span class="fd-tag">HEARTH</span><span class="fd-tag">REWRITE</span></div>
+            </div>
+            <div class="fd-gap">JUN 2026 — no commits logged. 63 days dark.</div>
+          </div>
+          <div class="fd-arch">
+            <div class="fd-lbl">Decision Engine · live</div>
+            <div class="fd-row"><span>OBSERVE</span><span class="fd-meter"><b class="fd-fill" style="width:22%;background:#3f4b57"></b></span></div>
+            <div class="fd-row"><span>APPROACH</span><span class="fd-meter"><b class="fd-fill" style="width:71%;background:#ffb454"></b></span></div>
+            <div class="fd-row"><span>RETREAT</span><span class="fd-meter"><b class="fd-fill" style="width:14%;background:#3f4b57"></b></span></div>
+            <div class="fd-row"><span>FORTIFY</span><span class="fd-meter"><b class="fd-fill" style="width:45%;background:#3f4b57"></b></span></div>
+            <div class="fd-cap">Drag the context. Watch it choose.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body"><h3>A · ORSA Instrument</h3><p>The site is a recovered ORSA terminal. Monospace, amber-on-black, data-dense. Maximum in-world identity — the journal feels like an artifact of the fiction. Risk: mono everywhere gets tiring to read at essay length, and it can tip into "hacker cliché" if the restraint slips.</p></div>
+    </div>
+
+    <!-- ============ B ============ -->
+    <div class="card" data-choice="b" onclick="toggleSelect(this)" style="padding:0;overflow:hidden">
+      <div class="fd-strip b">
+        <div class="fd-bar"><strong>Frozen Dawn</strong><span>Dev Journal</span><span style="margin-left:auto">Feb – Sep 2026</span></div>
+        <div class="fd-body">
+          <div>
+            <div class="fd-rail">
+              <div class="fd-dot"></div><div class="fd-line"></div>
+              <div class="fd-date">10 July 2026 · alpha-1.1.0</div>
+              <div class="fd-h">The Hearth Returns</div>
+              <div class="fd-p">First release after the silence. Hearth encounters rebuilt from scratch — the old resident logic couldn't hold state across chunk unloads.</div>
+              <div class="fd-tags"><span class="fd-tag">+34 files</span><span class="fd-tag">Hearth</span><span class="fd-tag">Rewrite</span></div>
+            </div>
+            <div class="fd-gap">June 2026 — no commits. Sixty-three days dark.</div>
+          </div>
+          <div class="fd-arch">
+            <div class="fd-lbl">Decision Engine</div>
+            <div class="fd-row"><span>Observe</span><span class="fd-meter"><b class="fd-fill" style="width:22%;background:#c3ccd2"></b></span></div>
+            <div class="fd-row"><span>Approach</span><span class="fd-meter"><b class="fd-fill" style="width:71%;background:#2f6d8f"></b></span></div>
+            <div class="fd-row"><span>Retreat</span><span class="fd-meter"><b class="fd-fill" style="width:14%;background:#c3ccd2"></b></span></div>
+            <div class="fd-row"><span>Fortify</span><span class="fd-meter"><b class="fd-fill" style="width:45%;background:#c3ccd2"></b></span></div>
+            <div class="fd-cap">Drag the context. Watch it choose.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body"><h3>B · Cold Archive</h3><p>Light, editorial, generous. Reads like a serious design-journal or a long-form interactive feature. The mod's darkness arrives entirely through your screenshots and prose, never the chrome. Most readable for long essays and the safest "modern, not flashy." Risk: a bright site about a frozen dead Earth can feel oddly detached from its subject.</p></div>
+    </div>
+
+    <!-- ============ C ============ -->
+    <div class="card" data-choice="c" onclick="toggleSelect(this)" style="padding:0;overflow:hidden">
+      <div class="fd-strip c">
+        <div class="fd-bar"><strong>Frozen Dawn</strong><span>Dev Journal</span><span style="margin-left:auto">Feb – Sep 2026</span></div>
+        <div class="fd-body">
+          <div>
+            <div class="fd-rail">
+              <div class="fd-dot"></div><div class="fd-line"></div>
+              <div class="fd-date">10 July 2026 · alpha-1.1.0</div>
+              <div class="fd-h">The Hearth Returns</div>
+              <div class="fd-p">First release after the silence. Hearth encounters rebuilt from scratch — the old resident logic couldn't hold state across chunk unloads.</div>
+              <div class="fd-tags"><span class="fd-tag">+34 files</span><span class="fd-tag">Hearth</span><span class="fd-tag">Rewrite</span></div>
+            </div>
+            <div class="fd-gap">June 2026 — no commits. Sixty-three days dark.</div>
+          </div>
+          <div class="fd-arch">
+            <div class="fd-lbl">Decision Engine</div>
+            <div class="fd-row"><span>Observe</span><span class="fd-meter"><b class="fd-fill" style="width:22%;background:#38434e"></b></span></div>
+            <div class="fd-row"><span>Approach</span><span class="fd-meter"><b class="fd-fill" style="width:71%;background:#7dd3fc"></b></span></div>
+            <div class="fd-row"><span>Retreat</span><span class="fd-meter"><b class="fd-fill" style="width:14%;background:#38434e"></b></span></div>
+            <div class="fd-row"><span>Fortify</span><span class="fd-meter"><b class="fd-fill" style="width:45%;background:#38434e"></b></span></div>
+            <div class="fd-cap">Drag the context. Watch it choose.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body"><h3>C · Deep Field</h3><p>Editorial structure and typography, but on near-black with one cold ice-blue accent. Your screenshots glow instead of fighting a white page. Sans-serif for prose so essays stay readable; monospace reserved for code, action names, and data — so when mono appears, it <em>means</em> something. Atmosphere without costume.</p></div>
+    </div>
+
+  </div>
+</div>

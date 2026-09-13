@@ -1,0 +1,211 @@
+package com.frozendawn.mixin;
+
+import com.frozendawn.client.ApocalypseClientData;
+import com.frozendawn.client.AlarmDynamicLightManager;
+import com.frozendawn.client.MasterArchitectAuraClient;
+import com.frozendawn.client.PostMaeveMoonRenderer;
+import com.frozendawn.client.SurveyorLensVision;
+import com.frozendawn.phase.PhaseManager;
+import com.frozendawn.phase.FrozenDawnPhaseTracker;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
+import com.mojang.math.Axis;
+import net.minecraft.client.Camera;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.state.BlockState;
+import org.joml.Matrix4f;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+/**
+ * Hides clouds and celestial bodies (sun/moon) in phase 5+.
+ *
+ * Phase 5: blizzard whiteout — clouds aren't visible anyway, moon hidden by storm.
+ * Phase 6 early (progress < 0.72): same blizzard whiteout.
+ * Phase 6 mid+ (progress >= 0.72): atmosphere thins, stars become visible on black sky.
+ */
+@Mixin(LevelRenderer.class)
+public class LevelRendererMixin {
+
+    @Shadow private VertexBuffer starBuffer;
+    @Shadow private VertexBuffer skyBuffer;
+    @Shadow private Minecraft minecraft;
+
+    @Inject(method = "renderClouds", at = @At("HEAD"), cancellable = true)
+    private void frozendawn$hideClouds(PoseStack poseStack, Matrix4f frustumMatrix, Matrix4f projectionMatrix,
+                                       float partialTick, double camX, double camY, double camZ,
+                                       CallbackInfo ci) {
+        if (FrozenDawnPhaseTracker.getPhase() >= 5) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(
+            method = "renderSnowAndRain(Lnet/minecraft/client/renderer/LightTexture;FDDD)V",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void frozendawn$filterVanillaWeather(LightTexture lightTexture, float partialTick,
+                                                 double camX, double camY, double camZ,
+                                                 CallbackInfo ci) {
+        if (SurveyorLensVision.isBlizzardFilterActive()) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "renderLevel", at = @At("HEAD"))
+    private void frozendawn$prepareAlarmDynamicLights(DeltaTracker deltaTracker, boolean renderBlockOutline,
+                                                      Camera camera, GameRenderer gameRenderer, LightTexture lightTexture,
+                                                      Matrix4f frustumMatrix, Matrix4f projectionMatrix,
+                                                      CallbackInfo ci) {
+        AlarmDynamicLightManager.prepareFrame(camera, deltaTracker.getGameTimeDeltaPartialTick(false));
+    }
+
+    /**
+     * Scales the sun quad size (vanilla 30.0F) based on apocalypse sun scale.
+     * Phase 0: full size. Phase 1-2: dramatically smaller. Phase 3+: tiny.
+     */
+    @ModifyConstant(method = "renderSky", constant = @Constant(floatValue = 30.0F))
+    private float frozendawn$scaleSun(float original) {
+        float sunScale = ApocalypseClientData.getSunScale();
+        return original * sunScale;
+    }
+
+    @Inject(method = "renderSky", at = @At("HEAD"), cancellable = true)
+    private void frozendawn$hideSky(Matrix4f frustumMatrix, Matrix4f projectionMatrix,
+                                    float partialTick, Camera camera, boolean isFoggy,
+                                    Runnable skyFogSetup, CallbackInfo ci) {
+        int phase = FrozenDawnPhaseTracker.getPhase();
+        if (phase < 5) return;
+
+        float lightningFlash = MasterArchitectAuraClient.getLightningWorldFlash(partialTick);
+        if (lightningFlash > 0.0F) {
+            renderPhaseSkyFlash(
+                    frustumMatrix, projectionMatrix, skyFogSetup, lightningFlash);
+        }
+
+        float progress = ApocalypseClientData.getProgress();
+
+        // Phase 5 + phase 6 early: full cancel (blizzard whiteout)
+        if (PhaseManager.isBlizzardActive(phase, progress)) {
+            ci.cancel();
+            return;
+        }
+
+        // Phase 6 mid+: cancel default sky, render stars only
+        ci.cancel();
+        renderPhase6Stars(frustumMatrix, projectionMatrix, partialTick, skyFogSetup);
+    }
+
+    private void renderPhaseSkyFlash(Matrix4f frustumMatrix, Matrix4f projectionMatrix,
+                                     Runnable skyFogSetup, float flash) {
+        PoseStack poseStack = new PoseStack();
+        poseStack.mulPose(frustumMatrix);
+
+        RenderSystem.depthMask(false);
+        RenderSystem.setShader(GameRenderer::getPositionShader);
+        RenderSystem.setShaderColor(
+                0.56F * flash,
+                0.80F * flash,
+                1.0F * flash,
+                1.0F);
+        FogRenderer.setupNoFog();
+        skyBuffer.bind();
+        skyBuffer.drawWithShader(
+                poseStack.last().pose(),
+                projectionMatrix,
+                GameRenderer.getPositionShader());
+        VertexBuffer.unbind();
+        skyFogSetup.run();
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.depthMask(true);
+    }
+
+    @Inject(method = "getLightColor(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)I",
+            at = @At("RETURN"), cancellable = true)
+    private static void frozendawn$applyAlarmDynamicLight(BlockAndTintGetter level, BlockState state, BlockPos pos,
+                                                          CallbackInfoReturnable<Integer> cir) {
+        int dynamicLight = AlarmDynamicLightManager.getDynamicLight(level, pos);
+        if (dynamicLight <= 0) {
+            return;
+        }
+
+        int packed = cir.getReturnValueI();
+        int sky = (packed >> 20) & 0xF;
+        int block = (packed >> 4) & 0xF;
+        if (dynamicLight > block) {
+            cir.setReturnValue((sky << 20) | (dynamicLight << 4));
+        }
+    }
+
+    /**
+     * Renders only stars on a black sky for phase 6 late.
+     * Replicates vanilla's exact star rendering pipeline.
+     */
+    private void renderPhase6Stars(Matrix4f frustumMatrix, Matrix4f projectionMatrix,
+                                   float partialTick, Runnable skyFogSetup) {
+        float progress = ApocalypseClientData.getProgress();
+
+        // Star brightness: fades in across the shared phase-6 mid window.
+        float starAlpha = PhaseManager.getPhase6MidFadeProgress(progress);
+
+        if (starAlpha <= 0.0f || starBuffer == null) return;
+
+        // Build model-view matrix exactly like vanilla:
+        // frustumMatrix first (camera), then celestial rotations
+        PoseStack poseStack = new PoseStack();
+        poseStack.mulPose(frustumMatrix);
+        poseStack.pushPose();
+        poseStack.mulPose(Axis.YP.rotationDegrees(-90.0f));
+        float timeOfDay = minecraft.level.getTimeOfDay(partialTick);
+        poseStack.mulPose(Axis.XP.rotationDegrees(timeOfDay * 360.0f));
+
+        // Sky rendering state: no depth writes, additive blending
+        RenderSystem.depthMask(false);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(
+                GlStateManager.SourceFactor.SRC_ALPHA,
+                GlStateManager.DestFactor.ONE,
+                GlStateManager.SourceFactor.ONE,
+                GlStateManager.DestFactor.ZERO);
+
+        RenderSystem.setShaderColor(starAlpha, starAlpha, starAlpha, starAlpha);
+        FogRenderer.setupNoFog();
+
+        // Draw stars using POSITION shader (vanilla star buffer is POSITION format, not POSITION_COLOR)
+        starBuffer.bind();
+        starBuffer.drawWithShader(poseStack.last().pose(), projectionMatrix, GameRenderer.getPositionShader());
+        VertexBuffer.unbind();
+
+        // Vanilla's moon is suppressed with the rest of the Phase 6 sky. The
+        // post-Maeve renderer exclusively occupies that celestial slot.
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.defaultBlendFunc();
+        PostMaeveMoonRenderer.render(frustumMatrix, projectionMatrix, partialTick);
+
+        // Restore fog
+        skyFogSetup.run();
+
+        // Reset render state
+        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        RenderSystem.disableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.depthMask(true);
+
+        poseStack.popPose();
+    }
+}

@@ -1,0 +1,1281 @@
+<h2>The World That Doesn't Wait</h2>
+<p class="subtitle">Chapter One, in the Architect page's format. Every curve in the scrubber is the real array out of <code>PhaseManager.java</code>, interpolated by a line-for-line port of its own <code>interpolate()</code>. Drag it.</p>
+
+<style>
+.ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
+.ap-frame { position:relative; height:660px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
+
+/* ---------- the black ---------- */
+.ap-black { position:absolute; inset:0; background:#000; z-index:50; pointer-events:none; }
+.ap-frame.play .ap-black { animation: apBlack 1s linear forwards; }
+@keyframes apBlack { 0%,22% { opacity:1 } 72% { opacity:0 } 100% { opacity:0 } }
+
+/* ---------- landed state: no animation survives the intro ---------- */
+.ap-frame.done .ap-black { display:none; }
+.ap-frame.done .ap-head,
+.ap-frame.done .ap-kick,
+.ap-frame.done .ap-title,
+.ap-frame.done .ap-rest { animation:none !important; }
+.ap-frame.done .ap-head,
+.ap-frame.done .ap-kick { opacity:1; }
+.ap-frame.done .ap-title { width:auto; overflow:visible; border-right-color:#7dd3fc00; }
+.ap-frame.done .ap-rest { opacity:1; transform:none; }
+
+/* ---------- header ---------- */
+.ap-head { position:absolute; top:0; left:0; right:0; height:50px; z-index:40;
+           display:flex; align-items:center; gap:16px; padding:0 20px;
+           background:#0b0e11; border-bottom:1px solid #1d232a; font-family:var(--sans);
+           font-size:12px; color:#79848d; opacity:0; }
+.ap-head strong { color:#f2f6f8; font-weight:700; letter-spacing:-.01em; font-size:13px; }
+.ap-head nav { margin-left:auto; display:flex; gap:16px; }
+.ap-head nav span { color:#79848d; }
+.ap-head nav span.on { color:#7dd3fc; }
+.ap-frame.play .ap-head { animation: apIn .5s ease-out .35s forwards; }
+@keyframes apIn { from { opacity:0 } to { opacity:1 } }
+
+/* ---------- scroll body ---------- */
+.ap-doc { position:absolute; inset:50px 0 0; overflow-y:auto; overflow-x:hidden; z-index:30; font-family:var(--sans); }
+.ap-doc::-webkit-scrollbar { width:9px }
+.ap-doc::-webkit-scrollbar-thumb { background:#222a33; border-radius:5px }
+.ap-inner { max-width:660px; margin:0 auto; padding:46px 30px 70px; }
+
+.ap-kick { font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+           color:#7dd3fc; opacity:0; }
+.ap-frame.play .ap-kick { animation: apIn .5s ease-out .6s forwards; }
+
+.ap-title { font-size:40px; font-weight:700; letter-spacing:-.03em; color:#f2f6f8; margin:8px 0 0;
+            white-space:nowrap; overflow:hidden; width:0; border-right:2px solid #7dd3fc00; }
+.ap-frame.play .ap-title { animation: apType 1.3s steps(27,end) .8s forwards,
+                                      apCaret .4s step-end .8s 7; }
+@keyframes apType { to { width:var(--tw,15.6em) } }
+@keyframes apCaret { 0%,50% { border-right-color:#7dd3fc } 51%,100% { border-right-color:#7dd3fc00 } }
+
+.ap-rest { opacity:0; }
+.ap-frame.play .ap-rest { animation: apUp .7s cubic-bezier(.2,.6,.3,1) 2.2s forwards; }
+@keyframes apUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
+
+.ap-stand { font-size:16.5px; line-height:1.62; color:#b3bdc5; margin:16px 0 0; }
+.ap-p { font-size:14.5px; line-height:1.72; color:#96a1aa; margin:0 0 15px; }
+.ap-p strong { color:#d4dade; font-weight:600; }
+.ap-p code, .ap-code { font-family:var(--mono); font-size:.9em; color:#a8bcc9; }
+.ap-h3 { font-size:12px; font-family:var(--mono); letter-spacing:.14em; text-transform:uppercase;
+         color:#6c7883; margin:44px 0 16px; padding-top:18px; border-top:1px solid #1a2027; }
+.ap-lede { font-size:20px; line-height:1.5; color:#d4dade; font-weight:500; letter-spacing:-.01em;
+           margin:0 0 22px; }
+.ap-pull { font-size:15.5px; line-height:1.6; color:#b9c4cc; font-style:italic;
+           border-left:2px solid #2c688a; padding-left:16px; margin:22px 0; }
+
+.ap-replay { position:absolute; right:12px; bottom:12px; z-index:70; font-family:var(--mono);
+             font-size:10px; letter-spacing:.1em; padding:6px 12px; border-radius:5px;
+             background:#141a21d9; border:1px solid #252e38; color:#8d98a1; cursor:pointer; }
+.ap-replay:hover { color:#7dd3fc; border-color:#2c688a; }
+
+/* ---------- breakout width ---------- */
+.ap { --bleed: clamp(0px, calc((100vw - 660px)/2 - 30px), 160px); }
+.ap-wide { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+
+/* ---------- stats band ---------- */
+.ap-stats { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#1b222b;
+            border-top:1px solid #1b222b; border-bottom:1px solid #1b222b;
+            margin-top:24px; margin-bottom:32px; }
+.ap-stats > div { background:#0f1216; padding:15px 4px 16px; text-align:center; }
+.ap-stats b { display:block; font-size:25px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+              font-variant-numeric:tabular-nums; line-height:1; }
+.ap-stats span { display:block; margin-top:7px; font-size:10.5px; line-height:1.4; color:#6c7883; }
+
+/* ================= the scrubber ================= */
+.ap-scrub { margin-top:26px; margin-bottom:34px; background:#0d1116; border:1px solid #1c242e; border-radius:10px;
+            overflow:hidden; }
+
+.ap-sky { position:relative; height:228px; overflow:hidden; background:#6ea8dc;
+          transition:background .12s linear; }
+
+.ap-stars { position:absolute; inset:0; opacity:0; }
+.ap-stars i { position:absolute; width:2px; height:2px; border-radius:50%; background:#e8f2ff;
+              display:block; }
+
+/* the sun sits above the blizzard sheet on purpose: the mixin keeps drawing the
+   celestial body right through the storm, and this band exists to watch it shrink */
+.ap-disc { position:absolute; left:50%; top:34%; width:96px; height:96px; z-index:3;
+           transform:translate(-50%,-50%); }
+.ap-disc i { position:absolute; inset:0; border-radius:50%; background:#ffdc78; display:block;
+             box-shadow:0 0 34px 10px #ffd25733; }
+
+.ap-snow { position:absolute; inset:0; opacity:0; pointer-events:none; }
+.ap-snow b { position:absolute; top:-10px; width:var(--fw,2.5px); height:2.5px;
+             border-radius:var(--fr,50%); background:var(--flake,#e9f3ff); display:block;
+             animation:apFall linear infinite;
+             animation-duration:calc(var(--d,3s) * var(--spd,1)); }
+@keyframes apFall { from { transform:translate3d(0,-14px,0) }
+                    to   { transform:translate3d(var(--dx,14px),250px,0) } }
+/* the extra flakes only exist while isBlizzardActive is true, so the calm phases
+   never pay for animations nobody can see */
+.ap-snow b.x { display:none; }
+.ap-snow.bliz b.x { display:block; }
+
+/* ---- gusts: the sideways streaks of the phase 5 storm ---- */
+.ap-gust { position:absolute; inset:0; opacity:0; pointer-events:none; }
+.ap-gust i { position:absolute; left:-220px; height:1.5px; border-radius:1px; display:block;
+             background:linear-gradient(90deg,transparent,var(--flake,#e9f3ff),transparent);
+             animation:apGust linear infinite; }
+@keyframes apGust { from { transform:translate3d(0,0,0) }
+                    to   { transform:translate3d(calc(100vw + 240px),0,0) } }
+
+/* ---- flora: the surface the catch-up loader has to rewrite ---- */
+.ap-flora { position:absolute; left:0; right:0; bottom:44px; height:0; pointer-events:none;
+            transform-origin:50% 100%; }
+.ap-flora svg { position:absolute; bottom:0; display:block; overflow:visible;
+                transform-origin:50% 100%; transform:translateX(-50%) scale(var(--s,1)); }
+.ap-flora .bk { fill:var(--bark,#4a3a28); }
+.ap-flora .lf { fill:var(--leaf,#568a40); opacity:var(--lf,1); }
+.ap-flora .gr .lf { opacity:calc(.25 + .75 * var(--lf,1)); }
+
+.ap-white { position:absolute; inset:0; background:var(--fog,#dfe9f2); opacity:0; pointer-events:none; }
+
+.ap-ground { position:absolute; left:0; right:0; bottom:0; height:46px; z-index:4; background:#1b2229;
+             border-top:2px solid #2b3641; }
+.ap-cap { position:absolute; left:0; right:0; top:0; height:0; background:var(--pack,#e6eef6); }
+
+.ap-badge { position:absolute; left:14px; top:13px; z-index:5; }
+.ap-badge b { display:block; font-size:16px; font-weight:600; letter-spacing:-.02em; color:#f2f6f8;
+              text-shadow:0 1px 10px #000a; }
+.ap-badge span { display:block; margin-top:3px; font-family:var(--mono); font-size:9.5px;
+                 letter-spacing:.16em; text-transform:uppercase; color:#cfdae3;
+                 text-shadow:0 1px 8px #000c; }
+.ap-vac { position:absolute; right:14px; top:15px; z-index:5; font-family:var(--mono); font-size:9px;
+          letter-spacing:.18em; text-transform:uppercase; color:#ffb454; opacity:0;
+          border:1px solid #4a3a1e; border-radius:3px; padding:3px 7px 2.5px; background:#150f06cc; }
+
+/* ---- track ---- */
+.ap-trackwrap { padding:20px 18px 4px; }
+.ap-track { position:relative; height:26px; cursor:grab; touch-action:none;
+            outline:none; }
+.ap-track:active { cursor:grabbing; }
+.ap-track:before { content:""; position:absolute; left:0; right:0; top:11px; height:4px;
+                   border-radius:2px; background:#1b232c; }
+.ap-tfill { position:absolute; left:0; top:11px; height:4px; border-radius:2px; background:#2c688a; }
+.ap-mark { position:absolute; top:6px; width:1px; height:14px; background:#2a3440; }
+.ap-mark b { position:absolute; left:-9px; top:-3px; width:19px; height:20px; cursor:pointer;
+             display:block; }
+.ap-knob { position:absolute; top:4px; width:18px; height:18px; margin-left:-9px; border-radius:50%;
+           background:#0f1216; border:2px solid #7dd3fc; box-shadow:0 0 0 4px #7dd3fc1f; }
+.ap-track:focus-visible .ap-knob { box-shadow:0 0 0 6px #7dd3fc33; }
+
+.ap-tlabels { display:flex; padding:0 18px 14px; font-family:var(--mono); font-size:9px;
+              letter-spacing:.1em; text-transform:uppercase; color:#5f6b76; }
+.ap-tlabels span { flex:0 0 auto; }
+.ap-tlabels em { margin-left:auto; font-style:normal; color:#7c8891; }
+
+/* ---- readouts ---- */
+.ap-read { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#1a212a;
+           border-top:1px solid #1a212a; }
+.ap-read > div { background:#0d1116; padding:13px 9px 14px; }
+.ap-read em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.13em;
+              text-transform:uppercase; color:#5f6b76; font-style:normal; }
+.ap-read b { display:block; margin-top:7px; font-size:17px; font-weight:600; color:#e9eff3;
+             letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1; }
+.ap-read b u { text-decoration:none; font-size:11px; color:#7c8891; margin-left:2px; font-weight:400; }
+.ap-read i { display:block; margin-top:9px; height:3px; border-radius:2px; background:#1b232c; }
+.ap-read i s { display:block; height:100%; border-radius:2px; background:#3a6a87;
+               text-decoration:none; }
+.ap-read div.hot b { color:#ffb454; }
+.ap-read div.hot i s { background:#ffb454; }
+
+.ap-note { margin:0; padding:14px 18px 17px; border-top:1px solid #1a212a; font-size:13px;
+           line-height:1.62; color:#8d98a1; min-height:60px; }
+.ap-note b { color:#c8d2da; font-weight:600; }
+.ap-hint { padding:0 18px 16px; font-family:var(--mono); font-size:9.5px; letter-spacing:.11em;
+           text-transform:uppercase; color:#5a6672; }
+
+/* ================= shared blocks ================= */
+.ap-code { background:#0a0d11; border:1px solid #1a212a; border-radius:7px; padding:13px 15px;
+           font-family:var(--mono); font-size:11.5px; line-height:1.72; color:#8b97a3;
+           overflow-x:auto; margin:0 0 18px; white-space:pre; }
+/* code is the deep end, so it stays folded until somebody asks for it */
+.ap-src { margin:0 0 18px; }
+.ap-src > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:9px;
+                    font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+                    text-transform:uppercase; color:#6c7883; background:#0d1116;
+                    border:1px solid #1a212a; border-radius:7px; padding:9px 13px;
+                    transition:color .15s linear, border-color .15s linear; }
+.ap-src > summary::-webkit-details-marker { display:none; }
+.ap-src > summary::marker { content:""; }
+.ap-src > summary:before { content:""; flex:0 0 auto; width:0; height:0;
+                           border-left:5px solid currentColor; border-top:4px solid transparent;
+                           border-bottom:4px solid transparent; transition:transform .18s ease; }
+.ap-src > summary em { margin-left:auto; font-style:normal; letter-spacing:.06em; color:#4f5a64; }
+.ap-src > summary:hover { color:#7dd3fc; border-color:#2c688a; }
+.ap-src > summary:focus-visible { outline:2px solid #7dd3fc; outline-offset:2px; }
+.ap-src[open] > summary { color:#8d98a1; border-bottom-color:#0a0d11;
+                          border-bottom-left-radius:0; border-bottom-right-radius:0; }
+.ap-src[open] > summary:before { transform:rotate(90deg); }
+.ap-src .ap-code { margin:0; border-top-left-radius:0; border-top-right-radius:0; }
+
+.ap-code v { color:#7dd3fc; text-decoration:none; }
+.ap-code k { color:#a98cd8; text-decoration:none; }
+.ap-code c { color:#55606b; text-decoration:none; }
+
+.ap-cmts { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; }
+.ap-cmt { background:#0d1116; padding:11px 14px; display:grid;
+          grid-template-columns:auto 1fr auto; gap:4px 12px; align-items:baseline; }
+.ap-cmt u { font-family:var(--mono); font-size:10.5px; color:#7dd3fc; text-decoration:none; }
+.ap-cmt b { font-size:13px; font-weight:500; color:#cbd5dc; letter-spacing:-.01em; }
+.ap-cmt s { font-family:var(--mono); font-size:10px; color:#6c7883; text-decoration:none;
+            white-space:nowrap; }
+.ap-cmt p { grid-column:2/-1; margin:2px 0 0; font-size:12.5px; line-height:1.6; color:#8d98a1; }
+.ap-cmt.mark { background:#101821; }
+.ap-cmt.mark u { color:#ffb454; }
+
+.ap-pass { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; counter-reset:p; }
+.ap-pass > div { background:#0d1116; padding:10px 14px; display:flex; gap:12px; align-items:baseline; }
+.ap-pass > div:before { counter-increment:p; content:counter(p,decimal-leading-zero);
+                        font-family:var(--mono); font-size:10px; color:#4f5b67; flex:0 0 auto; }
+.ap-pass b { font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:#7dd3fc;
+             flex:0 0 122px; }
+.ap-pass span { font-size:12.5px; line-height:1.55; color:#8d98a1; }
+
+.ap-bud { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#1a212a;
+          border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 18px; }
+.ap-bud > div { background:#0d1116; padding:13px 14px 15px; }
+.ap-bud em { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase;
+             color:#7dd3fc; font-style:normal; }
+.ap-bud dl { margin:10px 0 0; display:grid; grid-template-columns:auto 1fr; gap:5px 10px;
+             font-family:var(--mono); font-size:10.5px; }
+.ap-bud dt { color:#5f6b76; }
+.ap-bud dd { margin:0; color:#c2ccd4; text-align:right; font-variant-numeric:tabular-nums; }
+.ap-bud p { margin:10px 0 0; font-size:11.5px; line-height:1.55; color:#7c8891; }
+
+.ap-phs { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+          overflow:hidden; margin:0 0 20px; }
+.ap-phs > div { background:#0d1116; padding:12px 14px 13px; }
+.ap-phs h4 { margin:0; font-size:13.5px; font-weight:600; color:#e6edf2; letter-spacing:-.01em;
+             display:flex; align-items:baseline; gap:9px; }
+.ap-phs h4 u { font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; color:#5f6b76;
+               text-decoration:none; }
+.ap-phs h4 i { width:9px; height:9px; border-radius:50%; flex:0 0 auto; align-self:center; }
+.ap-phs p { margin:6px 0 0; font-size:12.5px; line-height:1.62; color:#8d98a1; }
+.ap-phs s { display:inline-block; margin:7px 6px 0 0; font-family:var(--mono); font-size:9.5px;
+            letter-spacing:.04em; color:#93a3ad; background:#151c23; border:1px solid #212a33;
+            border-radius:3px; padding:2.5px 7px; text-decoration:none; }
+
+.ap-figs { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#1a212a;
+           border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 20px; }
+.ap-figs > div { background:#0d1116; padding:14px 12px 15px; text-align:center; }
+.ap-figs b { display:block; font-size:21px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+             font-variant-numeric:tabular-nums; }
+.ap-figs span { display:block; margin-top:6px; font-size:10.5px; line-height:1.45; color:#6c7883; }
+
+/* ================= chaptered deck ================= */
+.ap-deck { margin:44px 0 0; }
+
+.ap-dtop { position:sticky; top:0; z-index:8; background:#0f1216; padding:9px 0 0; }
+.ap-dtop:after { content:""; position:absolute; left:calc(-1 * var(--bleed)); right:calc(-1 * var(--bleed));
+  bottom:0; height:1px; background:#1c242e; }
+
+.ap-dtop .ap-dstrip { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+.ap-dstrip { position:relative; display:flex; align-items:flex-end; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; }
+.ap-dstrip::-webkit-scrollbar { display:none; }
+
+.ap-dtab { position:relative; flex:0 0 auto; -webkit-appearance:none; appearance:none;
+  background:none; border:0; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:#7c8891; padding:9px 13px 11px; cursor:pointer;
+  white-space:nowrap; border-radius:5px 5px 0 0;
+  transition:color .28s ease, background .28s ease, transform .2s cubic-bezier(.2,.6,.3,1); }
+.ap-dtab:hover { color:#b8c3cb; background:#141920; }
+@media (min-width:641px) { .ap-dtab { padding-left:10px; padding-right:10px; letter-spacing:.08em; }
+  .ap-dtab i { margin-right:5px; } }
+.ap-dtab:active { transform:translateY(1px); }
+.ap-dtab.on { color:#7dd3fc; }
+.ap-dtab i { font-style:normal; opacity:.45; margin-right:7px; }
+
+.ap-dink { position:absolute; left:0; bottom:0; height:2px; width:0; background:#7dd3fc;
+  border-radius:2px 2px 0 0; pointer-events:none;
+  transition:transform .44s cubic-bezier(.22,.8,.28,1), width .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dstage { position:relative; }
+.ap-dstage.morph { overflow:hidden; transition:height .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dpanes { position:relative; padding-top:22px; }
+.ap-pane { display:none; }
+.ap-pane.on { display:block; }
+.ap-pane.enter { animation:apSlideL .42s cubic-bezier(.2,.65,.3,1) both; }
+.ap-pane.enter.rev { animation-name:apSlideR; }
+@keyframes apSlideL { from { opacity:0; transform:translate3d(20px,0,0); } to { opacity:1; transform:none; } }
+@keyframes apSlideR { from { opacity:0; transform:translate3d(-20px,0,0); } to { opacity:1; transform:none; } }
+
+.ap-dbot { margin-top:28px; padding-top:16px; border-top:1px solid #1c242e; }
+.ap-dsteps { display:flex; gap:10px; }
+.ap-dstep { flex:1 1 0; min-width:0; -webkit-appearance:none; appearance:none; text-align:left;
+  background:#12171d; border:1px solid #1c242e; border-radius:7px; padding:10px 14px 11px;
+  cursor:pointer; font-family:inherit; }
+.ap-dstep:hover:not([disabled]) { border-color:#2c3946; background:#161c23; }
+.ap-dstep:active:not([disabled]) { transform:scale(.985); }
+.ap-dstep[disabled] { opacity:.3; cursor:default; }
+.ap-dstep em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:#5f6b76; font-style:normal; margin-bottom:4px; }
+.ap-dstep b { display:block; font-size:12.5px; font-weight:600; color:#cbd5dc; letter-spacing:-.01em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ap-dstep.next { text-align:right; }
+
+/* ---- reveal on scroll ---- */
+.ap-rv { opacity:0; transform:translate3d(0,16px,0); }
+.ap-rv.in { animation:apRise .6s cubic-bezier(.2,.65,.3,1) both; }
+.ap-rv.set { opacity:1; transform:none; animation:none; }
+.ap-pop { animation:apRise .5s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes apRise { from { opacity:0; transform:translate3d(0,16px,0); } to { opacity:1; transform:none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-rv, .ap-rv.in { opacity:1 !important; transform:none !important; animation:none !important; }
+  .ap-pop, .ap-pane.enter { animation:none !important; }
+  .ap-dink, .ap-dstage.morph { transition:none !important; }
+  .ap-src > summary, .ap-src > summary:before { transition:none !important; }
+  .ap-snow b { animation:none !important; }
+  .ap-snow { display:none; }
+  .ap-gust { display:none !important; }
+  .ap-gust i { animation:none !important; }
+}
+
+@media (max-width:640px){
+  .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
+  .ap-dtab i { margin-right:5px; }
+  .ap-dsteps { gap:7px; }
+  .ap-dstep { padding:9px 11px 10px; }
+  .ap-dstep b { font-size:11.5px; }
+  .ap-deck { margin-top:34px; }
+  .ap-frame { height:76vh; min-height:520px; }
+  .ap-inner { padding:36px 17px 64px; }
+  .ap-head { padding:0 12px; gap:10px; }
+  .ap-head > span { display:none; }
+  .ap-head nav { gap:13px; }
+  .ap-title { font-size:24px; }
+  .ap-lede { font-size:17.5px; }
+  .ap-stand { font-size:15px; }
+  .ap-p { font-size:14px; }
+  .ap-stats { grid-template-columns:repeat(3,1fr); }
+  .ap-stats b { font-size:21px; }
+  .ap-read { grid-template-columns:repeat(3,1fr); }
+  .ap-read b { font-size:15px; }
+  .ap-sky { height:184px; }
+  .ap-flora svg.m { display:none; }
+  .ap-flora svg { transform:translateX(-50%) scale(calc(var(--s,1) * .76)); }
+  .ap-badge b { font-size:14px; }
+  .ap-bud { grid-template-columns:1fr; }
+  .ap-figs { grid-template-columns:1fr; }
+  .ap-pass > div { flex-wrap:wrap; }
+  .ap-pass b { flex-basis:auto; }
+  .ap-cmt { grid-template-columns:auto 1fr; }
+  .ap-cmt s { grid-column:2; text-align:left; }
+  .ap-code { font-size:10.5px; }
+  .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
+}
+</style>
+
+<div class="ap">
+  <div class="ap-frame play" id="apFrame">
+    <div class="ap-black"></div>
+    <div class="ap-head">
+      <strong>Frozen Dawn</strong><span>Dev Journal</span>
+      <nav><span>Timeline</span><span>The Architect</span><span class="on">Chapters</span></nav>
+    </div>
+
+    <div class="ap-doc">
+      <div class="ap-inner">
+        <div class="ap-kick">Chapter One &middot; 23 February 2026</div>
+        <h1 class="ap-title">The World That Doesn't Wait</h1>
+
+        <div class="ap-rest">
+          <p class="ap-stand">Building Frozen Dawn's six-phase collapse simulation.</p>
+
+          <div class="ap-stats ap-wide">
+            <div><b>7</b><span>phases, zero through six</span></div>
+            <div><b>273</b><span>degrees below zero at the end</span></div>
+            <div><b>2%</b><span>the sun's final size</span></div>
+            <div><b>24</b><span>files held one threshold</span></div>
+            <div><b>1,111</b><span>lines the loader arrived in</span></div>
+            <div><b>41</b><span>days of silence it cost</span></div>
+          </div>
+
+          <div class="ap-h3">What it actually is</div>
+          <p class="ap-lede">Frozen Dawn does one thing to your world: it takes the sun away, slowly, and never gives it back.</p>
+          <p class="ap-p">Not as a cutscene. Not as a scripted event on day forty. The whole collapse is a single number between 0 and 1, the fraction of the world's lifespan that has already burned, and <strong>every visible symptom is read off that one number</strong>. The sun's size. The colour of the sky. How cold it is where you are standing. How long daylight lasts. Whether water can still exist as a liquid.</p>
+          <p class="ap-p">That design decision is the whole mod. It means there is no state to desync, no timer to drift, nothing to save except the day counter. Load a world on day 61 and the sky is already black, because black is simply what the function returns at 0.61.</p>
+          <p class="ap-p">It also means I can show you the entire thing in a slider.</p>
+
+          <div class="ap-h3">Drag the collapse</div>
+          <p class="ap-p">This is not a mock-up. The numbers below are the real arrays out of <code>PhaseManager.java</code>, run through a line-for-line port of the mod's own <code>interpolate()</code>. Drag the handle, click a phase marker, or use the arrow keys.</p>
+
+          <div class="ap-scrub ap-wide" id="apScrub">
+            <div class="ap-sky" id="apSky">
+              <div class="ap-stars" id="apStars"></div>
+              <div class="ap-flora" id="apFlora"></div>
+              <div class="ap-disc" id="apDisc"><i></i></div>
+              <div class="ap-snow" id="apSnow"></div>
+              <div class="ap-white" id="apWhite"></div>
+              <div class="ap-gust" id="apGust"></div>
+              <div class="ap-ground"><div class="ap-cap" id="apCap"></div></div>
+              <div class="ap-badge"><b id="apPName">Normal</b><span id="apPNum">Phase 0</span></div>
+              <div class="ap-vac" id="apVac">Vacuum &middot; no sound</div>
+            </div>
+
+            <div class="ap-trackwrap">
+              <div class="ap-track" id="apTrack" tabindex="0" role="slider"
+                   aria-label="World progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <div class="ap-tfill" id="apFill"></div>
+                <div class="ap-knob" id="apKnob"></div>
+              </div>
+            </div>
+            <div class="ap-tlabels"><span id="apDay">Day 0 of 100</span><em id="apProg">progress 0.000</em></div>
+
+            <div class="ap-read" id="apRead">
+              <div><em>Sun scale</em><b id="rSun">1.00<u>&times;</u></b><i><s id="bSun"></s></i></div>
+              <div id="cTemp"><em>Temperature</em><b id="rTemp">0.0<u>&deg;C</u></b><i><s id="bTemp"></s></i></div>
+              <div><em>Sun brightness</em><b id="rBri">1.00</b><i><s id="bBri"></s></i></div>
+              <div><em>Sky light</em><b id="rSky">1.00</b><i><s id="bSky"></s></i></div>
+              <div><em>Day length</em><b id="rDay">1.00</b><i><s id="bDay"></s></i></div>
+              <div><em>Snowfall</em><b id="rSnow">none</b><i><s id="bSnow"></s></i></div>
+            </div>
+
+            <p class="ap-note" id="apNote"></p>
+            <div class="ap-hint">Drag &middot; click a marker &middot; arrow keys</div>
+          </div>
+
+          <div class="ap-deck" id="apDeck">
+            <div class="ap-dtop">
+              <div class="ap-dstrip" role="tablist" aria-label="Chapter sections">
+                <button type="button" class="ap-dtab on" role="tab" data-i="0" data-full="The seven curves" data-short="Curves" aria-selected="true" tabindex="0"><i>01</i>Seven curves</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="1" data-full="What the cold does" data-short="Cold" aria-selected="false" tabindex="-1"><i>02</i>What the cold does</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="2" data-full="The vacuum" data-short="Vacuum" aria-selected="false" tabindex="-1"><i>03</i>The vacuum</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="The world doesn't wait" data-short="Loader" aria-selected="false" tabindex="-1"><i>04</i>The loader</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="What it cost" data-short="Cost" aria-selected="false" tabindex="-1"><i>05</i>What it cost</button>
+                <span class="ap-dink" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="ap-dstage">
+              <div class="ap-dpanes">
+
+<!-- ============ 01 ============ -->
+<section class="ap-pane on" role="tabpanel" data-p="0" aria-label="The seven curves">
+  <p class="ap-lede">Six arrays and a list of boundaries. That is the whole collapse.</p>
+  <p class="ap-p">Every value the slider showed you is one row of this table, read at one position. There is no simulation state behind it, no accumulator, no drift. Given the same day, it returns the same world.</p>
+
+  <details class="ap-src">
+    <summary>The six arrays, PhaseManager.java<em>Java</em></summary>
+    <div class="ap-code"><c>// PhaseManager.java</c>
+<k>private static final</k> <v>float</v>[] PHASE_BOUNDS   = {0.0f, 0.05f, 0.12f, 0.22f, 0.34f, 0.46f, 0.60f, 1.00f};
+<k>private static final</k> <v>float</v>[] SUN_DISTANCE   = {1.0f, 0.35f, 0.12f, 0.06f, 0.04f, 0.03f, 0.02f, 0.0f};
+<k>private static final</k> <v>float</v>[] TEMP_OFFSET    = {  0f,    0f,  -10f,  -25f,  -45f,  -70f, -120f, -273f};
+<k>private static final</k> <v>float</v>[] SUN_BRIGHTNESS = {1.0f,  1.0f,  0.9f,  0.7f, 0.45f,  0.2f, 0.05f, 0.0f};
+<k>private static final</k> <v>float</v>[] SKY_LIGHT      = {1.0f,  1.0f,  1.0f, 0.85f,  0.6f,  0.3f, 0.05f, 0.01f};
+<k>private static final</k> <v>float</v>[] DAY_LENGTH     = {1.0f,  1.0f, 0.95f,  0.8f,  0.6f,  0.4f,  0.2f, 0.0f};</div>
+  </details>
+
+  <p class="ap-p">The boundaries are deliberately uneven. Phase 0 is five percent of the world's life, phase 6 is forty. The early phases are short because they are supposed to feel like weather. The last one is long because it is supposed to feel like it will never end.</p>
+  <p class="ap-p">Look at what <strong>SUN_DISTANCE</strong> does between the first two stops: 1.0 down to 0.35 across five percent of the run. That is the fastest change in the entire mod, and it happens before most players have a bed. By the time anyone notices the sun is smaller, the interesting part of the curve is already behind them.</p>
+
+  <div class="ap-h3">How a value is found</div>
+  <details class="ap-src">
+    <summary>interpolate(), the fourteen lines everything calls<em>Java</em></summary>
+    <div class="ap-code"><k>private static</k> <v>float</v> interpolate(<v>float</v>[] values, <v>int</v> currentDay, <v>int</v> totalDays) {
+    <v>float</v> progress = getProgress(currentDay, totalDays);
+    <k>for</k> (<v>int</v> i = 1; i &lt; PHASE_BOUNDS.length; i++) {
+        <k>if</k> (progress &lt;= PHASE_BOUNDS[i]) {
+            <v>float</v> segStart = PHASE_BOUNDS[i - 1];
+            <v>float</v> segEnd   = PHASE_BOUNDS[i];
+            <v>float</v> segProgress = (progress - segStart) / (segEnd - segStart);
+            <k>return</k> Mth.lerp(segProgress, values[i - 1], values[i]);
+        }
+    }
+    <k>return</k> values[values.length - 1];
+}</div>
+  </details>
+  <p class="ap-p">Fourteen lines, called by everything. The sky renderer calls it. The freezer calls it. The heads-up display calls it. Nothing owns the collapse, which is why nothing can get out of step with it.</p>
+
+  <div class="ap-h3">The false calm</div>
+  <p class="ap-p">There is exactly one place where I broke my own rule and added something that is not strictly derived from the curve, because the curve alone read as a machine.</p>
+  <details class="ap-src">
+    <summary>getFalseCalmRebound(), the javadoc<em>Java</em></summary>
+    <div class="ap-code"><c>/**
+ * Returns a small warmth spike (+3C max) near phase boundaries.
+ * Creates "false calm" moments where the temperature briefly
+ * seems to stabilize.
+ */</c>
+<k>public static</k> <v>float</v> getFalseCalmRebound(<v>int</v> currentDay, <v>int</v> totalDays) { ... }</div>
+  </details>
+  <p class="ap-p">Three degrees. It changes nothing mechanically. What it does is give the player a moment, right at every threshold, where the thermometer stops falling and ticks back up, and they think the worst is over. Then the next segment starts and it is steeper than the last one. <strong>Drag the slider across a marker and watch the temperature cell turn amber.</strong></p>
+
+  <div class="ap-figs">
+    <div><b>9</b><span>commits to PhaseManager, ever</span></div>
+    <div><b>7</b><span>of them in the first three days</span></div>
+    <div><b>12</b><span>lines of mixin shrink the sun</span></div>
+  </div>
+
+  <div class="ap-h3">Where it came from</div>
+  <div class="ap-cmts">
+    <div class="ap-cmt"><u>62191a3</u><b>Initial commit: Frozen Dawn mod (NeoForge 1.21.1)</b><s>23 Feb &middot; +2,762 / 91 files</s>
+      <p>Phases 1 through 5 shipped in the first commit. The bones of the whole thing were there on day one.</p></div>
+    <div class="ap-cmt"><u>ad26cfc</u><b>Add Phase 6: Atmospheric Collapse</b><s>25 Feb &middot; +638 / &minus;92 &middot; 19 files</s>
+      <p>Stars, suffocation, geothermal ambience, vacuum silence. The ending arrived two days after the beginning.</p></div>
+    <div class="ap-cmt"><u>50d3943</u><b>Add Phase 0, visual sun scaling via mixin</b><s>25 Feb &middot; +31 / &minus;17 &middot; 3 files</s>
+      <p>The famous shrinking sun is a single <code>@ModifyConstant</code> on vanilla's 30.0F sun quad. Twelve lines. It is the most recognisable thing in the mod and the cheapest thing in it.</p></div>
+  </div>
+  <p class="ap-p">Three days from empty repository to a world that can end. Everything after that was not building the collapse. It was making the rest of Minecraft agree with it.</p>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="1" aria-label="What the cold does">
+  <p class="ap-lede">A number going down is not a feature. The feature is what the world does about it.</p>
+  <p class="ap-p">Each phase unlocks a specific set of block transformations, and each one escalates the number of checks per player per tick. Phase 2 does one pass. Phase 4 does five times that. The world does not just get colder, it gets colder <strong>faster</strong>.</p>
+
+  <div class="ap-phs">
+    <div><h4><i style="background:#8fbdf0"></i>Normal<u>Phase 0 &middot; 0.00</u></h4>
+      <p>Vanilla Minecraft. No effects at all. The opening stretch exists so that the first change has something to be a change from.</p></div>
+    <div><h4><i style="background:#d98c59"></i>Twilight<u>Phase 1 &middot; 0.05</u></h4>
+      <p>The sun visibly shrinks. Rain becomes frequent, temperature dips slightly. Last chance to see the sun clearly.</p>
+      <s>sun 1.00 to 0.35</s><s>no block changes yet</s></div>
+    <div><h4><i style="background:#999ea6"></i>Cooling<u>Phase 2 &middot; 0.12</u></h4>
+      <p>The cold becomes real at minus ten. Water freezes, farmland and grass die back, snow starts to settle. This is the first phase the block freezer runs at all.</p>
+      <s>water freezes</s><s>grass, podzol, mycelium</s><s>snow up to 3 deep</s></div>
+    <div><h4><i style="background:#40598c"></i>The Long Night<u>Phase 3 &middot; 0.22</u></h4>
+      <p>The first true survival wall at minus twenty-five. Permanent storms, fog rolls in, and lava begins to cool. Sand and ice both start converting. Checks double.</p>
+      <s>lava cools</s><s>ice thickens</s><s>sand, dead grass</s><s>2&times; checks</s></div>
+    <div><h4><i style="background:#261f59"></i>Deep Freeze<u>Phase 4 &middot; 0.34</u></h4>
+      <p>Surface survival becomes lethal at minus forty-five. Obsidian freezes. Coal ore crystallizes. Magma blocks go out. Dense fog, near darkness. Checks go to five times base.</p>
+      <s>obsidian freezes</s><s>coal crystallizes</s><s>packed ice</s><s>5&times; checks</s></div>
+    <div><h4><i style="background:#0d081a"></i>Eternal Winter<u>Phase 5 &middot; 0.46</u></h4>
+      <p>Endgame cold, minus seventy and falling. Permanent midnight, blizzard whiteout, clouds and celestial bodies stop rendering entirely. Only deep underground is survivable, and even there your heat sources shrink: unsheltered heat radius drops to sixty percent.</p>
+      <s>blizzard whiteout</s><s>permanent night</s><s>masonry begins to crack</s></div>
+    <div><h4><i style="background:#000005;box-shadow:0 0 0 1px #2a3440"></i>Atmospheric Collapse<u>Phase 6 &middot; 0.60</u></h4>
+      <p>The last forty percent. Minus one twenty down to absolute zero. It has its own three stages, and it is the only phase where the world gets <em>clearer</em> as it gets worse.</p>
+      <s>see the next section</s></div>
+  </div>
+
+  <div class="ap-h3">Depth is the answer, and it is also a curve</div>
+  <p class="ap-p">The one honest escape is downward. Temperature gets a depth modifier that is its own ladder, from minus ten at build height to plus eighty at bedrock. Deep enough and the surface reading stops mattering, which is exactly why phase 6 eventually reaches down and takes that away too.</p>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="2" aria-label="The vacuum">
+  <p class="ap-lede">Every other phase takes something away by adding something: fog, snow, dark. The last one takes things away by removing the air they were in.</p>
+  <p class="ap-p">Phase 6 covers the final forty percent of the world's life and it is the only part of the collapse with internal stages of its own. They are constants, not a separate system, so the same single number still drives everything.</p>
+
+  <details class="ap-src">
+    <summary>The phase 6 thresholds and the stage enum<em>Java</em></summary>
+    <div class="ap-code"><k>public static final</k> <v>float</v> PHASE6_START         = 0.60f;
+<k>public static final</k> <v>float</v> PHASE6_MID_START     = 0.72f;
+<k>public static final</k> <v>float</v> PHASE6_VACUUM_START  = 0.85f;
+<k>public static final</k> <v>float</v> PHASE6_END           = 1.00f;
+
+<k>public enum</k> Phase6Stage { INACTIVE, EARLY, MID, VACUUM }</div>
+  </details>
+
+  <div class="ap-phs">
+    <div><h4><i style="background:#8593a0"></i>Early<u>0.60 to 0.72</u></h4>
+      <p>Extreme blizzard. Louder and worse than phase 5, and it is the last thing that behaves like weather. The whiteout is still on, wind is still screaming, and most players assume this is the ending.</p></div>
+    <div><h4><i style="background:#2e3a48"></i>Mid<u>0.72 to 0.85</u></h4>
+      <p>The atmosphere thins. Wind dies. Fog lifts. Visibility comes <em>back</em>, and for the first time since phase 3 you can see to the horizon, which is the point: you can finally see how far the dead goes. Stars fade in on a black sky, their alpha driven directly by how far through this stage you are.</p>
+      <s>starAlpha = getPhase6MidFadeProgress(progress)</s></div>
+    <div><h4><i style="background:#000005;box-shadow:0 0 0 1px #2a3440"></i>Vacuum<u>0.85 to 1.00</u></h4>
+      <p>No sound on the surface. Ice sublimates rather than melts. Breathing fails outside a sealed room or a habitable oxygen zone. The mod ships a damage type called <code>atmospheric_suffocation</code> that exists only for this stretch.</p>
+      <s>frozen atmosphere forms</s><s>sound muffled</s><s>oxygen required</s></div>
+  </div>
+
+  <div class="ap-h3">Frozen atmosphere</div>
+  <p class="ap-p">Below minus one fifty, with direct sky access, the air itself starts settling out as a block. It is the only mechanic in the mod that is genuinely reversible, and it reverses for a reason: if a player builds a heat source, the deposits around it sublimate away. The world you are given back is exactly as big as the warmth you can hold.</p>
+
+  <div class="ap-bud">
+    <div><em>Formation</em><dl><dt>from</dt><dd>progress 0.85</dd><dt>radius</dt><dd>48</dd><dt>checks</dt><dd>16</dd><dt>chance</dt><dd>10%</dd></dl>
+      <p>Requires phase 6, sky access, and a local temperature under minus 150.</p></div>
+    <div><em>Sublimation</em><dl><dt>trigger</dt><dd>temp &gt; &minus;150</dd><dt>radius</dt><dd>32</dd><dt>checks</dt><dd>8</dd></dl>
+      <p>Runs on the same tick. Warm the air and the deposit goes.</p></div>
+    <div><em>Exempt</em><dl><dt>zone</dt><dd>Blast Pit</dd><dt>zone</dt><dd>Thermal vents</dd></dl>
+      <p>Warm zones and volcanic fields are skipped outright, so the sanctuaries stay breathable by construction rather than by luck.</p></div>
+  </div>
+
+  <div class="ap-h3">The detail I am most attached to</div>
+  <p class="ap-p">The block freezer keeps escalating inside phase 6 even after the surface is finished. Past 0.65 it starts a second sublimation pass, and past 0.75 it adds another ten percent on top of every remaining conversion chance. There is nothing left to convert by then. It runs anyway, because a world that stops changing when it is finished feels finished, and this one is supposed to feel like it is still going somewhere without you.</p>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="3" aria-label="The world doesn't wait">
+  <p class="ap-lede">You walk two thousand blocks east on day seventy and the grass is green.</p>
+  <p class="ap-p">This is the bug that gave the chapter its name, and it is not really a bug. Minecraft generates terrain on demand. Every ambient system in Frozen Dawn, the freezer, the snow, the vegetation decay, only runs inside a 64 block radius of a player and only gets a few hundred block checks per tick. Terrain that has never been loaded has never been cold. The apocalypse had been happening, precisely and beautifully, only in the places someone had already stood.</p>
+  <p class="ap-p">So it needed a way to give a brand new chunk a past.</p>
+
+  <details class="ap-src">
+    <summary>The class javadoc, ChunkCatchUpManager.java<em>Java</em></summary>
+    <div class="ap-code"><c>/**
+ * Applies coarse apocalypse epochs to naturally loaded chunks.
+ *
+ * This is not a missed-random-tick simulator. It makes stale/new chunks
+ * visually believable for the current phase while staying inside a
+ * bounded server budget.
+ */</c></div>
+  </details>
+  <p class="ap-p">That second sentence is the entire design. <strong>Replaying two months of missed ticks is impossible and also pointless.</strong> Nobody saw those ticks. What has to be true is only that the chunk <em>looks like</em> somewhere the last seventy days happened to, and that producing it does not stall the server.</p>
+
+  <div class="ap-h3">Three budgets, chosen per tick</div>
+  <div class="ap-bud">
+    <div><em>Normal</em><dl><dt>time</dt><dd>2.5 ms</dd><dt>blocks</dt><dd>16,384</dd><dt>edits</dt><dd>384</dd></dl>
+      <p>The steady state. A player wandering into fresh terrain at walking pace.</p></div>
+    <div><em>Burst</em><dl><dt>time</dt><dd>5.0 ms</dd><dt>blocks</dt><dd>49,152</dd><dt>edits</dt><dd>768</dd></dl>
+      <p>Triggered by 64 fresh chunks queued, or 48 pending within 12 chunks of a player. Elytra, boats, portals.</p></div>
+    <div><em>Prewarm</em><dl><dt>time</dt><dd>8.0 ms</dd><dt>blocks</dt><dd>49,152</dd><dt>edits</dt><dd>1,024</dd></dl>
+      <p>Once, on server start, before anyone is looking. The most generous budget goes where nobody can feel it.</p></div>
+  </div>
+  <p class="ap-p">The tick loop exits on whichever of the three limits it reaches first, and then leaves the queue exactly where it was.</p>
+  <details class="ap-src">
+    <summary>The tick loop, and how it decides to stop<em>Java</em></summary>
+    <div class="ap-code"><k>while</k> (!pendingChunks.isEmpty()
+        &amp;&amp; blocks &lt; blockBudget
+        &amp;&amp; System.nanoTime() - start &lt; budgetNanos) { ... }</div>
+  </details>
+
+  <div class="ap-h3">Seven passes, and the order is load-bearing</div>
+  <p class="ap-p">A chunk is not transformed in one go. It is walked through seven passes, each with its own cursor, and the work can stop between any two of them and resume on a later tick. The order is not arbitrary: trees have to come out before snow is reconciled, or snow lands on branches that are about to be deleted and then floats.</p>
+  <div class="ap-pass">
+    <div><b>TREE_CLEAR</b><span>Strip dead canopy, 96 blocks deep. First, because everything below depends on it.</span></div>
+    <div><b>DETACHED_SNOW</b><span>Remove snow that was resting on something the previous pass just took away.</span></div>
+    <div><b>SURFACE</b><span>The top face of every column: freeze, convert, kill.</span></div>
+    <div><b>SURFACE_COLUMN</b><span>48 blocks down from the surface. 12,288 positions per chunk.</span></div>
+    <div><b>VOLUME_SAMPLE</b><span>768 sampled positions in the deep volume. Sampled, not exhaustive, on purpose.</span></div>
+    <div><b>COAL_SAMPLE</b><span>Coal ore crystallization, its own pass because its rules differ.</span></div>
+    <div><b>ATMOSPHERE</b><span>Frozen atmosphere deposits, last, once the world beneath them is settled.</span></div>
+  </div>
+
+  <div class="ap-h3">A version number is a promise</div>
+  <details class="ap-src">
+    <summary>TRANSFORM_VERSION and needsCatchUp()<em>Java</em></summary>
+    <div class="ap-code"><k>public static final</k> <v>int</v> TRANSFORM_VERSION = <v>4</v>;
+
+<k>public</k> <v>boolean</v> needsCatchUp(<v>int</v> chunkX, <v>int</v> chunkZ, <v>int</v> transformVersion, <v>int</v> targetDay) {
+    Record record = get(chunkX, chunkZ);
+    <k>return</k> record == <k>null</k> || !record.complete
+            || record.transformVersion &lt; transformVersion
+            || record.targetDay &lt; targetDay;
+}</div>
+  </details>
+  <p class="ap-p">Every chunk stores the version of the transform it received and the day it was brought up to. Change the rules, bump the number, and every chunk in every existing save quietly re-qualifies for catch-up the next time it loads. It has been bumped four times. That single integer is the reason I could keep changing what phase 4 means without breaking anybody's world.</p>
+  <p class="ap-p">The one deliberate exception: chunks inside a protected ORSA structure are marked complete <strong>without being transformed at all</strong>. The sanctuaries are supposed to be the places the apocalypse did not reach, and the cheapest way to guarantee that is to make the catch-up system agree.</p>
+
+  <div class="ap-h3">What it actually cost</div>
+  <div class="ap-cmts">
+    <div class="ap-cmt"><u>7192e4e</u><b>feat(world): add chunk catch-up epoch processing</b><s>25 May &middot; +1,111 / 5 files</s>
+      <p>899 lines of manager and a 199 line saved-data class, in one commit. It worked.</p></div>
+    <div class="ap-cmt"><u>477cf36</u><b>fix(world): stabilize chunk catch-up bursts</b><s>30 May &middot; +663 / &minus;200 &middot; 3 files</s>
+      <p>Five days later I rewrote roughly two thirds of it. This is where the three budget modes and the resumable cursors came from, because the first version would happily blow a 200 millisecond tick when you flew somewhere.</p></div>
+    <div class="ap-cmt mark"><u>&middot;&middot;&middot;</u><b>41 days, no commits</b><s>30 May to 10 July</s>
+      <p>The longest gap in the entire project sits immediately after this file, and it is the only stretch of the repository with nothing in it at all.</p></div>
+    <div class="ap-cmt"><u>df81cc4</u><b>fix(world): reconcile snow after tree catch-up</b><s>10 July &middot; +136 / &minus;11 &middot; 1 file</s>
+      <p>The first commit back, after six weeks away, is this file again. Floating snow where a tree used to be.</p></div>
+    <div class="ap-cmt"><u>260fdf4</u><b>fix(world): bound frozen atmosphere catch-up work</b><s>24 Aug &middot; +41 / &minus;9 &middot; 2 files</s>
+      <p>The last pass in the list turned out to need a bound of its own. Eight commits total, spread across three months.</p></div>
+  </div>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="4" aria-label="What it cost">
+  <p class="ap-lede">Three days to build the collapse. Six months to make the rest of the game agree with it.</p>
+  <p class="ap-p">The gap between those two numbers is the honest story of this chapter, and it is not the story I expected to be telling. I thought the hard part would be the physics. The hard part was that a single shared value has to be read correctly by forty different things, every one of which was written on a different day by someone who had slightly forgotten the rules.</p>
+
+  <div class="ap-figs">
+    <div><b>3</b><span>days to a world that can end</span></div>
+    <div><b>46</b><span>commits in chapter one</span></div>
+    <div><b>480</b><span>commits in the project so far</span></div>
+  </div>
+
+  <div class="ap-h3">One constant, twenty-four files</div>
+  <div class="ap-cmts">
+    <div class="ap-cmt"><u>7a3248e</u><b>fix(phase): centralize phase 6 thresholds</b><s>3 Apr &middot; +152 / &minus;80 &middot; 24 files</s>
+      <p>The number 0.72 had been typed out by hand in the sky renderer, the wind ambience, the flag physics, the frost overlay, the oxygen HUD, the music controller, the suit ambience and seventeen other places. Changing what "mid phase 6" meant required finding all of them. This commit made it one constant and touched twenty-four files to do it.</p></div>
+    <div class="ap-cmt"><u>22e69af</u><b>refactor(phase): clarify phase 6 presentation stages</b><s>3 Apr &middot; +144 / &minus;98 &middot; 8 files</s>
+      <p>Same afternoon. This is the one that introduced <code>Phase6Stage</code>, so the question stopped being "is progress above 0.72" and started being "which stage are we in". Twenty-four lines added to PhaseManager, and they paid for themselves within a week.</p></div>
+  </div>
+  <p class="ap-p">Two commits, one day, no new behaviour at all. If you played the mod before and after, nothing changed. It is still the most useful thing I did to this system after the first week, and it is the kind of work that leaves no trace in a changelog.</p>
+
+  <div class="ap-h3">And then the silence</div>
+  <p class="ap-p">Forty-one days with no commits, starting five days after the chunk loader's rewrite. I would like to say it was a planned break. It was not. I had just spent a week rewriting two thirds of the hardest file in the project because the first version stalled the server, it was finally correct, and I could not make myself open the editor again.</p>
+  <p class="ap-p">The thing that eventually brought me back was a bug report about snow floating where a tree used to be. Not a grand plan, not a new feature. A one file fix, 136 lines, in the same class I had walked away from.</p>
+  <p class="ap-pull">The mod is about a world that keeps getting colder whether or not anyone is there to watch. I did not notice until I read my own commit history back that I had built the system that handles exactly that, and then tested it on myself.</p>
+</section>
+
+              </div>
+            </div>
+
+            <div class="ap-dbot">
+              <div class="ap-dsteps">
+                <button type="button" class="ap-dstep prev" disabled></button>
+                <button type="button" class="ap-dstep next"></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <button class="ap-replay" id="apReplay">REPLAY INTRO</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var frame = document.getElementById('apFrame');
+  if (!frame) return;
+  var doc   = frame.querySelector('.ap-doc');
+  var title = frame.querySelector('.ap-title');
+  var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function arr(n, root){ return [].slice.call((root || document).querySelectorAll(n)); }
+
+  /* ---------------- typed title ---------------- */
+  function measureTitle(){
+    var cs = getComputedStyle(title);
+    var probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:'
+      + cs.font + ';letter-spacing:' + cs.letterSpacing;
+    probe.textContent = title.textContent;
+    document.body.appendChild(probe);
+    title.style.setProperty('--tw', (probe.offsetWidth + 2) + 'px');
+    probe.remove();
+  }
+  measureTitle();
+  title.addEventListener('animationend', function(e){
+    if (e.animationName === 'apType'){ title.style.width = 'auto'; title.style.overflow = 'visible'; }
+  });
+  frame.addEventListener('animationend', function(e){
+    if (e.animationName === 'apUp') frame.classList.add('done');
+  });
+  setTimeout(function(){ frame.classList.add('done'); }, 3200);
+  window.addEventListener('resize', function(){ measureTitle(); });
+  document.getElementById('apReplay').onclick = function(){
+    title.style.width = ''; title.style.overflow = ''; measureTitle();
+    frame.classList.remove('done');
+    frame.classList.remove('play'); void frame.offsetWidth; frame.classList.add('play');
+    doc.scrollTop = 0;
+  };
+
+  /* ================= the scrubber ================= */
+  /* straight port of PhaseManager.java */
+  var BOUNDS = [0, 0.05, 0.12, 0.22, 0.34, 0.46, 0.60, 1.00];
+  var SUN    = [1.0, 0.35, 0.12, 0.06, 0.04, 0.03, 0.02, 0.0];
+  var TEMP   = [0,   0,    -10,  -25,  -45,  -70,  -120, -273];
+  var BRI    = [1.0, 1.0,  0.9,  0.7,  0.45, 0.2,  0.05, 0.0];
+  var SKYL   = [1.0, 1.0,  1.0,  0.85, 0.6,  0.3,  0.05, 0.01];
+  var DAYL   = [1.0, 1.0,  0.95, 0.8,  0.6,  0.4,  0.2,  0.0];
+  /* SkyRenderer.PHASE_COLORS, lifted to the same eight stops */
+  var SKYC   = [[0.45,0.62,0.86],[0.45,0.62,0.86],[0.85,0.55,0.35],[0.60,0.62,0.65],
+                [0.25,0.35,0.55],[0.15,0.12,0.35],[0.05,0.03,0.10],[0.0,0.0,0.02]];
+  var NAMES  = ['Normal','Twilight','Cooling','The Long Night','Deep Freeze',
+                'Eternal Winter','Atmospheric Collapse'];
+  var NOTES  = [
+    'Vanilla Minecraft. Nothing is happening yet, and that is the point: the opening stretch exists so the first change has something to be a change from.',
+    '<b>The sun visibly shrinks.</b> It loses two thirds of its size inside this one phase, faster than anywhere else in the run. Rain becomes frequent. Last clear look at the sky.',
+    '<b>The cold becomes real.</b> Water freezes, grass and farmland die back, snow starts to settle. This is the first phase the block freezer runs at all.',
+    '<b>The first survival wall.</b> Permanent storms, fog closing in, lava beginning to cool. The freezer now runs twice as many checks per tick.',
+    '<b>The surface turns lethal.</b> Obsidian freezes, coal ore crystallizes, magma goes out. Near darkness, five times the checks. Underground stops being optional.',
+    '<b>Endgame cold.</b> Permanent midnight and blizzard whiteout. Clouds and celestial bodies stop rendering entirely, and unsheltered heat sources lose forty percent of their radius.',
+    '<b>Atmospheric collapse.</b> The last forty percent of the world, and the only phase with stages of its own.'
+  ];
+  var P6 = [
+    '<b>Phase 6, early.</b> Extreme blizzard, worse than phase 5. The last thing that still behaves like weather.',
+    '<b>Phase 6, mid.</b> The atmosphere thins. Wind dies, fog lifts, and visibility comes back for the first time since phase 3. Stars fade in on a black sky.',
+    '<b>Phase 6, vacuum.</b> No sound on the surface. Ice sublimates instead of melting. Breathing fails outside a sealed room. Frozen atmosphere begins settling out as a block.'
+  ];
+
+  function interp(v, p){
+    for (var i = 1; i < BOUNDS.length; i++){
+      if (p <= BOUNDS[i]){
+        var a = BOUNDS[i-1], b = BOUNDS[i];
+        var t = (p - a) / (b - a);
+        return v[i-1] + (v[i] - v[i-1]) * t;
+      }
+    }
+    return v[v.length-1];
+  }
+  function interpC(p){
+    for (var i = 1; i < BOUNDS.length; i++){
+      if (p <= BOUNDS[i]){
+        var a = BOUNDS[i-1], b = BOUNDS[i], t = (p - a) / (b - a), o = [];
+        for (var k = 0; k < 3; k++) o[k] = SKYC[i-1][k] + (SKYC[i][k] - SKYC[i-1][k]) * t;
+        return o;
+      }
+    }
+    return SKYC[7];
+  }
+  /* phase windows are half open, [start, end), so the marker at 0.12 reads as phase 2 */
+  function phaseOf(p){
+    for (var i = 1; i < BOUNDS.length; i++) if (p < BOUNDS[i]) return i - 1;
+    return 6;
+  }
+  /* getFalseCalmRebound: +3C max within 3% of a boundary */
+  function rebound(p){
+    var R = 0.03;
+    for (var i = 1; i < BOUNDS.length - 1; i++){
+      var d = Math.abs(p - BOUNDS[i]);
+      if (d < R) return 3.0 * (1.0 - d / R);
+    }
+    return 0;
+  }
+  function clamp(v, a, b){ return v < a ? a : v > b ? b : v; }
+  function ramp(v, a, b){ return clamp((v - a) / (b - a), 0, 1); }
+  function rgb(c){ return 'rgb(' + Math.round(c[0]*255) + ',' + Math.round(c[1]*255) + ',' + Math.round(c[2]*255) + ')'; }
+
+  var scrub = document.getElementById('apScrub');
+  if (scrub){
+    var sky = document.getElementById('apSky'), disc = document.getElementById('apDisc'),
+        core = disc.querySelector('i'), stars = document.getElementById('apStars'),
+        snow = document.getElementById('apSnow'), white = document.getElementById('apWhite'),
+        gust = document.getElementById('apGust'), flora = document.getElementById('apFlora'),
+        cap = document.getElementById('apCap'), vac = document.getElementById('apVac'),
+        track = document.getElementById('apTrack'), fill = document.getElementById('apFill'),
+        knob = document.getElementById('apKnob'), note = document.getElementById('apNote'),
+        pName = document.getElementById('apPName'), pNum = document.getElementById('apPNum'),
+        dayEl = document.getElementById('apDay'), progEl = document.getElementById('apProg'),
+        tempCell = document.getElementById('cTemp');
+
+    /* stars */
+    var sHtml = '';
+    for (var i = 0; i < 46; i++){
+      sHtml += '<i style="left:' + (Math.random()*100).toFixed(2) + '%;top:' + (Math.random()*72).toFixed(2)
+             + '%;opacity:' + (0.35 + Math.random()*0.65).toFixed(2) + '"></i>';
+    }
+    stars.innerHTML = sHtml;
+
+    /* snow: 26 flakes always, plus 22 more that only come out in the storm */
+    if (!RM){
+      var fHtml = '';
+      for (var j = 0; j < 48; j++){
+        fHtml += '<b class="' + (j < 26 ? '' : 'x') + '" style="left:'
+               + (Math.random()*100).toFixed(2) + '%;--d:'
+               + (2.0 + Math.random()*2.6).toFixed(2) + 's;animation-delay:-'
+               + (Math.random()*4).toFixed(2) + 's"></b>';
+      }
+      snow.innerHTML = fHtml;
+
+      var gHtml = '';
+      for (var g = 0; g < 24; g++){
+        gHtml += '<i style="top:' + (4 + Math.random()*86).toFixed(1) + '%;width:'
+               + (70 + Math.random()*150).toFixed(0) + 'px;opacity:'
+               + (0.22 + Math.random()*0.5).toFixed(2) + ';animation-duration:'
+               + (0.45 + Math.random()*0.8).toFixed(2) + 's;animation-delay:-'
+               + (Math.random()*1.4).toFixed(2) + 's"></i>';
+      }
+      gust.innerHTML = gHtml;
+    }
+
+    /* flora. the mod clears trees in its own catch-up pass, so the band gets the
+       same three silhouettes: conifer, deciduous, grass */
+    var PINE = '<path class="bk" d="M10.7 54H13.3V42H10.7Z"/>'
+             + '<path class="lf" d="M12 25L23 46H1ZM12 13L20.2 32H3.8ZM12 2L17.8 18H6.2Z"/>';
+    var DECI = '<path class="bk" d="M13.8 50H16.2V30L21.4 23.4L19.9 22.2L16.2 26.9V18H13.8'
+             + 'V28.3L9.8 23.3L8.3 24.5L13.8 31.4Z"/>'
+             + '<ellipse class="lf" cx="15" cy="15" rx="12.5" ry="10.5"/>';
+    var GRSS = '<path class="lf" d="M7 20C6.6 13.6 5 8 2 3.4L4.2 2C7.2 7 8.8 13.2 9.2 20Z'
+             + 'M12 20C12 13 12.8 7 14.6 2L17 2.8C15.3 7.4 14.5 13.1 14.5 20Z'
+             + 'M17.6 20C18.6 14.4 20.2 9.7 22.6 6L24.6 7.4C22.4 10.8 20.9 15.1 20 20Z"/>';
+    var SHAPE = { pn:[PINE,24,54], dc:[DECI,30,50], gr:[GRSS,24,20] };
+    var PLANTS = [['pn',3,.92],['gr',9,1],['dc',15,.86],['gr',21,.8],['pn',27,1.12],
+                  ['gr',34,.9],['dc',43,1],['gr',51,.85],['pn',59,.8],['gr',66,1.05],
+                  ['dc',74,1.14],['gr',82,.9],['pn',88,.98],['gr',95,.8]];
+    /* the band is a third as wide on a phone, so six of the fourteen sit out */
+    var THIN = { 1:1, 3:1, 5:1, 7:1, 10:1, 12:1 };
+    var flHtml = '';
+    PLANTS.forEach(function(pl, i){
+      var sp = SHAPE[pl[0]];
+      flHtml += '<svg class="' + pl[0] + (THIN[i] ? ' m' : '') + '" width="' + sp[1] + '" height="' + sp[2]
+             + '" viewBox="0 0 ' + sp[1] + ' ' + sp[2] + '" style="left:' + pl[1]
+             + '%;--s:' + pl[2] + '">' + sp[0] + '</svg>';
+    });
+    flora.innerHTML = flHtml;
+
+    /* phase markers */
+    for (var m = 0; m < 7; m++){
+      var el = document.createElement('div');
+      el.className = 'ap-mark';
+      el.style.left = (BOUNDS[m] * 100) + '%';
+      el.innerHTML = '<b data-p="' + BOUNDS[m] + '" title="Phase ' + m + ', ' + NAMES[m] + '"></b>';
+      track.appendChild(el);
+    }
+
+    var P = 0;
+    function fmt(v, d){ return v.toFixed(d); }
+    function bar(id, frac){ document.getElementById(id).style.width = (clamp(frac,0,1)*100).toFixed(1) + '%'; }
+
+    function render(p){
+      P = clamp(p, 0, 1);
+      var ph = phaseOf(P);
+      var sunS = interp(SUN, P), bri = interp(BRI, P), skl = interp(SKYL, P), dyl = interp(DAYL, P);
+      var reb = rebound(P), temp = interp(TEMP, P) + reb;
+
+      /* sky */
+      sky.style.background = rgb(interpC(P));
+
+      /* sun: the mixin scales the sprite, it never dims it, so the disc stays
+         bright as it shrinks and only goes out when the air stops scattering */
+      var px = Math.max(3, 96 * sunS);
+      disc.style.width = px + 'px'; disc.style.height = px + 'px';
+      disc.style.opacity = sunS < 0.002 ? '0' : '1';
+      var lit = clamp(0.38 + skl * 0.62, 0, 1);
+      core.style.opacity = lit.toFixed(3);
+      core.style.boxShadow = '0 0 ' + Math.max(16, px * 0.42).toFixed(1) + 'px '
+                           + Math.max(3, px * 0.12).toFixed(1)
+                           + 'px rgba(255,210,87,' + (0.62 * lit).toFixed(3) + ')';
+
+      /* snow, fog and ice pack are lit surfaces, so none of them can be brighter
+         than the sky lighting them, and by phase 5 the sky is nearly out */
+      function lightBy(r, g, b, floor){
+        var k = floor + skl * (1 - floor);
+        return 'rgb(' + Math.round(r*k) + ',' + Math.round(g*k) + ',' + Math.round(b*k) + ')';
+      }
+
+      /* snowfall: begins phase 2, peaks by phase 5, dies as the atmosphere thins */
+      var snowI = Math.min(ramp(P, 0.12, 0.46), 1 - ramp(P, 0.72, 0.85));
+      if (!RM){
+        if (snowI < 0.02){ snow.style.display = 'none'; }
+        else {
+          snow.style.display = '';
+          snow.style.opacity = (0.25 + snowI * 0.75).toFixed(3);
+          snow.style.setProperty('--flake', lightBy(233, 243, 255, 0.22));
+        }
+      }
+      cap.style.height = (16 * ramp(P, 0.12, 0.46)).toFixed(1) + 'px';
+      cap.style.setProperty('--pack', lightBy(230, 238, 246, 0.14));
+
+      /* flora dies in order: colour first, then the canopy comes off, then the
+         whole thing wilts and goes under the pack */
+      function mix3(a, b, c, t, u, floor){
+        var o = [];
+        for (var i = 0; i < 3; i++){
+          var m = a[i] + (b[i] - a[i]) * t;
+          o[i] = m + (c[i] - m) * u;
+        }
+        return lightBy(o[0], o[1], o[2], floor);
+      }
+      var ft = ramp(P, 0.02, 0.24), fu = ramp(P, 0.20, 0.46);
+      flora.style.setProperty('--leaf', mix3([86,138,64], [122,84,40], [92,86,74], ft, fu, 0.30));
+      flora.style.setProperty('--bark', mix3([74,58,40], [80,66,50], [88,86,82], ft, fu, 0.26));
+      flora.style.setProperty('--lf', (1 - ramp(P, 0.10, 0.34)).toFixed(3));
+      flora.style.transform = 'translateY(' + (ramp(P, 0.34, 0.62) * 26).toFixed(1)
+                            + 'px) scaleY(' + (1 - 0.44 * ramp(P, 0.16, 0.46)).toFixed(3) + ')';
+      flora.style.opacity = (1 - ramp(P, 0.54, 0.68)).toFixed(3);
+
+      /* the storm itself. isBlizzardActive is phase 5 plus phase 6 early, so that
+         is exactly where the snow goes sideways, and it drops off in phase 6 mid */
+      var bliz = Math.min(ramp(P, 0.44, 0.53), 1 - ramp(P, 0.72, 0.85));
+      if (!RM){
+        snow.classList.toggle('bliz', bliz > 0.05);
+        snow.style.setProperty('--dx', (14 + bliz * 560).toFixed(0) + 'px');
+        snow.style.setProperty('--spd', (1 - bliz * 0.66).toFixed(3));
+        snow.style.setProperty('--fw', (2.5 + bliz * 9).toFixed(1) + 'px');
+        snow.style.setProperty('--fr', bliz > 0.3 ? '1.5px' : '50%');
+        gust.style.display = bliz < 0.02 ? 'none' : '';
+        gust.style.opacity = (bliz * 0.85).toFixed(3);
+        gust.style.setProperty('--flake', lightBy(233, 243, 255, 0.22));
+      }
+
+      /* blizzard whiteout: phase 5 and phase 6 early. it is fog, not paint, so it
+         darkens with the sky instead of staying white over a black world */
+      var wt = Math.min(ramp(P, 0.46, 0.60), 1 - ramp(P, 0.72, 0.85)) * 0.72;
+      white.style.opacity = wt.toFixed(3);
+      white.style.setProperty('--fog', lightBy(223, 233, 242, 0.12));
+
+      /* stars fade in across phase 6 mid */
+      stars.style.opacity = ramp(P, 0.72, 0.85).toFixed(3);
+      vac.style.opacity = ramp(P, 0.84, 0.87).toFixed(3);
+
+      /* readouts */
+      document.getElementById('rSun').innerHTML = fmt(sunS, 2) + '<u>&times;</u>';
+      document.getElementById('rTemp').innerHTML = fmt(temp, 1) + '<u>&deg;C</u>';
+      document.getElementById('rBri').textContent = fmt(bri, 2);
+      document.getElementById('rSky').textContent = fmt(skl, 2);
+      document.getElementById('rDay').textContent = fmt(dyl, 2);
+      var lbl = snowI < 0.02 ? (P >= 0.85 ? 'sublimating' : 'none')
+              : P >= 0.72 ? 'thinning'
+              : P >= 0.60 ? 'extreme'
+              : P >= 0.46 ? 'blizzard'
+              : snowI > 0.6 ? 'heavy' : snowI > 0.25 ? 'settling' : 'light';
+      document.getElementById('rSnow').textContent = lbl;
+      bar('bSun', sunS); bar('bTemp', Math.abs(temp) / 273); bar('bBri', bri);
+      bar('bSky', skl); bar('bDay', dyl); bar('bSnow', snowI);
+      tempCell.classList.toggle('hot', reb > 0.05);
+
+      /* labels */
+      pName.textContent = NAMES[ph];
+      pNum.textContent = 'Phase ' + ph + (ph === 6 ? (P >= 0.85 ? ' / vacuum' : P >= 0.72 ? ' / mid' : ' / early') : '');
+      dayEl.textContent = 'Day ' + Math.round(P * 100) + ' of 100';
+      progEl.textContent = 'progress ' + P.toFixed(3);
+      note.innerHTML = ph === 6 ? P6[P >= 0.85 ? 2 : P >= 0.72 ? 1 : 0] : NOTES[ph];
+
+      /* track */
+      fill.style.width = (P * 100) + '%';
+      knob.style.left = (P * 100) + '%';
+      track.setAttribute('aria-valuenow', Math.round(P * 100));
+      track.setAttribute('aria-valuetext', 'Day ' + Math.round(P*100) + ', phase ' + ph + ', ' + NAMES[ph]);
+    }
+
+    function fromX(clientX){
+      var r = track.getBoundingClientRect();
+      return clamp((clientX - r.left) / r.width, 0, 1);
+    }
+    var dragging = false;
+    track.addEventListener('pointerdown', function(e){
+      var hit = e.target.closest ? e.target.closest('.ap-mark b') : null;
+      if (hit){ render(parseFloat(hit.getAttribute('data-p'))); track.focus(); return; }
+      dragging = true;
+      render(fromX(e.clientX)); track.focus();
+      /* capture can throw if the pointer is already gone, and losing it must not
+         cost us the jump we just rendered */
+      try { track.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    track.addEventListener('pointermove', function(e){ if (dragging) render(fromX(e.clientX)); });
+    track.addEventListener('pointerup',   function(){ dragging = false; });
+    track.addEventListener('pointercancel', function(){ dragging = false; });
+    track.addEventListener('keydown', function(e){
+      var s = e.shiftKey ? 0.05 : 0.005, n = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowUp')   n = P + s;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') n = P - s;
+      else if (e.key === 'Home') n = 0;
+      else if (e.key === 'End')  n = 1;
+      else if (e.key === 'PageUp')   n = P + 0.1;
+      else if (e.key === 'PageDown') n = P - 0.1;
+      if (n === null) return;
+      e.preventDefault(); render(n);
+    });
+    render(0);
+  }
+
+  /* ================= chaptered deck ================= */
+  var GRIDS = ['.ap-stats > *', '.ap-figs > *', '.ap-bud > *', '.ap-pass > *',
+               '.ap-phs > *', '.ap-cmts > *', '.ap-read > *'];
+  function clearOn(el, cls){
+    function h(e){
+      if (e.target !== el) return;
+      el.classList.remove(cls);
+      el.style.animationDelay = '';
+      el.removeEventListener('animationend', h);
+      el.removeEventListener('animationcancel', h);
+    }
+    el.addEventListener('animationend', h);
+    el.addEventListener('animationcancel', h);
+  }
+  function stagger(root){
+    if (RM) return;
+    GRIDS.forEach(function(sel){
+      arr(sel, root).forEach(function(el, n){
+        if (n > 15) return;
+        el.style.animationDelay = (n * 0.045) + 's';
+        el.classList.remove('ap-pop'); void el.offsetWidth; el.classList.add('ap-pop');
+        clearOn(el, 'ap-pop');
+      });
+    });
+  }
+  function settle(root){
+    arr('.ap-pop', root).forEach(function(el){
+      el.classList.remove('ap-pop'); el.style.animationDelay = '';
+    });
+  }
+
+  var deck = document.getElementById('apDeck');
+  if (deck){
+    var panes  = arr('.ap-pane', deck);
+    var strips = arr('.ap-dstrip', deck);
+    var stage  = deck.querySelector('.ap-dstage');
+    var bPrev  = deck.querySelector('.ap-dstep.prev');
+    var bNext  = deck.querySelector('.ap-dstep.next');
+    var cur = 0, morphT = 0;
+
+    function tabs(s){ return s.querySelectorAll('.ap-dtab'); }
+
+    /* five tabs will not fit a phone at full length, so swap in the short
+       labels below 640px and put them back when there is room again */
+    var NARROW = window.matchMedia('(max-width:640px)');
+    strips.forEach(function(s){
+      tabs(s).forEach(function(b){
+        var n = b.lastChild;
+        if (n && n.nodeType === 3) b.setAttribute('data-long', n.nodeValue);
+      });
+    });
+    function fitTabs(){
+      var short = NARROW.matches;
+      strips.forEach(function(s){
+        tabs(s).forEach(function(b){
+          var n = b.lastChild; if (!n || n.nodeType !== 3) return;
+          var want = short ? (b.getAttribute('data-short') || b.getAttribute('data-long'))
+                           : b.getAttribute('data-long');
+          if (want && n.nodeValue !== want) n.nodeValue = want;
+        });
+      });
+    }
+
+    function ink(){
+      strips.forEach(function(s){
+        var bar = s.querySelector('.ap-dink'), t = tabs(s)[cur];
+        if (!bar || !t) return;
+        bar.style.width = t.offsetWidth + 'px';
+        bar.style.transform = 'translate3d(' + t.offsetLeft + 'px,0,0)';
+      });
+    }
+    function centre(){
+      strips.forEach(function(s){
+        var t = tabs(s)[cur]; if (!t) return;
+        var want = t.offsetLeft - (s.clientWidth - t.offsetWidth) / 2;
+        want = Math.max(0, Math.min(want, s.scrollWidth - s.clientWidth));
+        if (s.scrollTo) s.scrollTo({ left: want, behavior: RM ? 'auto' : 'smooth' });
+        else s.scrollLeft = want;
+      });
+    }
+    function fullName(i){
+      var t = tabs(strips[0])[i];
+      return t ? (t.getAttribute('data-full') || t.textContent.trim()) : '';
+    }
+    function step(btn, i, kicker){
+      if (!btn) return;
+      if (i < 0 || i >= panes.length){ btn.disabled = true; btn.innerHTML = ''; return; }
+      btn.disabled = false;
+      btn.innerHTML = '<em>' + kicker + '</em><b>' + fullName(i) + '</b>';
+    }
+    function deckTop(){
+      var a = deck.getBoundingClientRect(), b = doc.getBoundingClientRect();
+      return doc.scrollTop + (a.top - b.top);
+    }
+
+    function go(i, snap){
+      i = Math.max(0, Math.min(panes.length - 1, i));
+      if (i === cur) return;
+      var back = i < cur;
+      var from = stage.offsetHeight;
+      settle(panes[cur]);
+      panes[cur].classList.remove('on', 'enter', 'rev');
+      cur = i;
+      panes[cur].classList.add('on');
+      strips.forEach(function(s){
+        var ts = tabs(s);
+        for (var n = 0; n < ts.length; n++){
+          ts[n].classList.toggle('on', n === cur);
+          ts[n].setAttribute('aria-selected', n === cur ? 'true' : 'false');
+          ts[n].setAttribute('tabindex', n === cur ? '0' : '-1');
+        }
+      });
+      ink(); centre();
+      step(bPrev, cur - 1, 'Back to');
+      step(bNext, cur + 1, 'Next');
+      stagger(panes[cur]);
+      arr('.ap-figs b', panes[cur]).forEach(countUp);
+      if (!RM){
+        panes[cur].classList.add('enter');
+        if (back) panes[cur].classList.add('rev');
+        clearOn(panes[cur], 'enter');
+        clearOn(panes[cur], 'rev');
+      }
+      var to = stage.offsetHeight;
+      if (!RM && from && to && from !== to){
+        clearTimeout(morphT);
+        stage.classList.remove('morph');
+        stage.style.height = from + 'px';
+        void stage.offsetHeight;
+        stage.classList.add('morph');
+        stage.style.height = to + 'px';
+        morphT = setTimeout(function(){
+          stage.classList.remove('morph');
+          stage.style.height = '';
+        }, 470);
+      }
+      if (snap){
+        var want = Math.max(0, deckTop() - 6);
+        if (doc.scrollTo) doc.scrollTo({ top: want, behavior: RM ? 'auto' : 'smooth' });
+        else doc.scrollTop = want;
+      }
+    }
+
+    strips.forEach(function(s){
+      s.addEventListener('click', function(e){
+        var t = e.target.closest ? e.target.closest('.ap-dtab') : null;
+        if (!t) return;
+        go(+t.getAttribute('data-i'), false);
+      });
+      s.addEventListener('keydown', function(e){
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        go(cur + (e.key === 'ArrowRight' ? 1 : -1), false);
+        var t = tabs(s)[cur]; if (t) t.focus();
+      });
+    });
+    if (bPrev) bPrev.addEventListener('click', function(){ go(cur - 1, true); });
+    if (bNext) bNext.addEventListener('click', function(){ go(cur + 1, true); });
+    step(bPrev, -1, 'Back to');
+    step(bNext, 1, 'Next');
+    fitTabs();
+    requestAnimationFrame(function(){ ink(); });
+    window.addEventListener('resize', function(){ fitTabs(); ink(); });
+    if (NARROW.addEventListener) NARROW.addEventListener('change', function(){ fitTabs(); ink(); });
+    else if (NARROW.addListener) NARROW.addListener(function(){ fitTabs(); ink(); });
+  }
+
+  /* ================= count up + scroll reveal ================= */
+  function countUp(el){
+    if (RM || el.dataset.counted) return;
+    var m = el.textContent.trim().match(/^([\d,]+)(.*)$/);
+    if (!m) return;
+    var target = parseInt(m[1].replace(/,/g, ''), 10), suf = m[2];
+    if (!(target > 0)) return;
+    el.dataset.counted = '1';
+    var t0 = 0;
+    el.textContent = '0' + suf;
+    requestAnimationFrame(function run(t){
+      if (!t0) t0 = t;
+      var k = Math.min((t - t0) / 900, 1), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e).toLocaleString('en-US') + suf;
+      if (k < 1) requestAnimationFrame(run);
+    });
+  }
+
+  var rest = frame.querySelector('.ap-rest');
+  var pub = [], deckIdx = 0;
+  if (rest){
+    for (var n = 0; n < rest.children.length; n++){
+      var k = rest.children[n];
+      if (k === deck) break;
+      pub.push(k);
+    }
+  }
+  deckIdx = pub.length;
+  if (deck) pub.push(deck);
+
+  function land(el){
+    if (el.classList.contains('ap-rv')){
+      el.classList.add('in');
+      el.addEventListener('animationend', function h(){
+        el.classList.remove('in'); el.classList.add('set');
+        el.removeEventListener('animationend', h);
+      });
+    }
+    if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+    if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    stagger(el);
+  }
+  function revealAll(){ pub.forEach(function(el){ el.classList.remove('ap-rv'); el.classList.add('set'); }); }
+  function arm(){
+    if (RM || !window.IntersectionObserver){ revealAll(); return; }
+    pub.forEach(function(el, i){ if (i !== deckIdx) el.classList.add('ap-rv'); });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        land(e.target);
+      });
+    }, { root: doc, rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
+    pub.forEach(function(el){ io.observe(el); });
+  }
+  if (frame.classList.contains('done')) arm();
+  else if (window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      if (frame.classList.contains('done')){ mo.disconnect(); arm(); }
+    });
+    mo.observe(frame, { attributes: true, attributeFilter: ['class'] });
+    setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 4000);
+  } else setTimeout(arm, 3000);
+})();
+</script>

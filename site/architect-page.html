@@ -1,0 +1,2014 @@
+<h2>The Architect page</h2>
+<p class="subtitle">Everything below is <strong>site content</strong>. My design notes stay in the terminal from here on. The eyes are the real 12 pixels from <code>architect.png</code>, at their real colors, blinking with the real values from <code>architect_blink.png</code>. Watch the frame load.</p>
+
+<style>
+.ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
+.ap-frame { position:relative; height:660px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
+
+/* ---------- the black ---------- */
+.ap-black { position:absolute; inset:0; background:#000; z-index:50; pointer-events:none; }
+.ap-frame.play .ap-black { animation: apBlack 4.4s linear forwards; }
+@keyframes apBlack { 0%,55.6% { opacity:1 } 70% { opacity:0 } 100% { opacity:0 } }
+
+/* ---------- the eyes : 12 real pixels ---------- */
+.ap-eyes { position:absolute; left:50%; top:43%; z-index:60; display:flex; gap:4px;
+           transform:translate(-50%,-50%) scale(6); opacity:0; pointer-events:none; }
+.ap-eye { display:block; }
+.ap-eye i { display:block; width:8px; height:4px; }
+.ap-eye .r0 { background:#008CB4; }
+.ap-eye .r1 { background:#00D2FF; }
+.ap-eye .r2 { background:#005064; }
+.ap-frame.play .ap-eyes { animation: apFade 4.4s linear forwards,
+                                     apTrip .95s cubic-bezier(.62,.02,.2,1) 2.45s forwards; }
+.ap-frame.play .ap-eye .r0 { animation: apR0 4.4s linear forwards; }
+.ap-frame.play .ap-eye .r1 { animation: apR1 4.4s linear forwards; }
+.ap-frame.play .ap-eye .r2 { animation: apR2 4.4s linear forwards; }
+
+@keyframes apFade {
+  0%      { opacity:0; filter:none }
+  11%     { opacity:0; filter:none }
+  28%     { opacity:1; filter:drop-shadow(0 0 6px #00d2ff40) }
+  46%     { opacity:1; filter:drop-shadow(0 0 6px #00d2ff40) }
+  49.5%   { opacity:1; filter:drop-shadow(0 0 26px #00d2ffcc) drop-shadow(0 0 60px #00d2ff70) }
+  52%     { opacity:1; filter:drop-shadow(0 0 26px #00d2ffcc) drop-shadow(0 0 60px #00d2ff70) }
+  60%     { opacity:1; filter:drop-shadow(0 0 8px #00d2ff55) }
+  100%    { opacity:1; filter:drop-shadow(0 0 4px #00d2ff44) }
+}
+@keyframes apTrip {
+  from { left:50%; top:43%; transform:translate(-50%,-50%) scale(6); }
+  to   { left:20px; top:17px; transform:translate(0,0) scale(1); }
+}
+/* real open / blink / flash values */
+@keyframes apR0 {
+  0%,35% { background:#008CB4 } 37%,40.5% { background:#0C0C16 } 42%,47% { background:#008CB4 }
+  49.5%,52% { background:#00D2FF } 60%,100% { background:#008CB4 }
+}
+@keyframes apR1 {
+  0%,35% { background:#00D2FF } 37%,40.5% { background:#007896 } 42%,47% { background:#00D2FF }
+  49.5%,100% { background:#00D2FF }
+}
+@keyframes apR2 {
+  0%,35% { background:#005064 } 37%,40.5% { background:#0C0C16 } 42%,47% { background:#005064 }
+  49.5%,52% { background:#00D2FF } 60%,100% { background:#005064 }
+}
+
+/* ---------- landed state: no animation or filter survives the intro ----------
+   a filter that stays on a live element is re-rasterised every time anything
+   else on the page repaints, which is what made the two canvases stutter. */
+.ap-frame.done .ap-black { display:none; }
+.ap-frame.done .ap-eyes,
+.ap-frame.done .ap-eye i,
+.ap-frame.done .ap-head,
+.ap-frame.done .ap-kick,
+.ap-frame.done .ap-title,
+.ap-frame.done .ap-rest { animation:none !important; }
+.ap-frame.done .ap-eyes { opacity:1; left:20px; top:17px; transform:none; filter:none; }
+.ap-frame.done .ap-eye { box-shadow:0 0 4px #00d2ff44; }
+.ap-frame.done .ap-eye .r0 { background:#008CB4; }
+.ap-frame.done .ap-eye .r1 { background:#00D2FF; }
+.ap-frame.done .ap-eye .r2 { background:#005064; }
+.ap-frame.done .ap-head,
+.ap-frame.done .ap-kick { opacity:1; }
+.ap-frame.done .ap-title { width:auto; overflow:visible; border-right-color:#00d2ff00; }
+.ap-frame.done .ap-rest { opacity:1; transform:none; }
+
+/* ---------- header ---------- */
+.ap-head { position:absolute; top:0; left:0; right:0; height:50px; z-index:40;
+           display:flex; align-items:center; gap:16px; padding:0 20px 0 52px;
+           background:#0b0e11; border-bottom:1px solid #1d232a; font-family:var(--sans);
+           font-size:12px; color:#79848d; opacity:0; }
+.ap-head strong { color:#f2f6f8; font-weight:700; letter-spacing:-.01em; font-size:13px; }
+.ap-head nav { margin-left:auto; display:flex; gap:16px; }
+.ap-head nav span { color:#79848d; }
+.ap-head nav span.on { color:#7dd3fc; }
+.ap-frame.play .ap-head { animation: apIn .5s ease-out 2.65s forwards; }
+@keyframes apIn { from { opacity:0 } to { opacity:1 } }
+
+/* ---------- scroll body ---------- */
+.ap-doc { position:absolute; inset:50px 0 0; overflow-y:auto; overflow-x:hidden; z-index:30; font-family:var(--sans); }
+.ap-doc::-webkit-scrollbar { width:9px }
+.ap-doc::-webkit-scrollbar-thumb { background:#222a33; border-radius:5px }
+.ap-inner { max-width:660px; margin:0 auto; padding:46px 30px 70px; }
+
+.ap-kick { font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+           color:#7dd3fc; opacity:0; }
+.ap-frame.play .ap-kick { animation: apIn .5s ease-out 3.0s forwards; }
+
+.ap-title { font-size:40px; font-weight:700; letter-spacing:-.03em; color:#f2f6f8; margin:8px 0 0;
+            white-space:nowrap; overflow:hidden; width:0; border-right:2px solid #7dd3fc00; }
+.ap-frame.play .ap-title { animation: apType .95s steps(15,end) 3.15s forwards,
+                                      apCaret .4s step-end 3.15s 6; }
+@keyframes apType { to { width:var(--tw,8.6em) } }
+@keyframes apCaret { 0%,50% { border-right-color:#7dd3fc } 51%,100% { border-right-color:#7dd3fc00 } }
+
+.ap-rest { opacity:0; }
+.ap-frame.play .ap-rest { animation: apUp .7s cubic-bezier(.2,.6,.3,1) 4.0s forwards; }
+@keyframes apUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
+
+.ap-stand { font-size:16.5px; line-height:1.62; color:#b3bdc5; margin:16px 0 0; }
+.ap-p { font-size:14.5px; line-height:1.72; color:#96a1aa; margin:0 0 15px; }
+.ap-p strong { color:#d4dade; font-weight:600; }
+.ap-h3 { font-size:12px; font-family:var(--mono); letter-spacing:.14em; text-transform:uppercase;
+         color:#6c7883; margin:44px 0 16px; padding-top:18px; border-top:1px solid #1a2027; }
+.ap-lede { font-size:20px; line-height:1.5; color:#d4dade; font-weight:500; letter-spacing:-.01em;
+           margin:0 0 22px; }
+
+/* seven actions */
+.ap-acts { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#1a2027;
+           border:1px solid #1a2027; border-radius:8px; overflow:hidden; margin-bottom:8px; }
+.ap-act { background:#12171d; padding:13px 15px; }
+.ap-act b { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+            color:#7dd3fc; margin-bottom:5px; }
+.ap-act span { font-size:12.5px; line-height:1.55; color:#8d98a1; }
+.ap-act.wide { grid-column:1/-1; }
+
+/* pull quote */
+.ap-pull { border-left:2px solid #2c688a; padding:2px 0 2px 16px; margin:22px 0;
+           font-size:15.5px; line-height:1.6; color:#b3bdc5; }
+
+
+/* sim */
+.ap-sim { background:#0d1116; border:1px solid #1c242e; border-radius:8px; overflow:hidden; }
+.ap-scn { display:flex; flex-wrap:wrap; gap:6px; padding:14px; border-bottom:1px solid #1c242e; }
+.ap-scn button { font-family:var(--sans); font-size:11.5px; padding:6px 11px; border-radius:20px;
+                 background:#151b22; border:1px solid #242e39; color:#98a3ad; cursor:pointer; }
+.ap-scn button.on { background:#16262f; border-color:#2c688a; color:#7dd3fc; }
+.ap-out { padding:12px 16px 16px; }
+.ap-row { display:flex; align-items:center; gap:10px; margin-bottom:6px;
+          font-family:var(--mono); font-size:11px; color:#7e8a96; }
+.ap-row > span:first-child { width:94px; flex-shrink:0; }
+.ap-row.win > span:first-child { color:#ffb454; }
+.ap-row.zero > span:first-child { color:#4a545e; }
+.ap-meter { flex:1; height:6px; border-radius:3px; background:#151b22; overflow:hidden; }
+.ap-fill { height:100%; display:block; background:#38434e; transition:width .35s cubic-bezier(.3,.7,.3,1); }
+.ap-fill.on { background:#ffb454; box-shadow:0 0 7px #ffb45455; }
+.ap-num { width:40px; text-align:right; flex-shrink:0; font-size:10.5px; color:#5f6b76; }
+.ap-row.win .ap-num { color:#ffb454; }
+.ap-why { padding:0 16px 15px; font-size:12.5px; line-height:1.6; color:#8d98a1; }
+.ap-why b { color:#ffb454; font-weight:600; font-family:var(--mono); font-size:11px; }
+
+/* replay */
+.ap-replay { position:absolute; right:12px; bottom:12px; z-index:70; font-family:var(--mono);
+             font-size:10px; letter-spacing:.1em; padding:6px 12px; border-radius:5px;
+             background:#141a21d9; border:1px solid #252e38; color:#8d98a1; cursor:pointer; }
+.ap-replay:hover { color:#7dd3fc; border-color:#2c688a; }
+
+/* running arena */
+.ap-arena { position:relative; background:#0a0d11; border-bottom:1px solid #1c242e; }
+.ap-arena canvas { display:block; width:100%; aspect-ratio:2/1; touch-action:none;
+                   cursor:grab; user-select:none; }
+.ap-arena canvas:active { cursor:grabbing; }
+.ap-hint { position:absolute; left:11px; bottom:9px; font-family:var(--mono); font-size:9.5px;
+           letter-spacing:.11em; text-transform:uppercase; color:#5c6874; pointer-events:none;
+           transition:opacity .6s ease; }
+.ap-hint.gone { opacity:0; }
+.ap-hud { display:flex; flex-wrap:wrap; gap:3px 18px; padding:9px 15px;
+          border-bottom:1px solid #1c242e; font-family:var(--mono); font-size:10px;
+          letter-spacing:.08em; text-transform:uppercase; color:#5c6874; }
+.ap-hud b { color:#7dd3fc; font-weight:600; }
+.ap-btns { display:flex; gap:8px; padding:12px 15px 0; }
+.ap-btns button { flex:1; min-height:38px; font-family:var(--mono); font-size:10.5px;
+                  letter-spacing:.11em; border-radius:6px; background:#151b22;
+                  border:1px solid #242e39; color:#98a3ad; cursor:pointer; }
+.ap-btns button:hover { color:#7dd3fc; border-color:#2c688a; }
+.ap-btns button:active { background:#19212a; }
+
+/* ---------- zombie comparison ---------- */
+.ap-vs { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#1c242e;
+         border:1px solid #1c242e; border-radius:8px; overflow:hidden; margin:20px 0 10px; }
+.ap-vs > div { background:#12171d; padding:15px 16px 16px; }
+.ap-vs h4 { margin:0 0 13px; font-family:var(--mono); font-size:9.5px; letter-spacing:.15em;
+            text-transform:uppercase; color:#5f6b75; font-weight:600; }
+.ap-vs ol { margin:0; padding:0; list-style:none; counter-reset:v; }
+.ap-vs li { font-family:var(--mono); font-size:11px; color:#8d98a1; padding:5px 0 5px 18px;
+            position:relative; line-height:1.45; }
+.ap-vs li:before { counter-increment:v; content:counter(v); position:absolute; left:0; top:5px;
+                   font-size:9px; color:#46515b; }
+.ap-vsb { display:flex; align-items:center; gap:8px; margin-bottom:4px;
+          font-family:var(--mono); font-size:10px; color:#7e8a96; }
+.ap-vsb > span { width:62px; flex-shrink:0; letter-spacing:.04em; }
+.ap-vsb > i { flex:1; height:4px; border-radius:2px; background:#1b2128; position:relative; }
+.ap-vsb > i > b { position:absolute; left:0; top:0; bottom:0; border-radius:2px; background:#39444f; }
+.ap-vsf { margin-top:12px; padding-top:11px; border-top:1px solid #1a212a;
+          font-size:11.5px; line-height:1.5; color:#6c7883; }
+.ap-vsf b { color:#96a1aa; font-weight:600; }
+
+/* ---------- evolution rail ---------- */
+.ap-evo { position:relative; margin:20px 0 12px; padding-left:24px; }
+.ap-evo:before { content:""; position:absolute; left:4px; top:9px; bottom:10px; width:1px; background:#212831; }
+.ap-ev { position:relative; padding-bottom:21px; }
+.ap-ev:last-child { padding-bottom:0; }
+.ap-ev:before { content:""; position:absolute; left:-24px; top:5px; width:9px; height:9px;
+                border-radius:50%; background:#2c688a; }
+.ap-ev.key:before { background:#7dd3fc; box-shadow:0 0 8px #7dd3fc55; }
+.ap-evd { font-family:var(--mono); font-size:9.5px; letter-spacing:.11em; text-transform:uppercase;
+          color:#5f6b75; }
+.ap-evh { font-size:14.5px; font-weight:600; color:#e6ecf0; letter-spacing:-.012em; margin:4px 0 6px; }
+.ap-evp { font-size:12.5px; line-height:1.62; color:#8d98a1; margin:0; }
+.ap-evp code { font-family:var(--mono); font-size:11px; color:#7c8891; }
+.ap-evp em { font-style:normal; color:#b9c3cb; }
+
+/* ---------- what it got wrong ---------- */
+.ap-bugs { display:grid; gap:1px; background:#1c242e; border:1px solid #1c242e;
+           border-radius:8px; overflow:hidden; margin:18px 0 12px; }
+.ap-bug { background:#12171d; padding:14px 16px 13px; }
+.ap-bug > b { display:block; font-size:13.5px; color:#e6ecf0; font-weight:600; margin-bottom:6px; }
+.ap-bug > p { margin:0 0 9px; font-size:12.5px; line-height:1.58; color:#8d98a1; }
+.ap-bug > p strong { color:#c3ccd3; font-weight:600; }
+.ap-bug > span { display:block; font-family:var(--mono); font-size:10px; letter-spacing:.03em;
+                 color:#57626c; padding-left:13px; position:relative; line-height:1.5; }
+.ap-bug > span:before { content:""; position:absolute; left:0; top:6px; width:5px; height:5px;
+                        border-radius:50%; background:#2c688a; }
+
+/* ---------- breakout width ---------- */
+.ap { --bleed: clamp(0px, calc((100vw - 660px)/2 - 30px), 160px); }
+.ap-wide { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+
+/* ---------- stats band ---------- */
+.ap-stats { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#1b222b;
+            border-top:1px solid #1b222b; border-bottom:1px solid #1b222b;
+            margin-top:24px; margin-bottom:32px; }
+.ap-stats > div { background:#0f1216; padding:15px 4px 16px; text-align:center; }
+.ap-stats b { display:block; font-size:25px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+              font-variant-numeric:tabular-nums; line-height:1; }
+.ap-stats span { display:block; margin-top:7px; font-size:10.5px; line-height:1.4; color:#6c7883; }
+
+/* ---------- model render ---------- */
+.ap-model { position:relative; background:#090b0e; border:1px solid #191f27; border-radius:10px;
+            overflow:hidden; margin-top:20px; margin-bottom:14px; }
+.ap-model canvas { display:block; width:100%; aspect-ratio:16/7; touch-action:pan-y; cursor:grab; }
+.ap-model canvas:active { cursor:grabbing; }
+.ap-mtag { position:absolute; left:15px; bottom:12px; display:flex; gap:11px; align-items:baseline;
+           font-family:var(--mono); font-size:10px; letter-spacing:.05em; pointer-events:none; }
+.ap-mtag span { color:#5f6b75; }
+.ap-mtag em { font-style:normal; color:#414b55; }
+
+/* ---------- texture anatomy ---------- */
+.ap-anat { display:grid; grid-template-columns:148px 1fr; gap:15px; align-items:start; margin:0 0 14px; }
+.ap-anatc { background:#090b0e; border:1px solid #191f27; border-radius:8px; padding:9px 9px 0; }
+.ap-anatc canvas { display:block; width:100%; aspect-ratio:1/1; }
+.ap-anatc span { display:block; padding:8px 2px 9px; font-family:var(--mono); font-size:9px;
+                 line-height:1.45; color:#55616b; letter-spacing:.03em; }
+.ap-anatl { display:grid; gap:1px; background:#1c242e; border:1px solid #1c242e;
+            border-radius:8px; overflow:hidden; }
+.ap-anatl > div { background:#12171d; padding:12px 15px; display:flex; gap:13px; align-items:baseline; }
+.ap-anatl b { font-family:var(--mono); font-size:12.5px; color:#cfd7dd; font-weight:600;
+              width:76px; flex-shrink:0; }
+.ap-anatl > div > span { font-size:12px; line-height:1.5; color:#8d98a1; }
+
+/* narrow screens */
+
+/* ---------- on the workbench ---------- */
+.ap-wbrule { margin:46px 0 0; border-top:1px dashed #2a3340; }
+.ap-wbtop { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; margin:20px 0 4px; }
+.ap-wbtop h2 { margin:0; font-size:21px; font-weight:600; color:#f2f6f8; letter-spacing:-.02em; }
+.ap-wbflag { font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; text-transform:uppercase;
+             color:#8a96a1; border:1px dashed #35404c; border-radius:3px; padding:3px 8px 2.5px; }
+.ap-wbmeta { font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; color:#6c7883;
+             margin:0 0 16px; }
+.ap-wbmeta b { color:#8d99a3; font-weight:500; }
+
+.ap-wbsec { margin-top:38px; }
+.ap-wbsec:first-of-type { margin-top:30px; }
+
+/* live pose readout */
+.ap-pose { margin:20px 0 14px; }
+.ap-pose .ap-model { margin:0 0 1px; border-radius:10px 10px 0 0; }
+.ap-posebar { background:#0d1116; border:1px solid #191f27; border-top:0; border-radius:0 0 10px 10px;
+              padding:13px 15px 14px; }
+.ap-ptrack { position:relative; height:6px; border-radius:3px; background:#151b22; overflow:hidden; }
+.ap-pfill { position:absolute; left:0; top:0; bottom:0; width:0; background:#2c688a; border-radius:3px; }
+.ap-pmarks { position:relative; height:15px; margin-top:3px; }
+.ap-pmark { position:absolute; top:0; transform:translateX(-50%); font-family:var(--mono);
+            font-size:9px; letter-spacing:.06em; color:#5d6b7a; white-space:nowrap; }
+.ap-pmark:before { content:""; position:absolute; left:50%; top:-6px; width:1px; height:4px;
+                   background:#2f3944; }
+.ap-prow { display:flex; gap:14px; flex-wrap:wrap; align-items:baseline; margin-top:12px;
+           font-family:var(--mono); font-size:10.5px; color:#6c7883; letter-spacing:.03em; }
+.ap-prow i { font-style:normal; color:#8d99a3; }
+.ap-pst { color:#7dd3fc; }
+.ap-pst.off { color:#5d6b7a; }
+
+/* reason grid */
+.ap-rsn { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#1c242e;
+          border:1px solid #1c242e; border-radius:8px; overflow:hidden; margin:18px 0 8px; }
+.ap-rsn > div { background:#12171d; padding:11px 14px 12px; }
+.ap-rsn b { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.05em;
+            color:#9fb2c0; font-weight:500; margin-bottom:4px; }
+.ap-rsn span { display:block; font-size:12px; line-height:1.5; color:#818d97; }
+
+/* candidate trace */
+.ap-trace { margin:20px 0 8px; background:#0d1116; border:1px solid #1c242e; border-radius:8px;
+            overflow:hidden; }
+.ap-tscroll { overflow-x:auto; }
+.ap-ttab { width:100%; min-width:430px; border-collapse:collapse; font-family:var(--mono); font-size:10.5px; }
+.ap-ttab th { text-align:left; font-weight:500; letter-spacing:.12em; font-size:9px; color:#5d6b7a;
+              text-transform:uppercase; padding:10px 14px 8px; border-bottom:1px solid #1c242e; }
+.ap-ttab td { padding:7px 14px; color:#7e8a96; border-bottom:1px solid #141a21; white-space:nowrap; }
+.ap-ttab tr:last-child td { border-bottom:0; }
+.ap-ttab td:first-child { color:#9fb2c0; }
+.ap-ttab tr.sel td { color:#ffb454; background:#17140f; }
+.ap-ttab tr.skip td { color:#4f5a65; }
+.ap-tcap { padding:10px 14px 12px; font-size:11.5px; line-height:1.5; color:#78838d;
+           border-top:1px solid #1c242e; }
+
+/* lab numbers */
+.ap-labn { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#1b222b;
+           border:1px solid #1b222b; border-radius:8px; overflow:hidden; margin:20px 0 8px; }
+.ap-labn > div { background:#0f1216; padding:14px 6px 15px; text-align:center; }
+.ap-labn b { display:block; font-size:22px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+             font-variant-numeric:tabular-nums; line-height:1; }
+.ap-labn span { display:block; margin-top:6px; font-size:10.5px; line-height:1.4; color:#6c7883; }
+.ap-labn.res b { font-size:19px; }
+.ap-scen { display:flex; flex-wrap:wrap; gap:6px; margin:16px 0 8px; }
+.ap-scen span { font-family:var(--mono); font-size:10px; letter-spacing:.02em; padding:3px 8px 2.5px;
+                border-radius:3px; background:#141a21; color:#8996a1; border:1px solid #1f2833; }
+
+/* ================= chaptered deck ================= */
+.ap-deck { margin:44px 0 0; }
+
+.ap-dtop { position:sticky; top:0; z-index:8; background:#0f1216; padding:9px 0 0; }
+.ap-dtop:after { content:""; position:absolute; left:calc(-1 * var(--bleed)); right:calc(-1 * var(--bleed));
+  bottom:0; height:1px; background:#1c242e; }
+
+.ap-dtop .ap-dstrip { margin-left:calc(-1 * var(--bleed));
+  margin-right:calc(-1 * var(--bleed)); }
+.ap-dstrip { position:relative; display:flex; align-items:flex-end; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; }
+.ap-dstrip::-webkit-scrollbar { display:none; }
+
+.ap-dtab { position:relative; flex:0 0 auto; -webkit-appearance:none; appearance:none;
+  background:none; border:0; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:#7c8891; padding:9px 13px 11px; cursor:pointer;
+  white-space:nowrap; border-radius:5px 5px 0 0;
+  transition:color .28s ease, background .28s ease, transform .2s cubic-bezier(.2,.6,.3,1); }
+.ap-dtab:hover { color:#b8c3cb; background:#141920; }
+@media (min-width:641px) { .ap-dtab { padding-left:10px; padding-right:10px;
+  letter-spacing:.08em; } .ap-dtab i { margin-right:5px; } }
+.ap-dtab:active { transform:translateY(1px); }
+.ap-dtab.on { color:#7dd3fc; }
+.ap-dtab i { font-style:normal; opacity:.45; margin-right:7px; }
+
+.ap-dink { position:absolute; left:0; bottom:0; height:2px; width:0; background:#7dd3fc;
+  border-radius:2px 2px 0 0; pointer-events:none;
+  transition:transform .44s cubic-bezier(.22,.8,.28,1), width .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dsep { flex:0 0 auto; align-self:center; margin:0 2px 4px 10px; padding-left:12px;
+  border-left:1px dashed #2a3340; font-family:var(--mono); font-size:8.5px;
+  letter-spacing:.16em; text-transform:uppercase; color:#68737e; white-space:nowrap; }
+
+.ap-dstage { position:relative; }
+.ap-dstage.morph { overflow:hidden; transition:height .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dfence { display:none; padding-top:22px; }
+.ap-dfence.on { display:block; }
+.ap-dfence.on.pop { animation:apRise .5s cubic-bezier(.2,.65,.3,1) both; }
+
+.ap-dpanes { position:relative; }
+.ap-pane { display:none; }
+.ap-pane.on { display:block; }
+.ap-pane.enter { animation:apSlideL .42s cubic-bezier(.2,.65,.3,1) both; }
+.ap-pane.enter.rev { animation-name:apSlideR; }
+@keyframes apSlideL { from { opacity:0; transform:translate3d(20px,0,0); } to { opacity:1; transform:none; } }
+@keyframes apSlideR { from { opacity:0; transform:translate3d(-20px,0,0); } to { opacity:1; transform:none; } }
+
+.ap-dbot { margin-top:28px; padding-top:16px; border-top:1px solid #1c242e; }
+
+.ap-dsteps { display:flex; gap:10px; }
+.ap-dstep { flex:1 1 0; min-width:0; -webkit-appearance:none; appearance:none; text-align:left;
+  background:#12171d; border:1px solid #1c242e; border-radius:7px; padding:10px 14px 11px;
+  cursor:pointer; font-family:inherit;
+  transition:border-color .25s ease, background .25s ease, transform .2s cubic-bezier(.2,.6,.3,1); }
+.ap-dstep:hover:not([disabled]) { border-color:#2c3946; background:#161c23; }
+.ap-dstep:active:not([disabled]) { transform:scale(.985); }
+.ap-dstep[disabled] { opacity:.3; cursor:default; }
+.ap-dstep em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:#68737e; font-style:normal; margin-bottom:4px; }
+.ap-dstep b { display:block; font-size:12.5px; font-weight:600; color:#cbd5dc;
+  letter-spacing:-.01em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ap-dstep.next { text-align:right; }
+
+/* ---- the failures, one at a time ---- */
+.ap-bugsel { display:flex; flex-wrap:wrap; gap:6px; margin:18px 0 12px; }
+.ap-bchip { -webkit-appearance:none; appearance:none; background:#12171d; border:1px solid #1c242e;
+  border-radius:20px; font-family:var(--mono); font-size:10px; letter-spacing:.05em;
+  color:#8d98a1; padding:6px 12px 7px; cursor:pointer; white-space:nowrap;
+  transition:color .22s ease, border-color .22s ease, background .22s ease, transform .2s cubic-bezier(.2,.6,.3,1); }
+.ap-bchip:hover { color:#c3ccd3; border-color:#2c3946; }
+.ap-bchip.on { color:#0f1216; background:#7dd3fc; border-color:#7dd3fc; }
+.ap-bchip:active { transform:scale(.94); }
+.ap-bstage > .ap-bug { display:none; }
+.ap-bstage > .ap-bug.on { display:block; }
+.ap-bstage > .ap-bug.on.pop { animation:apRise .36s cubic-bezier(.2,.65,.3,1) both; }
+.ap-bcount { font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:#68737e; align-self:center; margin-left:2px; }
+
+/* ---- reveal on scroll ---- */
+.ap-rv { opacity:0; transform:translate3d(0,16px,0); }
+.ap-rv.in { animation:apRise .6s cubic-bezier(.2,.65,.3,1) both; }
+.ap-rv.set { opacity:1; transform:none; animation:none; }
+.ap-pop { animation:apRise .5s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes apRise { from { opacity:0; transform:translate3d(0,16px,0); } to { opacity:1; transform:none; } }
+
+.ap-vs .ap-vsb i b { transition:width .85s cubic-bezier(.22,.8,.28,1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-rv, .ap-rv.in { opacity:1 !important; transform:none !important; animation:none !important; }
+  .ap-pop, .ap-pane.enter, .ap-dfence.on.pop, .ap-bstage > .ap-bug.on.pop { animation:none !important; }
+  .ap-dink, .ap-dstage.morph, .ap-vs .ap-vsb i b { transition:none !important; }
+}
+@media (max-width:640px){
+  .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
+  .ap-dtab i { margin-right:5px; }
+  .ap-dsep { font-size:7.5px; letter-spacing:.12em; margin-left:6px; padding-left:9px; }
+  .ap-dsteps { gap:7px; }
+  .ap-dstep { padding:9px 11px 10px; }
+  .ap-dstep b { font-size:11.5px; }
+  .ap-bchip { font-size:9.5px; padding:5px 10px 6px; }
+  .ap-deck { margin-top:34px; }
+  .ap-wbtop h2 { font-size:19px; }
+  .ap-wbmeta { font-size:9.5px; line-height:1.65; }
+  .ap-rsn { grid-template-columns:1fr 1fr; } .ap-rsn b { font-size:9.5px; } .ap-rsn span { font-size:11px; }
+  .ap-labn { grid-template-columns:repeat(2,1fr); }
+  .ap-labn b { font-size:20px; }
+  .ap-labn.res b { font-size:17px; }
+  .ap-prow { gap:5px 12px; font-size:10px; }
+  .ap-pmark { font-size:8.5px; }
+  .ap-posebar { padding:11px 12px 12px; }
+  .ap-frame { height:76vh; min-height:520px; }
+  .ap-inner { padding:36px 17px 64px; }
+  .ap-head { padding:0 12px 0 44px; gap:10px; }
+  .ap-head > span { display:none; }
+  .ap-head nav { gap:13px; }
+  .ap-title { font-size:30px; }
+  .ap-lede { font-size:17.5px; }
+  .ap-stand { font-size:15px; }
+  .ap-p { font-size:14px; }
+  .ap-pull { font-size:14.5px; }
+  .ap-acts { grid-template-columns:1fr 1fr; }
+  .ap-act { padding:11px 12px; }
+  .ap-act b { font-size:9.5px; }
+  .ap-act span { font-size:11.5px; line-height:1.5; }
+  .ap-stats { grid-template-columns:repeat(3,1fr); }
+  .ap-stats b { font-size:21px; }
+  .ap-model canvas { aspect-ratio:5/4; }
+  .ap-anat { grid-template-columns:1fr; }
+  .ap-anatc { max-width:186px; }
+  .ap-vs { grid-template-columns:1fr; }
+  .ap-evo { padding-left:21px; }
+  .ap-ev:before { left:-21px; }
+  .ap-hud { font-size:9px; gap:3px 13px; padding:8px 12px; }
+  .ap-btns { padding:11px 12px 0; gap:7px; }
+  .ap-scn { padding:12px; }
+  .ap-scn button { font-size:11px; padding:8px 11px; }
+  .ap-out { padding:11px 12px 14px; }
+  .ap-row > span:first-child { width:72px; font-size:10px; }
+  .ap-num { width:34px; }
+  .ap-why { padding:0 12px 14px; font-size:12px; }
+  .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
+}
+</style>
+
+<div class="ap">
+
+  <div class="ap-frame play" id="apFrame">
+    <div class="ap-black"></div>
+
+    <div class="ap-eyes">
+      <span class="ap-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
+      <span class="ap-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
+    </div>
+
+    <div class="ap-head">
+      <strong>Frozen Dawn</strong><span>Dev Journal</span>
+      <nav><span>Timeline</span><span class="on">The Architect</span><span>Chapters</span></nav>
+    </div>
+
+    <div class="ap-doc">
+      <div class="ap-inner">
+
+        <div class="ap-kick">Chapter Two &middot; 08 March 2026</div>
+        <h1 class="ap-title">Building a Mind</h1>
+
+        <div class="ap-rest">
+          <p class="ap-stand">It took two days to build. It has been the thing I think about ever since.</p>
+
+          <div class="ap-stats ap-wide">
+            <div><b>7</b><span>actions it can pick</span></div>
+            <div><b>19</b><span>things it checks first</span></div>
+            <div><b>2&times;</b><span>decisions per second</span></div>
+            <div><b>6,499</b><span>lines on day one</span></div>
+            <div><b>55</b><span>commits on one file</span></div>
+            <div><b>12</b><span>pixels of light</span></div>
+          </div>
+
+          <div class="ap-h3">What it actually is</div>
+          <p class="ap-lede">Most Minecraft mobs run on a short list of rules. See the player. Walk at the player. Hit the player.</p>
+          <p class="ap-p">The Architect doesn't do that. Roughly twice a second it stops and asks itself one question: <strong>given everything I know right now, what is the single best thing I could be doing?</strong></p>
+          <p class="ap-p">It has seven possible answers. It gives every one of them a score, then does whichever scored highest. That is the entire idea. Everything else on this page is detail.</p>
+
+          <div class="ap-vs ap-wide">
+            <div>
+              <h4>A zombie</h4>
+              <ol>
+                <li>Can I see a player?</li>
+                <li>Walk at the player.</li>
+                <li>If close enough, hit them.</li>
+              </ol>
+              <div class="ap-vsf">Three rules, checked in order, every tick. <b>It has no idea you exist</b> the moment you break line of sight.</div>
+            </div>
+            <div>
+              <h4>The Architect</h4>
+              <div class="ap-vsb"><span>OBSERVE</span><i><b style="width:64%"></b></i></div>
+              <div class="ap-vsb"><span>APPROACH</span><i><b style="width:41%"></b></i></div>
+              <div class="ap-vsb"><span>ATTACK</span><i><b style="width:0%"></b></i></div>
+              <div class="ap-vsb"><span>RETREAT</span><i><b style="width:14%"></b></i></div>
+              <div class="ap-vsb"><span>FORTIFY</span><i><b style="width:22%"></b></i></div>
+              <div class="ap-vsb"><span>TRAP</span><i><b style="width:25%"></b></i></div>
+              <div class="ap-vsb"><span>PEEK</span><i><b style="width:0%"></b></i></div>
+              <div class="ap-vsf">Seven options, scored from <b>nineteen things it knows</b> about the current moment, twice a second. Two of them scored zero here, and it refused them outright.</div>
+            </div>
+          </div>
+
+          <div class="ap-acts">
+            <div class="ap-act"><b>OBSERVE</b><span>Hang back and study you. Remembers where you were and how you got in.</span></div>
+            <div class="ap-act"><b>APPROACH</b><span>Close the distance, re-routing as the world changes around it.</span></div>
+            <div class="ap-act"><b>ATTACK</b><span>Commit to a hit, and stay committed for a beat.</span></div>
+            <div class="ap-act"><b>RETREAT</b><span>Break contact and heal, if the heal is off cooldown.</span></div>
+            <div class="ap-act"><b>FORTIFY</b><span>Put ice between you and it.</span></div>
+            <div class="ap-act"><b>TRAP</b><span>Seal the way you came in.</span></div>
+            <div class="ap-act wide"><b>PEEK</b><span>Lean around a corner it is already holding.</span></div>
+          </div>
+          <p class="ap-p" style="font-size:12.5px;color:#6c7883">Those seven names are the real ones, straight out of the enum.</p>
+
+          <div class="ap-h3">Why it feels alive</div>
+          <p class="ap-p">The scores themselves are boring arithmetic. The part that gives it a personality is the <strong>refusals</strong>.</p>
+          <p class="ap-p">It will not observe you from closer than sixteen blocks. It will not observe you at all once it drops below seventy percent health. It will not retreat while the heal is still cooling down. It will not set a trap if it has run out of ice.</p>
+          <p class="ap-pull">Those flat refusals are what make it read as a thing with its own rules rather than a thing chasing you. You can feel the moments it decides you are not worth watching any more.</p>
+
+          <div class="ap-h3">What it looks like</div>
+          <p class="ap-p">Sixty four pixels square. Nine colours, seven of which are barely distinguishable shades of black. Twelve pixels glow, and they are the only reason you ever see it coming.</p>
+          <p class="ap-p">This is the real texture out of the repo, rebuilt into the model the game actually draws. Drag it.</p>
+
+          <div class="ap-model ap-wide">
+            <canvas id="apModel"></canvas>
+            <div class="ap-mtag"><span>architect.png</span><em>drag to turn it</em></div>
+          </div>
+
+          <div class="ap-anat">
+            <div class="ap-anatc">
+              <canvas id="apEye"></canvas>
+              <span>head, front face<br>8 &times; 8</span>
+            </div>
+            <div class="ap-anatl">
+              <div><b>6 boxes</b><span>Head, body, two arms, two legs. Thirty six flat faces, one sheet of pixels wrapped around all of them.</span></div>
+              <div><b>9 colours</b><span>The body is almost pure black. Against snow it reads as a hole rather than a shape.</span></div>
+              <div><b>12 pixels</b><span>Everything it emits. There is a second texture, architect_blink.png, identical except four of those twelve go dark. That is the whole blink.</span></div>
+            </div>
+          </div>
+
+          <div class="ap-deck" id="apDeck">
+            <div class="ap-dtop">
+              <div class="ap-dstrip" role="tablist" aria-label="Architect chapters">
+                <button type="button" class="ap-dtab on" role="tab" data-i="0" data-full="Watch it decide" aria-selected="true" tabindex="0"><i>01</i>Watch it decide</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="1" data-full="How it learned to think" aria-selected="false" tabindex="-1"><i>02</i>How it learned</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="2" data-full="What it got wrong" aria-selected="false" tabindex="-1"><i>03</i>What it got wrong</button>
+                <span class="ap-dsep" aria-hidden="true">Unmerged</span>
+                <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="It stops to think" aria-selected="false" tabindex="-1"><i>04</i>It stops to think</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="Why it breaks a block" aria-selected="false" tabindex="-1"><i>05</i>Why it breaks</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="5" data-full="How do you test a mind" aria-selected="false" tabindex="-1"><i>06</i>Testing a mind</button>
+                <span class="ap-dink" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="ap-dstage">
+              <div class="ap-dfence">
+              <div class="ap-wbtop">
+                <h2>On the workbench</h2>
+                <span class="ap-wbflag">Unmerged</span>
+              </div>
+              <div class="ap-wbmeta">branch <b>feat/architect-lab</b> &middot; 26 commits &middot; 2 to 12 September 2026 &middot; <b>+8,952</b> / <b>&minus;470</b> across 242 files</div>
+              <p class="ap-p">Everything above this line is in the mod you can download. Everything below it is sitting on a branch that has not been merged into anything, and might not survive in this shape. It is here because the last two weeks have been the most interesting stretch the Architect has had since April, and a journal that only reports finished work is a press release.</p>
+              </div>
+
+              <div class="ap-dpanes">
+                <section class="ap-pane on" role="tabpanel" data-p="0">
+            <div class="ap-h3">Watch it decide</div>
+            <p class="ap-p">This is the real scoring code, running in your browser. Drag the blue marker anywhere in the box. Twice a second it rebuilds its picture of the situation, scores all seven actions, and does whichever one wins. Nothing here is on rails.</p>
+
+            <div class="ap-sim ap-wide">
+              <div class="ap-arena">
+                <canvas id="apCv"></canvas>
+                <div class="ap-hint" id="apHint">Drag anywhere to move the blue marker</div>
+              </div>
+              <div class="ap-hud" id="apHud"></div>
+              <div class="ap-btns">
+                <button id="apPlay">PAUSE</button>
+                <button id="apHit">HIT IT</button>
+                <button id="apReset">RESET</button>
+              </div>
+              <div class="ap-scn" id="apScn"></div>
+              <div class="ap-out" id="apOut"></div>
+              <div class="ap-why" id="apWhy"></div>
+            </div>
+                </section>
+
+                <section class="ap-pane" role="tabpanel" data-p="1">
+            <div class="ap-h3">How it learned to think</div>
+            <p class="ap-p">None of the above existed in one piece. This is the real commit history of the thing you were just playing with.</p>
+
+            <div class="ap-evo">
+
+              <div class="ap-ev key">
+                <div class="ap-evd">08 March 2026 &middot; 14ab9eb9</div>
+                <div class="ap-evh">It arrived already thinking</div>
+                <p class="ap-evp">Forty one files and 6,499 lines in a single commit. Utility scoring, D* Lite pathfinding, wall breaching, scaffolding over obstacles, retreat and heal. It was never a walk-at-you mob, not even on day one. The commit title ends with <code>walk oscillation fix</code>, which means it was already pacing back and forth before anyone but me had ever seen it.</p>
+              </div>
+
+              <div class="ap-ev">
+                <div class="ap-evd">10 March 2026 &middot; 202b1f9d</div>
+                <div class="ap-evh">"architect finally done"</div>
+                <p class="ap-evp">That is the entire commit message, verbatim. The next day brought <em>architect polish pass 1</em> and <em>architect polish pass 2</em>. Fifty more commits followed over the next six months. I have never been more wrong in a commit message and I am leaving it in.</p>
+              </div>
+
+              <div class="ap-ev key">
+                <div class="ap-evd">07 April 2026 &middot; thirteen commits in one day</div>
+                <div class="ap-evh">The mind moves out of the body</div>
+                <p class="ap-evp">Everything above had been living inside one enormous entity class. In a single day it came apart: the decision engine, the brain state, the combat state, the approach state, and four separate controllers. One of those commit messages names the reason out loud, <em>to avoid further god-class growth</em>. The engine the simulation on this page runs on is the file that came out of that day.</p>
+              </div>
+
+              <div class="ap-ev">
+                <div class="ap-evd">08 April 2026 &middot; nine commits in one day</div>
+                <div class="ap-evh">Teaching it to walk</div>
+                <p class="ap-evp">Deciding turned out to be the easy half. Every fix that day is named after the exact way it had embarrassed itself: slab spin, scaffold-up retry loops, water lockups, chase stalls during corridor replans. A mind that cannot cross a half block is not much of a mind.</p>
+              </div>
+
+              <div class="ap-ev">
+                <div class="ap-evd">09 April 2026 &middot; three commits, same file</div>
+                <div class="ap-evh">How long should it stare at you?</div>
+                <p class="ap-evp">Six seconds, for testing. Then back to thirty to sixty seconds. Then a flat two hundred ticks. Three commits, two changed lines each, all in one afternoon. Nothing about that number was ever going to come out of reasoning. I had to stand in the snow and be watched by it until it felt right.</p>
+              </div>
+
+              <div class="ap-ev">
+                <div class="ap-evd">24 August 2026 &middot; three commits</div>
+                <div class="ap-evh">Still learning, five months later</div>
+                <p class="ap-evp">Traverse frozen atmosphere reliably. Breach enclosed targets. Bound healing retreats. The last one is the telling one: it had been allowed to back off and heal without limit, which is a perfectly rational thing to do and a miserable thing to fight.</p>
+              </div>
+
+            </div>
+                </section>
+
+                <section class="ap-pane" role="tabpanel" data-p="2">
+            <div class="ap-h3">What it got wrong</div>
+            <p class="ap-p">The good parts of its behaviour are mostly accidents of scoring. The bad parts were all deliberate, and all mine.</p>
+
+          
+
+            <div class="ap-bugsel ap-wide">
+              <button type="button" class="ap-bchip on" data-i="0" aria-pressed="true">Paced</button>
+              <button type="button" class="ap-bchip" data-i="1" aria-pressed="false">Half blocks</button>
+              <button type="button" class="ap-bchip" data-i="2" aria-pressed="false">Drowned</button>
+              <button type="button" class="ap-bchip" data-i="3" aria-pressed="false">Healed forever</button>
+              <button type="button" class="ap-bchip" data-i="4" aria-pressed="false">Could not get in</button>
+              <button type="button" class="ap-bchip" data-i="5" aria-pressed="false">Mined its own floor</button>
+              <button type="button" class="ap-bchip" data-i="6" aria-pressed="false">Found writing this</button>
+              <span class="ap-bcount">7 of them</span>
+            </div>
+            <div class="ap-bugs ap-wide ap-bstage">
+      <div class="ap-bug on">
+                  <b>It paced</b>
+                  <p>It would take a step toward you, notice it had just reversed direction, and stop dead. Then do it again. The fix was to let it commit to a walk it had already started, or look past the oscillation zone entirely, rather than re-deciding every single step.</p>
+                  <span>Fixed in the commit that created it &middot; 14ab9eb9</span>
+                </div>
+      <div class="ap-bug">
+                  <b>It span on half blocks</b>
+                  <p>Slabs and snow layers read as walkable and not walkable at the same time depending on who was asking. So it would rotate in place on top of one, or decide to scaffold upward and retry forever.</p>
+                  <span>fix(approach): stop slab spin and scaffold-up retry loops &middot; cbb76e1f</span>
+                </div>
+      <div class="ap-bug">
+                  <b>It drowned</b>
+                  <p>Submerged, its committed walk kept churning against a plan made for dry land and it never surfaced. It needed a separate fallback chase mode and a bounded shove upward before it could get out of its own way.</p>
+                  <span>fix(approach): escape water lockups without entity bloat &middot; 47694759</span>
+                </div>
+      <div class="ap-bug">
+                  <b>It healed forever</b>
+                  <p>Retreating to heal had no ceiling on it. A hurt Architect could simply keep backing away and topping itself up, which is the correct decision and an awful fight. This one survived five months in the wild before I bounded it.</p>
+                  <span>fix(architect): bound healing retreats &middot; 14c9987b</span>
+                </div>
+      <div class="ap-bug">
+                  <b>It could not get in</b>
+                  <p>Seal yourself in a room with no opening and it had no answer. It understood breaching a wall it could see a way past, not committing to one it could not.</p>
+                  <span>fix(architect): breach enclosed targets &middot; 36af50fe</span>
+                </div>
+      <div class="ap-bug">
+          <b>It mined the floor out from under itself</b>
+          <p>The unstick planner offered the block underneath its destination as something it could
+             break. That column is what holds the destination up, so on any walkable path it is
+             always solid, and it won every time the real obstruction turned out to be air. A stall
+             with a perfectly clear path ahead would send the Architect digging into the ground at
+             its own feet, dropping in, and going one block deeper on the next try.</p>
+          <span>On the branch, not merged yet &middot; 95407a2d</span>
+        </div>
+      <div class="ap-bug">
+                  <b>And one I only found building this page</b>
+                  <p>Porting the scoring code into the simulation above meant reading every number again. TRAP, the one that seals your door behind you, tops out at <strong>0.455</strong>. APPROACH against a healthy player at range floors out around <strong>0.48</strong>. Which means the trap behaviour can essentially never win unless you are already standing inside its base. Six months of play and I had never noticed, because when it does happen it looks completely deliberate.</p>
+                  <span>Open. Not fixed yet.</span>
+                </div>
+            </div>
+                </section>
+
+                <section class="ap-pane wb" role="tabpanel" data-p="3">
+            <div class="ap-h3">It stops to think</div>
+            <p class="ap-p">When a chase stalls, it goes still. Not paused: the planner underneath is running at full speed the entire time, searching for a route it cannot find yet. The stillness is the only part of that you can see, so I gave it something to do with the stillness.</p>
+            <p class="ap-p">Six ticks of not moving and the head tilts. Thirty two ticks and it <em>might</em> bring a hand up to its chin. Might, because the roll is one in three, and if it plays it will not play again for twelve seconds. A tell you see every time is an idle animation. A tell you see occasionally is a habit.</p>
+
+            <div class="ap-pose ap-wide">
+              <div class="ap-model"><canvas id="apPose"></canvas></div>
+              <div class="ap-posebar">
+                <div class="ap-ptrack"><div class="ap-pfill" id="apwFill"></div></div>
+                <div class="ap-pmarks">
+                  <span class="ap-pmark" style="left:6.25%">6 &middot; tilt</span>
+                  <span class="ap-pmark" style="left:33.33%">32 &middot; chin roll</span>
+                </div>
+                <div class="ap-prow">
+                  <span>still for <i id="apwTick">0</i> ticks</span>
+                  <span class="ap-pst off" id="apwState">WALKING</span>
+                  <span id="apwRoll">no roll yet</span>
+                  <span id="apwCool">chin ready</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="ap-p">Vanilla Minecraft arms are a single rigid cube. There is no elbow in there to bend. Getting a hand anywhere near a face meant replacing the left arm with a two segment rig, an upper arm and a forearm on their own model layer, and reusing the right arm's existing texture rather than shipping new pixels for a gesture. The pose is suppressed entirely if it is holding something in the off hand or wearing a chestplate, because the armour layer copies shoulder rotation and you end up with a sleeve floating in the air next to the model.</p>
+            <p class="ap-p">The roll is not random in the usual sense. It hashes the entity's own id against the current tick, so it is deterministic per Architect and never touches the shared random stream the rest of the AI is drawing from. And the whole thing is cosmetic: the pose state rides over the network on one byte, and nothing in it is allowed to delay a decision by a single tick.</p>
+            <span class="ap-wbmeta" style="display:block;margin-top:-4px">feat(client): add Architect hand-to-chin pose during pursuit pauses &middot; 2c3c365c</span>
+                </section>
+
+                <section class="ap-pane wb" role="tabpanel" data-p="4">
+            <div class="ap-h3">Why it breaks a block</div>
+            <p class="ap-p">It has always been able to mine. What it never had was a record of <em>why</em>. A trace could tell me it broke the ceiling above its own head, which was useless, because there are four completely different reasons it might do that and they fail in four different ways.</p>
+            <p class="ap-p">Now every block it considers carries an intent from the moment it is proposed, and keeps that intent until the attempt ends. There are ten.</p>
+
+            <div class="ap-rsn ap-wide">
+              <div><b>HEAD_CLEARANCE</b><span>The block directly above its own head. The ordinary one.</span></div>
+              <div><b>STEP_UP_CEILING</b><span>The block above its head when the next step is a climb. A jump needs two clear cells, not one.</span></div>
+              <div><b>STEP_DOWN_CLEARANCE</b><span>Headroom out in front, on the way down a drop.</span></div>
+              <div><b>CORRIDOR_NODE</b><span>A block standing on a route it has already planned through.</span></div>
+              <div><b>IMMEDIATE_CANDIDATE</b><span>Something directly in the way, with no longer story than that.</span></div>
+              <div><b>CONTACT_BREACH</b><span>It has reached you, and there is still a wall in between.</span></div>
+              <div><b>SCAFFOLD</b><span>A block it placed itself to climb, being taken back down.</span></div>
+              <div><b>DIG_DOWN</b><span>Straight through the floor.</span></div>
+              <div><b>LAST_RESORT</b><span>Allowed, but held back until nothing else on the list works.</span></div>
+              <div><b>UNSPECIFIED</b><span>No intent recorded. If this ever appears in a trace, something skipped the planner.</span></div>
+            </div>
+
+            <p class="ap-p">The useful part is not the list, it is that the selection now writes down what happened to every single candidate, including the ones it never got to.</p>
+
+            <div class="ap-trace ap-wide">
+              <div class="ap-tscroll">
+              <table class="ap-ttab">
+                <tr><th>Candidate</th><th>Intent</th><th>Outcome</th></tr>
+                <tr><td>from.above()</td><td>HEAD_CLEARANCE</td><td>NOT_BREAKABLE</td></tr>
+                <tr><td>front</td><td>IMMEDIATE_CANDIDATE</td><td>BLACKLISTED</td></tr>
+                <tr><td>front.above()</td><td>HEAD_CLEARANCE</td><td>LAST_RESORT_DEFERRED</td></tr>
+                <tr class="sel"><td>step</td><td>IMMEDIATE_CANDIDATE</td><td>SELECTED</td></tr>
+                <tr class="skip"><td>step.above()</td><td>HEAD_CLEARANCE</td><td>NOT_EVALUATED_AFTER_SELECTION</td></tr>
+              </table>
+              </div>
+              <div class="ap-tcap">Blacklisted means it already tried that block and got nowhere. Deferred means it is allowed to break it, but only once nothing better turns up, and if the list runs out that deferred one comes back as the fallback. The rows after the winner were never looked at, and the trace says so rather than leaving them out.</div>
+            </div>
+                </section>
+
+                <section class="ap-pane wb" role="tabpanel" data-p="5">
+            <div class="ap-h3">How do you test a mind</div>
+            <p class="ap-p">You cannot really unit test a decision. You can assert that a function returns 0.71, but the thing I actually want to know is whether it gets stuck, and there is no assertion for stuck. So the only honest option was to build somewhere awkward and put it there over and over.</p>
+            <p class="ap-p">There is a lab now. Its own dimension, a 21 by 16 by 21 arena that rebuilds itself around a saved origin, and a scenario loader. Setup freezes the entire server. Recording starts before the Architect is allowed to move or mine a single block, so nothing happens off camera.</p>
+
+            <div class="ap-labn ap-wide">
+              <div><b>60</b><span>named scenarios</span></div>
+              <div><b>500</b><span>stress cases</span></div>
+              <div><b>30</b><span>must pass the gate</span></div>
+              <div><b>66</b><span>structure files</span></div>
+              <div><b>8</b><span>seeds, four rotations each</span></div>
+              <div><b>78</b><span>setup scripts</span></div>
+            </div>
+
+            <div class="ap-scen">
+              <span>sealed_pocket</span><span>vanishing_wall</span><span>gate_reopens</span><span>target_juke</span>
+              <span>closing_passage</span><span>footing_honey</span><span>slab_checkerboard</span><span>seeded_maze</span>
+              <span>unreachable_target</span><span>route_opens_mining</span><span>narrow_bridge</span><span>lava_detour</span>
+              <span>scaffold_interruption</span><span>multi_near_enclosed</span><span>corridor_soak</span><span>pit_slab_ramp</span>
+            </div>
+            <p class="ap-p" style="margin-top:14px">Same arena rotated four ways, same scenario reseeded eight ways, because a bug that only exists when the wall runs north to south is still a bug and I would never have found it facing east.</p>
+
+            <p class="ap-p">The rule the whole suite runs on is the part I am most pleased with, and it is not technical. <strong>A failed case stays a failure with its trace attached.</strong> It does not get skipped, quietly relabelled, or handed a larger tick budget until it passes. The last run written down in the notes covers 396 of these cases: 378 passed, 18 failed, nothing missing. Those eighteen are still sitting there failing, which is the entire reason for having built the thing.</p>
+            <span class="ap-wbmeta" style="display:block;margin-top:-4px">test(architect): add Architect lab harness and headless verification gate &middot; 47b09de4</span>
+                </section>
+
+              </div>
+            </div>
+
+            <div class="ap-dbot">
+              <div class="ap-dsteps">
+                <button type="button" class="ap-dstep prev" disabled></button>
+                <button type="button" class="ap-dstep next"></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <button class="ap-replay" id="apReplay">REPLAY INTRO</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var frame = document.getElementById('apFrame');
+  var title = frame.querySelector('.ap-title');
+  function measureTitle(){           // measure the real rendered width of the title
+    var probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:'
+      + getComputedStyle(title).font + ';letter-spacing:' + getComputedStyle(title).letterSpacing;
+    probe.textContent = title.textContent;
+    document.body.appendChild(probe);
+    title.style.setProperty('--tw', (probe.offsetWidth + 2) + 'px');
+    probe.remove();
+  }
+  measureTitle();
+  title.addEventListener('animationend', function(e){
+    if(e.animationName === 'apType'){ title.style.width = 'auto'; title.style.overflow = 'visible'; }
+  });
+  // the whole intro is 4.4s; apUp is the last thing to finish
+  frame.addEventListener('animationend', function(e){
+    if(e.animationName === 'apUp') frame.classList.add('done');
+  });
+  setTimeout(function(){ frame.classList.add('done'); }, 5200);   // belt and braces
+  window.addEventListener('resize', function(){ measureTitle(); });
+  document.getElementById('apReplay').onclick = function(){
+    title.style.width = ''; title.style.overflow = ''; measureTitle();
+    frame.classList.remove('done');
+    frame.classList.remove('play'); void frame.offsetWidth; frame.classList.add('play');
+    frame.querySelector('.ap-doc').scrollTop = 0;
+  };
+
+  // ---- direct port of ArchitectDecisionEngine score methods ----
+  function score(c){
+    var mx = c.maxHealth, h = c.health, d = c.distance, s = {};
+    s.OBSERVE = (function(){
+      if(!c.hasTarget) return 0.1;
+      if(c.hasObserved && !c.observeDirty) return 0;
+      var v = 0.9;
+      if(!c.hasObserved) v *= 2.0;
+      if(h < mx*0.7) return 0;
+      if(c.observeDirty) v *= 0.7;
+      if(d < 16.0) return 0;
+      return v;
+    })();
+    s.APPROACH = (function(){
+      if(!c.hasTarget) return 0.1;
+      var v = 0.6;
+      if(d > 16.0) v *= 1.2;
+      if(c.preferMelee) v *= 0.3;
+      if(h < mx*0.5) v *= 0.5;
+      if(c.los) v *= 0.8;
+      if(c.hasObserved) v *= 1.2;
+      if(c.rangedHits > 3) v *= 1.3;
+      return v;
+    })();
+    s.ATTACK = (function(){
+      if(!c.hasTarget || !c.canMelee) return 0;
+      var v = 0.8;
+      if(d < 3.0) v *= 1.5; else if(d < 4.75) v *= 1.0; else v *= 0.2;
+      if(h < mx*0.5) v *= 0.6;
+      if(h < mx*0.3) v *= 0.6;
+      return v;
+    })();
+    s.RETREAT = (function(){
+      if(!c.hasTarget) return 0;
+      if(c.healCooldown > 0) return 0;
+      var v = 0.2, p = h/mx;
+      if(p < 0.5) v *= 2.0;
+      if(p < 0.3) v *= 1.5;
+      if(p < 0.6) v *= 1.3;
+      if(c.recentDamage > mx*0.3) v *= 1.5;
+      return v;
+    })();
+    s.FORTIFY = (function(){
+      var v = 0.15;
+      if(c.rangedHits > 3) v *= 1.5;
+      if(c.ice >= c.maxIce) v *= 0.3;
+      if(c.hasTarget && c.los && d > 8.0) v *= 1.3;
+      return v;
+    })();
+    s.TRAP = (function(){
+      if(!c.hasTarget || c.trapCooldown > 0 || !c.entrances) return 0;
+      if(c.ice >= c.maxIce) return 0;
+      var v = 0.35;
+      if(c.insideBase) v *= 1.3;
+      return v;
+    })();
+    s.PEEK = (function(){
+      if(!c.hasTarget || !c.nearCorner) return 0;
+      return 0.3 * 1.5;
+    })();
+    return s;
+  }
+
+  function base(){ return { hasTarget:true, distance:22, hasObserved:false, observeDirty:false,
+    health:100, maxHealth:100, preferMelee:false, los:true, canMelee:false, rangedHits:0,
+    healCooldown:0, recentDamage:0, ice:0, maxIce:8, trapCooldown:0, entrances:true,
+    insideBase:false, nearCorner:false }; }
+
+  // ---- the arena: the engine above, driving a world you can poke ----
+  var WW = 44, WH = 22;
+  var cv   = document.getElementById('apCv'), g = cv.getContext('2d');
+  var hint = document.getElementById('apHint');
+  var scn  = document.getElementById('apScn'),
+      out  = document.getElementById('apOut'),
+      why  = document.getElementById('apWhy'),
+      hud  = document.getElementById('apHud');
+
+  var S = 1, walls = {}, ice = {};
+  var GAP = [[16,10],[16,11]];
+
+  function key(x,y){ return x+','+y; }
+  function buildWalls(){
+    walls = {};
+    for(var x=4;x<=16;x++){ walls[key(x,5)]=1; walls[key(x,16)]=1; }
+    for(var y=5;y<=16;y++){ walls[key(4,y)]=1; walls[key(16,y)]=1; }
+    delete walls[key(16,10)]; delete walls[key(16,11)];
+  }
+
+  // walls block sight and block you. its own ice blocks sight, but not itself:
+  // it built the wall, so it knows the way through.
+  function wallCell(cx,cy){ return !!walls[key(cx,cy)]; }
+  function solidCell(cx,cy){ var k = key(cx,cy); return !!(walls[k] || ice[k]); }
+  function solidAt(x,y){ return solidCell(Math.floor(x), Math.floor(y)); }
+  function clearArch(x,y){
+    if(x<0.8 || x>WW-0.8 || y<0.8 || y>WH-0.8) return false;
+    return !wallCell(Math.floor(x), Math.floor(y));
+  }
+  function losFree(ax,ay,bx,by){
+    var d = Math.hypot(bx-ax, by-ay), n = Math.max(2, Math.ceil(d/0.2));
+    for(var i=1;i<n;i++){
+      var t = i/n;
+      if(solidCell(Math.floor(ax+(bx-ax)*t), Math.floor(ay+(by-ay)*t))) return false;
+    }
+    return true;
+  }
+  function nearSolid(x,y,r){
+    for(var cx=Math.floor(x-r);cx<=Math.floor(x+r);cx++)
+      for(var cy=Math.floor(y-r);cy<=Math.floor(y+r);cy++)
+        if(solidCell(cx,cy)) return true;
+    return false;
+  }
+  function inBase(x,y){ return x>4 && x<16 && y>5 && y<16; }
+
+  var A, P, st;
+  function reset(){
+    ice = {}; buildWalls();
+    A  = { x:18, y:10.5, hp:100, flash:0, lean:0, obs:0 };
+    P  = { x:36, y:10.5, here:true };
+    st = { hasObserved:false, observeDirty:false, lastObs:null, ranged:0, recent:0,
+           healCd:0, trapCd:0, iceN:0, maxIce:8, action:'OBSERVE', hold:0, actTicks:0, tick:0 };
+  }
+
+  function ctxFromScene(){
+    var c = base();
+    var d = Math.hypot(P.x-A.x, P.y-A.y);
+    c.hasTarget   = P.here;
+    c.distance    = +d.toFixed(1);
+    c.health      = A.hp;  c.maxHealth = 100;
+    c.los         = P.here && losFree(A.x,A.y,P.x,P.y);
+    c.canMelee    = P.here && d < 3.2  && c.los;
+    c.preferMelee = P.here && d < 4.75 && c.los;
+    c.hasObserved = st.hasObserved;  c.observeDirty = st.observeDirty;
+    c.rangedHits  = st.ranged;  c.healCooldown = st.healCd;  c.recentDamage = st.recent;
+    c.ice         = st.iceN;  c.maxIce = st.maxIce;  c.trapCooldown = st.trapCd;
+    c.entrances   = !(ice[key(16,10)] && ice[key(16,11)]);
+    c.insideBase  = P.here && inBase(P.x,P.y);
+    c.nearCorner  = nearSolid(A.x,A.y,1.6);
+    return c;
+  }
+  function topOf(s){
+    var keys = Object.keys(s);
+    return keys.reduce(function(a,b){ return s[b] > s[a] ? b : a; });
+  }
+
+  // anti-thrash damping, same shape as ArchitectBrainState
+  var HOLD = { ATTACK:3, RETREAT:6, OBSERVE:4, APPROACH:4, FORTIFY:3, TRAP:3, PEEK:3 };
+
+  function decide(){
+    st.tick++;
+    if(st.healCd > 0) st.healCd--;
+    if(st.trapCd > 0) st.trapCd--;
+    st.recent = st.recent > 0.6 ? st.recent*0.88 : 0;
+    if(st.hasObserved && st.lastObs &&
+       Math.hypot(P.x-st.lastObs[0], P.y-st.lastObs[1]) > 7) st.observeDirty = true;
+
+    var c = ctxFromScene(), s = score(c), top = topOf(s);
+
+    if(st.hold > 0 && s[st.action] > 0){ st.hold--; st.actTicks++; }
+    else if(top === st.action){ st.actTicks++; }
+    else { st.action = top; st.hold = HOLD[top] || 3; st.actTicks = 1; }
+
+    perTick(st.action);
+    paint(c, s);
+  }
+
+  function perTick(a){
+    if(a === 'OBSERVE'){
+      A.obs = Math.min(1, A.obs + 0.25);
+      if(A.obs >= 1){ st.hasObserved = true; st.observeDirty = false; st.lastObs = [P.x,P.y]; }
+    }
+    if(a === 'ATTACK'){ A.flash = 1; }
+    if(a === 'RETREAT' && st.healCd === 0 && st.actTicks >= 2){
+      A.hp = Math.min(100, A.hp + 22); st.healCd = 22; st.recent = 0;
+    }
+    if(a === 'FORTIFY'){ placeIce('wall'); }
+    if(a === 'TRAP' && Math.hypot(A.x-16.5, A.y-11.0) < 3.0){ if(placeIce('gap')) st.trapCd = 26; }
+    if(a === 'PEEK'){ A.lean = 1; }
+  }
+
+  function tryIce(cx,cy){
+    var k = key(cx,cy);
+    if(walls[k] || ice[k]) return false;
+    if(cx<1 || cx>WW-2 || cy<1 || cy>WH-2) return false;
+    if(cx === Math.floor(A.x) && cy === Math.floor(A.y)) return false;
+    if(P.here && Math.hypot(cx+0.5-P.x, cy+0.5-P.y) < 1.2) return false;
+    ice[k] = 1; st.iceN++;
+    return true;
+  }
+  function placeIce(kind){
+    if(st.iceN >= st.maxIce) return false;
+    if(kind === 'gap'){
+      var slot = GAP.filter(function(p){ return !ice[key(p[0],p[1])]; })[0];
+      return slot ? tryIce(slot[0], slot[1]) : false;
+    }
+    // build across the line to you, fanning out as the near cells fill up.
+    // with nobody to wall off, it just keeps building around itself.
+    var a0 = P.here ? Math.atan2(P.y-A.y, P.x-A.x) : st.tick*0.7;
+    for(var i=0;i<9;i++){
+      var a = a0 + (i%2 ? 1 : -1) * Math.ceil(i/2) * 0.38;
+      for(var r=2.4;r<=3.5;r+=1){
+        if(tryIce(Math.floor(A.x + Math.cos(a)*r), Math.floor(A.y + Math.sin(a)*r))) return true;
+      }
+    }
+    return false;
+  }
+
+  function moveArch(dt){
+    var a = st.action, tx, ty, spd = 0;
+    if(a === 'APPROACH' || a === 'ATTACK'){
+      spd = (a === 'ATTACK') ? 5.4 : 3.0;
+      tx = P.x; ty = P.y;
+      if(P.here && inBase(P.x,P.y) !== inBase(A.x,A.y)){
+        var wx = 16.5, wy = 11.0;                      // the way it came in
+        if(Math.abs(A.x-wx) > 0.7 || Math.abs(A.y-wy) > 1.1){ tx = wx; ty = wy; }
+        else { tx = inBase(P.x,P.y) ? 15.3 : 17.7; ty = 11.0; }
+      }
+      if(!P.here) spd = 0;
+      if(a === 'ATTACK' && Math.hypot(P.x-A.x, P.y-A.y) < 1.4) spd = 0;
+    } else if(a === 'RETREAT' && P.here){
+      spd = 3.2; tx = A.x + (A.x-P.x); ty = A.y + (A.y-P.y);
+    } else if(a === 'TRAP'){
+      spd = 2.6; tx = 16.5; ty = 11.0;
+      if(Math.hypot(A.x-tx, A.y-ty) < 1.0) spd = 0;
+    }
+    if(!spd) return;
+    var dx = tx-A.x, dy = ty-A.y, m = Math.hypot(dx,dy) || 1;
+    var vx = dx/m*spd*dt, vy = dy/m*spd*dt;
+    if(clearArch(A.x+vx, A.y)) A.x += vx;            // axis separated, so it slides along walls
+    if(clearArch(A.x, A.y+vy)) A.y += vy;
+  }
+
+  // ---- paint ----
+  var NOTE = {
+    OBSERVE: 'Too far to close, and it has not learned you yet. It holds and watches.',
+    APPROACH:'Inside sixteen blocks observation switches off entirely. It closes, routing around its own walls.',
+    ATTACK:  'Close enough to commit. It stays committed for a beat whatever else scores.',
+    RETREAT: 'Hurt, and the heal is off cooldown. It breaks contact first and heals second.',
+    FORTIFY: 'Nothing worth chasing. It puts ice between the two of you, which is what it does when it has time.',
+    TRAP:    'It is sealing the way you came in.',
+    PEEK:    'It is holding a corner and leaning out rather than stepping into the open.'
+  };
+
+  function paint(c,s){
+    var keys = Object.keys(s), act = st.action;
+    var max = Math.max(s[topOf(s)], 0.0001);
+    out.innerHTML = keys.map(function(k){
+      var v = s[k], win = (k === act), pct = Math.round(v/max*100);
+      return '<div class="ap-row '+(win?'win':(v===0?'zero':''))+'">'
+           + '<span>'+k+'</span>'
+           + '<span class="ap-meter"><b class="ap-fill'+(win?' on':'')+'" style="width:'+pct+'%"></b></span>'
+           + '<span class="ap-num">'+v.toFixed(2)+'</span></div>';
+    }).join('');
+    why.innerHTML = '<b>'+act+'</b> &nbsp;'+(NOTE[act] || '');
+    hud.innerHTML = '<span>tick <b>'+st.tick+'</b></span>'
+      + '<span>' + (c.hasTarget ? 'distance <b>'+c.distance.toFixed(1)+'</b>' : 'no target') + '</span>'
+      + '<span>health <b>'+Math.round(A.hp)+'</b></span>'
+      + '<span>ice <b>'+st.iceN+'/'+st.maxIce+'</b></span>'
+      + '<span>heal cd <b>'+st.healCd+'</b></span>'
+      + '<span>' + (c.hasTarget ? (c.los ? 'line of sight' : 'sight blocked') : 'searching') + '</span>';
+  }
+
+  function cell(cx,cy,fill,edge){
+    var x = cx*S, y = cy*S;
+    g.fillStyle = fill; g.fillRect(x,y,S,S);
+    g.strokeStyle = edge; g.lineWidth = 1;
+    g.strokeRect(x+0.5, y+0.5, S-1, S-1);
+  }
+
+  function draw(){
+    var w = WW*S, h = WH*S, k;
+    g.fillStyle = '#0a0d11'; g.fillRect(0,0,w,h);
+
+    g.strokeStyle = '#101720'; g.lineWidth = 1; g.beginPath();
+    for(var gx=1;gx<WW;gx++){ g.moveTo(Math.round(gx*S)+0.5, 0); g.lineTo(Math.round(gx*S)+0.5, h); }
+    for(var gy=1;gy<WH;gy++){ g.moveTo(0, Math.round(gy*S)+0.5); g.lineTo(w, Math.round(gy*S)+0.5); }
+    g.stroke();
+
+    for(k in walls){ var p = k.split(','); cell(+p[0], +p[1], '#1a2129', '#242f3a'); }
+    for(k in ice)  { var q = k.split(','); cell(+q[0], +q[1], '#16394f', '#7dd3fc8c'); }
+
+    if(P.here && losFree(A.x,A.y,P.x,P.y)){
+      g.save(); g.setLineDash([4,5]); g.globalAlpha = 0.28;
+      g.strokeStyle = '#7dd3fc'; g.lineWidth = 1;
+      g.beginPath(); g.moveTo(A.x*S, A.y*S); g.lineTo(P.x*S, P.y*S); g.stroke(); g.restore();
+    }
+
+    drawPlayer();
+    drawArch();
+  }
+
+  function drawPlayer(){
+    var x = P.x*S, y = P.y*S, r = Math.max(3, S*0.34);
+    if(!P.here){
+      g.save(); g.setLineDash([3,4]); g.globalAlpha = 0.35; g.strokeStyle = '#7dd3fc';
+      g.lineWidth = 1; g.beginPath(); g.arc(x,y,r,0,Math.PI*2); g.stroke(); g.restore();
+      return;
+    }
+    g.save();
+    g.shadowColor = '#7dd3fc'; g.shadowBlur = 10; g.fillStyle = '#7dd3fc';
+    g.beginPath(); g.arc(x,y,r,0,Math.PI*2); g.fill();
+    g.restore();
+    g.globalAlpha = 0.4; g.strokeStyle = '#7dd3fc'; g.lineWidth = 1;
+    g.beginPath(); g.arc(x, y, Math.max(7, S*0.75), 0, Math.PI*2); g.stroke();
+    g.globalAlpha = 1;
+  }
+
+  function drawArch(){
+    var bw = S*1.05, bh = S*1.7;
+    var fx = A.x*S + A.lean*S*0.55, y = A.y*S;
+
+    g.save();
+    if(A.flash > 0){ g.shadowColor = '#00D2FF'; g.shadowBlur = 26*A.flash; }
+    g.fillStyle = A.flash > 0 ? '#10222d' : '#0c1016';
+    g.strokeStyle = '#232d38'; g.lineWidth = 1;
+    g.beginPath(); g.rect(fx-bw/2, y-bh/2, bw, bh); g.fill(); g.stroke();
+    g.restore();
+
+    var ew = Math.max(1.5, S*0.17), eh = Math.max(2, S*0.27);
+    g.save();
+    g.shadowColor = '#00D2FF'; g.shadowBlur = 7 + 20*A.flash;
+    g.fillStyle = '#00D2FF';
+    g.fillRect(fx-ew*1.7, y-bh*0.28, ew, eh);
+    g.fillRect(fx+ew*0.7, y-bh*0.28, ew, eh);
+    g.restore();
+
+    if(A.obs > 0.01){
+      g.save(); g.globalAlpha = 0.85; g.strokeStyle = '#7dd3fc'; g.lineWidth = 2;
+      g.beginPath();
+      g.arc(fx, y-bh*0.5-S*0.85, S*0.55, -Math.PI/2, -Math.PI/2 + Math.PI*2*A.obs);
+      g.stroke(); g.restore();
+    }
+
+    var hw = bw*1.45, hh = Math.max(2, S*0.16), hy = y+bh/2+S*0.3;
+    g.fillStyle = '#1b232c'; g.fillRect(fx-hw/2, hy, hw, hh);
+    g.fillStyle = '#546472'; g.fillRect(fx-hw/2, hy, hw*(A.hp/100), hh);
+  }
+
+  // ---- canvas sizing: CSS owns the box, JS only resizes the backing store ----
+  function fit(){
+    var w = cv.clientWidth || 300, h = cv.clientHeight || 150;
+    S = w / WW;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(w*dpr); cv.height = Math.round(h*dpr);
+    g.setTransform(dpr,0,0,dpr,0,0);
+  }
+  if(window.ResizeObserver) new ResizeObserver(fit).observe(cv.parentNode);
+  else window.addEventListener('resize', fit);
+
+  // ---- one gesture, same on mouse and finger ----
+  var dragging = false, dirty = false, lastPaint = 0;
+  function refresh(){ dirty = true; }
+  function clearChips(){
+    Array.prototype.forEach.call(scn.children, function(b){ b.className = ''; });
+  }
+  function grab(e){
+    var r = cv.getBoundingClientRect();
+    var x = (e.clientX-r.left)/r.width*WW, y = (e.clientY-r.top)/r.height*WH;
+    x = Math.max(0.8, Math.min(WW-0.8, x)); y = Math.max(0.8, Math.min(WH-0.8, y));
+    if(solidAt(x,y)) return;
+    P.x = x; P.y = y; P.here = true;
+    hint.classList.add('gone');
+    clearChips(); refresh();
+  }
+  cv.addEventListener('pointerdown', function(e){
+    dragging = true;
+    if(cv.setPointerCapture) cv.setPointerCapture(e.pointerId);
+    grab(e); e.preventDefault();
+  });
+  cv.addEventListener('pointermove', function(e){ if(dragging){ grab(e); e.preventDefault(); } });
+  cv.addEventListener('pointerup',     function(){ dragging = false; });
+  cv.addEventListener('pointercancel', function(){ dragging = false; });
+
+  // ---- loop ----
+  var last = 0, acc = 0, running = true;
+  function tickFrame(t){
+    var dt = last ? Math.min((t-last)/1000, 0.05) : 0; last = t;
+    if(running){
+      acc += dt;
+      while(acc >= 0.5){ acc -= 0.5; decide(); }
+      moveArch(dt);
+      A.flash = Math.max(0, A.flash - dt*2.2);
+      A.lean  = Math.max(0, A.lean  - dt*1.4);
+      if(st.action !== 'OBSERVE') A.obs = Math.max(0, A.obs - dt*0.8);
+    }
+    if(dirty && t-lastPaint > 90){
+      lastPaint = t; dirty = false;
+      var c = ctxFromScene(); paint(c, score(c));
+    }
+    draw();
+    sched();
+  }
+  var vis = true, queued = false;
+  function sched(){
+    if(!vis || queued) return;
+    queued = true;
+    requestAnimationFrame(function(t){ queued = false; tickFrame(t); });
+  }
+  if(window.IntersectionObserver){
+    new IntersectionObserver(function(es){
+      vis = es[0].isIntersecting;
+      if(vis){ last = 0; sched(); }
+    }, { rootMargin:'150px' }).observe(cv);
+  }
+
+  // ---- buttons ----
+  document.getElementById('apHit').onclick = function(){
+    A.hp = Math.max(6, A.hp - 16); st.ranged++; st.recent += 34;
+    clearChips(); refresh();
+  };
+  document.getElementById('apPlay').onclick = function(){
+    running = !running; this.textContent = running ? 'PAUSE' : 'PLAY';
+  };
+  document.getElementById('apReset').onclick = function(){
+    load(0);
+    var pb = document.getElementById('apPlay');
+    running = true; pb.textContent = 'PAUSE';
+    hint.classList.remove('gone');
+  };
+
+  // ---- presets ----
+  var SCN = [
+    { n:"It hasn't seen you yet",  f:function(){ } },
+    { n:"Inside sixteen blocks",   f:function(){ P.x=28; } },
+    { n:"Arm's reach",             f:function(){ P.x=20.4; st.hasObserved=true; A.obs=1; } },
+    { n:"You hurt it",             f:function(){ P.x=24; A.hp=28; st.ranged=5; st.recent=40;
+                                                 st.hasObserved=true; A.obs=1; } },
+    { n:"You are inside its base", f:function(){ P.x=9; st.hasObserved=true; A.obs=1; } },
+    { n:"It seals you in",         f:function(){ P.x=7; P.y=13.5; A.x=20.5; A.hp=48;
+                                                 st.healCd=14; st.hasObserved=true; A.obs=1; } },
+    { n:"It lost you",             f:function(){ P.here=false; } }
+  ];
+
+  SCN.forEach(function(s,i){
+    var b = document.createElement('button');
+    b.textContent = s.n;
+    b.onclick = function(){ load(i); };
+    scn.appendChild(b);
+  });
+
+  function load(i){
+    reset();
+    SCN[i].f();
+    Array.prototype.forEach.call(scn.children, function(b,j){ b.className = j===i ? 'on' : ''; });
+    var c = ctxFromScene(), s = score(c);
+    st.action = topOf(s); st.hold = HOLD[st.action] || 3;
+    paint(c, s);
+  }
+
+  fit();
+  load(0);
+  sched();
+})();
+</script>
+
+<script>
+(function(){
+  var cv = document.getElementById('apModel');
+  if (!cv) return;
+  var eyeCv = document.getElementById('apEye');
+  var SKIN = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABhElEQVR4nO3a0UrDMBQG4D//ulBGBb3yTbzYs3gl+BYiexIfx3fxTnSUEtop9mLYsDVuadPOcz4Yy7r1NHTnJOsag4A8v/7qe3+3q3v3d25rEGGxsL3HbxoXFZ8QjhCOEI4QjhCOEI4QzoTm+Vih3wlN4zCl7E8fyuzB7XU9beeTnYAf281L+1xsHvbt/OkeIkogyyy2r29tu1jf7tv53Y2MEmg9Px5uR1ouc1xEBpw7BoQygOSFZMBIquoj6mouyQmo/8Fof4zxN/gl4adw6Pp+7P8PYvvnI4QjhCOEM35N+VOec2XnNZmdNWUeG1DD02T3eKf2r6ree8cEQjiOGdyurtrHnGVjBnflJ8RmgP31zQ+dBUPGIxJ8+0NnwpDxCOE4VmAtgVJL4CIQwnHqDiillFJKKaWUUkqlZoYOOPT6gtj7/yGEcIRwhHAmNoC1RadmrV2dtMDKr/FT9w/d/w8hhCOEI4QjZijlqhJihlKuLCGEI2ZIS6DUEpBdAikx6dFm6BvAqJJUZ6JaQgAAAABJRU5ErkJggg==";
+  var BLINK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAABSElEQVR4nO3a32rCMBQG8C8fIRRx4IP6BLvyEXaxBx1MioTiBl6MGWbT2jSLfucHYq3paaA5p//ikNF1u6+x/8/nYXT7GI8ODSPEEeIIcYQ4QhwhjhDncuf5pVq/TvCTGvnw5/phiHh0hDg/teFxf7h8b98PP8vd2yskaoBfkAKt1wBCHCHOT2n0DNX+FpeuSGtCmsO5nF37+cHS/qUIcYQ4QpxLcyo958fYX/0m/V3XDLcKaq4mpPub27/T6WO0JhDiuGbwsHm5fJ7iXuAesf+E7AgIv4586VFQMh5R4eiXHgkl4xHiuFZgS4HeUuAhEOL43x0wxhhjjDHGGGOMqc2VDlh6fsHS9/85hDhCHCHOLQ0QwvYqZ0PYzJpgleb43O1z7/9zCHGEOEIc0aCas0qIBtWcWUKIIxpkKdBbCminQE2surcGfQNSe39jy2tdQgAAAABJRU5ErkJggg==";
+
+  var S = 8;                 // texture upscale factor
+  var shades = {};           // name -> pre-lit canvas
+  var emis = null, emisB = null;
+  var ready = false;
+
+  var LIFT = { top:0.30, front:0.16, back:0.03, right:0.055, left:0.105, bottom:0.012 };
+
+  function off(w,h){ var c=document.createElement('canvas'); c.width=w; c.height=h; return c; }
+
+  function upscale(img){
+    var c = off(64*S, 64*S), x = c.getContext('2d');
+    x.imageSmoothingEnabled = false;
+    x.drawImage(img, 0, 0, 64*S, 64*S);
+    return c;
+  }
+
+  function lit(src, amt){
+    var c = off(src.width, src.height), x = c.getContext('2d');
+    x.drawImage(src, 0, 0);
+    x.globalCompositeOperation = 'source-atop';
+    x.fillStyle = 'rgba(255,255,255,' + amt + ')';
+    x.fillRect(0, 0, c.width, c.height);
+    return c;
+  }
+
+  // keep only the glowing pixels: strongly blue-dominant and bright
+  function emissive(img){
+    var s = off(64,64), sx = s.getContext('2d');
+    sx.drawImage(img, 0, 0);
+    var d = sx.getImageData(0,0,64,64), p = d.data;
+    for (var i=0; i<p.length; i+=4){
+      if (!(p[i+3] > 0 && p[i+2] > 90 && p[i+2] > p[i] + 40)) { p[i+3] = 0; }
+    }
+    sx.putImageData(d, 0, 0);
+    var c = off(64*S, 64*S), x = c.getContext('2d');
+    x.imageSmoothingEnabled = false;
+    x.drawImage(s, 0, 0, 64*S, 64*S);
+    return c;
+  }
+
+  // ---- model: x right, y up, z toward viewer. 1 unit = 1 skin pixel ----
+  function box(x0,y0,z0,x1,y1,z1,uv){
+    var e = 0.015;
+    x0-=e; y0-=e; z0-=e; x1+=e; y1+=e; z1+=e;
+    return [
+      { f:'front',  uv:uv.front,  tl:[x0,y1,z1], tr:[x1,y1,z1], bl:[x0,y0,z1] },
+      { f:'back',   uv:uv.back,   tl:[x1,y1,z0], tr:[x0,y1,z0], bl:[x1,y0,z0] },
+      { f:'right',  uv:uv.right,  tl:[x0,y1,z0], tr:[x0,y1,z1], bl:[x0,y0,z0] },
+      { f:'left',   uv:uv.left,   tl:[x1,y1,z1], tr:[x1,y1,z0], bl:[x1,y0,z1] },
+      { f:'top',    uv:uv.top,    tl:[x0,y1,z0], tr:[x1,y1,z0], bl:[x0,y1,z1] },
+      { f:'bottom', uv:uv.bottom, tl:[x0,y0,z1], tr:[x1,y0,z1], bl:[x0,y0,z0] }
+    ];
+  }
+
+  // ---- parts: each rotates about its own pivot, children inherit their parent ----
+  function mk(piv, par, faces){ return { piv:piv, par:par, f:faces, rx:0, ry:0, rz:0, on:true }; }
+
+  function buildParts(){
+    var P = {}, k;
+    P.head = mk([0,24,0], null, box(-4,24,-4, 4,32,4,
+      { top:[8,0,8,8], bottom:[16,0,8,8], right:[0,8,8,8],
+        front:[8,8,8,8], left:[16,8,8,8], back:[24,8,8,8] }));
+    P.body = mk([0,24,0], null, box(-4,12,-2, 4,24,2,
+      { top:[20,16,8,4], bottom:[28,16,8,4], right:[16,20,4,12],
+        front:[20,20,8,12], left:[28,20,4,12], back:[32,20,8,12] }));
+    P.rarm = mk([-5,22,0], null, box(-8,12,-2, -4,24,2,
+      { top:[44,16,4,4], bottom:[48,16,4,4], right:[40,20,4,12],
+        front:[44,20,4,12], left:[48,20,4,12], back:[52,20,4,12] }));
+    P.larm = mk([5,22,0], null, box(4,12,-2, 8,24,2,
+      { top:[36,48,4,4], bottom:[40,48,4,4], right:[32,52,4,12],
+        front:[36,52,4,12], left:[40,52,4,12], back:[44,52,4,12] }));
+    P.rleg = mk([-2,12,0], null, box(-4,0,-2, 0,12,2,
+      { top:[4,16,4,4], bottom:[8,16,4,4], right:[0,20,4,12],
+        front:[4,20,4,12], left:[8,20,4,12], back:[12,20,4,12] }));
+    P.lleg = mk([2,12,0], null, box(0,0,-2, 4,12,2,
+      { top:[20,48,4,4], bottom:[24,48,4,4], right:[16,52,4,12],
+        front:[20,52,4,12], left:[24,52,4,12], back:[28,52,4,12] }));
+    // two segment thinking rig. upper arm rides the shoulder, forearm bends at the elbow.
+    // both reuse the right arm strip rather than adding texture, split into two 4x6 halves.
+    P.upper = mk([5,22,0], 'larm', box(4,18,-2, 8,24,2,
+      { top:[44,16,4,4], bottom:[48,16,4,4], right:[40,20,4,6],
+        front:[44,20,4,6], left:[48,20,4,6], back:[52,20,4,6] }));
+    P.fore = mk([5,18,0], 'upper', box(4,12,-2, 8,18,2,
+      { top:[44,22,4,4], bottom:[48,22,4,4], right:[40,26,4,6],
+        front:[44,26,4,6], left:[48,26,4,6], back:[52,26,4,6] }));
+    P.upper.on = false; P.fore.on = false;
+    var list = [];
+    for (k in P){
+      var ch = [], c = P[k];
+      while (c){ ch.push(c); c = c.par ? P[c.par] : null; }
+      P[k].chain = ch;
+      list.push(P[k]);
+    }
+    return { map:P, list:list };
+  }
+
+  // rotation order x, y, z about the pivot, matching the model part convention
+  function turn(p, part){
+    var x = p[0]-part.piv[0], y = p[1]-part.piv[1], z = p[2]-part.piv[2], c, s, t;
+    if (part.rx){ c=Math.cos(part.rx); s=Math.sin(part.rx); t = y*c - z*s; z = y*s + z*c; y = t; }
+    if (part.ry){ c=Math.cos(part.ry); s=Math.sin(part.ry); t = x*c + z*s; z = -x*s + z*c; x = t; }
+    if (part.rz){ c=Math.cos(part.rz); s=Math.sin(part.rz); t = x*c - y*s; y = x*s + y*c; x = t; }
+    return [x+part.piv[0], y+part.piv[1], z+part.piv[2]];
+  }
+
+  function place(p, part){
+    var q = p, ch = part.chain, i;
+    for (i=0; i<ch.length; i++) q = turn(q, ch[i]);
+    return q;
+  }
+
+  // ---- one renderer per canvas, sharing the textures above ----
+  function makeView(cv, opts){
+    if (!cv) return null;
+    opts = opts || {};
+    var ctx = cv.getContext('2d');
+    var PM = buildParts(), PL = PM.list, PP = PM.map;
+    var yaw = 0.0, ry = 0.0, rx = -0.16, W = 0, H = 0, dpr = 1;
+    var drag = false, lastX = 0;
+    var blinkAt = 2.2, blinking = 0, T = 0;
+    var swing = opts.sway === undefined ? 0.42 : opts.sway;
+    var fitH = opts.fitH || 38, fitW = opts.fitW || 26, cyAdj = opts.cyAdj === undefined ? 16 : opts.cyAdj;
+
+    function fit(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = cv.clientWidth; H = cv.clientHeight;
+      if (!W || !H) return false;
+      cv.width = Math.round(W * dpr);
+      cv.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      return true;
+    }
+
+    function project(p, sc, cx, cy){
+      var cy_ = Math.cos(ry), sy = Math.sin(ry);
+      var x1 = p[0]*cy_ + p[2]*sy;
+      var z1 = -p[0]*sy + p[2]*cy_;
+      var cx_ = Math.cos(rx), sx = Math.sin(rx);
+      var y2 = p[1]*cx_ - z1*sx;
+      var z2 = p[1]*sx + z1*cx_;
+      return [cx + x1*sc, cy - y2*sc, z2];
+    }
+
+    function paint(src, sc, cx, cy, glow){
+      var list = [], i, j, pa, f, u, tl, tr, bl, ax, ay, bx, by;
+      for (i=0; i<PL.length; i++){
+        pa = PL[i];
+        if (!pa.on) continue;
+        for (j=0; j<pa.f.length; j++){
+          f = pa.f[j];
+          tl = project(place(f.tl, pa), sc, cx, cy);
+          tr = project(place(f.tr, pa), sc, cx, cy);
+          bl = project(place(f.bl, pa), sc, cx, cy);
+          list.push({ f:f, tl:tl, tr:tr, bl:bl, z:(tl[2]+tr[2]+bl[2])/3 });
+        }
+      }
+      list.sort(function(a,b){ return a.z - b.z; });
+      for (i=0; i<list.length; i++){
+        f = list[i].f; tl = list[i].tl; tr = list[i].tr; bl = list[i].bl;
+        u = f.uv;
+        ax = (tr[0]-tl[0]) / (u[2]*S); ay = (tr[1]-tl[1]) / (u[2]*S);
+        bx = (bl[0]-tl[0]) / (u[3]*S); by = (bl[1]-tl[1]) / (u[3]*S);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.transform(ax, ay, bx, by, tl[0], tl[1]);
+        ctx.drawImage(glow ? src : shades[f.f],
+                      u[0]*S, u[1]*S, u[2]*S, u[3]*S, 0, 0, u[2]*S, u[3]*S);
+      }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function frame(dt){
+      if (!ready || !W) return;
+      T += dt;
+      ry = yaw + (drag ? 0 : swing * Math.sin(T * 0.5));
+      blinkAt -= dt;
+      if (blinkAt <= 0){ blinking = 0.13; blinkAt = 2.6 + Math.random()*3.4; }
+      if (blinking > 0) blinking -= dt;
+
+      // the pose, straight off the pursuit pause values
+      var p = opts.pose ? opts.pose(dt) : null;
+      var tilt = p ? p.tilt : 0, hand = p ? p.hand : 0;
+      PP.head.rx = 0; PP.head.rz = 0;
+      PP.body.rx = 0; PP.body.rz = 0;
+      PP.larm.rx = 0; PP.larm.ry = 0; PP.larm.rz = 0;
+      PP.fore.rx = 0; PP.fore.ry = 0;
+      PP.larm.on = true; PP.upper.on = false; PP.fore.on = false;
+      // the model layer works in y down, z back. here y is up and z is toward the
+      // viewer, so the x angles carry over as they are and the y and z ones flip sign.
+      if (tilt > 0){
+        PP.head.rz =  0.15 * tilt;
+        PP.head.rx =  0.035 * tilt;
+        PP.body.rx =  0.025 * tilt;
+        PP.body.rz = -0.015 * tilt;
+      }
+      if (hand > 0){
+        PP.larm.on = false; PP.upper.on = true; PP.fore.on = true;
+        PP.larm.rx = -0.65 * hand;
+        PP.larm.ry = -0.20 * hand;
+        PP.larm.rz = -0.35 * hand;
+        PP.fore.rx = -1.85 * hand;
+        PP.fore.ry = -0.55 * hand;
+      }
+
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+
+      var sc = Math.min(H / fitH, W / fitW);
+      var cx = W/2, cy = H/2 + cyAdj*sc*Math.cos(rx);
+
+      if (opts.shadow !== false){
+        ctx.save();
+        ctx.translate(cx, cy - 0.5*sc);
+        ctx.scale(1, 0.26);
+        var g = ctx.createRadialGradient(0,0,0,0,0,10*sc);
+        g.addColorStop(0, 'rgba(0,0,0,.55)');
+        g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(0,0,10*sc,0,6.2832); ctx.fill();
+        ctx.restore();
+      }
+
+      ctx.imageSmoothingEnabled = false;
+      paint(null, sc, cx, cy, false);
+
+      // emissive pass: bloom then crisp
+      var em = blinking > 0 ? emisB : emis;
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalAlpha = 0.5;
+      ctx.shadowColor = '#38d8ff';
+      ctx.shadowBlur = 17 * dpr;
+      paint(em, sc, cx, cy, true);
+      ctx.shadowBlur = 0;
+      ctx.globalAlpha = 1;
+      paint(em, sc, cx, cy, true);
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    function px(e){ return e.touches && e.touches[0] ? e.touches[0].clientX : e.clientX; }
+    function down(e){ yaw = ry; drag = true; lastX = px(e); }
+    function move(e){
+      if (!drag) return;
+      var x = px(e);
+      yaw += (x - lastX) * 0.011;
+      ry = yaw;
+      lastX = x;
+      if (e.cancelable) e.preventDefault();
+    }
+    function up(){ if (drag){ yaw = ry - swing * Math.sin(T * 0.5); drag = false; } }
+    cv.addEventListener('pointerdown', down);
+    window.addEventListener('pointermove', move, { passive:false });
+    window.addEventListener('pointerup', up);
+    window.addEventListener('pointercancel', up);
+
+    var last = 0, vis = true, queued = false;
+    function loop(t){
+      if (!last) last = t;
+      var dt = Math.min((t - last)/1000, 0.05);
+      last = t;
+      frame(dt);
+      sched();
+    }
+    function sched(){
+      if(!vis || queued) return;
+      queued = true;
+      requestAnimationFrame(function(t){ queued = false; loop(t); });
+    }
+    if(window.IntersectionObserver){
+      new IntersectionObserver(function(es){
+        vis = es[0].isIntersecting;
+        if(vis){ last = 0; sched(); }
+      }, { rootMargin:'150px' }).observe(cv);
+    }
+
+    fit();
+    sched();
+    return { fit: fit };
+  }
+
+  // ---- the pursuit pause, ported tick for tick ----
+  function poseDriver(){
+    var TPS = 20, SPT = 1/TPS;
+    var acc = 0, now = 0;
+    var walking = true, wt = 0;
+    var still = 0, chin = false, rolled = false, rollv = -1;
+    var nextChin = -9999;
+    var tilt = 0, hand = 0;
+    var HASH = 0x5f3a91;               // stands in for the entity uuid hash
+    var el = {
+      fill:  document.getElementById('apwFill'),
+      tick:  document.getElementById('apwTick'),
+      state: document.getElementById('apwState'),
+      roll:  document.getElementById('apwRoll'),
+      cool:  document.getElementById('apwCool')
+    };
+    var shown = {};
+    function put(k, v){
+      if (shown[k] === v || !el[k]) return;
+      shown[k] = v; el[k].textContent = v;
+    }
+    function approach(a, b, r){ return a < b ? Math.min(a + r, b) : Math.max(a - r, b); }
+
+    function step(){
+      now++;
+      if (walking){
+        wt++;
+        if (wt > 40){ walking = false; wt = 0; still = 0; chin = false; rolled = false; rollv = -1; }
+      } else {
+        still++;
+        if (still === 32){
+          rolled = true;
+          if (now >= nextChin){
+            rollv = ((HASH + now) % 3 + 3) % 3;
+            chin = rollv === 0;
+            if (chin) nextChin = now + 240;
+          } else { rollv = -1; chin = false; }
+        }
+        if (still > 92){ walking = true; wt = 0; still = 0; chin = false; rolled = false; }
+      }
+      var pose = (!walking && still >= 6) ? (chin ? 2 : 1) : 0;
+      tilt = approach(tilt, pose > 0 ? 1 : 0, 0.16);
+      hand = approach(hand, pose === 2 ? 1 : 0, 0.10);
+    }
+
+    return function(dt){
+      acc += dt;
+      var guard = 0;
+      while (acc >= SPT && guard++ < 8){ acc -= SPT; step(); }
+
+      put('tick', walking ? '0' : String(still));
+      var st = walking ? 'WALKING' : chin ? 'CHIN' : still >= 6 ? 'TILT' : 'STILL';
+      put('state', st);
+      if (el.state){
+        var lit = (st === 'TILT' || st === 'CHIN');
+        el.state.className = lit ? 'ap-pst' : 'ap-pst off';
+      }
+      put('roll', !rolled ? 'no roll yet'
+                : rollv < 0 ? 'roll skipped, still on cooldown'
+                : 'roll ' + (rollv + 1) + ' of 3, ' + (chin ? 'chin' : 'no chin'));
+      put('cool', now < nextChin ? 'chin cooldown ' + Math.ceil((nextChin - now)/20) + 's' : 'chin ready');
+      if (el.fill) el.fill.style.width = (walking ? 0 : Math.min(still/96, 1) * 100) + '%';
+
+      return { tilt: tilt, hand: hand };
+    };
+  }
+
+  // ---- the eye detail inset ----
+  function drawEye(base){
+    if (!eyeCv) return;
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    var w = eyeCv.clientWidth, h = eyeCv.clientHeight;
+    if (!w || !h) return;
+    eyeCv.width = Math.round(w*d); eyeCv.height = Math.round(h*d);
+    var x = eyeCv.getContext('2d');
+    x.setTransform(d,0,0,d,0,0);
+    x.imageSmoothingEnabled = false;
+    var n = 8, cell = Math.min(w, h) / n;
+    var ox = (w - cell*n)/2, oy = (h - cell*n)/2;
+    x.drawImage(base, 8, 8, 8, 8, ox, oy, cell*n, cell*n);
+    x.strokeStyle = 'rgba(255,255,255,.05)';
+    x.lineWidth = 1;
+    for (var i=0; i<=n; i++){
+      x.beginPath(); x.moveTo(ox+i*cell, oy); x.lineTo(ox+i*cell, oy+cell*n); x.stroke();
+      x.beginPath(); x.moveTo(ox, oy+i*cell); x.lineTo(ox+cell*n, oy+i*cell); x.stroke();
+    }
+    // ring the twelve lit pixels
+    x.strokeStyle = 'rgba(125,211,252,.55)';
+    x.lineWidth = 1.5;
+    x.strokeRect(ox + 2*cell - 1.5, oy + 2*cell - 1.5, 5*cell + 3, 3*cell + 3);
+  }
+
+  var views = [];
+  var loaded = 0, imgA = new Image(), imgB = new Image();
+  function onload(){
+    loaded++;
+    if (loaded < 2) return;
+    var up = upscale(imgA);
+    for (var k in LIFT) shades[k] = lit(up, LIFT[k]);
+    emis = emissive(imgA);
+    emisB = emissive(imgB);
+    ready = true;
+    views.forEach(function(v){ v.fit(); });
+    drawEye(imgA);
+  }
+  imgA.onload = onload; imgB.onload = onload;
+  imgA.src = SKIN; imgB.src = BLINK;
+
+  var v1 = makeView(cv, {});
+  if (v1) views.push(v1);
+  var poseCv = document.getElementById('apPose');
+  if (poseCv){
+    var v2 = makeView(poseCv, { pose: poseDriver(), fitH: 23, fitW: 27, cyAdj: 23.5, shadow: false });
+    if (v2) views.push(v2);
+  }
+
+  window.__apFit = function(){
+    views.forEach(function(v){ v.fit(); });
+    if (ready) drawEye(imgA);
+  };
+
+  var ro = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(ro);
+    ro = setTimeout(function(){
+      views.forEach(function(v){ v.fit(); });
+      if (ready) drawEye(imgA);
+    }, 120);
+  });
+})();
+</script>
+
+<script>
+(function(){
+  var deck = document.getElementById('apDeck');
+  if (!deck) return;
+  var doc   = document.querySelector('.ap-doc');
+  var frame = document.getElementById('apFrame');
+  var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  function arr(n, root){ return [].slice.call((root || document).querySelectorAll(n)); }
+  function pop(el, cls){
+    if (!el || RM) return;
+    el.classList.remove(cls); void el.offsetWidth; el.classList.add(cls);
+  }
+  function clearOn(el, ev, cls){
+    function h(e){
+      if (e.target !== el) return;
+      el.classList.remove(cls);
+      el.style.animationDelay = '';
+      el.removeEventListener('animationend', h);
+      el.removeEventListener('animationcancel', h);
+    }
+    el.addEventListener('animationend', h);
+    el.addEventListener('animationcancel', h);
+  }
+
+  /* ---------------- the deck ---------------- */
+  var panes  = arr('.ap-pane', deck);
+  var strips = arr('.ap-dstrip', deck);
+  var stage  = deck.querySelector('.ap-dstage');
+  var fence  = deck.querySelector('.ap-dfence');
+  var bPrev  = deck.querySelector('.ap-dstep.prev');
+  var bNext  = deck.querySelector('.ap-dstep.next');
+  var cur = 0, morphT = 0;
+
+  function tabs(s){ return s.querySelectorAll('.ap-dtab'); }
+
+  function settle(root){
+    arr('.ap-pop', root).forEach(function(el){
+      el.classList.remove('ap-pop'); el.style.animationDelay = '';
+    });
+    if (root.classList.contains('ap-pop')){
+      root.classList.remove('ap-pop'); root.style.animationDelay = '';
+    }
+  }
+
+  function ink(){
+    strips.forEach(function(s){
+      var bar = s.querySelector('.ap-dink'), t = tabs(s)[cur];
+      if (!bar || !t) return;
+      bar.style.width = t.offsetWidth + 'px';
+      bar.style.transform = 'translate3d(' + t.offsetLeft + 'px,0,0)';
+    });
+  }
+
+  function centre(){
+    strips.forEach(function(s){
+      var t = tabs(s)[cur];
+      if (!t || s.scrollWidth <= s.clientWidth + 2) return;
+      var want = Math.max(0, t.offsetLeft - (s.clientWidth - t.offsetWidth) / 2);
+      if (s.scrollTo) s.scrollTo({ left: want, behavior: RM ? 'auto' : 'smooth' });
+      else s.scrollLeft = want;
+    });
+  }
+
+  function fullName(i){
+    var t = tabs(strips[0])[i];
+    return t ? (t.getAttribute('data-full') || t.textContent.trim()) : '';
+  }
+
+  function step(btn, i, kicker){
+    if (!btn) return;
+    if (i < 0 || i >= panes.length){ btn.disabled = true; btn.innerHTML = ''; return; }
+    btn.disabled = false;
+    btn.innerHTML = '<em>' + kicker + '</em><b>' + fullName(i) + '</b>';
+  }
+
+  function deckTop(){
+    var a = deck.getBoundingClientRect(), b = doc.getBoundingClientRect();
+    return doc.scrollTop + (a.top - b.top);
+  }
+
+  function go(i, snap){
+    i = Math.max(0, Math.min(panes.length - 1, i));
+    if (i === cur) return;
+    var back = i < cur;
+    var from = stage.offsetHeight;
+
+    settle(panes[cur]);
+    panes[cur].classList.remove('on', 'enter', 'rev');
+    cur = i;
+    panes[cur].classList.add('on');
+
+    var wb = panes[cur].classList.contains('wb');
+    fence.classList.toggle('on', wb);
+    if (wb) pop(fence, 'pop');
+
+    strips.forEach(function(s){
+      var ts = tabs(s);
+      for (var n = 0; n < ts.length; n++){
+        ts[n].classList.toggle('on', n === cur);
+        ts[n].setAttribute('aria-selected', n === cur ? 'true' : 'false');
+        ts[n].setAttribute('tabindex', n === cur ? '0' : '-1');
+      }
+    });
+    ink(); centre();
+    step(bPrev, cur - 1, 'Back to');
+    step(bNext, cur + 1, 'Next');
+
+    if (window.__apFit) window.__apFit();
+    stagger(panes[cur]);
+
+    if (!RM){
+      panes[cur].classList.add('enter');
+      if (back) panes[cur].classList.add('rev');
+      clearOn(panes[cur], 'animationend', 'enter');
+      clearOn(panes[cur], 'animationend', 'rev');
+    }
+
+    var to = stage.offsetHeight;
+    if (!RM && from && to && from !== to){
+      clearTimeout(morphT);
+      stage.classList.remove('morph');
+      stage.style.height = from + 'px';
+      void stage.offsetHeight;
+      stage.classList.add('morph');
+      stage.style.height = to + 'px';
+      morphT = setTimeout(function(){
+        stage.classList.remove('morph');
+        stage.style.height = '';
+        if (window.__apFit) window.__apFit();
+      }, 470);
+    }
+
+    if (snap){
+      var want = Math.max(0, deckTop() - 6);
+      if (doc.scrollTo) doc.scrollTo({ top: want, behavior: RM ? 'auto' : 'smooth' });
+      else doc.scrollTop = want;
+    }
+  }
+
+  strips.forEach(function(s){
+    s.addEventListener('click', function(e){
+      var t = e.target.closest ? e.target.closest('.ap-dtab') : null;
+      if (!t) return;
+      go(+t.getAttribute('data-i'), s.parentNode.classList.contains('ap-dbot'));
+    });
+    s.addEventListener('keydown', function(e){
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      go(cur + (e.key === 'ArrowRight' ? 1 : -1), false);
+      var t = tabs(s)[cur]; if (t) t.focus();
+    });
+  });
+  if (bPrev) bPrev.addEventListener('click', function(){ go(cur - 1, true); });
+  if (bNext) bNext.addEventListener('click', function(){ go(cur + 1, true); });
+
+  step(bPrev, -1, 'Back to');
+  step(bNext, 1, 'Next');
+  requestAnimationFrame(function(){ ink(); });
+  window.addEventListener('resize', function(){ ink(); });
+
+  /* ---------------- the failures ---------------- */
+  var bsel = deck.querySelector('.ap-bugsel'), bstage = deck.querySelector('.ap-bstage');
+  if (bsel && bstage){
+    var bugs = arr('.ap-bug', bstage), chips = arr('.ap-bchip', bsel), bi = 0;
+    bsel.addEventListener('click', function(e){
+      var c = e.target.closest ? e.target.closest('.ap-bchip') : null;
+      if (!c) return;
+      var n = +c.getAttribute('data-i');
+      if (n === bi) return;
+      var h = bstage.offsetHeight;
+      bugs[bi].classList.remove('on', 'pop');
+      chips[bi].classList.remove('on');
+      bi = n;
+      bugs[bi].classList.add('on');
+      chips[bi].classList.add('on');
+      chips[bi].setAttribute('aria-pressed', 'true');
+      pop(bugs[bi], 'pop');
+      clearOn(bugs[bi], 'animationend', 'pop');
+      var to = bstage.offsetHeight;
+      if (!RM && h && to && h !== to){
+        bstage.style.overflow = 'hidden';
+        bstage.style.height = h + 'px';
+        void bstage.offsetHeight;
+        bstage.style.transition = 'height .34s cubic-bezier(.22,.8,.28,1)';
+        bstage.style.height = to + 'px';
+        setTimeout(function(){
+          bstage.style.transition = ''; bstage.style.height = ''; bstage.style.overflow = '';
+        }, 370);
+      }
+    });
+  }
+
+  /* ---------------- staggered grids ---------------- */
+  var GRIDS = ['.ap-stats > *', '.ap-acts > *', '.ap-anatl > *', '.ap-vs > *',
+               '.ap-evo > *', '.ap-rsn > *', '.ap-labn > *', '.ap-scen > span',
+               '.ap-ttab tr', '.ap-bugsel > *'];
+  function stagger(root){
+    if (RM) return;
+    GRIDS.forEach(function(sel){
+      arr(sel, root).forEach(function(el, n){
+        if (n > 15) return;
+        el.style.animationDelay = (n * 0.045) + 's';
+        el.classList.remove('ap-pop'); void el.offsetWidth; el.classList.add('ap-pop');
+        clearOn(el, 'animationend', 'ap-pop');
+      });
+    });
+  }
+
+  /* ---------------- count up ---------------- */
+  function countUp(el){
+    var m = el.textContent.trim().match(/^([\d,]+)(.*)$/);
+    if (!m) return;
+    var target = parseInt(m[1].replace(/,/g, ''), 10), suf = m[2];
+    if (!(target > 0)) return;
+    if (RM) return;
+    var t0 = 0;
+    el.textContent = '0' + suf;
+    requestAnimationFrame(function run(t){
+      if (!t0) t0 = t;
+      var k = Math.min((t - t0) / 900, 1), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e).toLocaleString('en-US') + suf;
+      if (k < 1) requestAnimationFrame(run);
+    });
+  }
+
+  /* ---------------- reveal on scroll ---------------- */
+  var rest = document.querySelector('.ap-rest');
+  var pub = [];
+  if (rest){
+    for (var n = 0; n < rest.children.length; n++){
+      var k = rest.children[n];
+      if (k === deck) break;
+      pub.push(k);
+    }
+  }
+  var deckIdx = pub.length;
+  pub.push(deck);
+
+  var vsbars = arr('.ap-vs .ap-vsb i b');
+  vsbars.forEach(function(b){ b.setAttribute('data-w', b.style.width || '0%'); b.style.width = '0%'; });
+
+  function land(el){
+    if (el.classList.contains('ap-rv')){
+      el.classList.add('in');
+      el.addEventListener('animationend', function h(){
+        el.classList.remove('in'); el.classList.add('set');
+        el.removeEventListener('animationend', h);
+      });
+    }
+    if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+    if (el.classList.contains('ap-vs')){
+      setTimeout(function(){
+        vsbars.forEach(function(b, i){
+          setTimeout(function(){ b.style.width = b.getAttribute('data-w'); }, i * 70);
+        });
+      }, 180);
+    }
+    stagger(el);
+  }
+
+  function revealAll(){ pub.forEach(function(el){ el.classList.remove('ap-rv'); el.classList.add('set'); }); }
+
+  function arm(){
+    if (RM || !window.IntersectionObserver){ revealAll(); return; }
+    pub.forEach(function(el, i){ if (i !== deckIdx) el.classList.add('ap-rv'); });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        land(e.target);
+      });
+    }, { root: doc, rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
+    pub.forEach(function(el){ io.observe(el); });
+  }
+
+  if (!frame || frame.classList.contains('done')) arm();
+  else if (window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      if (frame.classList.contains('done')){ mo.disconnect(); arm(); }
+    });
+    mo.observe(frame, { attributes: true, attributeFilter: ['class'] });
+    setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 6000);
+  } else setTimeout(arm, 4500);
+})();
+</script>

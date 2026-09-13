@@ -1,0 +1,302 @@
+<h2>What actually gives a homepage homepage vibes</h2>
+<p class="subtitle">Not another object on the page. The timeline already carries the content. What is missing is an <em>arrival</em>: something that tells you what this is, gives you somewhere to go, and makes the page feel like it is running rather than sitting there. Here is the homepage with four beats added. Hit replay to watch it land.</p>
+
+<style>
+
+.tl { --mono: ui-monospace,"SF Mono",Menlo,monospace; --ice:#7dd3fc; --amb:#ffb454; }
+.tl-frame { position:relative; background:#0f1216; border:1px solid #1d232a; border-radius:10px; overflow:hidden; }
+
+/* ---- snow ---- */
+.tl-snow { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; }
+.tl-snow span { position:absolute; top:-8px; border-radius:50%; background:#dbe9f5; animation-name:tlfall; animation-timing-function:linear; animation-iteration-count:infinite; }
+@keyframes tlfall { from { transform:translate3d(0,-10px,0) } to { transform:translate3d(var(--dx),460px,0) } }
+
+/* ---- header ---- */
+.tl-head { position:relative; z-index:3; display:flex; align-items:baseline; gap:10px; padding:16px 22px 0; }
+.tl-head b { color:#f2f6f8; font-size:15px; font-weight:700; letter-spacing:-.015em; }
+.tl-head i { color:#7c8891; font-size:11px; font-style:normal; letter-spacing:.06em; }
+.tl-head nav { margin-left:auto; display:flex; gap:16px; font-size:11px; color:#6c7782; }
+.tl-meta { position:relative; z-index:3; padding:2px 22px 0; font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase; color:#4e5a66; }
+
+/* ---- stage ---- */
+.tl-stage { position:relative; z-index:2; height:238px; margin:10px 22px 0; }
+.tl-stage svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.tl-trace { fill:none; stroke:#2c688a; stroke-width:2; stroke-linejoin:round; stroke-dasharray:1492; stroke-dashoffset:1492; animation:tldraw 3.6s cubic-bezier(.32,.02,.2,1) forwards; }
+.tl-glow { fill:none; stroke:#7dd3fc; stroke-width:5; opacity:.13; filter:blur(3px); stroke-dasharray:1492; stroke-dashoffset:1492; animation:tldraw 3.6s cubic-bezier(.32,.02,.2,1) forwards; }
+@keyframes tldraw { to { stroke-dashoffset:0 } }
+
+/* ---- dots ---- */
+.tl-d { position:absolute; width:26px; height:26px; margin:-13px 0 0 -13px; display:grid; place-items:center; cursor:pointer; opacity:0; transform:scale(.2); animation:tlpop .5s cubic-bezier(.2,1.5,.4,1) forwards; text-decoration:none; }
+@keyframes tlpop { to { opacity:1; transform:scale(1) } }
+.tl-d i { width:7px; height:7px; border-radius:50%; background:#7dd3fc; transition:transform .18s, box-shadow .18s; }
+.tl-d.major i { width:10px; height:10px; box-shadow:0 0 0 3px #0f1216, 0 0 0 4px #7dd3fc4d; }
+.tl-d.arch2 i { width:10px; height:10px; box-shadow:0 0 0 3px #0f1216, 0 0 0 4px #7dd3fc4d; }
+.tl-d.arch i { width:12px; height:12px; background:#ffb454; box-shadow:0 0 0 3px #0f1216, 0 0 0 5px #ffb4543d, 0 0 16px #ffb45480; }
+.tl-d:hover i { transform:scale(1.45); }
+.tl-d:hover { z-index:20; }
+.tl-d.arch:after { content:""; position:absolute; top:50%; left:50%; width:12px; height:12px; margin:-6px 0 0 -6px; border-radius:50%; border:1px solid #ffb454; opacity:0; animation:tlring 3.6s ease-out 4.1s infinite; pointer-events:none; }
+@keyframes tlring { 0% { transform:scale(1); opacity:.5 } 60% { transform:scale(3); opacity:0 } 100% { transform:scale(3); opacity:0 } }
+
+/* ---- hover card ---- */
+.tl-card { position:absolute; left:50%; transform:translate(-50%,4px); width:212px; background:#151b22; border:1px solid #26303b; border-radius:7px; padding:9px 11px 10px; opacity:0; pointer-events:none; transition:opacity .16s, transform .16s; }
+.tl-card.above { bottom:22px; }
+.tl-card.below { top:22px; }
+.tl-d:hover .tl-card { opacity:1; transform:translate(-50%,0); }
+.tl-card.edgeL { left:-13px; transform:translate(0,4px); }
+.tl-card.edgeR { left:auto; right:-13px; transform:translate(0,4px); }
+.tl-d:hover .tl-card.edgeL, .tl-d:hover .tl-card.edgeR { transform:translate(0,0); }
+.tl-card em { display:block; font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#7c8891; font-style:normal; }
+.tl-card b { display:block; font-size:13px; font-weight:600; color:#f2f6f8; letter-spacing:-.01em; margin:3px 0 6px; }
+.tl-card code { display:block; font-family:var(--mono); font-size:9.5px; line-height:1.5; color:#7e8a96; border-top:1px solid #212831; padding-top:6px; }
+.tl-d.arch .tl-card { border-color:#3a3020; }
+.tl-d.arch .tl-card b { color:#ffb454; }
+
+/* ---- silence bracket ---- */
+.tl-sil { position:absolute; left:39.27%; width:32.98%; bottom:4px; text-align:center; opacity:0; animation:tlfade .8s ease 2.05s forwards; }
+.tl-sil div { height:5px; border:1px solid #2a3440; border-top:none; border-radius:0 0 3px 3px; }
+.tl-sil span { display:block; margin-top:5px; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#54626e; }
+@keyframes tlfade { to { opacity:1 } }
+
+/* ---- chapter bands ---- */
+.tl-bands { position:relative; z-index:2; display:flex; margin:0 22px; padding-top:9px; border-top:1px solid #1b212a; gap:1px; }
+.tl-bands div { padding:7px 0 16px; font-size:10.5px; color:#77828c; position:relative; opacity:0; animation:tlfade .6s ease forwards; }
+.tl-bands div:before { content:""; position:absolute; top:-1px; left:0; right:1px; height:1px; background:#2c688a; }
+.tl-bands div.q:before { background:#1e2932; }
+.tl-bands div.p:before { background:#7dd3fc; }
+.tl-bands b { color:#aeb8c0; font-weight:500; }
+
+/* ---- notes + themes ---- */
+.tl-note { margin-top:22px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:#1d232a; border:1px solid #1d232a; border-radius:9px; overflow:hidden; }
+.tl-note > div { background:#111519; padding:15px 17px; }
+.tl-lbl { font-family:var(--mono); font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:#5d6b7a; margin-bottom:8px; }
+.tl-note p { margin:0; font-size:12px; line-height:1.62; color:#8d98a1; }
+.tl-note p em { color:#d4dade; font-style:normal; }
+.tl-note p + p { margin-top:8px; }
+
+.tl-th { margin-top:22px; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+.tl-thc { border:1px solid #1d232a; border-radius:8px; overflow:hidden; background:#0f1216; }
+.tl-thb { height:62px; position:relative; overflow:hidden; border-bottom:1px solid #1a2029; }
+.tl-thb u { position:absolute; inset:0; text-decoration:none; }
+.tl-thn { padding:10px 12px 12px; }
+.tl-thn b { display:block; font-size:12px; color:#f2f6f8; font-weight:600; margin-bottom:4px; }
+.tl-thn span { display:block; font-size:11px; line-height:1.5; color:#828d96; }
+
+@property --v480 { syntax:'<integer>'; initial-value:0; inherits:false }
+.n480 { --v480:480; counter-reset:c var(--v480); animation:k480 1.7s cubic-bezier(.15,.85,.25,1) .35s; }
+.n480:after { content:counter(c) }
+@keyframes k480 { from { --v480:0 } }
+@property --v192 { syntax:'<integer>'; initial-value:0; inherits:false }
+.n192 { --v192:192; counter-reset:c var(--v192); animation:k192 1.7s cubic-bezier(.15,.85,.25,1) .35s; }
+.n192:after { content:counter(c) }
+@keyframes k192 { from { --v192:0 } }
+@property --v63 { syntax:'<integer>'; initial-value:0; inherits:false }
+.n63 { --v63:63; counter-reset:c var(--v63); animation:k63 1.7s cubic-bezier(.15,.85,.25,1) .35s; }
+.n63:after { content:counter(c) }
+@keyframes k63 { from { --v63:0 } }
+@property --v1 { syntax:'<integer>'; initial-value:0; inherits:false }
+.n1 { --v1:1; counter-reset:c var(--v1); animation:k1 1.7s cubic-bezier(.15,.85,.25,1) .35s; }
+.n1:after { content:counter(c) }
+@keyframes k1 { from { --v1:0 } }
+
+
+/* hero */
+.hv-hero { position:relative; z-index:3; padding:14px 22px 0; }
+.hv-hero h1 { margin:0; font-size:25px; line-height:1.26; font-weight:600; letter-spacing:-.025em; color:#f2f6f8; max-width:19em;
+  opacity:0; transform:translateY(7px); animation:hvUp .7s cubic-bezier(.2,.8,.2,1) .05s forwards; }
+@keyframes hvUp { to { opacity:1; transform:none } }
+.hv-stats { display:flex; gap:30px; margin-top:17px; }
+.hv-stats div { opacity:0; animation:hvUp .6s cubic-bezier(.2,.8,.2,1) forwards; }
+.hv-stats div:nth-child(1){animation-delay:.30s} .hv-stats div:nth-child(2){animation-delay:.38s}
+.hv-stats div:nth-child(3){animation-delay:.46s} .hv-stats div:nth-child(4){animation-delay:.54s}
+.hv-stats b { display:block; font-size:22px; font-weight:600; color:#7dd3fc; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
+.hv-stats div:nth-child(3) b { color:#6a7783; }
+.hv-stats span { display:block; margin-top:1px; font-family:var(--mono); font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:#5d6b7a; }
+.hv-cta { display:flex; gap:9px; margin-top:19px; opacity:0; animation:hvUp .6s cubic-bezier(.2,.8,.2,1) .72s forwards; }
+.hv-cta a { font-size:12px; padding:8px 15px; border-radius:6px; border:1px solid #232c36; color:#aeb8c0; cursor:pointer; }
+.hv-cta a.pri { background:#7dd3fc; border-color:#7dd3fc; color:#08202c; font-weight:600; }
+
+/* draw, retimed to stall across the silence */
+.tl-trace, .tl-glow { animation:tldraw 3.8s linear .5s forwards; }
+@keyframes tldraw {
+  0%   { stroke-dashoffset:1492 }
+  28%  { stroke-dashoffset:914 }
+  78%  { stroke-dashoffset:422 }
+  100% { stroke-dashoffset:0 }
+}
+.tl-sil { animation-delay:1.4s !important; }
+
+/* the scan */
+.tl-scan { fill:none; stroke:#7dd3fc; stroke-width:2.5; opacity:0; stroke-linejoin:round;
+  stroke-dasharray:52 1440; stroke-dashoffset:52; animation:tlscan 9s linear 5s infinite; }
+@keyframes tlscan { 0%{opacity:0;stroke-dashoffset:52} 6%{opacity:.55} 44%{opacity:.55} 50%{opacity:0;stroke-dashoffset:-1440} 100%{opacity:0;stroke-dashoffset:-1440} }
+
+/* the now dot */
+.tl-d.now i { box-shadow:0 0 0 3px #0f1216, 0 0 0 4px #7dd3fc66, 0 0 14px #7dd3fc55; }
+.tl-d.now:after { content:""; position:absolute; top:50%; left:50%; width:10px; height:10px; margin:-5px 0 0 -5px;
+  border-radius:50%; border:1px solid #7dd3fc; opacity:0; animation:tlring 3.4s ease-out 5.2s infinite; pointer-events:none; }
+
+/* scroll reveal */
+.hv-rev { opacity:0; transform:translateY(14px); transition:opacity .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1); }
+.hv-rev.in { opacity:1; transform:none; }
+
+
+/* ambient sky strip */
+.hv-sky { position:relative; aspect-ratio:1000/74; z-index:2; }
+.hv-sky svg { position:absolute; inset:0; width:100%; height:100%; }
+.hv-skyfg { overflow:hidden; }
+.hv-gzrow { display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-top:14px; }
+.hv-gz { text-align:center; }
+.hv-gz svg { width:100%; max-width:88px; height:auto; }
+.hv-gz span { display:block; margin-top:7px; font-family:var(--mono); font-size:8.5px; letter-spacing:.11em; text-transform:uppercase; color:#5d6b7a; }
+.hv-sec { font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:#5d6b7a; margin:30px 0 12px; display:flex; align-items:center; gap:10px; }
+.hv-sec:after { content:""; flex:1; height:1px; background:#1d232a; }
+.hv-replay { font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#7dd3fc;
+  background:none; border:1px solid #223744; border-radius:5px; padding:5px 11px; cursor:pointer; }
+
+</style>
+
+<div class="tl">
+  <div class="hv-sec">the whole thing, assembled <button class="hv-replay" onclick="hvReplay()">Replay</button></div>
+  <div id="hvStage">
+<div class="tl-frame">
+    <div class="tl-snow">
+      <span style="left:15.1%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:28.3s;animation-delay:-18.4s;--dx:-31px"></span>
+      <span style="left:9.4%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:24.7s;animation-delay:-14.4s;--dx:24px"></span>
+      <span style="left:8.6%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:15.5s;animation-delay:-6.5s;--dx:-10px"></span>
+      <span style="left:42.5%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:26.6s;animation-delay:-22.0s;--dx:-25px"></span>
+      <span style="left:63.1%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:25.6s;animation-delay:-14.9s;--dx:-33px"></span>
+      <span style="left:39.7%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:18.0s;animation-delay:-17.6s;--dx:-35px"></span>
+      <span style="left:13.3%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:29.9s;animation-delay:-12.5s;--dx:29px"></span>
+      <span style="left:30.8%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:19.8s;animation-delay:-16.2s;--dx:-17px"></span>
+      <span style="left:57.1%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:14.7s;animation-delay:-2.8s;--dx:-28px"></span>
+      <span style="left:6.3%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:29.8s;animation-delay:-1.8s;--dx:-14px"></span>
+      <span style="left:53.2%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:22.5s;animation-delay:-17.5s;--dx:19px"></span>
+      <span style="left:45.3%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:18.1s;animation-delay:-5.4s;--dx:-17px"></span>
+      <span style="left:24.4%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:30.9s;animation-delay:-17.7s;--dx:27px"></span>
+      <span style="left:34.3%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:22.5s;animation-delay:-10.1s;--dx:37px"></span>
+      <span style="left:11.8%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:20.9s;animation-delay:-8.7s;--dx:3px"></span>
+      <span style="left:48.9%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:27.1s;animation-delay:-1.1s;--dx:-31px"></span>
+      <span style="left:57.3%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:24.4s;animation-delay:-21.3s;--dx:0px"></span>
+      <span style="left:35.0%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:16.4s;animation-delay:-8.1s;--dx:18px"></span>
+      <span style="left:9.4%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:26.5s;animation-delay:-7.1s;--dx:-32px"></span>
+      <span style="left:70.1%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:19.4s;animation-delay:-12.6s;--dx:17px"></span>
+      <span style="left:38.6%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:16.0s;animation-delay:-10.7s;--dx:-38px"></span>
+      <span style="left:35.5%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:32.6s;animation-delay:-19.9s;--dx:23px"></span>
+      <span style="left:76.8%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:19.4s;animation-delay:-2.5s;--dx:-9px"></span>
+      <span style="left:91.7%;width:3.2px;height:3.2px;opacity:0.4;animation-duration:16.8s;animation-delay:-8.3s;--dx:-19px"></span>
+      <span style="left:54.9%;width:1.6px;height:1.6px;opacity:0.16;animation-duration:29.1s;animation-delay:-25.7s;--dx:15px"></span>
+      <span style="left:27.8%;width:2.3px;height:2.3px;opacity:0.26;animation-duration:25.0s;animation-delay:-10.4s;--dx:5px"></span>
+    </div>
+
+      <div class="hv-sky">
+      <svg viewBox="0 0 1000 74" class="hv-skyfg">
+        <path d="M 34 46 C 250 14, 640 11, 1078 40" fill="none" stroke="#1b242e" stroke-width="1"/>
+        <defs><clipPath id="gclip"><circle cx="0" cy="0" r="9"/></clipPath><radialGradient id="gshade" cx="33%" cy="29%" r="80%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".13"/><stop offset="52%" stop-color="#ffffff" stop-opacity="0"/><stop offset="100%" stop-color="#000000" stop-opacity=".52"/></radialGradient></defs>
+        <circle cx="34" cy="46" r="11" fill="#f0e3c6" opacity=".07"/>
+        <circle cx="34" cy="46" r="3.6" fill="#f4e8cd" opacity=".55"/>
+        <g><circle r="9" fill="#2b74a8"/><g clip-path="url(#gclip)"><g fill="#4f9c64"><animate attributeName="opacity" dur="72.0s" fill="freeze" values="1;1;.85;.45;.1;.05" keyTimes="0;0.3;0.45;0.62;0.85;1"/><animateTransform attributeName="transform" type="translate" from="0 0" to="-18 0" dur="7.0s" repeatCount="10.3"/><g transform="translate(-18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g transform="translate(18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g></g><ellipse cx="0" cy="-9" rx="9" fill="#eaf4fb"><animate attributeName="ry" dur="72.0s" fill="freeze" values="1.1;2.2;4.6;7.2;9;9" keyTimes="0;0.3;0.5;0.7;0.88;1"/></ellipse><ellipse cx="0" cy="9"  rx="9" fill="#eaf4fb"><animate attributeName="ry" dur="72.0s" fill="freeze" values="1.1;2.2;4.6;7.2;9;9" keyTimes="0;0.3;0.5;0.7;0.88;1"/></ellipse><circle r="9" fill="#cfe2f0"><animate attributeName="opacity" dur="72.0s" fill="freeze" values="0;0.05;0.3;0.68;0.92;0.95" keyTimes="0;0.3;0.5;0.7;0.88;1"/></circle><circle r="9" fill="#04060b"><animate attributeName="opacity" dur="72.0s" fill="freeze" values="0;0;0.1;0.42;0.7;0.78" keyTimes="0;0.5;0.68;0.82;0.94;1"/></circle></g><circle r="9" fill="url(#gshade)"/>
+          <animateMotion dur="72.0s" fill="freeze" path="M 34 46 C 250 14, 640 11, 1078 40"/>
+        </g>
+      </svg>
+    </div>
+  <div class="tl-head" style="padding-top:6px"><b>Frozen Dawn</b><i>DEV JOURNAL</i>
+      <nav><span>The Architect</span><span>Get the mod</span><span>About</span></nav>
+    </div>
+    <div class="hv-hero">
+      <h1>One person, four hundred and eighty commits, and a thing that learned to think.</h1>
+      <div class="hv-stats">
+        <div><b class="n n480"></b><span>commits</span></div>
+        <div><b class="n n192"></b><span>days</span></div>
+        <div><b class="n n63"></b><span>days dark</span></div>
+        <div><b class="n n1"></b><span>person</span></div>
+      </div>
+      <div class="hv-cta"><a class="pri">Meet the Architect</a><a>Read the journal</a><a>Get the mod</a></div>
+    </div>
+
+    <div class="tl-stage">
+      <svg viewBox="0 0 1000 200" preserveAspectRatio="none">
+        <polyline class="tl-glow" points="0.0,64.8 10.5,85.4 20.9,95.5 31.4,146.1 41.9,159.6 52.4,162.9 62.8,162.9 73.3,149.5 83.8,136.0 94.2,129.2 104.7,136.0 115.2,152.8 125.7,157.9 136.1,154.5 146.6,137.7 157.1,130.9 167.5,136.0 178.0,130.9 188.5,110.7 199.0,110.7 209.4,95.5 219.9,36.5 230.4,21.4 240.8,18.0 251.3,55.1 261.8,109.0 272.3,117.4 282.7,88.8 293.2,95.5 303.7,48.3 314.1,48.3 324.6,93.8 335.1,117.4 345.5,119.1 356.0,122.5 366.5,125.9 377.0,141.0 387.4,142.7 397.9,154.5 408.4,168.0 418.8,168.0 429.3,168.0 439.8,168.0 450.3,168.0 460.7,166.3 471.2,166.3 481.7,166.3 492.1,164.6 502.6,166.3 513.1,166.3 523.6,168.0 534.0,168.0 544.5,168.0 555.0,168.0 565.4,168.0 575.9,168.0 586.4,168.0 596.9,168.0 607.3,168.0 617.8,168.0 628.3,168.0 638.7,168.0 649.2,168.0 659.7,168.0 670.2,168.0 680.6,168.0 691.1,168.0 701.6,164.6 712.0,152.8 722.5,149.5 733.0,129.2 743.5,136.0 753.9,137.7 764.4,147.8 774.9,157.9 785.3,156.2 795.8,139.3 806.3,134.3 816.8,137.7 827.2,125.9 837.7,134.3 848.2,141.0 858.6,134.3 869.1,156.2 879.6,147.8 890.1,144.4 900.5,142.7 911.0,142.7 921.5,149.5 931.9,154.5 942.4,137.7 952.9,142.7 963.4,142.7 973.8,159.6 984.3,149.5 994.8,153.8 1000.0,150.3"/>
+        <polyline class="tl-scan" points="0.0,64.8 10.5,85.4 20.9,95.5 31.4,146.1 41.9,159.6 52.4,162.9 62.8,162.9 73.3,149.5 83.8,136.0 94.2,129.2 104.7,136.0 115.2,152.8 125.7,157.9 136.1,154.5 146.6,137.7 157.1,130.9 167.5,136.0 178.0,130.9 188.5,110.7 199.0,110.7 209.4,95.5 219.9,36.5 230.4,21.4 240.8,18.0 251.3,55.1 261.8,109.0 272.3,117.4 282.7,88.8 293.2,95.5 303.7,48.3 314.1,48.3 324.6,93.8 335.1,117.4 345.5,119.1 356.0,122.5 366.5,125.9 377.0,141.0 387.4,142.7 397.9,154.5 408.4,168.0 418.8,168.0 429.3,168.0 439.8,168.0 450.3,168.0 460.7,166.3 471.2,166.3 481.7,166.3 492.1,164.6 502.6,166.3 513.1,166.3 523.6,168.0 534.0,168.0 544.5,168.0 555.0,168.0 565.4,168.0 575.9,168.0 586.4,168.0 596.9,168.0 607.3,168.0 617.8,168.0 628.3,168.0 638.7,168.0 649.2,168.0 659.7,168.0 670.2,168.0 680.6,168.0 691.1,168.0 701.6,164.6 712.0,152.8 722.5,149.5 733.0,129.2 743.5,136.0 753.9,137.7 764.4,147.8 774.9,157.9 785.3,156.2 795.8,139.3 806.3,134.3 816.8,137.7 827.2,125.9 837.7,134.3 848.2,141.0 858.6,134.3 869.1,156.2 879.6,147.8 890.1,144.4 900.5,142.7 911.0,142.7 921.5,149.5 931.9,154.5 942.4,137.7 952.9,142.7 963.4,142.7 973.8,159.6 984.3,149.5 994.8,153.8 1000.0,150.3"/>
+        <polyline class="tl-trace" points="0.0,64.8 10.5,85.4 20.9,95.5 31.4,146.1 41.9,159.6 52.4,162.9 62.8,162.9 73.3,149.5 83.8,136.0 94.2,129.2 104.7,136.0 115.2,152.8 125.7,157.9 136.1,154.5 146.6,137.7 157.1,130.9 167.5,136.0 178.0,130.9 188.5,110.7 199.0,110.7 209.4,95.5 219.9,36.5 230.4,21.4 240.8,18.0 251.3,55.1 261.8,109.0 272.3,117.4 282.7,88.8 293.2,95.5 303.7,48.3 314.1,48.3 324.6,93.8 335.1,117.4 345.5,119.1 356.0,122.5 366.5,125.9 377.0,141.0 387.4,142.7 397.9,154.5 408.4,168.0 418.8,168.0 429.3,168.0 439.8,168.0 450.3,168.0 460.7,166.3 471.2,166.3 481.7,166.3 492.1,164.6 502.6,166.3 513.1,166.3 523.6,168.0 534.0,168.0 544.5,168.0 555.0,168.0 565.4,168.0 575.9,168.0 586.4,168.0 596.9,168.0 607.3,168.0 617.8,168.0 628.3,168.0 638.7,168.0 649.2,168.0 659.7,168.0 670.2,168.0 680.6,168.0 691.1,168.0 701.6,164.6 712.0,152.8 722.5,149.5 733.0,129.2 743.5,136.0 753.9,137.7 764.4,147.8 774.9,157.9 785.3,156.2 795.8,139.3 806.3,134.3 816.8,137.7 827.2,125.9 837.7,134.3 848.2,141.0 858.6,134.3 869.1,156.2 879.6,147.8 890.1,144.4 900.5,142.7 911.0,142.7 921.5,149.5 931.9,154.5 942.4,137.7 952.9,142.7 963.4,142.7 973.8,159.6 984.3,149.5 994.8,153.8 1000.0,150.3"/>
+      </svg>
+      <a class="tl-d major" style="left:0.00%;top:32.40%;animation-delay:0.50s"><i></i><span class="tl-card below edgeL"><em>23 Feb</em><b>Frozen Dawn begins</b><code>Initial commit: Frozen Dawn mod (NeoForge 1.21.1)</code></span></a>
+      <a class="tl-d minor" style="left:1.05%;top:42.70%;animation-delay:0.53s"><i></i><span class="tl-card below edgeL"><em>25 Feb</em><b>The phase system</b><code>Add ORSA Document item, 5-book lore system, phase 0 temp HUD</code></span></a>
+      <a class="tl-d minor" style="left:3.66%;top:74.75%;animation-delay:0.60s"><i></i><span class="tl-card above edgeL"><em>02 Mar</em><b>Returned Hunter</b><code>Add Returned Hunter mob, mob spawn multiplier</code></span></a>
+      <a class="tl-d arch" style="left:6.81%;top:78.10%;animation-delay:0.69s"><i></i><span class="tl-card above edgeL"><em>08 Mar</em><b>The Architect arrives</b><code>Add Architect and Mimic mobs with D* Lite pathfinding</code></span></a>
+      <a class="tl-d minor" style="left:7.85%;top:69.65%;animation-delay:0.72s"><i></i><span class="tl-card above edgeL"><em>10 Mar</em><b>Two days later</b><code>architect finally done</code></span></a>
+      <a class="tl-d minor" style="left:14.14%;top:74.75%;animation-delay:0.89s"><i></i><span class="tl-card above"><em>22 Mar</em><b>Tower terminal</b><code>Refine tower terminal UI and unlock compass recovery</code></span></a>
+      <a class="tl-d major" style="left:19.90%;top:55.35%;animation-delay:1.05s"><i></i><span class="tl-card above"><em>02 Apr</em><b>Everything changes</b><code>fix(atmosphere): add breathable zone authority pass 1</code></span></a>
+      <a class="tl-d arch2" style="left:22.51%;top:13.20%;animation-delay:1.12s"><i></i><span class="tl-card below"><em>07 Apr</em><b>The decision engine</b><code>refactor(architect): extract decision engine</code></span></a>
+      <a class="tl-d minor" style="left:24.08%;top:9.00%;animation-delay:1.16s"><i></i><span class="tl-card below"><em>10 Apr</em><b>Instruments</b><code>feat(blizzard_goggles): add Curios whiteout optics</code></span></a>
+      <a class="tl-d minor" style="left:27.23%;top:58.70%;animation-delay:1.25s"><i></i><span class="tl-card above"><em>16 Apr</em><b>The way out</b><code>feat(endgame): add blast pit launch pad and rocket launch entity</code></span></a>
+      <a class="tl-d major" style="left:34.55%;top:59.55%;animation-delay:1.45s"><i></i><span class="tl-card above"><em>30 Apr</em><b>alpha-1.0</b><code>Merge pull request #31 from cjaron03/release/alpha-1.0-release</code></span></a>
+      <a class="tl-d minor" style="left:38.74%;top:71.35%;animation-delay:1.57s"><i></i><span class="tl-card above"><em>08 May</em><b>The last commit</b><code>chore(release): bump alpha hotfix version</code></span></a>
+      <a class="tl-d major" style="left:71.73%;top:75.55%;animation-delay:3.46s"><i></i><span class="tl-card above"><em>10 Jul</em><b>Coming back</b><code>fix(world): reconcile snow after tree catch-up</code></span></a>
+      <a class="tl-d major" style="left:74.35%;top:68.00%;animation-delay:3.54s"><i></i><span class="tl-card above"><em>15 Jul</em><b>Master Architect</b><code>feat(homo-reliquus): add Master Architect combat suite</code></span></a>
+      <a class="tl-d minor" style="left:90.05%;top:71.35%;animation-delay:4.01s"><i></i><span class="tl-card above edgeR"><em>14 Aug</em><b>The Aggregate</b><code>feat(homo-reliquus): add the Aggregate</code></span></a>
+      <a class="tl-d major now" style="left:96.86%;top:71.35%;animation-delay:4.21s"><i></i><span class="tl-card above edgeR"><em>27 Aug</em><b>The Long Silence</b><code>docs(release): prepare The Long Silence launch notes</code></span></a>
+      <div class="tl-sil"><div></div><span>63 days</span></div>
+    </div>
+
+    <div class="tl-bands">
+      <div style="flex:6.81;animation-delay:0.50s">The Cold<br><b>46</b></div>
+      <div style="flex:13.09;animation-delay:0.69s">Building a Mind<br><b>59</b></div>
+      <div class="p" style="flex:19.37;animation-delay:1.05s">The Crunch<br><b>258</b></div>
+      <div class="q" style="flex:32.98;animation-delay:1.60s">The Silence<br><b>4</b></div>
+      <div style="flex:25.13;animation-delay:3.48s">Homo Reliquus<br><b>106</b></div>
+      <div style="flex:2.62;animation-delay:4.22s">Now<br><b>7</b></div>
+    </div>
+  </div>
+  </div>
+
+  <div class="hv-sec">the four beats &middot; pick the ones you want</div>
+
+  <div class="cards" style="grid-template-columns:1fr 1fr; gap:18px;">
+
+    <div class="card" data-choice="hero" onclick="toggleSelect(this)">
+      <div class="card-body"><h3>1 &middot; A sentence and a door</h3>
+      <p>Right now the page opens with a small masthead and a chart. A stranger has no idea what they are looking at and nowhere to click. This adds one line that says what the mod is, four real numbers that count up from zero as the page lands, and three buttons. The numbers are the honest ones: 480 commits, 192 days, 63 of them dark, one person. The 63 is deliberately grey, not blue, because it is the only stat that is not an achievement.</p>
+      <p style="color:#7c8891">This is the beat that actually turns a chart into a homepage. Everything else below is polish on top of it.</p></div>
+    </div>
+
+    <div class="card" data-choice="stall" onclick="toggleSelect(this)">
+      <div class="card-body"><h3>2 &middot; The line stalls through the silence</h3>
+      <p>The draw used to be one even sweep. Now it runs fast through February to May, then drops to roughly half speed for the flat stretch between 08 May and 10 Jul, then picks up again on the far side. Almost two full seconds pass with the line barely moving and no new dots appearing.</p>
+      <p>It costs nothing, it is a timing curve and nothing else, and it means the page tells you about the break before you have read a single word. The 63 days label fades in right as the crawl starts.</p></div>
+    </div>
+
+    <div class="card" data-choice="scan" onclick="toggleSelect(this)">
+      <div class="card-body"><h3>3 &middot; A pulse runs the line</h3>
+      <p>Once the draw finishes the timeline is a static picture. This sends a short lit segment travelling along the finished line every nine seconds, and gives the last dot, the one that means now, a slow ice ring like the Architect has in amber.</p>
+      <p>Two small things, and together they are the difference between a page that has loaded and a page that is still running. This is the ambient animation you asked for, and it lives on the line you already have instead of next to it.</p></div>
+    </div>
+
+    <div class="card" data-choice="reveal" onclick="toggleSelect(this)">
+      <div class="card-body"><h3>4 &middot; The rest unfolds as you scroll</h3>
+      <p>Everything under the frame, the three explanation columns and the four theme cards, currently exists the moment you arrive. This holds them back and lifts each one into place as it comes into view.</p>
+      <p>Standard, and standard for a reason: it keeps the timeline as the only thing competing for attention on first paint, and it gives the page a second half instead of one long scroll of things that were already there.</p></div>
+    </div>
+
+    <div class="card" data-choice="earth" onclick="toggleSelect(this)" style="grid-column:1/-1">
+      <div class="card-body"><h3>5 &middot; Earth crosses the top of the page, and freezes on the way</h3>
+      <p>A thin band above the masthead with one hairline arc and a small star at the left edge. Earth rides it from one side to the other in seventy two seconds, turning on its axis the whole time. It starts blue and green with small polar caps. The caps grow, the land goes pale, ice takes the surface, and by the far edge it is a dark grey stone still slowly rotating. Then it leaves the frame and it does not come back. The band stays empty for the rest of the visit, with just the star and an empty line.</p>
+      <p>It is the same idea as the drift band you sent back, except stripped of every label and number so it is atmosphere instead of explanation. The phases page still gets the real version with the six sky colours and the temperatures.</p>
+      <div class="hv-gzrow"><div class="hv-gz"><svg viewBox="-11 -11 22 22"><defs><clipPath id="gclip0"><circle cx="0" cy="0" r="9"/></clipPath><radialGradient id="gshade0" cx="33%" cy="29%" r="80%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".13"/><stop offset="52%" stop-color="#ffffff" stop-opacity="0"/><stop offset="100%" stop-color="#000000" stop-opacity=".52"/></radialGradient></defs><g><circle r="9" fill="#2b74a8"/><g clip-path="url(#gclip0)"><g fill="#4f9c64" opacity="1.00"><g transform="translate(-18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g transform="translate(18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g></g><ellipse cx="0" cy="-9" rx="9" ry="1.10" fill="#eaf4fb"/><ellipse cx="0" cy="9"  rx="9" ry="1.10" fill="#eaf4fb"/><circle r="9" fill="#cfe2f0" opacity="0.00"/><circle r="9" fill="#04060b" opacity="0.00"/></g><circle r="9" fill="url(#gshade0)"/></g></svg><span>Now</span></div><div class="hv-gz"><svg viewBox="-11 -11 22 22"><defs><clipPath id="gclip1"><circle cx="0" cy="0" r="9"/></clipPath><radialGradient id="gshade1" cx="33%" cy="29%" r="80%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".13"/><stop offset="52%" stop-color="#ffffff" stop-opacity="0"/><stop offset="100%" stop-color="#000000" stop-opacity=".52"/></radialGradient></defs><g><circle r="9" fill="#2b74a8"/><g clip-path="url(#gclip1)"><g fill="#4f9c64" opacity="0.95"><g transform="translate(-18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g transform="translate(18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g></g><ellipse cx="0" cy="-9" rx="9" ry="2.40" fill="#eaf4fb"/><ellipse cx="0" cy="9"  rx="9" ry="2.40" fill="#eaf4fb"/><circle r="9" fill="#cfe2f0" opacity="0.05"/><circle r="9" fill="#04060b" opacity="0.00"/></g><circle r="9" fill="url(#gshade1)"/></g></svg><span>About 20 seconds in</span></div><div class="hv-gz"><svg viewBox="-11 -11 22 22"><defs><clipPath id="gclip2"><circle cx="0" cy="0" r="9"/></clipPath><radialGradient id="gshade2" cx="33%" cy="29%" r="80%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".13"/><stop offset="52%" stop-color="#ffffff" stop-opacity="0"/><stop offset="100%" stop-color="#000000" stop-opacity=".52"/></radialGradient></defs><g><circle r="9" fill="#2b74a8"/><g clip-path="url(#gclip2)"><g fill="#4f9c64" opacity="0.70"><g transform="translate(-18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g transform="translate(18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g></g><ellipse cx="0" cy="-9" rx="9" ry="4.60" fill="#eaf4fb"/><ellipse cx="0" cy="9"  rx="9" ry="4.60" fill="#eaf4fb"/><circle r="9" fill="#cfe2f0" opacity="0.30"/><circle r="9" fill="#04060b" opacity="0.06"/></g><circle r="9" fill="url(#gshade2)"/></g></svg><span>Halfway</span></div><div class="hv-gz"><svg viewBox="-11 -11 22 22"><defs><clipPath id="gclip3"><circle cx="0" cy="0" r="9"/></clipPath><radialGradient id="gshade3" cx="33%" cy="29%" r="80%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".13"/><stop offset="52%" stop-color="#ffffff" stop-opacity="0"/><stop offset="100%" stop-color="#000000" stop-opacity=".52"/></radialGradient></defs><g><circle r="9" fill="#2b74a8"/><g clip-path="url(#gclip3)"><g fill="#4f9c64" opacity="0.32"><g transform="translate(-18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g transform="translate(18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g></g><ellipse cx="0" cy="-9" rx="9" ry="7.20" fill="#eaf4fb"/><ellipse cx="0" cy="9"  rx="9" ry="7.20" fill="#eaf4fb"/><circle r="9" fill="#cfe2f0" opacity="0.68"/><circle r="9" fill="#04060b" opacity="0.34"/></g><circle r="9" fill="url(#gshade3)"/></g></svg><span>Three quarters</span></div><div class="hv-gz"><svg viewBox="-11 -11 22 22"><defs><clipPath id="gclip4"><circle cx="0" cy="0" r="9"/></clipPath><radialGradient id="gshade4" cx="33%" cy="29%" r="80%"><stop offset="0%" stop-color="#ffffff" stop-opacity=".13"/><stop offset="52%" stop-color="#ffffff" stop-opacity="0"/><stop offset="100%" stop-color="#000000" stop-opacity=".52"/></radialGradient></defs><g><circle r="9" fill="#2b74a8"/><g clip-path="url(#gclip4)"><g fill="#4f9c64" opacity="0.08"><g transform="translate(-18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g><g transform="translate(18,0)"><path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/><path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/><path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/><path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/></g></g><ellipse cx="0" cy="-9" rx="9" ry="9.00" fill="#eaf4fb"/><ellipse cx="0" cy="9"  rx="9" ry="9.00" fill="#eaf4fb"/><circle r="9" fill="#cfe2f0" opacity="0.92"/><circle r="9" fill="#04060b" opacity="0.70"/></g><circle r="9" fill="url(#gshade4)"/></g></svg><span>Almost gone</span></div></div>
+      <p style="margin-top:14px;color:#7c8891">The star is properly yellow now, and the Architect dot stays amber. Two warm points on one screen, which the old rule would have forbidden, but the star is ambient and the dot is the thing you are meant to click, so they are not competing for the same job.</p></div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:26px;border:1px solid #1d232a;border-radius:9px;background:#111519;padding:15px 17px">
+    <div class="tl-lbl">Two things this costs</div>
+    <p style="margin:0 0 7px;font-size:12px;line-height:1.62;color:#8d98a1">The counters tick up in pure CSS using an animated custom property, so the homepage <em style="color:#d4dade;font-style:normal">still ships zero JavaScript</em>. The scroll reveal in beat 4 is the one thing here that needs a script, about six lines of IntersectionObserver. If you want the zero script claim kept intact, take beats 1 to 3 and drop 4.</p>
+    <p style="margin:0;font-size:12px;line-height:1.62;color:#8d98a1">The drift band is out of the homepage and parked for the phases page, where the six sky colours and temperatures can be explained properly instead of scrolling past as decoration.</p>
+  </div>
+</div>
+
+<script>
+function hvReplay(){
+  var s = document.getElementById('hvStage');
+  var h = s.innerHTML; s.innerHTML = ''; void s.offsetWidth; s.innerHTML = h;
+}
+</script>
