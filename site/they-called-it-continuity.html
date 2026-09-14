@@ -1,5 +1,5 @@
 <h2>They Called it Continuity</h2>
-<p class="subtitle">Chapter Three, in the same format as the Architect page and chapter one. Every document quoted here is a real Patchouli entry out of the mod, and the awakening sequence is a port of <code>OrsaAwakeningIntro.java</code> driving the actual game textures.</p>
+<p class="subtitle">Chapter Three, in the same format as the Architect page and chapter one. Every document quoted here is a real Patchouli entry out of the mod, and the awakening sequence is a port of <code>OrsaAwakeningIntro.java</code> driving the actual game textures. The four campaign posters near the bottom are the one exception: they are concept art, not mod content, and they are not in the game yet.</p>
 
 <style>
 .ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
@@ -343,6 +343,72 @@
 .oa-cap { margin:0 0 20px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em;
           line-height:1.7; color:#5a6672; text-transform:uppercase; }
 
+/* ================= poster fine print ================= */
+.ap-fine { margin:0 0 20px; padding:16px 18px 17px; background:#0d0b07;
+           border:1px solid #241f18; border-radius:7px; text-align:center; }
+.ap-fine > b { display:block; font-size:12.5px; line-height:1.5; font-weight:700;
+               letter-spacing:.07em; text-transform:uppercase; color:#ffb454; }
+.ap-fine > span { display:block; margin-top:11px; font-family:var(--mono); font-size:8.5px;
+                  letter-spacing:.14em; text-transform:uppercase; color:#5f6b76; }
+
+/* ================= the campaign wall ================= */
+/* concept art, not mod content. the band says so before you reach a poster */
+.pw { background:#07090b; border-top:1px solid #1b222b; border-bottom:1px solid #1b222b;
+      margin-top:48px; margin-bottom:0; padding:34px 0 34px; }
+.pw-in { max-width:660px; margin:0 auto; }
+.pw-k { font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+        color:#ffb454; margin:0 0 9px; }
+.pw-t { font-size:23px; font-weight:600; letter-spacing:-.02em; color:#f2f6f8; margin:0 0 14px; }
+.pw-note { font-family:var(--mono); font-size:10px; letter-spacing:.05em; line-height:1.8;
+           color:#7c8891; background:#0d0b07; border:1px solid #241f18;
+           border-left:2px solid #ffb454; border-radius:6px; padding:11px 14px; margin:0 0 20px; }
+.pw-note b { color:#ffb454; font-weight:600; }
+
+.pw-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:0; }
+.pw-fig { margin:0; }
+.pw-one { max-width:302px; margin-left:auto; margin-right:auto; }
+
+.pw-shot { display:block; width:100%; padding:0; -webkit-appearance:none; appearance:none;
+           position:relative; aspect-ratio:2/3; overflow:hidden; cursor:zoom-in;
+           background:#000; border:1px solid #1c242e; border-radius:6px;
+           transition:border-color .2s linear; }
+.pw-shot > i { position:absolute; inset:0; display:block; background-size:contain;
+               background-position:50% 50%; background-repeat:no-repeat; }
+.pw-shot:hover { border-color:#5c4620; }
+.pw-shot:focus-visible { outline:2px solid #ffb454; outline-offset:2px; }
+.pw-shot[disabled] { cursor:default; }
+.pw-shot[disabled]:hover { border-color:#1c242e; }
+.pw-hold { position:absolute; inset:0; display:flex; flex-direction:column; gap:14px;
+           align-items:center; justify-content:center; padding:24px 18px; text-align:center; }
+.pw-hold > em { font-size:12.5px; line-height:1.45; font-weight:700; font-style:normal;
+                letter-spacing:.04em; text-transform:uppercase; color:#39434d; }
+.pw-hold > s { font-family:var(--mono); font-size:8.5px; letter-spacing:.17em;
+               text-transform:uppercase; color:#5c4620; text-decoration:none; }
+.pw-shot.has .pw-hold { display:none; }
+
+.pw-strip { display:flex; flex-wrap:wrap; gap:3px 12px; margin:9px 0 0; font-family:var(--mono);
+            font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:#5f6b76; }
+.pw-strip b { color:#ffb454; font-weight:600; }
+.pw-read { margin:7px 0 0; font-size:12.5px; line-height:1.62; color:#8d98a1; }
+.pw-cap { margin:16px 0 24px; font-size:13px; line-height:1.66; color:#7c8891; }
+.pw-cap strong { color:#b3bdc5; font-weight:600; }
+.pw-end { margin:24px 0 0; font-size:13.5px; line-height:1.66; color:#96a1aa; }
+.pw-end strong { color:#d4dade; font-weight:600; }
+
+/* full size view. no fill, no filter, nothing left on the compositor */
+.pw-ov { position:absolute; inset:0; z-index:80; background:rgba(3,5,7,.95);
+         display:flex; align-items:center; justify-content:center; padding:46px 24px 26px; }
+/* an author display:flex beats the UA [hidden] rule, so say it again here */
+.pw-ov[hidden] { display:none; }
+.pw-ov > i { display:block; width:100%; height:100%; background-size:contain;
+             background-position:50% 50%; background-repeat:no-repeat; }
+.pw-x { position:absolute; top:12px; right:12px; -webkit-appearance:none; appearance:none;
+        font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase;
+        background:#141a21d9; border:1px solid #252e38; color:#8d98a1; border-radius:5px;
+        padding:6px 12px; cursor:pointer; }
+.pw-x:hover { color:#ffb454; border-color:#5c4620; }
+.pw-x:focus-visible { outline:2px solid #ffb454; outline-offset:2px; }
+
 /* ================= the closer ================= */
 .ap-seal { display:block; width:100%; text-align:left; -webkit-appearance:none; appearance:none;
            background:#0a0d11; border:1px solid #241f18; border-radius:8px;
@@ -371,6 +437,7 @@
   .ap-src > summary, .ap-src > summary:before { transition:none !important; }
   .ap-pane.on .ap-gtrack > b { animation:none !important; }
   .oa-poster { transition:none !important; }
+  .pw-shot { transition:none !important; }
   .oa-stage.run .oa-scan { animation:none !important; }
   .oa-stage.run .oa-line:nth-child(4) { animation:oaFadeIn .3s linear 3.75s both !important; }
 }
@@ -412,6 +479,17 @@
   .oa-line { font-size:7.5px; letter-spacing:.03em; }
   .oa-poster > b { font-size:8.5px; letter-spacing:.13em; padding:6px 11px; }
   .oa-cap { font-size:9px; letter-spacing:.05em; }
+  .pw { margin-top:34px; padding:26px 0 28px; }
+  .pw-t { font-size:19px; }
+  .pw-note { font-size:9px; letter-spacing:.03em; padding:10px 12px; }
+  .pw-row { gap:11px; }
+  .pw-one { max-width:none; }
+  .pw-hold { padding:16px 10px; gap:10px; }
+  .pw-hold > em { font-size:10.5px; }
+  .pw-hold > s { font-size:7.5px; letter-spacing:.13em; }
+  .pw-strip { font-size:8.5px; letter-spacing:.09em; gap:3px 9px; }
+  .pw-read, .pw-cap { font-size:12px; }
+  .pw-ov { padding:46px 14px 16px; }
 }
 </style>
 
@@ -484,7 +562,8 @@
                 <button type="button" class="ap-dtab" role="tab" data-i="1" data-full="The vote" data-short="The vote" aria-selected="false" aria-controls="oapane1" id="oatab1" tabindex="-1"><i>02</i>The vote</button>
                 <button type="button" class="ap-dtab" role="tab" data-i="2" data-full="The masthead" data-short="Masthead" aria-selected="false" aria-controls="oapane2" id="oatab2" tabindex="-1"><i>03</i>The masthead</button>
                 <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="The voice" data-short="The voice" aria-selected="false" aria-controls="oapane3" id="oatab3" tabindex="-1"><i>04</i>The voice</button>
-                <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="What it holds up" data-short="Holds up" aria-selected="false" aria-controls="oapane4" id="oatab4" tabindex="-1"><i>05</i>What it holds up</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="What it left behind" data-short="Left behind" aria-selected="false" aria-controls="oapane4" id="oatab4" tabindex="-1"><i>05</i>What it left behind</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="5" data-full="What it holds up" data-short="Holds up" aria-selected="false" aria-controls="oapane5" id="oatab5" tabindex="-1"><i>06</i>What it holds up</button>
                 <span class="ap-dink" aria-hidden="true"></span>
               </div>
             </div>
@@ -600,6 +679,16 @@
                     in the press kit, and the second number is the only one anybody outside the
                     building ever saw.</p>
                   </div>
+
+                  <div class="ap-fine">
+                    <b>Certain projections remain unavailable in the interest
+                    of public stability.</b>
+                    <span>Public Affairs standing footer &middot; approved language</span>
+                  </div>
+
+                  <p class="ap-p">That sentence is the whole disclosure gap written as a courtesy.
+                  It does not deny the number. It explains, politely, in a footer, that you are not
+                  going to be given it, and that withholding it is the responsible thing to do.</p>
 
                   <p class="ap-p">Nobody in that room was confused. They knew. They wrote the real
                   figure down, in a document, with their names on it, and then they published a
@@ -882,11 +971,112 @@ status: <b>no termination date</b></div>
 
                 <section class="ap-pane" role="tabpanel" data-p="4" id="oapane4" aria-labelledby="oatab4">
 
-                  <p class="ap-h3">05 &middot; What it holds up</p>
+                  <p class="ap-h3">05 &middot; What it left behind</p>
 
-                  <p class="ap-p">None of this would be worth the week if it were only decoration.
-                  The reason ORSA earns its place is that almost every system in the mod hangs off
-                  it, and the fiction arrived before the feature in nearly every case.</p>
+                  <p class="ap-p">For most of this chapter ORSA is a filing cabinet. A filing
+                  cabinet does not frighten anybody at two in the morning four hundred blocks from
+                  spawn. The buildings do that part.</p>
+
+                  <p class="ap-p">Here is the order it actually happened in, which I only worked out
+                  by reading my own log back. The first ORSA thing in the repo is an <strong>item</strong>,
+                  24 February, a document you can pick up and read. The first ORSA <strong>place</strong>
+                  is 17 March, a Blast Pit sanctuary with a supply crate sitting in it. The agency
+                  that owns both of those, the board, the vote, the masthead, the 45 entries, does
+                  not exist in the build until <strong>24 April</strong>.</p>
+
+                  <p class="ap-pull">ORSA was an item before it was a place, and a place before it
+                  was an institution.</p>
+
+                  <p class="ap-p">That is backwards from how anyone would plan it, and it is exactly
+                  why it lands. By the time the player is told what ORSA is, they have already been
+                  sheltering in its buildings for hours. The logo on the crate was never explained
+                  to them. They just got used to it.</p>
+
+                  <div class="ap-bud">
+                    <div><em>Communication tower</em>
+                      <dl><dt>built</dt><dd>21 to 26 Mar</dd><dt>commits</dt><dd>6</dd></dl>
+                      <p>A landmark chain rather than a building. There is a terminal at the top,
+                      the terminal has an archive behind it, and a commit from three weeks later is
+                      called <em>stabilize ladder traversal in tower pursuit</em>, which should tell
+                      you what the climb is like.</p></div>
+                    <div><em>Monitoring station</em>
+                      <dl><dt>built</dt><dd>25 to 27 Mar</dd><dt>commits</dt><dd>10</dd></dl>
+                      <p>The one that fought back. Ten commits in three days, a reload hang, a prop
+                      placement bug, and a calendar command I added and then deleted in the same
+                      afternoon. Its trail is what eventually ties the whole chain together.</p></div>
+                    <div><em>Field camp</em>
+                      <dl><dt>built</dt><dd>23 Mar to 3 Apr</dd><dt>commits</dt><dd>5</dd></dl>
+                      <p>Scattered rather than placed, so no two are laid out the same. Flags, a
+                      spawn command that was broken on day one, and evacuation vehicles that had to
+                      be taught to queue themselves when the world loads.</p></div>
+                    <div><em>Cargo drop pods</em>
+                      <dl><dt>built</dt><dd>27 Mar</dd><dt>commits</dt><dd>3</dd></dl>
+                      <p>The only structure that landed first try. Three commits, one afternoon,
+                      done. Supplies ORSA dropped on schedule for people who were already gone, and
+                      the schedule is the part that stings.</p></div>
+                    <div><em>Frozen town</em>
+                      <dl><dt>built</dt><dd>31 Mar to 3 Apr</dd><dt>commits</dt><dd>9</dd></dl>
+                      <p>The expensive one. Nine commits across four days, an optimization pass
+                      numbered ahead of the pass it optimized, and a final fix to stop it spawning
+                      on top of the Blast Pit.</p></div>
+                    <div><em>Evacuation sirens</em>
+                      <dl><dt>built</dt><dd>31 Mar</dd><dt>commits</dt><dd>3</dd></dl>
+                      <p>Three passes on one Tuesday, all of them spent on a sound. They still work.
+                      That is the entire reason they are in the mod.</p></div>
+                  </div>
+
+                  <div class="ap-gap">
+                    <em>17 March to 3 April &middot; commits per structure</em>
+                    <div class="ap-gbar"><u>Comms tower</u>
+                      <span class="ap-gtrack"><b style="width:60%"></b></span><s>6</s></div>
+                    <div class="ap-gbar hot"><u>Monitoring</u>
+                      <span class="ap-gtrack"><b style="width:100%"></b></span><s>10</s></div>
+                    <div class="ap-gbar"><u>Field camp</u>
+                      <span class="ap-gtrack"><b style="width:50%"></b></span><s>5</s></div>
+                    <div class="ap-gbar"><u>Cargo pods</u>
+                      <span class="ap-gtrack"><b style="width:30%"></b></span><s>3</s></div>
+                    <div class="ap-gbar hot"><u>Frozen town</u>
+                      <span class="ap-gtrack"><b style="width:90%"></b></span><s>9</s></div>
+                    <div class="ap-gbar"><u>Sirens</u>
+                      <span class="ap-gtrack"><b style="width:30%"></b></span><s>3</s></div>
+                    <p>Two of the six ate more than half the fortnight. Two of them were finished in
+                    an afternoon each. I have never once been able to tell which is which before
+                    starting.</p>
+                  </div>
+
+                  <p class="ap-p">Up to 27 March these were six separate props that happened to
+                  share a logo. Then I wrote eleven words and they stopped being props.</p>
+
+                  <div class="ap-cmts">
+                    <div class="ap-cmt mark"><u>27 Mar</u><b>link monitoring station trail to tower archive</b><s>1 commit</s>
+                      <p>The station's trail now leads somewhere, and the place it leads to has a
+                      terminal with an archive sitting behind it. That is the moment the map stopped
+                      being decorated and started being evidence.</p></div>
+                  </div>
+
+                  <p class="ap-p">I would love to tell you the rest of it was planned. A commit named
+                  <em>final monitoring station pass</em> shares its date with passes three, four and
+                  five. <em>town optimization pass 5</em> and <em>town pass 4</em> are both dated
+                  1 April. <em>town final pass 2</em> is dated 2 April, and so is <em>town pass 7</em>.
+                  I lost the thread somewhere around the second time I wrote the word final.</p>
+
+                  <p class="ap-pull">The sirens are infrastructure still announcing an evacuation
+                  that already happened, to a town that already left, in a language nobody is left
+                  to hear.</p>
+
+                  <p class="ap-p">Screenshots of all six are coming once I do a proper capture pass.
+                  For now the honest version is the dates and the counts, which is the part I would
+                  rather read anyway. What the towers were talking to is the next tab.</p>
+
+                </section>
+
+                <section class="ap-pane" role="tabpanel" data-p="5" id="oapane5" aria-labelledby="oatab5">
+
+                  <p class="ap-h3">06 &middot; What it holds up</p>
+
+                  <p class="ap-p">Six buildings and a logo would still only be set dressing. The
+                  reason ORSA earns its place is that almost every system in the mod hangs off it,
+                  and the fiction arrived before the feature in nearly every case.</p>
 
                   <div class="ap-figs">
                     <div><b>3</b><span>relay satellites still listening out of seven</span></div>
@@ -949,6 +1139,95 @@ do from up here.</b></div>
             </div>
           </div>
 
+<section class="pw ap-wide">
+            <div class="pw-in">
+
+              <p class="pw-k">Public Affairs Division &middot; campaign materials</p>
+              <h2 class="pw-t">Four posters, in the order the language died</h2>
+
+              <p class="pw-note"><b>Not in the game.</b> These four are concept art, drawn for the
+              journal, and no version of the mod ships them yet. Every other document on this page
+              is a real entry pulled out of the build. I wanted that line drawn clearly before you
+              looked at a single one of them.</p>
+
+              <p class="ap-p">ORSA had a masthead, a motto and 45 filed documents before it had any
+              advertising. Paperwork is what an agency says to itself. A poster is what it says to
+              you, on a wall, while you are waiting for a train. Making four at once turned out to
+              be the useful part, because you can lay them end to end and watch the copy rot.</p>
+
+              <div class="pw-row">
+                <figure class="pw-fig">
+                  <button type="button" class="pw-shot" data-poster="p1"
+                          aria-label="View the 2063 recruitment poster at full size">
+                    <i aria-hidden="true"></i>
+                    <span class="pw-hold"><em>More worlds.<br>A stronger bottom line.</em>
+                    <s>Artwork pending</s></span>
+                  </button>
+                  <div class="pw-strip"><b>ORSA/PA/2063-014</b><span>2063</span><span>Public &middot; transit &middot; unrestricted</span></div>
+                  <p class="pw-read">Nothing here is a lie yet. It is a couple on a hill being sold
+                  a direction.</p>
+                </figure>
+                <figure class="pw-fig">
+                  <button type="button" class="pw-shot" data-poster="p2"
+                          aria-label="View the 2069 recruitment poster at full size">
+                    <i aria-hidden="true"></i>
+                    <span class="pw-hold"><em>Benefits.*<br>Profits.&trade;</em>
+                    <s>Artwork pending</s></span>
+                  </button>
+                  <div class="pw-strip"><b>ORSA/PA/2069-207</b><span>2069</span><span>Public &middot; transit &middot; unrestricted</span></div>
+                  <p class="pw-read">Same headline, six years on. Now the benefits carry an asterisk
+                  and the travel has quietly become one way.</p>
+                </figure>
+              </div>
+
+              <p class="pw-cap"><strong>The headline never changed. The fine print did.</strong>
+              Both posters say A BIGGER TOMORROW NEEDS YOU. Same slogan, same layout, same promise.
+              The second one adds an asterisk to the word benefits and redefines travel
+              opportunities as one way and extended assignments. Nobody had to rewrite the pitch.
+              They only had to revise the terms.</p>
+
+              <figure class="pw-fig pw-one">
+                <button type="button" class="pw-shot" data-poster="p3"
+                        aria-label="View the 2074 public information poster at full size">
+                  <i aria-hidden="true"></i>
+                  <span class="pw-hold"><em>Trust the readings.<br>Not the rumors.</em>
+                  <s>Artwork pending</s></span>
+                </button>
+                <div class="pw-strip"><b>ORSA/PA/2074-C</b><span>2074</span><span>Regional &middot; posted at site perimeters</span></div>
+                <p class="pw-read">This one is the turn. It has stopped selling and started
+                instructing.</p>
+              </figure>
+
+              <p class="pw-cap">Three years after the board approved HCI-4 at 94 percent internal
+              risk, the campaign is no longer offering anybody a future. It is managing what they
+              believe about the present. And behind the fence, on the pad, there is a rocket the
+              poster does not mention. <strong>Nothing else on this page mentions it either.</strong>
+              That is deliberate, and it is not this chapter's to tell.</p>
+
+              <figure class="pw-fig pw-one">
+                <button type="button" class="pw-shot" data-poster="p4"
+                        aria-label="View the 2076 internal discretion poster at full size">
+                  <i aria-hidden="true"></i>
+                  <span class="pw-hold"><em>A quieter tomorrow depends on your discernment.</em>
+                  <s>Artwork pending</s></span>
+                </button>
+                <div class="pw-strip"><b>ORSA/PA/2076-Q</b><span>2076</span><span>Internal &middot; badge areas only</span></div>
+                <p class="pw-read">Not every question deserves a response. One year out, and the
+                campaign is not addressed to the public at all.</p>
+              </figure>
+
+              <p class="pw-cap">Look at the distribution line on each of them in order. Transit,
+              transit, site perimeters, badge areas only. The audience shrinks poster by poster
+              until the only people being spoken to are the ones who already know.</p>
+
+              <p class="pw-end">Four posters, thirteen years. <strong>Sell the future, price the
+              future, control the story, stop the questions.</strong> Nobody in Public Affairs ever
+              had to write the word evacuation, and that is the closest thing to a thesis this
+              chapter has.</p>
+
+            </div>
+          </section>
+
           <button type="button" class="ap-seal" id="apSeal" aria-live="polite">
             <em>Recovered fragment &middot; 22 June 2077 &middot; internal distribution</em>
             <q><span class="ap-red" data-seal="&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;">&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;</span>
@@ -960,6 +1239,11 @@ do from up here.</b></div>
 
         </div>
       </div>
+    </div>
+
+    <div class="pw-ov" id="pwOv" role="dialog" aria-modal="true" aria-label="Poster at full size" hidden>
+      <i aria-hidden="true"></i>
+      <button type="button" class="pw-x" id="pwX">Close</button>
     </div>
 
     <button class="ap-replay" id="apReplay">REPLAY INTRO</button>
@@ -977,6 +1261,16 @@ window.ORSA_ART = {
   mr: "data:image/png;base64,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",
   bl: "data:image/png;base64,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",
   br: "data:image/png;base64,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"
+};
+
+/* campaign posters. concept art, not mod content, so they are kept in their own
+   map. fill p1 to p4 with data URIs and the wall picks them up with no other
+   change. while a key is missing its frame shows the headline instead. */
+window.ORSA_POSTERS = {
+  p1: "",
+  p2: "",
+  p3: "",
+  p4: ""
 };
 </script>
 
@@ -1025,6 +1319,47 @@ window.ORSA_ART = {
     var src = ART[el.getAttribute('data-art')];
     if (src) el.style.backgroundImage = 'url("' + src + '")';
   });
+
+  /* ================= the campaign wall =================
+     a frame with no artwork yet shows its headline and disables itself, so the
+     wall reads complete either way and nothing on it is a dead control. */
+  var POS = window.ORSA_POSTERS || {};
+  var ov  = document.getElementById('pwOv');
+  var ovArt = ov && ov.querySelector('i');
+  var ovX = document.getElementById('pwX');
+  var lastShot = null;
+
+  function shutOv(){
+    if (!ov || ov.hidden) return;
+    ov.hidden = true;
+    ovArt.style.backgroundImage = '';
+    if (lastShot){ lastShot.focus(); lastShot = null; }
+  }
+
+  arr('.pw-shot').forEach(function(btn){
+    var src = POS[btn.getAttribute('data-poster')];
+    if (!src){ btn.disabled = true; return; }
+    btn.querySelector('i').style.backgroundImage = 'url("' + src + '")';
+    btn.classList.add('has');
+    btn.addEventListener('click', function(){
+      if (!ov) return;
+      ovArt.style.backgroundImage = 'url("' + src + '")';
+      lastShot = btn;
+      ov.hidden = false;
+      ovX.focus();
+    });
+  });
+
+  if (ov){
+    ov.addEventListener('click', function(e){ if (e.target !== ovX) shutOv(); });
+    ovX.addEventListener('click', shutOv);
+    document.addEventListener('keydown', function(e){
+      if (ov.hidden) return;
+      if (e.key === 'Escape'){ shutOv(); return; }
+      /* close is the only control in here, so tab just stays on it */
+      if (e.key === 'Tab'){ e.preventDefault(); ovX.focus(); }
+    });
+  }
 
   /* ================= the awakening ================= */
   var stage = document.getElementById('oaStage');
