@@ -796,6 +796,20 @@
     if (e.animationName === 'apUp') frame.classList.add('done');
   });
   setTimeout(function(){ frame.classList.add('done'); }, 3200);
+
+  /* any real scroll intent lands the intro immediately.
+     wheel and touch go on the frame, not the doc: during the intro the black
+     overlay sits on top, so events never reach the scroll body. */
+  function skipIntro(){
+    if (!frame.classList.contains('done')) frame.classList.add('done');
+  }
+  var introDoc = frame.querySelector('.ap-doc');
+  frame.addEventListener('wheel',     skipIntro, { passive:true });
+  frame.addEventListener('touchmove', skipIntro, { passive:true });
+  introDoc.addEventListener('scroll', function(){ if (introDoc.scrollTop > 0) skipIntro(); }, { passive:true });
+  window.addEventListener('keydown', function(e){
+    if (/^(ArrowDown|ArrowUp|PageDown|PageUp|Home|End|Spacebar| )$/.test(e.key)) skipIntro();
+  }, { passive:true });
   window.addEventListener('resize', function(){ measureTitle(); });
   document.getElementById('apReplay').onclick = function(){
     title.style.width = ''; title.style.overflow = ''; measureTitle();

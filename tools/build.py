@@ -16,10 +16,11 @@ OUT  = ROOT / "preview"
 # the public site, in nav order. (source stem, output name, nav label)
 PAGES = [
     ("timeline",                  "index.html",     "Home"),
-    ("architect-page",            "architect.html", "The Architect"),
     ("world-doesnt-wait",         "chapter-1.html", "I. The World That Doesn't Wait"),
+    ("architect-page",            "architect.html", "II. Building a Mind"),
     ("they-called-it-continuity", "chapter-3.html", "III. They Called it Continuity"),
     ("holding-back-the-cold",     "chapter-4.html", "IV. Holding Back the Cold"),
+    ("what-the-cold-made",        "chapter-5.html", "V. What the Cold Made"),
 ]
 
 # design docs, reachable from the workbench index but out of the main nav.
