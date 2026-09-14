@@ -12,29 +12,17 @@
 
 /* ---------- landed state: no animation survives the intro ---------- */
 .ap-frame.done .ap-black { display:none; }
-.ap-frame.done .ap-head,
 .ap-frame.done .ap-kick,
 .ap-frame.done .ap-title,
 .ap-frame.done .ap-rest { animation:none !important; }
-.ap-frame.done .ap-head,
 .ap-frame.done .ap-kick { opacity:1; }
 .ap-frame.done .ap-title { width:auto; overflow:visible; border-right-color:#7dd3fc00; }
 .ap-frame.done .ap-rest { opacity:1; transform:none; }
 
-/* ---------- header ---------- */
-.ap-head { position:absolute; top:0; left:0; right:0; height:50px; z-index:40;
-           display:flex; align-items:center; gap:16px; padding:0 20px;
-           background:#0b0e11; border-bottom:1px solid #1d232a; font-family:var(--sans);
-           font-size:12px; color:#79848d; opacity:0; }
-.ap-head strong { color:#f2f6f8; font-weight:700; letter-spacing:-.01em; font-size:13px; }
-.ap-head nav { margin-left:auto; display:flex; gap:16px; }
-.ap-head nav span { color:#79848d; }
-.ap-head nav span.on { color:#7dd3fc; }
-.ap-frame.play .ap-head { animation: apIn .5s ease-out .35s forwards; }
 @keyframes apIn { from { opacity:0 } to { opacity:1 } }
 
 /* ---------- scroll body ---------- */
-.ap-doc { position:absolute; inset:50px 0 0; overflow-y:auto; overflow-x:hidden; z-index:30; font-family:var(--sans); }
+.ap-doc { position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; z-index:30; font-family:var(--sans); }
 .ap-doc::-webkit-scrollbar { width:9px }
 .ap-doc::-webkit-scrollbar-thumb { background:#222a33; border-radius:5px }
 .ap-inner { max-width:660px; margin:0 auto; padding:46px 30px 70px; }
@@ -257,6 +245,8 @@
   .ap-rv, .ap-rv.in { opacity:1 !important; transform:none !important; animation:none !important; }
   .ap-pop, .ap-pane.enter { animation:none !important; }
   .ap-dink, .ap-dstage.morph { transition:none !important; }
+  .ap-dtab { transition:none !important; }
+  .ap-dtab:active { transform:none !important; }
   .ap-src > summary, .ap-src > summary:before { transition:none !important; }
 }
 
@@ -353,9 +343,6 @@
   .ap-deck { margin-top:34px; }
   .ap-frame { height:76vh; min-height:520px; }
   .ap-inner { padding:36px 17px 64px; }
-  .ap-head { padding:0 12px; gap:10px; }
-  .ap-head > span { display:none; }
-  .ap-head nav { gap:13px; }
   .ap-title { font-size:24px; }
   .ap-lede { font-size:17.5px; }
   .ap-stand { font-size:15px; }
@@ -381,10 +368,6 @@
 <div class="ap">
   <div class="ap-frame play" id="apFrame">
     <div class="ap-black"></div>
-    <div class="ap-head">
-      <strong>Frozen Dawn</strong><span>Dev Journal</span>
-      <nav><span>Timeline</span><span>The Architect</span><span class="on">Chapters</span></nav>
-    </div>
 
     <div class="ap-doc">
       <div class="ap-inner">
