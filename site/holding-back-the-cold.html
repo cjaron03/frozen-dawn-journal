@@ -1,0 +1,1448 @@
+<h2>Chapter four: Holding Back the Cold</h2>
+<p class="subtitle">The player facing survival systems. Heater ladder, capacitors, insulated glass, shelter and seal detection, and the frostmites that undo all of it. The instrument is a live heat footprint with the seal test as a second mode.</p>
+
+<style>
+.ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
+.ap-frame { position:relative; height:660px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
+
+/* ---------- the black ---------- */
+.ap-black { position:absolute; inset:0; background:#000; z-index:50; pointer-events:none; }
+.ap-frame.play .ap-black { animation: apBlack 1s linear forwards; }
+@keyframes apBlack { 0%,22% { opacity:1 } 72% { opacity:0 } 100% { opacity:0 } }
+
+/* ---------- landed state: no animation survives the intro ---------- */
+.ap-frame.done .ap-black { display:none; }
+.ap-frame.done .ap-head,
+.ap-frame.done .ap-kick,
+.ap-frame.done .ap-title,
+.ap-frame.done .ap-rest { animation:none !important; }
+.ap-frame.done .ap-head,
+.ap-frame.done .ap-kick { opacity:1; }
+.ap-frame.done .ap-title { width:auto; overflow:visible; border-right-color:#7dd3fc00; }
+.ap-frame.done .ap-rest { opacity:1; transform:none; }
+
+/* ---------- header ---------- */
+.ap-head { position:absolute; top:0; left:0; right:0; height:50px; z-index:40;
+           display:flex; align-items:center; gap:16px; padding:0 20px;
+           background:#0b0e11; border-bottom:1px solid #1d232a; font-family:var(--sans);
+           font-size:12px; color:#79848d; opacity:0; }
+.ap-head strong { color:#f2f6f8; font-weight:700; letter-spacing:-.01em; font-size:13px; }
+.ap-head nav { margin-left:auto; display:flex; gap:16px; }
+.ap-head nav span { color:#79848d; }
+.ap-head nav span.on { color:#7dd3fc; }
+.ap-frame.play .ap-head { animation: apIn .5s ease-out .35s forwards; }
+@keyframes apIn { from { opacity:0 } to { opacity:1 } }
+
+/* ---------- scroll body ---------- */
+.ap-doc { position:absolute; inset:50px 0 0; overflow-y:auto; overflow-x:hidden; z-index:30; font-family:var(--sans); }
+.ap-doc::-webkit-scrollbar { width:9px }
+.ap-doc::-webkit-scrollbar-thumb { background:#222a33; border-radius:5px }
+.ap-inner { max-width:660px; margin:0 auto; padding:46px 30px 70px; }
+
+.ap-kick { font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+           color:#7dd3fc; opacity:0; }
+.ap-frame.play .ap-kick { animation: apIn .5s ease-out .6s forwards; }
+
+.ap-title { font-size:40px; font-weight:700; letter-spacing:-.03em; color:#f2f6f8; margin:8px 0 0;
+            white-space:nowrap; overflow:hidden; width:0; border-right:2px solid #7dd3fc00; }
+.ap-frame.play .ap-title { animation: apType 1.3s steps(21,end) .8s forwards,
+                                      apCaret .4s step-end .8s 7; }
+@keyframes apType { to { width:var(--tw,15.6em) } }
+@keyframes apCaret { 0%,50% { border-right-color:#7dd3fc } 51%,100% { border-right-color:#7dd3fc00 } }
+
+.ap-rest { opacity:0; }
+.ap-frame.play .ap-rest { animation: apUp .7s cubic-bezier(.2,.6,.3,1) 2.2s forwards; }
+@keyframes apUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
+
+.ap-stand { font-size:16.5px; line-height:1.62; color:#b3bdc5; margin:16px 0 0; }
+.ap-p { font-size:14.5px; line-height:1.72; color:#96a1aa; margin:0 0 15px; }
+.ap-p strong { color:#d4dade; font-weight:600; }
+.ap-p code, .ap-code { font-family:var(--mono); font-size:.9em; color:#a8bcc9; }
+.ap-h3 { font-size:12px; font-family:var(--mono); letter-spacing:.14em; text-transform:uppercase;
+         color:#6c7883; margin:44px 0 16px; padding-top:18px; border-top:1px solid #1a2027; }
+.ap-lede { font-size:20px; line-height:1.5; color:#d4dade; font-weight:500; letter-spacing:-.01em;
+           margin:0 0 22px; }
+.ap-pull { font-size:15.5px; line-height:1.6; color:#b9c4cc; font-style:italic;
+           border-left:2px solid #2c688a; padding-left:16px; margin:22px 0; }
+
+.ap-replay { position:absolute; right:12px; bottom:12px; z-index:70; font-family:var(--mono);
+             font-size:10px; letter-spacing:.1em; padding:6px 12px; border-radius:5px;
+             background:#141a21d9; border:1px solid #252e38; color:#8d98a1; cursor:pointer; }
+.ap-replay:hover { color:#7dd3fc; border-color:#2c688a; }
+
+/* ---------- breakout width ---------- */
+.ap { --bleed: clamp(0px, calc((100vw - 660px)/2 - 30px), 160px); }
+.ap-wide { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+
+/* ---------- stats band ---------- */
+.ap-stats { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#1b222b;
+            border-top:1px solid #1b222b; border-bottom:1px solid #1b222b;
+            margin-top:24px; margin-bottom:32px; }
+.ap-stats > div { background:#0f1216; padding:15px 4px 16px; text-align:center; }
+.ap-stats b { display:block; font-size:25px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+              font-variant-numeric:tabular-nums; line-height:1; }
+.ap-stats span { display:block; margin-top:7px; font-size:10.5px; line-height:1.4; color:#6c7883; }
+
+/* ================= readouts ================= */
+.ap-read { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#1a212a;
+           border-top:1px solid #1a212a; }
+.ap-read > div { background:#0d1116; padding:13px 9px 14px; }
+.ap-read em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.13em;
+              text-transform:uppercase; color:#5f6b76; font-style:normal; }
+.ap-read b { display:block; margin-top:7px; font-size:17px; font-weight:600; color:#e9eff3;
+             letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1; }
+.ap-read b u { text-decoration:none; font-size:11px; color:#7c8891; margin-left:2px; font-weight:400; }
+.ap-read i { display:block; margin-top:9px; height:3px; border-radius:2px; background:#1b232c; }
+.ap-read i s { display:block; height:100%; border-radius:2px; background:#3a6a87;
+               text-decoration:none; }
+.ap-read div.hot b { color:#ffb454; }
+.ap-read div.hot i s { background:#ffb454; }
+
+.ap-note { margin:0; padding:14px 18px 17px; border-top:1px solid #1a212a; font-size:13px;
+           line-height:1.62; color:#8d98a1; min-height:60px; }
+.ap-note b { color:#c8d2da; font-weight:600; }
+/* ================= shared blocks ================= */
+.ap-code { background:#0a0d11; border:1px solid #1a212a; border-radius:7px; padding:13px 15px;
+           font-family:var(--mono); font-size:11.5px; line-height:1.72; color:#8b97a3;
+           overflow-x:auto; margin:0 0 18px; white-space:pre; }
+/* code is the deep end, so it stays folded until somebody asks for it */
+.ap-src { margin:0 0 18px; }
+.ap-src > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:9px;
+                    font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+                    text-transform:uppercase; color:#6c7883; background:#0d1116;
+                    border:1px solid #1a212a; border-radius:7px; padding:9px 13px;
+                    transition:color .15s linear, border-color .15s linear; }
+.ap-src > summary::-webkit-details-marker { display:none; }
+.ap-src > summary::marker { content:""; }
+.ap-src > summary:before { content:""; flex:0 0 auto; width:0; height:0;
+                           border-left:5px solid currentColor; border-top:4px solid transparent;
+                           border-bottom:4px solid transparent; transition:transform .18s ease; }
+.ap-src > summary em { margin-left:auto; font-style:normal; letter-spacing:.06em; color:#4f5a64; }
+.ap-src > summary:hover { color:#7dd3fc; border-color:#2c688a; }
+.ap-src > summary:focus-visible { outline:2px solid #7dd3fc; outline-offset:2px; }
+.ap-src[open] > summary { color:#8d98a1; border-bottom-color:#0a0d11;
+                          border-bottom-left-radius:0; border-bottom-right-radius:0; }
+.ap-src[open] > summary:before { transform:rotate(90deg); }
+.ap-src .ap-code { margin:0; border-top-left-radius:0; border-top-right-radius:0; }
+
+.ap-code v { color:#7dd3fc; text-decoration:none; }
+.ap-code k { color:#a98cd8; text-decoration:none; }
+.ap-code c { color:#55606b; text-decoration:none; }
+
+.ap-cmts { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; }
+.ap-cmt { background:#0d1116; padding:11px 14px; display:grid;
+          grid-template-columns:auto 1fr auto; gap:4px 12px; align-items:baseline; }
+.ap-cmt u { font-family:var(--mono); font-size:10.5px; color:#7dd3fc; text-decoration:none; }
+.ap-cmt b { font-size:13px; font-weight:500; color:#cbd5dc; letter-spacing:-.01em; }
+.ap-cmt s { font-family:var(--mono); font-size:10px; color:#6c7883; text-decoration:none;
+            white-space:nowrap; }
+.ap-cmt p { grid-column:2/-1; margin:2px 0 0; font-size:12.5px; line-height:1.6; color:#8d98a1; }
+.ap-cmt.mark { background:#101821; }
+.ap-cmt.mark u { color:#ffb454; }
+
+.ap-pass { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; counter-reset:p; }
+.ap-pass > div { background:#0d1116; padding:10px 14px; display:flex; gap:12px; align-items:baseline; }
+.ap-pass > div:before { counter-increment:p; content:counter(p,decimal-leading-zero);
+                        font-family:var(--mono); font-size:10px; color:#4f5b67; flex:0 0 auto; }
+.ap-pass b { font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:#7dd3fc;
+             flex:0 0 122px; }
+.ap-pass span { font-size:12.5px; line-height:1.55; color:#8d98a1; }
+
+.ap-bud { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#1a212a;
+          border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 18px; }
+.ap-bud > div { background:#0d1116; padding:13px 14px 15px; }
+.ap-bud em { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase;
+             color:#7dd3fc; font-style:normal; }
+.ap-bud dl { margin:10px 0 0; display:grid; grid-template-columns:auto 1fr; gap:5px 10px;
+             font-family:var(--mono); font-size:10.5px; }
+.ap-bud dt { color:#5f6b76; }
+.ap-bud dd { margin:0; color:#c2ccd4; text-align:right; font-variant-numeric:tabular-nums; }
+.ap-bud p { margin:10px 0 0; font-size:11.5px; line-height:1.55; color:#7c8891; }
+
+/* heater ladder: a real table, because the whole point is two columns side by side */
+.ap-heat { display:grid; grid-template-columns:1.15fr 1fr 1fr 1.1fr; gap:1px; background:#1a212a;
+           border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 9px;
+           font-variant-numeric:tabular-nums; }
+.ap-heat > * { background:#0d1116; padding:11px 13px; font-size:12.5px; color:#d4dade; }
+.ap-heat > .h { font-family:var(--mono); font-size:8.5px; letter-spacing:.13em; line-height:1.35;
+                text-transform:uppercase; color:#5f6b76; padding:10px 13px 9px; }
+.ap-heat > .n { color:#7c8891; }
+.ap-heat > .e { color:#e9eff3; font-weight:600; }
+.ap-tcap { margin:0 0 17px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em;
+           line-height:1.6; color:#5a6672; }
+
+.ap-phs { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+          overflow:hidden; margin:0 0 20px; }
+.ap-phs > div { background:#0d1116; padding:12px 14px 13px; }
+.ap-phs h4 { margin:0; font-size:13.5px; font-weight:600; color:#e6edf2; letter-spacing:-.01em;
+             display:flex; align-items:baseline; gap:9px; }
+.ap-phs h4 u { font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; color:#5f6b76;
+               text-decoration:none; }
+.ap-phs h4 i { width:9px; height:9px; border-radius:50%; flex:0 0 auto; align-self:center; }
+.ap-phs p { margin:6px 0 0; font-size:12.5px; line-height:1.62; color:#8d98a1; }
+.ap-phs s { display:inline-block; margin:7px 6px 0 0; font-family:var(--mono); font-size:9.5px;
+            letter-spacing:.04em; color:#93a3ad; background:#151c23; border:1px solid #212a33;
+            border-radius:3px; padding:2.5px 7px; text-decoration:none; }
+
+.ap-figs { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#1a212a;
+           border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 20px; }
+.ap-figs > div { background:#0d1116; padding:14px 12px 15px; text-align:center; }
+.ap-figs b { display:block; font-size:21px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+             font-variant-numeric:tabular-nums; }
+.ap-figs span { display:block; margin-top:6px; font-size:10.5px; line-height:1.45; color:#6c7883; }
+
+/* ================= chaptered deck ================= */
+.ap-deck { margin:44px 0 0; }
+
+.ap-dtop { position:sticky; top:0; z-index:8; background:#0f1216; padding:9px 0 0; }
+.ap-dtop:after { content:""; position:absolute; left:calc(-1 * var(--bleed)); right:calc(-1 * var(--bleed));
+  bottom:0; height:1px; background:#1c242e; }
+
+.ap-dtop .ap-dstrip { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+.ap-dstrip { position:relative; display:flex; align-items:flex-end; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; }
+.ap-dstrip::-webkit-scrollbar { display:none; }
+
+.ap-dtab { position:relative; flex:0 0 auto; -webkit-appearance:none; appearance:none;
+  background:none; border:0; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:#7c8891; padding:9px 13px 11px; cursor:pointer;
+  white-space:nowrap; border-radius:5px 5px 0 0;
+  transition:color .28s ease, background .28s ease, transform .2s cubic-bezier(.2,.6,.3,1); }
+.ap-dtab:hover { color:#b8c3cb; background:#141920; }
+@media (min-width:641px) { .ap-dtab { padding-left:10px; padding-right:10px; letter-spacing:.08em; }
+  .ap-dtab i { margin-right:5px; } }
+.ap-dtab:active { transform:translateY(1px); }
+.ap-dtab.on { color:#7dd3fc; }
+.ap-dtab i { font-style:normal; opacity:.45; margin-right:7px; }
+
+.ap-dink { position:absolute; left:0; bottom:0; height:2px; width:0; background:#7dd3fc;
+  border-radius:2px 2px 0 0; pointer-events:none;
+  transition:transform .44s cubic-bezier(.22,.8,.28,1), width .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dstage { position:relative; }
+.ap-dstage.morph { overflow:hidden; transition:height .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dpanes { position:relative; padding-top:22px; }
+.ap-pane { display:none; }
+.ap-pane.on { display:block; }
+.ap-pane.enter { animation:apSlideL .42s cubic-bezier(.2,.65,.3,1) both; }
+.ap-pane.enter.rev { animation-name:apSlideR; }
+@keyframes apSlideL { from { opacity:0; transform:translate3d(20px,0,0); } to { opacity:1; transform:none; } }
+@keyframes apSlideR { from { opacity:0; transform:translate3d(-20px,0,0); } to { opacity:1; transform:none; } }
+
+.ap-dbot { margin-top:28px; padding-top:16px; border-top:1px solid #1c242e; }
+.ap-dsteps { display:flex; gap:10px; }
+.ap-dstep { flex:1 1 0; min-width:0; -webkit-appearance:none; appearance:none; text-align:left;
+  background:#12171d; border:1px solid #1c242e; border-radius:7px; padding:10px 14px 11px;
+  cursor:pointer; font-family:inherit; }
+.ap-dstep:hover:not([disabled]) { border-color:#2c3946; background:#161c23; }
+.ap-dstep:active:not([disabled]) { transform:scale(.985); }
+.ap-dstep[disabled] { opacity:.3; cursor:default; }
+.ap-dstep em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:#5f6b76; font-style:normal; margin-bottom:4px; }
+.ap-dstep b { display:block; font-size:12.5px; font-weight:600; color:#cbd5dc; letter-spacing:-.01em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ap-dstep.next { text-align:right; }
+
+/* ---- reveal on scroll ---- */
+.ap-rv { opacity:0; transform:translate3d(0,16px,0); }
+.ap-rv.in { animation:apRise .6s cubic-bezier(.2,.65,.3,1) both; }
+.ap-rv.set { opacity:1; transform:none; animation:none; }
+.ap-pop { animation:apRise .5s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes apRise { from { opacity:0; transform:translate3d(0,16px,0); } to { opacity:1; transform:none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-rv, .ap-rv.in { opacity:1 !important; transform:none !important; animation:none !important; }
+  .ap-pop, .ap-pane.enter { animation:none !important; }
+  .ap-dink, .ap-dstage.morph { transition:none !important; }
+  .ap-src > summary, .ap-src > summary:before { transition:none !important; }
+}
+
+
+/* ================= the instrument ================= */
+.hb { margin-top:26px; margin-bottom:34px; background:#0d1116; border:1px solid #1c242e;
+      border-radius:10px; overflow:hidden; }
+
+.hb-modes { display:flex; border-bottom:1px solid #1a212a; background:#0a0d11; }
+.hb-modes button { flex:1; appearance:none; background:none; border:0; border-bottom:2px solid transparent;
+                   font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase;
+                   color:#6c7883; padding:11px 8px 9px; cursor:pointer; transition:color .15s linear; }
+.hb-modes button:hover { color:#b3bec6; }
+.hb-modes button.on { color:#ffb454; border-bottom-color:#ffb454; }
+.hb-modes button + button { border-left:1px solid #1a212a; }
+
+.hb-body { display:grid; grid-template-columns:minmax(0,1fr) 244px; }
+.hb-stage { padding:18px; display:flex; flex-direction:column; align-items:center; gap:11px; min-width:0; }
+.hb-cv { display:block; width:100%; max-width:372px; aspect-ratio:1/1; border-radius:6px;
+         background:#07090b; cursor:crosshair; touch-action:manipulation; }
+.hb-leg { display:flex; flex-wrap:wrap; justify-content:center; gap:4px 15px;
+          font-family:var(--mono); font-size:8.5px; letter-spacing:.1em; text-transform:uppercase;
+          color:#5f6b76; }
+.hb-leg[hidden] { display:none; }
+.hb-leg span { display:inline-flex; align-items:center; gap:5px; }
+.hb-leg i { width:8px; height:8px; border-radius:2px; display:inline-block; }
+
+.hb-side { border-left:1px solid #1a212a; padding:16px 16px 18px; min-width:0; }
+.hb-ctl + .hb-ctl { margin-top:15px; }
+.hb-ctl > em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.13em;
+               text-transform:uppercase; color:#5f6b76; font-style:normal; }
+.hb-ctl > em u { text-decoration:none; color:#96a1aa; margin-left:6px; letter-spacing:.06em; }
+
+.hb-seg { display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; }
+.hb-seg button { appearance:none; font-family:var(--mono); font-size:9px; letter-spacing:.08em;
+                 text-transform:uppercase; color:#7c8891; background:#0f1419; border:1px solid #1d232a;
+                 border-radius:4px; padding:5px 8px; cursor:pointer;
+                 transition:color .14s linear, border-color .14s linear, background-color .14s linear; }
+.hb-seg button:hover { color:#c8d2da; border-color:#2b3440; }
+.hb-seg button.on { color:#ffb454; border-color:#5c4620; background:#17120a; }
+
+.hb-rng { -webkit-appearance:none; appearance:none; width:100%; height:3px; border-radius:2px;
+          background:#1b232c; outline:none; margin:13px 0 2px; display:block; }
+.hb-rng::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:15px; height:15px;
+          border-radius:50%; background:#7dd3fc; border:3px solid #0d1116; cursor:pointer; }
+.hb-rng::-moz-range-thumb { width:11px; height:11px; border-radius:50%; background:#7dd3fc;
+          border:3px solid #0d1116; cursor:pointer; }
+.hb-rng:focus-visible { outline:1px solid #5c4620; outline-offset:4px; }
+
+/* seal panel hint */
+.hb-hint { margin:9px 0 0; font-size:12px; line-height:1.6; color:#8d98a1; }
+.hb-act { display:flex; gap:6px; margin-top:16px; }
+.hb-act button { flex:1; appearance:none; font-family:var(--mono); font-size:9px; letter-spacing:.12em;
+                 text-transform:uppercase; padding:8px 6px; border-radius:4px; cursor:pointer;
+                 background:#0f1419; border:1px solid #1d232a; color:#96a1aa;
+                 transition:color .14s linear, border-color .14s linear; }
+.hb-act button:hover { color:#ffb454; border-color:#5c4620; }
+.hb-act button:disabled { opacity:.4; cursor:default; color:#5f6b76; border-color:#1d232a; }
+
+.ap-read[hidden] { display:none; }
+.ap-read div.v1 b { color:#ffcc99; } .ap-read div.v1 i s { background:#ffcc99; }
+.ap-read div.v2 b { color:#e8e8e8; } .ap-read div.v2 i s { background:#e8e8e8; }
+.ap-read div.v3 b { color:#d0ddff; } .ap-read div.v3 i s { background:#d0ddff; }
+.ap-read div.v4 b { color:#99bbff; } .ap-read div.v4 i s { background:#99bbff; }
+.ap-read div.v5 b { color:#8888dd; } .ap-read div.v5 i s { background:#8888dd; }
+.ap-read b.sm { font-size:12.5px; letter-spacing:0; }
+
+/* the heater ladder table */
+.ap-ladder { display:grid; grid-template-columns:1.25fr .8fr .8fr .8fr .8fr; gap:1px;
+             background:#1a212a; border:1px solid #1a212a; border-radius:7px; overflow:hidden;
+             margin-top:16px; font-size:12.5px; }
+.ap-ladder > * { background:#0d1116; padding:11px 12px; color:#a9b4bd; }
+.ap-ladder > .h { background:#0a0d11; font-family:var(--mono); font-size:8.5px; letter-spacing:.12em;
+                  text-transform:uppercase; color:#5f6b76; padding:10px 12px 9px; }
+.ap-ladder > .n { font-variant-numeric:tabular-nums; color:#d4dade; }
+.ap-ladder > .a { color:#ffb454; font-variant-numeric:tabular-nums; }
+.ap-ladder > .t { color:#e9eff3; font-weight:600; }
+
+@media (max-width:640px){
+  .hb-body { grid-template-columns:1fr; }
+  .hb-side { border-left:0; border-top:1px solid #1a212a; }
+  .hb-stage { padding:14px; }
+  .hb-cv { max-width:320px; }
+  .ap-ladder { grid-template-columns:1fr 1fr 1fr; font-size:11.5px; }
+  .ap-ladder > *:nth-child(5n+4), .ap-ladder > *:nth-child(5n+5) { display:none; }
+  .ap-ladder > * { padding:10px 8px; }
+  .ap-ladder > .h { padding:9px 8px 8px; font-size:8px; letter-spacing:.06em; }
+
+  .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
+  .ap-dtab i { margin-right:5px; }
+  .ap-dsteps { gap:7px; }
+  .ap-dstep { padding:9px 11px 10px; }
+  .ap-dstep b { font-size:11.5px; }
+  .ap-deck { margin-top:34px; }
+  .ap-frame { height:76vh; min-height:520px; }
+  .ap-inner { padding:36px 17px 64px; }
+  .ap-head { padding:0 12px; gap:10px; }
+  .ap-head > span { display:none; }
+  .ap-head nav { gap:13px; }
+  .ap-title { font-size:24px; }
+  .ap-lede { font-size:17.5px; }
+  .ap-stand { font-size:15px; }
+  .ap-p { font-size:14px; }
+  .ap-stats { grid-template-columns:repeat(3,1fr); }
+  .ap-stats b { font-size:21px; }
+  .ap-read { grid-template-columns:repeat(3,1fr); }
+  .ap-read b { font-size:15px; }
+  .ap-bud { grid-template-columns:1fr; }
+  .ap-heat { grid-template-columns:.9fr 1fr 1fr 1.05fr; font-size:11.5px; }
+  .ap-heat > * { padding:10px 7px; }
+  .ap-heat > .h { padding:9px 7px 8px; font-size:8px; letter-spacing:.06em; }
+  .ap-figs { grid-template-columns:1fr; }
+  .ap-pass > div { flex-wrap:wrap; }
+  .ap-pass b { flex-basis:auto; }
+  .ap-cmt { grid-template-columns:auto 1fr; }
+  .ap-cmt s { grid-column:2; text-align:left; }
+  .ap-code { font-size:10.5px; }
+  .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
+}
+</style>
+
+<div class="ap">
+  <div class="ap-frame play" id="apFrame">
+    <div class="ap-black"></div>
+    <div class="ap-head">
+      <strong>Frozen Dawn</strong><span>Dev Journal</span>
+      <nav><span>Timeline</span><span>The Architect</span><span class="on">Chapters</span></nav>
+    </div>
+
+    <div class="ap-doc">
+      <div class="ap-inner">
+        <div class="ap-kick">Chapter Four &middot; 25 February 2026</div>
+        <h1 class="ap-title">Holding Back the Cold</h1>
+
+        <div class="ap-rest">
+          <p class="ap-stand">Chapter one was the world taking the heat away. This one is everything I built to let you put some of it back, and every rule I wrote to stop that from being easy.</p>
+
+          <div class="ap-stats ap-wide">
+            <div><b>4</b><span>heater tiers, and you will need all of them</span></div>
+            <div><b>2&times;</b><span>what one capacitor does to a heater's reach</span></div>
+            <div><b>61</b><span>commits on staying warm, out of 355</span></div>
+            <div><b>50</b><span>frostmite heat penalty cap, enough to zero a heater</span></div>
+            <div><b>12,000</b><span>blocks the seal check visits before giving up</span></div>
+            <div><b>80</b><span>degrees the rock gives back at Y &minus;64</span></div>
+          </div>
+
+          <div class="ap-h3">Play with it</div>
+          <p class="ap-lede">Warmth in Frozen Dawn is four numbers added together, and you only control two of them.</p>
+          <p class="ap-p">The phase decides the floor. Your depth decides how much the planet is still willing to lend you. A roof is worth a flat five degrees. Everything else has to come out of a heater you built, fuelled, and then defended. <strong>Move anything below and watch which term actually saves you.</strong></p>
+
+          <div class="hb ap-wide" id="hb">
+            <div class="hb-modes">
+              <button type="button" class="on">Heat footprint</button>
+              <button type="button">Seal test</button>
+            </div>
+
+            <div class="hb-body">
+              <div class="hb-stage">
+                <canvas class="hb-cv" id="hbCv" width="372" height="372" aria-label="Heat map around a heater"></canvas>
+                <div class="hb-leg" id="hbLegA">
+                  <span><i style="background:#b0722c"></i>In range</span>
+                  <span><i style="background:#2a3d52"></i>Out of range</span>
+                  <span><i style="background:#ffb454"></i>Heater</span>
+                  <span><i style="background:#7dd3fc"></i>You</span>
+                </div>
+                <div class="hb-leg" id="hbLegB" hidden>
+                  <span><i style="background:#3a4551"></i>Wall</span>
+                  <span><i style="background:#1d3a4a"></i>Air the fill reached</span>
+                  <span><i style="background:#7dd3fc"></i>Where you stand</span>
+                </div>
+              </div>
+
+              <div class="hb-side" id="hbSideA">
+                <div class="hb-ctl">
+                  <em>Heater</em>
+                  <div class="hb-seg" data-k="tier">
+                    <button type="button" data-v="0">None</button>
+                    <button type="button" data-v="1" class="on">Thermal</button>
+                    <button type="button" data-v="2">Iron</button>
+                    <button type="button" data-v="3">Gold</button>
+                    <button type="button" data-v="4">Diamond</button>
+                  </div>
+                </div>
+                <div class="hb-ctl">
+                  <em>Thermal capacitor</em>
+                  <div class="hb-seg" data-k="cap">
+                    <button type="button" data-v="0" class="on">Off</button>
+                    <button type="button" data-v="1">On</button>
+                  </div>
+                </div>
+                <div class="hb-ctl">
+                  <em>Roof overhead</em>
+                  <div class="hb-seg" data-k="roof">
+                    <button type="button" data-v="0">Open sky</button>
+                    <button type="button" data-v="1" class="on">Sheltered</button>
+                  </div>
+                </div>
+                <div class="hb-ctl">
+                  <em>Phase<u id="hbPhaseV">Phase 3</u></em>
+                  <input class="hb-rng" id="hbPhase" type="range" min="0" max="6" step="1" value="3" aria-label="Collapse phase">
+                </div>
+                <div class="hb-ctl">
+                  <em>Depth<u id="hbYV">Y 64</u></em>
+                  <input class="hb-rng" id="hbY" type="range" min="0" max="16" step="1" value="0" aria-label="Depth in blocks">
+                </div>
+                <div class="hb-ctl">
+                  <em>Frostmites latched<u id="hbMitesV">0 mites</u></em>
+                  <input class="hb-rng" id="hbMites" type="range" min="0" max="10" step="1" value="0" aria-label="Frostmites latched to the heater">
+                </div>
+              </div>
+
+              <div class="hb-side" id="hbSideB" hidden>
+                <div class="hb-ctl">
+                  <em>Roof overhead</em>
+                  <div class="hb-seg" data-k="roof">
+                    <button type="button" data-v="0">Open sky</button>
+                    <button type="button" data-v="1" class="on">Sheltered</button>
+                  </div>
+                </div>
+                <div class="hb-ctl">
+                  <em>Edit the room<u>click a cell</u></em>
+                  <p class="hb-hint">Click any cell to place or break a block. The fill always starts from the centre.</p>
+                </div>
+                <div class="hb-act">
+                  <button type="button" id="hbRun">Run seal check</button>
+                  <button type="button" id="hbReset">Reset</button>
+                </div>
+                <div class="hb-ctl">
+                  <em>Real bounds</em>
+                  <p class="hb-hint">48 blocks horizontal, 24 vertical, 12,000 cells visited. Cross any of them and the room is not sealed.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="ap-read" id="hbReadA">
+              <div><em>Phase</em><b>0</b><i><s></s></i></div>
+              <div><em>Depth</em><b>0</b><i><s></s></i></div>
+              <div><em>Shelter</em><b>0</b><i><s></s></i></div>
+              <div><em>Heat source</em><b>0</b><i><s></s></i></div>
+              <div><em>Total</em><b>0</b><i><s></s></i></div>
+              <div><em>Verdict</em><b class="sm">Holding</b><i><s></s></i></div>
+            </div>
+
+            <div class="ap-read" id="hbReadB" hidden>
+              <div><em>Visited</em><b>0</b><i><s></s></i></div>
+              <div><em>Frontier</em><b>0</b><i><s></s></i></div>
+              <div><em>Roof</em><b class="sm">Yes</b><i><s></s></i></div>
+              <div><em>Leaks</em><b>0</b><i><s></s></i></div>
+              <div><em>Result</em><b class="sm">Idle</b><i><s></s></i></div>
+              <div><em>Verdict</em><b class="sm">Not run</b><i><s></s></i></div>
+            </div>
+
+            <p class="ap-note" id="hbNote"></p>
+          </div>
+
+          <p class="ap-p">Two things are worth noticing before you read any further. The first is that the warm area has a <strong>hard edge</strong>. There is no falloff curve. The second is that in phase five, taking the roof off a heater is worse than dropping a whole tier.</p>
+
+          <div class="ap-deck" id="apDeck">
+            <div class="ap-dtop">
+              <div class="ap-dstrip" role="tablist" aria-label="Chapter sections">
+                <button type="button" class="ap-dtab on" role="tab" data-i="0" data-full="The ladder" data-short="Ladder" aria-selected="true" tabindex="0"><i>01</i>The ladder</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="1" data-full="A roof is a number" data-short="Roof" aria-selected="false" tabindex="-1"><i>02</i>A roof is a number</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="2" data-full="Sealing a room" data-short="Sealing" aria-selected="false" tabindex="-1"><i>03</i>Sealing a room</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="What eats your heat" data-short="Mites" aria-selected="false" tabindex="-1"><i>04</i>What eats your heat</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="What it cost" data-short="Cost" aria-selected="false" tabindex="-1"><i>05</i>What it cost</button>
+                <span class="ap-dink" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="ap-dstage">
+              <div class="ap-dpanes">
+
+<!-- ============ 01 ============ -->
+<section class="ap-pane on" role="tabpanel" data-p="0" aria-label="The ladder">
+  <p class="ap-lede">Four heaters. The difference between them is two numbers, and one block sitting next to them doubles both.</p>
+  <p class="ap-p">A heater is not a machine that warms the air around it. It is a radius and a constant. If the block you are standing on is inside the radius, you get the whole constant. If it is not, you get nothing at all. That decision is one line, and it never changed after the day I wrote it.</p>
+
+  <div class="ap-ladder ap-wide">
+    <div class="h">Heater</div><div class="h">Radius</div><div class="h">Heat</div><div class="h">With capacitor</div><div class="h">Capacitor heat</div>
+    <div class="t">Thermal</div><div class="n">7</div><div class="a">+35.0</div><div class="n">14</div><div class="a">+52.5</div>
+    <div class="t">Iron</div><div class="n">9</div><div class="a">+50.0</div><div class="n">18</div><div class="a">+75.0</div>
+    <div class="t">Gold</div><div class="n">11</div><div class="a">+65.0</div><div class="n">22</div><div class="a">+97.5</div>
+    <div class="t">Diamond</div><div class="n">14</div><div class="a">+80.0</div><div class="n">28</div><div class="a">+120.0</div>
+  </div>
+
+  <p class="ap-p">The Thermal Capacitor is the single best block in the survival tree and it does not look like it. It doubles the radius and multiplies the heat by one and a half. A Thermal heater with a capacitor reaches further than a Diamond heater without one, which is deliberate: the upgrade path is meant to have a shortcut in it for players who find the capacitor first.</p>
+
+  <details class="ap-src">
+    <summary>The whole decision, TemperatureManager.java<em>Java</em></summary>
+    <div class="ap-code"><c>// one tier, unrolled. the other three are the same shape.</c>
+<k>if</k> (state.is(ModBlocks.THERMAL_HEATER.get()) &amp;&amp; state.getValue(ThermalHeaterBlock.LIT)) {
+    <v>int</v> baseRadius = hasCapacitor ? 14 : 7;
+    <k>if</k> (phase &gt;= 5 &amp;&amp; !sheltered) baseRadius = Math.max(2, (<v>int</v>) (baseRadius * 0.6f));
+    baseRadius = Math.max(2, baseRadius - radiusPenalty);
+    <v>int</v> maxDistSq = baseRadius * baseRadius;
+    <v>float</v> heat = hasCapacitor ? 52.5f : 35.0f;
+    <k>return</k> distSq &lt;= maxDistSq ? Math.max(0.0f, heat - heatPenalty) : 0.0f;
+}</div>
+  </details>
+
+  <p class="ap-p">I have gone back and forth on the hard edge more than once. A smooth falloff is more realistic and it is also completely unreadable in play: you would never know whether moving two blocks helped. The binary version teaches itself. Players work out the exact radius within an hour of getting a heater and then build their base around it, which is the behaviour I wanted.</p>
+
+  <div class="ap-h3">Everything else that is warm</div>
+  <p class="ap-p">Heaters are the tech answer. Before you have one, the world has a short list of things that happen to be hot, and they are all much worse.</p>
+
+  <div class="ap-heat ap-wide">
+    <div class="h">Source</div><div class="h">Radius</div><div class="h">Heat</div><div class="h">What it is good for</div>
+    <div class="e">Thermal vent lava</div><div class="n">6</div><div class="n">+42.0</div><div class="n">The best thing in the world you did not build</div>
+    <div class="e">Lava</div><div class="n">4</div><div class="n">+30.0</div><div class="n">Warm, and it will kill you</div>
+    <div class="e">Soul campfire</div><div class="n">6</div><div class="n">+28.0</div><div class="n">Better reach than a normal one</div>
+    <div class="e">Campfire</div><div class="n">5</div><div class="n">+25.0</div><div class="n">The first night, and only the first night</div>
+    <div class="e">Fire</div><div class="n">3</div><div class="n">+20.0</div><div class="n">Desperation</div>
+    <div class="e">Furnace, blast furnace, smoker</div><div class="n">3</div><div class="n">+15.0</div><div class="n">Free, if you were smelting anyway</div>
+    <div class="e">Magma block</div><div class="n">2</div><div class="n">+10.0</div><div class="n">A floor you can stand on</div>
+    <div class="e">Acheronite block</div><div class="n">3</div><div class="n">+10.0</div><div class="n">Quiet and permanent</div>
+  </div>
+
+  <p class="ap-p">Stack them and they add. A campfire and a furnace and a magma block in the same small room is fifty degrees, which carries you through phase two and most of phase three without any tech at all. That is the intended early game, and it falls apart exactly when phase four arrives.</p>
+
+  <div class="ap-figs">
+    <div><b>6</b><span>block radius the ambient scan ever looks</span></div>
+    <div><b>8</b><span>vanilla and modded blocks that count as heat</span></div>
+    <div><b>2</b><span>of them you can carry in a pocket</span></div>
+  </div>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="1" aria-label="A roof is a number">
+  <p class="ap-lede">Shelter in this mod is not a mood. It is a loop that looks up.</p>
+  <p class="ap-p">I wanted a player to be able to work out, without a wiki, whether the thing they just built counts. So the check is the dumbest thing that could possibly work: stand where you are, look straight up four blocks, and if any of them is solid, you are sheltered. Five degrees. That is the whole function.</p>
+
+  <details class="ap-src">
+    <summary>getShelterModifier, TemperatureManager.java<em>Java</em></summary>
+    <div class="ap-code"><k>public static</k> <v>float</v> getShelterModifier(<v>Level</v> level, <v>BlockPos</v> pos) {
+    <k>for</k> (<v>int</v> dy = 1; dy &lt;= 4; dy++) {
+        <v>BlockPos</v> above = pos.above(dy);
+        <v>BlockState</v> aboveState = level.getBlockState(above);
+        <k>if</k> (aboveState.isSolidRender(level, above)
+                || aboveState.is(ModBlocks.INSULATED_GLASS.get())) {
+            <k>return</k> 5.0f;
+        }
+    }
+    <k>return</k> 0.0f;
+}</div>
+  </details>
+
+  <p class="ap-p">Insulated glass is the exception written directly into that condition, and it is the reason the block exists. Glass is not solid, so ordinary glass fails the check and a greenhouse is just a cold box with a view. Insulated glass is the one transparent block that counts as a roof, which lets you build somewhere you can actually see out of without giving up the five degrees.</p>
+
+  <div class="ap-pull">Four blocks up, not one. You should be able to put a lamp in your ceiling without losing your shelter.</div>
+
+  <div class="ap-h3">A roof, and then walls</div>
+  <p class="ap-p">Five degrees is the cheap version. The expensive version is <strong>enclosure</strong>, and it is what most of the later systems actually test for. A position is enclosed when it has a roof within four above it <em>and</em> a solid block in all four cardinal directions within ten. Insulated glass counts for the walls too.</p>
+  <p class="ap-p">Ten blocks is generous on purpose. It means a reasonable room passes and an open pavilion does not, without forcing anyone to build a cupboard.</p>
+
+  <div class="ap-bud">
+    <div><em>Sheltered</em><dl><dt>looks</dt><dd>up only</dd><dt>range</dt><dd>4</dd><dt>worth</dt><dd>+5&deg;C</dd></dl>
+      <p>Cheap, checked constantly, and the only one that feeds the temperature sum directly.</p></div>
+    <div><em>Enclosed</em><dl><dt>looks</dt><dd>up and out</dd><dt>range</dt><dd>4 up, 10 out</dd><dt>worth</dt><dd>gates systems</dd></dl>
+      <p>Ambience, snow suppression, and the heater exposure rule all read this instead.</p></div>
+    <div><em>Insulated glass</em><dl><dt>solid</dt><dd>no</dd><dt>counts</dt><dd>yes</dd><dt>used by</dt><dd>both</dd></dl>
+      <p>Written into the condition by name. Every other transparent block fails.</p></div>
+  </div>
+
+  <div class="ap-h3">The phase five rule</div>
+  <p class="ap-p">Everything above is background for one line that changed how the mod plays. From phase five onward, a heater with nothing over it keeps only sixty percent of its radius. Not its heat, its radius, which means the area falls to about a third.</p>
+
+  <details class="ap-src">
+    <summary>The tuning note I left myself, TemperatureManager.java<em>Java</em></summary>
+    <div class="ap-code"><c>// In phase 5+, exposed heaters (no roof) have 60% radius (distSq * 0.36).</c>
+<c>// This ensures Diamond exposed (r~8.4) &gt; Base enclosed (r=7).</c></div>
+  </details>
+
+  <p class="ap-p">That second line is the whole balance argument. The penalty had to be harsh enough that roofing your heater is never optional, and gentle enough that a player who has spent the diamonds is still ahead of a player who has not. Sixty percent is the number where the best exposed heater just barely beats the worst sheltered one. Anything lower and the tech tree stopped mattering in the endgame.</p>
+  <p class="ap-p">The result in play is that phase five is when everybody's base changes shape. Open-air heater arrays that worked for thirty days stop working in a single night, and you find out because the readout drops, not because anything told you.</p>
+
+  <div class="ap-figs">
+    <div><b>5</b><span>degrees for anything over your head</span></div>
+    <div><b>10</b><span>blocks the wall check reaches sideways</span></div>
+    <div><b>36</b><span>percent of the area left when exposed in phase 5</span></div>
+  </div>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="2" aria-label="Sealing a room">
+  <p class="ap-lede">In phase six there is no air outside. The game has to decide, constantly, whether the room you are in counts as inside.</p>
+  <p class="ap-p">This is the check I rewrote the most times, because it is the only one where being wrong kills someone who did nothing wrong. It is a flood fill. It starts on the block you are standing in, walks outward through every air block it can reach in all six directions, and asks one question of each: <strong>can this block see the sky?</strong> If any of them can, the room is not sealed and you are breathing vacuum.</p>
+
+  <details class="ap-src">
+    <summary>hasBreathableAir, TemperatureManager.java<em>Java</em></summary>
+    <div class="ap-code"><k>public static</k> <v>boolean</v> hasBreathableAir(<v>Level</v> level, <v>BlockPos</v> pos) {
+    <k>if</k> (level.dimension() != <v>Level</v>.OVERWORLD) <k>return</k> <k>false</k>;
+    <k>if</k> (hasOxygenSupport(level, pos)) <k>return</k> <k>true</k>;
+    <k>return</k> isInsideSealedRoom(level, pos);
+}
+
+<k>public static</k> <v>boolean</v> hasOxygenSupport(<v>Level</v> level, <v>BlockPos</v> pos) {
+    <k>return</k> BlastPitWarmZoneRegistry.isInsideWarmZone(level, pos)
+            || isInsideGeothermalO2Range(level, pos);
+}</div>
+  </details>
+
+  <p class="ap-p">Note the order. Oxygen support is checked first and it short circuits, because a blast pit warm zone or a geothermal core is supposed to make the flood fill irrelevant. Those structures produce air on their own terms, and running a twelve thousand block search to confirm something the registry already knows would be a waste of a tick.</p>
+
+  <div class="ap-h3">The four ways it says no</div>
+  <div class="ap-pass">
+    <div><b>SKY</b><span>Any visited block can see the sky. This is the honest failure, and it is the one players cause themselves.</span></div>
+    <div><b>BOUNDS</b><span>The fill wandered more than 48 blocks horizontally or 24 vertically from where you are standing. A tunnel network is not a room.</span></div>
+    <div><b>BUDGET</b><span>12,000 blocks visited and still going. At that size it is cheaper to call it open than to keep looking.</span></div>
+    <div><b>UNLOADED</b><span>The fill reached a chunk that is not loaded. Unknown counts as open, because guessing the other way suffocates people.</span></div>
+  </div>
+
+  <p class="ap-p">Every one of those is a refusal to guess in your favour, and that is intentional. The cost of a false positive is a player who sealed their base, walked in, took the helmet off, and died. The cost of a false negative is a player who has to wear a helmet in a room that probably would have been fine. Only one of those is recoverable.</p>
+
+  <div class="ap-pull">Unknown counts as open. If the algorithm cannot prove you are safe, it says you are not.</div>
+
+  <p class="ap-p">The bounds do a second job that is easy to miss. Without them, a player who digs a long mineshaft has a single connected air volume the size of a chunk, and every check anywhere in it costs the full budget. Capping the search at 48 blocks turns an unbounded question into a local one, and the fill collections get reused between calls rather than reallocated, because this runs often enough that the garbage would show up.</p>
+
+  <div class="ap-figs">
+    <div><b>12,000</b><span>blocks visited before it gives up</span></div>
+    <div><b>48</b><span>block horizontal leash on the search</span></div>
+    <div><b>6</b><span>directions, including straight up</span></div>
+  </div>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="3" aria-label="What eats your heat">
+  <p class="ap-lede">Frostmites do not attack you. They attach to the thing keeping you alive and then they wait.</p>
+  <p class="ap-p">Every survival system above is a wall between you and the cold. A wall is only interesting if something is pushing on it. Frostmites are that push, and the design brief I gave myself was that they should never deal damage directly. They should make your own equipment stop working and let the world finish the job.</p>
+
+  <div class="ap-h3">What one costs you</div>
+  <p class="ap-p">A latched mite does three separate things, and only the first is visible.</p>
+
+  <div class="ap-bud">
+    <div><em>Radius</em><dl><dt>formula</dt><dd>(n + 1) / 2</dd><dt>cap</dt><dd>4</dd></dl>
+      <p>Two mites cost one block of reach. Eight cost four, and that is as far as it goes.</p></div>
+    <div><em>Heat</em><dl><dt>per step</dt><dd>n &times; 1.5</dd><dt>cap</dt><dd>50.0</dd><dt>recovery</dt><dd>2.0</dd></dl>
+      <p>It only climbs while they are attached and the heater is lit. Clear them and it walks back down.</p></div>
+    <div><em>Fuel</em><dl><dt>drain</dt><dd>n extra</dd><dt>cap</dt><dd>10</dd></dl>
+      <p>The same swarm that is cooling the heater is also burning through what fuels it.</p></div>
+  </div>
+
+  <p class="ap-p">The heat penalty is the one that matters, and the arithmetic is worth doing out loud. It is subtracted from the heater's constant with a floor at zero, and it only ever grows while the mites are on it. So the steady state of any infestation you ignore is the cap.</p>
+
+  <div class="ap-ladder ap-wide">
+    <div class="h">Heater</div><div class="h">Heat</div><div class="h">At the 50 cap</div><div class="h">With capacitor</div><div class="h">Capped</div>
+    <div class="t">Thermal</div><div class="n">+35.0</div><div class="a">0.0</div><div class="n">+52.5</div><div class="a">+2.5</div>
+    <div class="t">Iron</div><div class="n">+50.0</div><div class="a">0.0</div><div class="n">+75.0</div><div class="a">+25.0</div>
+    <div class="t">Gold</div><div class="n">+65.0</div><div class="a">+15.0</div><div class="n">+97.5</div><div class="a">+47.5</div>
+    <div class="t">Diamond</div><div class="n">+80.0</div><div class="a">+30.0</div><div class="n">+120.0</div><div class="a">+70.0</div>
+  </div>
+
+  <p class="ap-p">A fully infested Thermal or Iron heater reads <strong>exactly zero</strong>. Not reduced. Off. It is still lit, still burning fuel faster than it was, still rendering as a working machine, and it is contributing nothing to the number that decides whether you live. I did not plan that cliff, I noticed it after the fact, and then I kept it, because finding out that way is a better lesson than a tooltip.</p>
+
+  <details class="ap-src">
+    <summary>The penalty walk, ThermalHeaterBlockEntity.java<em>Java</em></summary>
+    <div class="ap-code"><v>int</v> attached = FrostmiteEntity.countLatchedToHeater(level, worldPosition);
+<k>if</k> (isLit() &amp;&amp; attached &gt; 0) {
+    frostmiteHeatPenalty = Math.min(MAX_FROSTMITE_HEAT_PENALTY,
+            frostmiteHeatPenalty + attached * FROSTMITE_HEAT_PENALTY_PER_MITE_PER_STEP);
+} <k>else</k> {
+    frostmiteHeatPenalty = Math.max(0.0f, frostmiteHeatPenalty - FROSTMITE_HEAT_RECOVERY_PER_STEP);
+}</div>
+  </details>
+
+  <div class="ap-h3">How they find you</div>
+  <p class="ap-p">A frostmite targets within fourteen blocks, but it will cross eighteen for a lit heater. Heaters are bait, and they outrank you. Six can latch onto a player at once and ten onto a heater, and once attached they stick for a hundred and forty ticks on a player or two hundred on a heater before they will even consider letting go.</p>
+
+  <div class="ap-pass">
+    <div><b>TARGET_RANGE 14</b><span>How far it will look for anything at all.</span></div>
+    <div><b>HEATER_BAIT_RANGE 18</b><span>How far it will come for a lit heater specifically. Your base is louder than you are.</span></div>
+    <div><b>MAX_HEATER_LATCH 10</b><span>Ten at once, which is exactly enough to hit every cap simultaneously.</span></div>
+    <div><b>IS_FREEZING</b><span>Freezing damage is rejected outright. You cannot kill a frostmite with the cold.</span></div>
+  </div>
+
+  <p class="ap-p">That last one closed an exploit I liked losing. Frost Ward Torches and freezing effects were the obvious answer to a swarm, and they trivialised it, so the entity now refuses freezing damage entirely and clears its latch when it takes any other hit. The intended answer became the <strong>MiteAway burner</strong>, a block that costs fuel and space and does nothing else, which is the trade I wanted: defending your heat should cost you some of it.</p>
+
+  <div class="ap-figs">
+    <div><b>10</b><span>mites on one heater is the cap</span></div>
+    <div><b>18</b><span>blocks a lit heater pulls them from</span></div>
+    <div><b>0</b><span>damage a frostmite ever deals you directly</span></div>
+  </div>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="4" aria-label="What it cost">
+  <p class="ap-lede">Sixty one commits out of three hundred and fifty five, spread over ten weeks, all of them about one question.</p>
+  <p class="ap-p">The thermal systems were never a single feature. They arrived in layers, and almost every layer was a response to somebody surviving in a way I had not intended.</p>
+
+  <div class="ap-cmts">
+    <div class="ap-cmt"><u>afea99c</u><b>Add tiered heaters, geothermal core upgrades, heat stacking, and hyperthermia system</b><s>25 Feb &middot; +1,100 / &minus;41 &middot; 50 files</s>
+      <p>The ladder arrives fully formed. Four tiers, stacking heat, and overheating as the other side of the same number, because once you could add fifty degrees you could also add too many.</p></div>
+    <div class="ap-cmt"><u>4dc5860</u><b>Add phase-based fuel scaling and shelter-gated heater radius</b><s>25 Feb &middot; +61 / &minus;13 &middot; 5 files</s>
+      <p>Sixty one lines, the same day, and it is the commit that decided what phase five feels like. Small commits do most of the balancing.</p></div>
+    <div class="ap-cmt"><u>edd1ed2</u><b>Add Hollow mob, Cryo Fuel, Frost Ward Torch, Thermal Capacitor, spawn eggs</b><s>2 Mar &middot; +1,214 / &minus;16 &middot; 48 files</s>
+      <p>The capacitor ships buried in a grab bag with four unrelated things. It went on to be the most important block in the survival tree.</p></div>
+    <div class="ap-cmt mark"><u>6feb2f6</u><b>add frostmite swarm pressure</b><s>13 Mar &middot; +1,044 / &minus;86 &middot; 28 files</s>
+      <p>The turn. Up to here the cold was the only enemy and a good base was permanent. This is where holding your heat became something you do continuously.</p></div>
+    <div class="ap-cmt"><u>564fa5e</u><b>feat(miteaway): add frostmite repellent burner</b><s>10 Apr &middot; +807 / &minus;0 &middot; 24 files</s>
+      <p>Four weeks later, the answer. Eight hundred lines added and nothing removed, which is what it looks like when a system needed a counter rather than a nerf.</p></div>
+    <div class="ap-cmt"><u>23adc23</u><b>feat(miteaway): polish guidebook manual presentation</b><s>10 Apr</s>
+      <p>Same day. Half of shipping a mechanic is explaining it, and the guidebook entry took as much care as the block did.</p></div>
+  </div>
+
+  <div class="ap-h3">What I would do differently</div>
+  <p class="ap-p">The heater tiers should have been three, not four. Iron and Gold do the same job at different prices and neither of them changes how you play, which makes the middle of the ladder a wait rather than a decision. If I were starting again the jump would be Thermal, then Gold, then Diamond, and the capacitor would stay exactly where it is.</p>
+  <p class="ap-p">The seal check I would leave alone. It is the slowest thing in the mod per call and I have tried three times to make it cleverer, and every version that was faster was also wrong in some room shape I had not thought of. Being conservative and occasionally rude about a room is the correct answer.</p>
+</section>
+
+              </div>
+            </div>
+
+            <div class="ap-dbot">
+              <div class="ap-dsteps">
+                <button type="button" class="ap-dstep prev" disabled></button>
+                <button type="button" class="ap-dstep next"></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <button class="ap-replay" id="apReplay">REPLAY INTRO</button>
+  </div>
+</div>
+
+<script>
+
+(function(){
+  var frame = document.getElementById('apFrame');
+  if (!frame) return;
+  var doc   = frame.querySelector('.ap-doc');
+  var title = frame.querySelector('.ap-title');
+  var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function arr(n, root){ return [].slice.call((root || document).querySelectorAll(n)); }
+
+  /* ---------------- typed title ---------------- */
+  function measureTitle(){
+    var cs = getComputedStyle(title);
+    var probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:'
+      + cs.font + ';letter-spacing:' + cs.letterSpacing;
+    probe.textContent = title.textContent;
+    document.body.appendChild(probe);
+    title.style.setProperty('--tw', (probe.offsetWidth + 2) + 'px');
+    probe.remove();
+  }
+  measureTitle();
+  title.addEventListener('animationend', function(e){
+    if (e.animationName === 'apType'){ title.style.width = 'auto'; title.style.overflow = 'visible'; }
+  });
+  frame.addEventListener('animationend', function(e){
+    if (e.animationName === 'apUp') frame.classList.add('done');
+  });
+  setTimeout(function(){ frame.classList.add('done'); }, 3200);
+  window.addEventListener('resize', function(){ measureTitle(); });
+  document.getElementById('apReplay').onclick = function(){
+    title.style.width = ''; title.style.overflow = ''; measureTitle();
+    frame.classList.remove('done');
+    frame.classList.remove('play'); void frame.offsetWidth; frame.classList.add('play');
+    doc.scrollTop = 0;
+  };
+
+  /* ================= the instrument ================= */
+  /* straight port of TemperatureManager.java + PhaseManager.getDepthModifier */
+  var PTEMP = [0, -10, -25, -45, -70, -120, -273];   /* each phase at its coldest */
+  var TIERS = [
+    { n:'None',    r:[0,0],   h:[0,0]     },
+    { n:'Thermal', r:[7,14],  h:[35,52.5] },
+    { n:'Iron',    r:[9,18],  h:[50,75]   },
+    { n:'Gold',    r:[11,22], h:[65,97.5] },
+    { n:'Diamond', r:[14,28], h:[80,120]  }
+  ];
+  var MAX_PEN = 50.0, PEN_PER_MITE = 1.5, PEN_RECOVER = 2.0;
+
+  function lerp(a, b, k){ return a + (b - a) * k; }
+  function depthMod(y){
+    if (y >= 256) return -10;
+    if (y >= 128) return lerp(-5, -10, (y - 128) / 128);
+    if (y >= 64)  return lerp(0, -5, (y - 64) / 64);
+    if (y >= 32)  return lerp(10, 0, (y - 32) / 32);
+    if (y >= 0)   return lerp(25, 10, y / 32);
+    if (y >= -32) return lerp(55, 25, (y + 32) / 32);
+    if (y >= -64) return lerp(80, 55, (y + 64) / 32);
+    return 80;
+  }
+  /* TemperatureHud.getTextColor, the mod's own five bands */
+  function band(t){
+    if (t > 10)  return 1;
+    if (t > 0)   return 2;
+    if (t > -25) return 3;
+    if (t > -70) return 4;
+    return 5;
+  }
+  var VERDICT = ['', 'Warm', 'Holding', 'Cold', 'Freezing', 'Lethal'];
+
+  var hb = document.getElementById('hb');
+  if (hb){
+    var cv    = document.getElementById('hbCv');
+    var ctx   = cv.getContext('2d');
+    var readA = document.getElementById('hbReadA');
+    var readB = document.getElementById('hbReadB');
+    var note  = document.getElementById('hbNote');
+    var sideA = document.getElementById('hbSideA');
+    var sideB = document.getElementById('hbSideB');
+    var legA  = document.getElementById('hbLegA');
+    var legB  = document.getElementById('hbLegB');
+
+    var mode = 0;                       /* 0 warmth, 1 seal */
+    var S = { tier:1, cap:0, roof:1, phase:3, y:64, mites:0, pen:0, px:4, pz:0 };
+    var penT = 0;
+
+    /* the warmth field */
+    var HALF = 30, N = HALF * 2 + 1;
+
+    function radiusPenalty(){ return S.mites > 0 ? Math.min(4, Math.floor((S.mites + 1) / 2)) : 0; }
+    function effRadius(){
+      var T = TIERS[S.tier], b = T.r[S.cap ? 1 : 0];
+      if (!b) return 0;
+      if (S.phase >= 5 && !S.roof) b = Math.max(2, Math.floor(b * 0.6));
+      return Math.max(2, b - radiusPenalty());
+    }
+    function heaterHeat(distSq){
+      var T = TIERS[S.tier];
+      if (!S.tier) return 0;
+      var r = effRadius();
+      if (distSq > r * r) return 0;
+      return Math.max(0, T.h[S.cap ? 1 : 0] - S.pen);
+    }
+    function ambient(){ return PTEMP[S.phase] + depthMod(S.y) + (S.roof ? 5 : 0); }
+
+    /* colour ramp, cold violet through to heater amber */
+    var RAMP = [[-273,22,20,42],[-120,29,32,62],[-70,35,47,76],[-25,42,61,86],
+                [0,47,71,92],[10,86,70,50],[60,128,86,42],[140,176,114,44]];
+    function tint(t){
+      if (t <= RAMP[0][0]) t = RAMP[0][0];
+      for (var i = 1; i < RAMP.length; i++){
+        if (t <= RAMP[i][0] || i === RAMP.length - 1){
+          var a = RAMP[i - 1], b = RAMP[i];
+          var k = Math.max(0, Math.min(1, (t - a[0]) / (b[0] - a[0])));
+          return 'rgb(' + Math.round(lerp(a[1], b[1], k)) + ',' + Math.round(lerp(a[2], b[2], k))
+               + ',' + Math.round(lerp(a[3], b[3], k)) + ')';
+        }
+      }
+      return '#2a3a5e';
+    }
+
+    function drawWarmth(px){
+      var cell = px / N, amb = ambient(), r = effRadius(), rr = r * r;
+      ctx.clearRect(0, 0, px, px);
+      var hot = S.tier ? Math.max(0, TIERS[S.tier].h[S.cap ? 1 : 0] - S.pen) : 0;
+      var wash = Math.min(.52, hot / 240 + .13);
+      for (var gz = 0; gz < N; gz++){
+        var z0 = Math.floor(gz * cell), z1 = Math.floor((gz + 1) * cell);
+        for (var gx = 0; gx < N; gx++){
+          var x0 = Math.floor(gx * cell), x1 = Math.floor((gx + 1) * cell);
+          var dx = gx - HALF, dz = gz - HALF, d = dx * dx + dz * dz;
+          var inside = hot > 0 && d <= rr;
+          var w = Math.max(1, x1 - x0), h = Math.max(1, z1 - z0);
+          ctx.fillStyle = tint(amb + (inside ? hot : 0));
+          ctx.fillRect(x0, z0, w, h);
+          if (inside){
+            ctx.fillStyle = 'rgba(255,180,84,' + wash + ')';
+            ctx.fillRect(x0, z0, w, h);
+          }
+        }
+      }
+      /* five block grid */
+      ctx.strokeStyle = 'rgba(255,255,255,.045)'; ctx.lineWidth = 1;
+      for (var g = 0; g <= N; g += 5){
+        var p = Math.floor(g * cell) + .5;
+        ctx.beginPath(); ctx.moveTo(p, 0); ctx.lineTo(p, px);
+        ctx.moveTo(0, p); ctx.lineTo(px, p); ctx.stroke();
+      }
+      if (S.roof){
+        ctx.strokeStyle = 'rgba(125,211,252,.10)';
+        for (var h = -px; h < px; h += 11){
+          ctx.beginPath(); ctx.moveTo(h, 0); ctx.lineTo(h + px, px); ctx.stroke();
+        }
+      }
+      /* the heater */
+      if (S.tier){
+        var c0 = HALF * cell;
+        ctx.fillStyle = '#ffb454';
+        ctx.fillRect(c0 - cell * .5, c0 - cell * .5, cell * 2, cell * 2);
+        ctx.fillStyle = '#2a1a06';
+        ctx.fillRect(c0 + cell * .1, c0 + cell * .1, cell * .8, cell * .8);
+      }
+      /* latched mites */
+      for (var m = 0; m < S.mites; m++){
+        var ang = (m / Math.max(1, S.mites)) * Math.PI * 2 + .4;
+        var mx = HALF * cell + Math.cos(ang) * cell * 2.6 + cell * .5;
+        var mz = HALF * cell + Math.sin(ang) * cell * 2.6 + cell * .5;
+        ctx.fillStyle = '#cfe6f5';
+        ctx.beginPath(); ctx.arc(mx, mz, Math.max(1.8, cell * .45), 0, 6.284); ctx.fill();
+      }
+      /* where you are standing */
+      var sx = (S.px + HALF) * cell + cell / 2, sz = (S.pz + HALF) * cell + cell / 2;
+      ctx.strokeStyle = '#7dd3fc'; ctx.lineWidth = 1.6;
+      ctx.beginPath(); ctx.arc(sx, sz, Math.max(4, cell * 1.5), 0, 6.284); ctx.stroke();
+      ctx.globalAlpha = .35;
+      ctx.beginPath(); ctx.moveTo(sx, 0); ctx.lineTo(sx, px);
+      ctx.moveTo(0, sz); ctx.lineTo(px, sz); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+
+    /* the seal test */
+    var M = 21, MID = 10, grid = [], fill = [], queue = [], visited = 0, leak = 0, running = 0, sealT = 0, ran = 0;
+    function resetRoom(){
+      grid = [];
+      for (var i = 0; i < M * M; i++) grid.push(0);
+      for (var a = 5; a <= 15; a++){
+        grid[5 * M + a] = 1; grid[15 * M + a] = 1;
+        grid[a * M + 5] = 1; grid[a * M + 15] = 1;
+      }
+      clearFill();
+    }
+    function clearFill(){
+      fill = []; for (var i = 0; i < M * M; i++) fill.push(0);
+      queue = []; visited = 0; leak = 0; running = 0; ran = 0;
+      clearInterval(sealT);
+    }
+    function startSeal(){
+      clearFill(); ran = 1;
+      if (!S.roof){ leak = 2; render(); return; }
+      queue = [MID * M + MID]; fill[MID * M + MID] = 1; visited = 1; running = 1;
+      render();
+      sealT = setInterval(function(){
+        for (var s = 0; s < 5 && queue.length; s++){
+          var c = queue.shift(), cx = c % M, cy = (c - cx) / M;
+          if (cx === 0 || cy === 0 || cx === M - 1 || cy === M - 1){ leak = 1; }
+          var nb = [[cx + 1, cy], [cx - 1, cy], [cx, cy + 1], [cx, cy - 1]];
+          for (var k = 0; k < 4; k++){
+            var nx = nb[k][0], ny = nb[k][1];
+            if (nx < 0 || ny < 0 || nx >= M || ny >= M) continue;
+            var id = ny * M + nx;
+            if (fill[id] || grid[id]) continue;
+            fill[id] = 1; visited++; queue.push(id);
+          }
+        }
+        if (!queue.length){ running = 0; clearInterval(sealT); }
+        render();
+      }, 28);
+    }
+    function drawSeal(px){
+      var cell = px / M;
+      ctx.clearRect(0, 0, px, px);
+      for (var y = 0; y < M; y++){
+        for (var x = 0; x < M; x++){
+          var id = y * M + x, c;
+          if (grid[id]) c = '#3a4551';
+          else if (fill[id]) c = leak === 1 ? '#3f3346' : '#1d3a4a';
+          else c = '#0b0f13';
+          ctx.fillStyle = c;
+          ctx.fillRect(Math.floor(x * cell), Math.floor(y * cell), Math.ceil(cell) - 1, Math.ceil(cell) - 1);
+        }
+      }
+      if (!S.roof){
+        ctx.fillStyle = 'rgba(125,211,252,.07)';
+        ctx.fillRect(0, 0, px, px);
+        ctx.strokeStyle = 'rgba(125,211,252,.30)'; ctx.lineWidth = 1;
+        for (var h = -px; h < px; h += 9){
+          ctx.beginPath(); ctx.moveTo(h, 0); ctx.lineTo(h + px, px); ctx.stroke();
+        }
+      }
+      var sx = MID * cell + cell / 2;
+      ctx.strokeStyle = leak ? '#e0708a' : '#7dd3fc'; ctx.lineWidth = 1.8;
+      ctx.beginPath(); ctx.arc(sx, sx, cell * .38, 0, 6.284); ctx.stroke();
+    }
+
+    /* readouts */
+    function cellA(i){ return readA.children[i]; }
+    function setCell(el, val, sub, frac, cls){
+      el.className = cls || '';
+      el.children[1].innerHTML = val + (sub ? '<u>' + sub + '</u>' : '');
+      el.children[2].firstChild.style.width = Math.max(0, Math.min(100, frac * 100)) + '%';
+    }
+    function sign(v){ return (v > 0 ? '+' : '') + (Math.round(v * 10) / 10); }
+
+    function renderReadA(){
+      var ph = PTEMP[S.phase], dp = depthMod(S.y), sh = S.roof ? 5 : 0;
+      var dx = S.px, dz = S.pz, ht = heaterHeat(dx * dx + dz * dz);
+      var tot = ph + dp + sh + ht, b = band(tot);
+      setCell(cellA(0), ph, '&deg;C', Math.abs(ph) / 273, '');
+      setCell(cellA(1), sign(dp), '&deg;C', Math.abs(dp) / 80, dp > 0 ? 'v1' : '');
+      setCell(cellA(2), sign(sh), '&deg;C', sh / 5, sh ? 'v1' : '');
+      setCell(cellA(3), sign(ht), '&deg;C', ht / 120, ht ? 'hot' : '');
+      setCell(cellA(4), (Math.round(tot * 10) / 10), '&deg;C', Math.abs(tot) / 273, 'v' + b);
+      var vc = cellA(5);
+      vc.className = 'v' + b;
+      vc.children[1].innerHTML = VERDICT[b];
+      vc.children[1].className = 'sm';
+      vc.children[2].firstChild.style.width = ((6 - b) / 5 * 100) + '%';
+      return { ph:ph, dp:dp, sh:sh, ht:ht, tot:tot };
+    }
+    function renderReadB(){
+      var c = readB.children;
+      c[0].children[1].innerHTML = visited;
+      c[0].children[2].firstChild.style.width = Math.min(100, visited / 4) + '%';
+      c[1].children[1].innerHTML = queue.length;
+      c[1].children[2].firstChild.style.width = Math.min(100, queue.length * 4) + '%';
+      c[2].className = S.roof ? 'v1' : 'v5';
+      c[2].children[1].innerHTML = S.roof ? 'Yes' : 'No';
+      c[2].children[1].className = 'sm';
+      c[2].children[2].firstChild.style.width = S.roof ? '100%' : '8%';
+      c[3].className = leak ? 'v5' : '';
+      c[3].children[1].innerHTML = leak ? '1' : '0';
+      c[3].children[2].firstChild.style.width = leak ? '100%' : '4%';
+      var ok = ran && !running && !leak;
+      c[4].className = !ran ? '' : (ok ? 'v1' : 'v5');
+      c[4].children[1].innerHTML = !ran ? 'Idle' : (running ? 'Running' : (ok ? 'Sealed' : 'Open'));
+      c[4].children[1].className = 'sm';
+      c[4].children[2].firstChild.style.width = !ran ? '4%' : (ok ? '100%' : '20%');
+      c[5].className = !ran ? '' : (ok ? 'v1' : 'v5');
+      c[5].children[1].innerHTML = !ran ? 'Not run' : (running ? 'Checking' : (ok ? 'You breathe' : 'Vacuum'));
+      c[5].children[1].className = 'sm';
+      c[5].children[2].firstChild.style.width = !ran ? '4%' : (ok ? '100%' : '20%');
+    }
+
+    function noteA(v){
+      var r = effRadius(), d = Math.round(Math.sqrt(S.px * S.px + S.pz * S.pz));
+      if (!S.tier)
+        return 'No heater. Everything on the readout is the world: the phase floor, whatever the rock '
+             + 'gives back at this depth, and five degrees if something is over your head.';
+      if (!v.ht)
+        return 'You are standing <b>' + d + ' blocks</b> out. The disc ends at <b>' + r + '</b>. '
+             + 'Step one block inside it and you get the full ' + TIERS[S.tier].h[S.cap ? 1 : 0]
+             + ' degrees at once. The check is <b>distSq &lt;= radius squared</b>, so heat does not fade '
+             + 'with distance. It is on or it is off.';
+      if (S.phase >= 5 && !S.roof)
+        return 'Phase five with nothing overhead. The heater keeps <b>60 percent</b> of its radius, '
+             + 'so ' + TIERS[S.tier].r[S.cap ? 1 : 0] + ' becomes ' + r + '. A roof is not decoration here, '
+             + 'it is most of the machine.';
+      if (S.pen > 0)
+        return 'Frostmites are draining it. The penalty is at <b>' + (Math.round(S.pen * 10) / 10)
+             + '</b> and climbing while they stay latched, and the radius has already lost '
+             + radiusPenalty() + '. At the 50 cap a Thermal or an Iron heater reads exactly zero.';
+      if (v.tot > 10) return 'Comfortably warm. This is what the whole tech tree is for.';
+      if (v.tot > 0)  return 'Alive, barely. Nothing here has any margin left in it.';
+      return 'Inside the disc and still losing. At this phase and this depth the heater is not enough '
+           + 'on its own. Go deeper, add a capacitor, or move up the ladder.';
+    }
+    function noteB(){
+      if (!ran) return 'The room starts sealed. Knock a hole in a wall, or take the roof off, then run '
+                     + 'the check and watch where the fill gets out.';
+      if (!S.roof) return 'Open to the sky. The real check calls <b>canSeeSky</b> on every cell it visits '
+                        + 'and fails the moment one of them answers yes. It never even starts crawling.';
+      if (running) return 'Crawling. Every air cell it reaches gets queued, and its neighbours after that.';
+      if (leak === 1) return 'It got out. The fill reached the edge of the world window, which in the real '
+                           + 'thing means it ran past <b>48 blocks horizontally</b> without hitting a wall. '
+                           + 'One missing block is all it takes.';
+      return 'Sealed. The fill ran out of places to go before it ran out of budget, so the room counts as '
+           + 'breathable and you can take the helmet off.';
+    }
+
+    /* paint */
+    function render(){
+      var px = cv.clientWidth || 340, dpr = Math.min(2, window.devicePixelRatio || 1);
+      if (cv.width !== Math.round(px * dpr)){
+        cv.width = Math.round(px * dpr); cv.height = Math.round(px * dpr);
+      }
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (mode === 0){
+        drawWarmth(px);
+        note.innerHTML = noteA(renderReadA());
+      } else {
+        drawSeal(px);
+        renderReadB();
+        note.innerHTML = noteB();
+      }
+    }
+
+    /* the frostmite penalty walks, exactly like the block entity */
+    function tickPen(){
+      clearInterval(penT);
+      penT = setInterval(function(){
+        var before = S.pen;
+        if (S.tier && S.mites > 0) S.pen = Math.min(MAX_PEN, S.pen + S.mites * PEN_PER_MITE);
+        else S.pen = Math.max(0, S.pen - PEN_RECOVER);
+        if (S.pen === before){ clearInterval(penT); return; }
+        if (mode === 0) render();
+      }, 320);
+    }
+
+    /* wiring */
+    arr('.hb-seg', hb).forEach(function(seg){
+      seg.addEventListener('click', function(e){
+        var b = e.target.closest ? e.target.closest('button') : null;
+        if (!b) return;
+        var k = seg.getAttribute('data-k'), v = +b.getAttribute('data-v');
+        S[k] = v;
+        arr('button', seg).forEach(function(x){ x.classList.toggle('on', x === b); });
+        if (k === 'tier' || k === 'cap') S.pen = Math.min(S.pen, MAX_PEN);
+        if (k === 'roof' && mode === 1) clearFill();
+        tickPen(); render();
+      });
+    });
+    function bindRange(id, key, fmt, map){
+      var el = document.getElementById(id);
+      if (!el) return;
+      var out = document.getElementById(id + 'V');
+      function apply(){
+        var raw = +el.value;
+        S[key] = map ? map(raw) : raw;
+        if (out) out.innerHTML = fmt(S[key]);
+        tickPen(); render();
+      }
+      el.addEventListener('input', apply);
+      apply();
+    }
+    bindRange('hbPhase', 'phase', function(v){ return 'Phase ' + v; });
+    bindRange('hbY', 'y', function(v){ return 'Y ' + v; }, function(r){ return 64 - r * 8; });
+    bindRange('hbMites', 'mites', function(v){ return v + (v === 1 ? ' mite' : ' mites'); });
+
+    cv.addEventListener('click', function(e){
+      var r = cv.getBoundingClientRect(), px = r.width;
+      var x = e.clientX - r.left, y = e.clientY - r.top;
+      if (mode === 0){
+        var cell = px / N;
+        S.px = Math.max(-HALF, Math.min(HALF, Math.floor(x / cell) - HALF));
+        S.pz = Math.max(-HALF, Math.min(HALF, Math.floor(y / cell) - HALF));
+      } else {
+        var c2 = px / M;
+        var gx = Math.max(0, Math.min(M - 1, Math.floor(x / c2)));
+        var gy = Math.max(0, Math.min(M - 1, Math.floor(y / c2)));
+        if (gx === MID && gy === MID) return;
+        grid[gy * M + gx] = grid[gy * M + gx] ? 0 : 1;
+        clearFill();
+      }
+      render();
+    });
+
+    var mBtns = arr('.hb-modes button', hb);
+    mBtns.forEach(function(b, i){
+      b.addEventListener('click', function(){
+        if (mode === i) return;
+        mode = i;
+        mBtns.forEach(function(x, n){ x.classList.toggle('on', n === i); });
+        sideA.hidden = i !== 0; sideB.hidden = i !== 1;
+        legA.hidden  = i !== 0; legB.hidden  = i !== 1;
+        readA.hidden = i !== 0; readB.hidden = i !== 1;
+        if (i === 1) clearFill();
+        render();
+      });
+    });
+    var runBtn = document.getElementById('hbRun');
+    var rstBtn = document.getElementById('hbReset');
+    if (runBtn) runBtn.addEventListener('click', function(){ startSeal(); });
+    if (rstBtn) rstBtn.addEventListener('click', function(){ resetRoom(); render(); });
+
+    resetRoom();
+    window.addEventListener('resize', function(){ render(); });
+    render();
+  }
+
+  
+/* ================= chaptered deck ================= */
+  var GRIDS = ['.ap-stats > *', '.ap-figs > *', '.ap-bud > *', '.ap-pass > *',
+               '.ap-phs > *', '.ap-cmts > *', '.ap-read > *'];
+  function clearOn(el, cls){
+    function h(e){
+      if (e.target !== el) return;
+      el.classList.remove(cls);
+      el.style.animationDelay = '';
+      el.removeEventListener('animationend', h);
+      el.removeEventListener('animationcancel', h);
+    }
+    el.addEventListener('animationend', h);
+    el.addEventListener('animationcancel', h);
+  }
+  function stagger(root){
+    if (RM) return;
+    GRIDS.forEach(function(sel){
+      arr(sel, root).forEach(function(el, n){
+        if (n > 15) return;
+        el.style.animationDelay = (n * 0.045) + 's';
+        el.classList.remove('ap-pop'); void el.offsetWidth; el.classList.add('ap-pop');
+        clearOn(el, 'ap-pop');
+      });
+    });
+  }
+  function settle(root){
+    arr('.ap-pop', root).forEach(function(el){
+      el.classList.remove('ap-pop'); el.style.animationDelay = '';
+    });
+  }
+
+  var deck = document.getElementById('apDeck');
+  if (deck){
+    var panes  = arr('.ap-pane', deck);
+    var strips = arr('.ap-dstrip', deck);
+    var stage  = deck.querySelector('.ap-dstage');
+    var bPrev  = deck.querySelector('.ap-dstep.prev');
+    var bNext  = deck.querySelector('.ap-dstep.next');
+    var cur = 0, morphT = 0;
+
+    function tabs(s){ return s.querySelectorAll('.ap-dtab'); }
+
+    /* five tabs will not fit a phone at full length, so swap in the short
+       labels below 640px and put them back when there is room again */
+    var NARROW = window.matchMedia('(max-width:640px)');
+    strips.forEach(function(s){
+      tabs(s).forEach(function(b){
+        var n = b.lastChild;
+        if (n && n.nodeType === 3) b.setAttribute('data-long', n.nodeValue);
+      });
+    });
+    function fitTabs(){
+      var short = NARROW.matches;
+      strips.forEach(function(s){
+        tabs(s).forEach(function(b){
+          var n = b.lastChild; if (!n || n.nodeType !== 3) return;
+          var want = short ? (b.getAttribute('data-short') || b.getAttribute('data-long'))
+                           : b.getAttribute('data-long');
+          if (want && n.nodeValue !== want) n.nodeValue = want;
+        });
+      });
+    }
+
+    function ink(){
+      strips.forEach(function(s){
+        var bar = s.querySelector('.ap-dink'), t = tabs(s)[cur];
+        if (!bar || !t) return;
+        bar.style.width = t.offsetWidth + 'px';
+        bar.style.transform = 'translate3d(' + t.offsetLeft + 'px,0,0)';
+      });
+    }
+    function centre(){
+      strips.forEach(function(s){
+        var t = tabs(s)[cur]; if (!t) return;
+        var want = t.offsetLeft - (s.clientWidth - t.offsetWidth) / 2;
+        want = Math.max(0, Math.min(want, s.scrollWidth - s.clientWidth));
+        if (s.scrollTo) s.scrollTo({ left: want, behavior: RM ? 'auto' : 'smooth' });
+        else s.scrollLeft = want;
+      });
+    }
+    function fullName(i){
+      var t = tabs(strips[0])[i];
+      return t ? (t.getAttribute('data-full') || t.textContent.trim()) : '';
+    }
+    function step(btn, i, kicker){
+      if (!btn) return;
+      if (i < 0 || i >= panes.length){ btn.disabled = true; btn.innerHTML = ''; return; }
+      btn.disabled = false;
+      btn.innerHTML = '<em>' + kicker + '</em><b>' + fullName(i) + '</b>';
+    }
+    function deckTop(){
+      var a = deck.getBoundingClientRect(), b = doc.getBoundingClientRect();
+      return doc.scrollTop + (a.top - b.top);
+    }
+
+    function go(i, snap){
+      i = Math.max(0, Math.min(panes.length - 1, i));
+      if (i === cur) return;
+      var back = i < cur;
+      var from = stage.offsetHeight;
+      settle(panes[cur]);
+      panes[cur].classList.remove('on', 'enter', 'rev');
+      cur = i;
+      panes[cur].classList.add('on');
+      strips.forEach(function(s){
+        var ts = tabs(s);
+        for (var n = 0; n < ts.length; n++){
+          ts[n].classList.toggle('on', n === cur);
+          ts[n].setAttribute('aria-selected', n === cur ? 'true' : 'false');
+          ts[n].setAttribute('tabindex', n === cur ? '0' : '-1');
+        }
+      });
+      ink(); centre();
+      step(bPrev, cur - 1, 'Back to');
+      step(bNext, cur + 1, 'Next');
+      stagger(panes[cur]);
+      arr('.ap-figs b', panes[cur]).forEach(countUp);
+      if (!RM){
+        panes[cur].classList.add('enter');
+        if (back) panes[cur].classList.add('rev');
+        clearOn(panes[cur], 'enter');
+        clearOn(panes[cur], 'rev');
+      }
+      var to = stage.offsetHeight;
+      if (!RM && from && to && from !== to){
+        clearTimeout(morphT);
+        stage.classList.remove('morph');
+        stage.style.height = from + 'px';
+        void stage.offsetHeight;
+        stage.classList.add('morph');
+        stage.style.height = to + 'px';
+        morphT = setTimeout(function(){
+          stage.classList.remove('morph');
+          stage.style.height = '';
+        }, 470);
+      }
+      if (snap){
+        var want = Math.max(0, deckTop() - 6);
+        if (doc.scrollTo) doc.scrollTo({ top: want, behavior: RM ? 'auto' : 'smooth' });
+        else doc.scrollTop = want;
+      }
+    }
+
+    strips.forEach(function(s){
+      s.addEventListener('click', function(e){
+        var t = e.target.closest ? e.target.closest('.ap-dtab') : null;
+        if (!t) return;
+        go(+t.getAttribute('data-i'), false);
+      });
+      s.addEventListener('keydown', function(e){
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        go(cur + (e.key === 'ArrowRight' ? 1 : -1), false);
+        var t = tabs(s)[cur]; if (t) t.focus();
+      });
+    });
+    if (bPrev) bPrev.addEventListener('click', function(){ go(cur - 1, true); });
+    if (bNext) bNext.addEventListener('click', function(){ go(cur + 1, true); });
+    step(bPrev, -1, 'Back to');
+    step(bNext, 1, 'Next');
+    fitTabs();
+    requestAnimationFrame(function(){ ink(); });
+    window.addEventListener('resize', function(){ fitTabs(); ink(); });
+    if (NARROW.addEventListener) NARROW.addEventListener('change', function(){ fitTabs(); ink(); });
+    else if (NARROW.addListener) NARROW.addListener(function(){ fitTabs(); ink(); });
+  }
+
+  /* ================= count up + scroll reveal ================= */
+  function countUp(el){
+    if (RM || el.dataset.counted) return;
+    var m = el.textContent.trim().match(/^([\d,]+)(.*)$/);
+    if (!m) return;
+    var target = parseInt(m[1].replace(/,/g, ''), 10), suf = m[2];
+    if (!(target > 0)) return;
+    el.dataset.counted = '1';
+    var t0 = 0;
+    el.textContent = '0' + suf;
+    requestAnimationFrame(function run(t){
+      if (!t0) t0 = t;
+      var k = Math.min((t - t0) / 900, 1), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e).toLocaleString('en-US') + suf;
+      if (k < 1) requestAnimationFrame(run);
+    });
+  }
+
+  var rest = frame.querySelector('.ap-rest');
+  var pub = [], deckIdx = 0;
+  if (rest){
+    for (var n = 0; n < rest.children.length; n++){
+      var k = rest.children[n];
+      if (k === deck) break;
+      pub.push(k);
+    }
+  }
+  deckIdx = pub.length;
+  if (deck) pub.push(deck);
+
+  function land(el){
+    if (el.classList.contains('ap-rv')){
+      el.classList.add('in');
+      el.addEventListener('animationend', function h(){
+        el.classList.remove('in'); el.classList.add('set');
+        el.removeEventListener('animationend', h);
+      });
+    }
+    if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+    if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    stagger(el);
+  }
+  function revealAll(){ pub.forEach(function(el){ el.classList.remove('ap-rv'); el.classList.add('set'); }); }
+  function arm(){
+    if (RM || !window.IntersectionObserver){ revealAll(); return; }
+    pub.forEach(function(el, i){ if (i !== deckIdx) el.classList.add('ap-rv'); });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        land(e.target);
+      });
+    }, { root: doc, rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
+    pub.forEach(function(el){ io.observe(el); });
+  }
+  if (frame.classList.contains('done')) arm();
+  else if (window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      if (frame.classList.contains('done')){ mo.disconnect(); arm(); }
+    });
+    mo.observe(frame, { attributes: true, attributeFilter: ['class'] });
+    setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 4000);
+  } else setTimeout(arm, 3000);
+})();
+</script>
