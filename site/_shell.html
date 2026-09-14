@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<style>
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { height:100%; }
+  body {
+    min-height:100%;
+    background:#0f1216;
+    color:#d4dade;
+    font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* site bar. deliberately quiet: the pages below carry the design. */
+  .sb {
+    position:sticky; top:0; z-index:9000;
+    display:flex; align-items:center; gap:22px;
+    padding:0 22px; height:46px;
+    background:#0d1116; border-bottom:1px solid #1a212a;
+  }
+  .sb-brand {
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;
+    font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:#7dd3fc; text-decoration:none; white-space:nowrap; flex-shrink:0;
+  }
+  .sb-brand span { color:#5a6672; }
+  .sb-nav { display:flex; align-items:center; gap:18px; overflow-x:auto; min-width:0; }
+  .sb-nav::-webkit-scrollbar { display:none; }
+  .sb-nav a {
+    font-size:12px; color:#96a1aa; text-decoration:none; white-space:nowrap;
+    padding:3px 0; border-bottom:1px solid transparent; transition:color .15s linear;
+  }
+  .sb-nav a:hover { color:#d4dade; }
+  .sb-nav a.on { color:#7dd3fc; border-bottom-color:#7dd3fc; }
+  .sb-nav a.soon { color:#4a545e; pointer-events:none; }
+  .sb-wb { margin-left:auto; flex-shrink:0; }
+  .sb-wb a {
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;
+    font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+    color:#6c7883; text-decoration:none;
+  }
+  .sb-wb a:hover { color:#ffb454; }
+
+  .sb-page { padding:2rem; }
+
+  @media (max-width:640px) {
+    .sb { gap:14px; padding:0 14px; }
+    .sb-page { padding:1rem; }
+    .sb-brand span { display:none; }
+  }
+</style>
+</head>
+<body>
+<nav class="sb">
+  <a class="sb-brand" href="index.html">Frozen&nbsp;Dawn <span>/ dev journal</span></a>
+  <div class="sb-nav">__NAV__</div>
+  <div class="sb-wb"><a href="workbench.html">Workbench</a></div>
+</nav>
+<div class="sb-page">
+__BODY__
+</div>
+</body>
+</html>
