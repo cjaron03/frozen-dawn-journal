@@ -1,5 +1,5 @@
 <h2>Locked so far</h2>
-<p class="subtitle">Six decisions down. The seventh — stack and data pipeline — is in the terminal now. Note this board uses <em>no amber at all</em>: the active row is ice-blue, because "currently deciding" is your voice, not the machine's. The one amber element is real source text. That's the rule working.</p>
+<p class="subtitle">Six decisions down. The seventh, stack and data pipeline, is in the terminal now. Note this board uses <em>no amber at all</em>: the active row is ice-blue, because "currently deciding" is your voice, not the machine's. The one amber element is real source text. That's the rule working.</p>
 
 <style>
 .db { --mono: ui-monospace,"SF Mono",Menlo,monospace; }
@@ -22,15 +22,15 @@
 
 <div class="db">
   <div class="db-sheet">
-    <div class="db-row"><span class="db-n">01</span><span class="db-k">Audience</span><span class="db-v">Both — public face + gated deep dive<small>Spoiler-safe outer layer; explicit opt-in to Architect internals.</small></span></div>
-    <div class="db-row"><span class="db-n">02</span><span class="db-k">Content source</span><span class="db-v">Hybrid — git scaffolds, you narrate<small>Real releases, dates and commit counts become anchors; you attach the prose.</small></span></div>
-    <div class="db-row"><span class="db-n">03</span><span class="db-k">Architect centerpiece</span><span class="db-v">Live decision sim<small>All 7 actions re-rank as you drag the context. Confirmed portable — the scoring is pure arithmetic.</small></span></div>
+    <div class="db-row"><span class="db-n">01</span><span class="db-k">Audience</span><span class="db-v">Both: public face + gated deep dive<small>Spoiler-safe outer layer; explicit opt-in to Architect internals.</small></span></div>
+    <div class="db-row"><span class="db-n">02</span><span class="db-k">Content source</span><span class="db-v">Hybrid: git scaffolds, you narrate<small>Real releases, dates and commit counts become anchors; you attach the prose.</small></span></div>
+    <div class="db-row"><span class="db-n">03</span><span class="db-k">Architect centerpiece</span><span class="db-v">Live decision sim<small>All 7 actions re-rank as you drag the context. Confirmed portable, because the scoring is pure arithmetic.</small></span></div>
     <div class="db-row"><span class="db-n">04</span><span class="db-k">Visual direction</span><span class="db-v">Deep Field + ORSA amber<small>Ice-blue is your voice. Amber is the machine's. Never twice per viewport.</small></span></div>
     <div class="db-row"><span class="db-n">05</span><span class="db-k">Hosting</span><span class="db-v">Separate repo → GitHub Pages<small>Journal keeps its own history; mod repo stays clean. Custom domain stays available later.</small></span></div>
     <div class="db-row"><span class="db-n">06</span><span class="db-k">Media</span><span class="db-v">Repo assets now, capture later<small>5 screenshots + 274 textures + ~200 sounds. Slots degrade gracefully when empty.</small></span></div>
     <div class="db-row db-active"><span class="db-n">07</span><span class="db-k">Stack + data</span><span class="db-v">← deciding now<small style="color:#93a3ad">Three approaches in the terminal, with a recommendation.</small></span></div>
   </div>
 
-  <div class="db-src"><span class="c">// ArchitectDecisionEngine.java — scoreObserve, verbatim</span><br>if (context.health() &lt; context.maxHealth() * 0.7f) <b>return 0f;</b><br>if (context.distanceToTarget() &lt; 16.0f)            <b>return 0f;</b></div>
-  <div class="db-cap">Hard gates, not gradients. Below 70% health the Architect stops gathering information entirely — it has already decided it is in a fight. That behavior is <em style="color:#a9b3bb;font-style:normal">emergent from two lines</em>, and it is exactly what the sim will let people feel.</div>
+  <div class="db-src"><span class="c">// ArchitectDecisionEngine.java, scoreObserve, verbatim</span><br>if (context.health() &lt; context.maxHealth() * 0.7f) <b>return 0f;</b><br>if (context.distanceToTarget() &lt; 16.0f)            <b>return 0f;</b></div>
+  <div class="db-cap">Hard gates, not gradients. Below 70% health the Architect stops gathering information entirely. It has already decided it is in a fight. That behavior is <em style="color:#a9b3bb;font-style:normal">emergent from two lines</em>, and it is exactly what the sim will let people feel.</div>
 </div>

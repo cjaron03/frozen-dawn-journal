@@ -1,5 +1,5 @@
-<h2>Section 1 — Page map &amp; the gate</h2>
-<p class="subtitle">Five routes, not fifteen. Every "card type" you described — issues, growth, stunts, the break — is one content collection with a <code>kind</code> field, not a separate section. The gate is a single boundary, crossed once.</p>
+<h2>Section 1: Page map &amp; the gate</h2>
+<p class="subtitle">Five routes, not fifteen. Every "card type" you described, issues, growth, stunts, the break, is one content collection with a <code>kind</code> field, not a separate section. The gate is a single boundary, crossed once.</p>
 
 <style>
 .pm { --mono: ui-monospace,"SF Mono",Menlo,monospace; display:grid; grid-template-columns:1.35fr .85fr; gap:16px; align-items:start; }
@@ -34,7 +34,7 @@
   <div class="pm-sheet">
     <div class="pm-cap">Routes</div>
     <div class="pm-layer">
-      <div class="pm-tier">Public layer — spoiler-safe, indexable</div>
+      <div class="pm-tier">Public layer: spoiler-safe, indexable</div>
 
       <div class="pm-node"><span class="pm-route">/</span><span class="pm-desc"><em>The hook.</em> What Frozen Dawn is, the strongest screenshot, two doors: the timeline and the Architect.</span></div>
       <div class="pm-node"><span class="pm-route">/timeline</span><span class="pm-desc"><em>The spine.</em> Every entry as a card, chronological, filterable by kind. The June gap renders as a real gap.</span></div>
@@ -42,11 +42,11 @@
       <div class="pm-node"><span class="pm-route">/colophon</span><span class="pm-desc">How this site is built. The sync script, the data snapshot, the stack. Short.</span></div>
 
       <div class="pm-gate">
-        <div class="pm-gate-t">▲ Spoiler gate — crossed once, remembered</div>
-        <p class="pm-gate-p">One interstitial before <code>/architect</code>. Choice stored in <code>localStorage</code> so it never asks twice. <em style="color:#a9b3bb;font-style:normal">This is a courtesy, not security</em> — the content ships in the HTML and anyone can view-source. That's the right tradeoff for spoilers, and the gate copy should be honest about being a curtain rather than a lock.</p>
+        <div class="pm-gate-t">▲ Spoiler gate: crossed once, remembered</div>
+        <p class="pm-gate-p">One interstitial before <code>/architect</code>. Choice stored in <code>localStorage</code> so it never asks twice. <em style="color:#a9b3bb;font-style:normal">This is a courtesy, not security</em>. The content ships in the HTML and anyone can view-source. That's the right tradeoff for spoilers, and the gate copy should be honest about being a curtain rather than a lock.</p>
       </div>
 
-      <div class="pm-tier">Gated layer — the brainchild</div>
+      <div class="pm-tier">Gated layer: the brainchild</div>
       <div class="pm-node"><span class="pm-route">/architect</span><span class="pm-desc"><em>The hub.</em> What the Architect is, why it exists, the three forms, and the design problem it solves.</span></div>
       <div class="pm-node pm-sub"><span class="pm-route">/architect/mind</span><span class="pm-desc">The live decision sim. Seven actions, nineteen inputs, exact port of your Java.</span></div>
     </div>
@@ -58,11 +58,11 @@
       <div class="pm-kind"><i style="background:#7dd3fc"></i><b>release</b><span>Anchored to a real git tag.</span></div>
       <div class="pm-kind"><i style="background:#5fa8cc"></i><b>milestone</b><span>A checkpoint you declare, not a tag.</span></div>
       <div class="pm-kind"><i style="background:#c98b5e"></i><b>struggle</b><span>Where it broke. The honest ones.</span></div>
-      <div class="pm-kind"><i style="background:#8fbf7f"></i><b>breakthrough</b><span>Growth — when something clicked.</span></div>
+      <div class="pm-kind"><i style="background:#8fbf7f"></i><b>breakthrough</b><span>Growth: when something clicked.</span></div>
       <div class="pm-kind"><i style="background:#5e6874"></i><b>hiatus</b><span>The break. Scaffolded from real commit silence.</span></div>
       <div class="pm-kind"><i style="background:#a88fc4"></i><b>deepdive</b><span>Technical. Lives behind the gate.</span></div>
     </div>
-    <div class="pm-note">All six are the same Markdown collection with one schema. A card renders differently by <em>kind</em>; the timeline filters on it; the gate hides only <em>deepdive</em>. Adding a seventh kind later is one schema line and one CSS block — <em>not</em> a new page type.</div>
+    <div class="pm-note">All six are the same Markdown collection with one schema. A card renders differently by <em>kind</em>; the timeline filters on it; the gate hides only <em>deepdive</em>. Adding a seventh kind later is one schema line and one CSS block, <em>not</em> a new page type.</div>
   </div>
 
 </div>
