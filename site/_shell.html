@@ -48,6 +48,9 @@
 
   .sb-page { padding:2rem; }
 
+  /* the homepage has its own masthead and nav, so the shared bar is dropped there. */
+  body.home .sb { display:none; }
+
   @media (max-width:640px) {
     .sb { gap:14px; padding:0 14px; }
     .sb-page { padding:1rem; }
@@ -55,7 +58,7 @@
   }
 </style>
 </head>
-<body>
+<body class="__BODYCLASS__">
 <nav class="sb">
   <a class="sb-brand" href="index.html">Frozen&nbsp;Dawn <span>/ dev journal</span></a>
   <div class="sb-nav">__NAV__</div>

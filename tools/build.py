@@ -62,7 +62,9 @@ def nav_html(current: str) -> str:
 
 
 def wrap(shell: str, title: str, current: str, body: str) -> str:
+    # the homepage supplies its own masthead, so it hides the shared site bar.
     return (shell.replace("__TITLE__", title)
+                 .replace("__BODYCLASS__", "home" if current == "index.html" else "")
                  .replace("__NAV__", nav_html(current))
                  .replace("__BODY__", body))
 
