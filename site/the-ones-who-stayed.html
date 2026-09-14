@@ -1,0 +1,1468 @@
+<h2>Chapter six: The Ones Who Stayed</h2>
+<p class="subtitle">The Long Silence. July to September 2026, 104 commits on feat/homo-reliquus. The intro is twelve pairs of eyes that blink as one, except the last. The instrument is the Thaeven Archive.</p>
+
+<style>
+.ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
+.ap-frame { position:relative; height:calc(100vh - 110px); height:calc(100dvh - 110px);
+            min-height:520px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
+
+/* ---------- the black ---------- */
+.ap-black { position:absolute; inset:0; background:#000; z-index:50; pointer-events:none; }
+.ap-frame.play .ap-black { animation: owBlack 2.6s linear forwards; }
+@keyframes owBlack { 0%,81% { opacity:1 } 100% { opacity:0 } }
+
+/* ---------- the hearth: twelve pairs, one mind ----------
+   same eight by four pixel rows as the Architect in chapter two. most of
+   them carry the Returned violet, because Returned is the species and
+   Architect is only a job. transform and opacity only: no filter, ever. */
+.ow-eyes { position:absolute; inset:0; z-index:60; pointer-events:none; }
+.ow-pair { position:absolute; left:var(--x); top:var(--y); display:flex; gap:4px; opacity:0;
+           transform:translate(-50%,-50%) scale(var(--s)); will-change:transform, opacity; }
+.ow-eye { display:block; }
+.ow-eye i { display:block; width:8px; height:4px; }
+.ow-pair.b .r0 { background:#008CB4; }
+.ow-pair.b .r1 { background:#00D2FF; }
+.ow-pair.b .r2 { background:#005064; }
+.ow-pair.p .r0 { background:#7a5fa8; }
+.ow-pair.p .r1 { background:#a98cd8; }
+.ow-pair.p .r2 { background:#4a3866; }
+
+.ap-frame.play .ow-pair { animation: owIn .24s ease-out var(--d) both,
+                                     owBlink .15s ease-in-out var(--bd) 1,
+                                     owOut .28s ease-in var(--od) forwards; }
+@keyframes owIn  { from { opacity:0 } to { opacity:1 } }
+@keyframes owOut { from { opacity:1 } to { opacity:0 } }
+@keyframes owBlink {
+  0%,100% { transform:translate(-50%,-50%) scale(var(--s)) scaleY(1) }
+  42%,58% { transform:translate(-50%,-50%) scale(var(--s)) scaleY(.07) }
+}
+
+/* ---------- landed state: no animation survives the intro ---------- */
+.ap-frame.done .ap-black { display:none; }
+.ap-frame.done .ow-eyes { display:none; }
+.ap-frame.done .ap-kick,
+.ap-frame.done .ap-title,
+.ap-frame.done .ap-rest { animation:none !important; }
+.ap-frame.done .ap-kick { opacity:1; }
+.ap-frame.done .ap-title { width:auto; overflow:visible; border-right-color:#7dd3fc00; }
+.ap-frame.done .ap-rest { opacity:1; transform:none; }
+
+@keyframes apIn { from { opacity:0 } to { opacity:1 } }
+
+/* ---------- scroll body ---------- */
+.ap-doc { position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; z-index:30; font-family:var(--sans); }
+.ap-doc::-webkit-scrollbar { width:9px }
+.ap-doc::-webkit-scrollbar-thumb { background:#222a33; border-radius:5px }
+.ap-inner { max-width:660px; margin:0 auto; padding:46px 30px 70px; }
+
+.ap-kick { font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+           color:#a98cd8; opacity:0; }
+.ap-frame.play .ap-kick { animation: apIn .5s ease-out 2.2s forwards; }
+
+.ap-title { font-size:40px; font-weight:700; letter-spacing:-.03em; color:#f2f6f8; margin:8px 0 0;
+            white-space:nowrap; overflow:hidden; width:0; border-right:2px solid #7dd3fc00; }
+.ap-frame.play .ap-title { animation: apType 1.1s steps(19,end) 2.4s forwards,
+                                      apCaret .4s step-end 2.4s 6; }
+@keyframes apType { to { width:var(--tw,12.4em) } }
+@keyframes apCaret { 0%,50% { border-right-color:#7dd3fc } 51%,100% { border-right-color:#7dd3fc00 } }
+
+.ap-rest { opacity:0; }
+.ap-frame.play .ap-rest { animation: apUp .7s cubic-bezier(.2,.6,.3,1) 2.95s forwards; }
+@keyframes apUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
+
+.ap-stand { font-size:16.5px; line-height:1.62; color:#b3bdc5; margin:16px 0 0; }
+.ap-p { font-size:14.5px; line-height:1.72; color:#96a1aa; margin:0 0 15px; }
+.ap-p strong { color:#d4dade; font-weight:600; }
+.ap-p code, .ap-code { font-family:var(--mono); font-size:.9em; color:#a8bcc9; }
+.ap-h3 { font-size:12px; font-family:var(--mono); letter-spacing:.14em; text-transform:uppercase;
+         color:#6c7883; margin:44px 0 16px; padding-top:18px; border-top:1px solid #1a2027; }
+.ap-lede { font-size:20px; line-height:1.5; color:#d4dade; font-weight:500; letter-spacing:-.01em;
+           margin:0 0 22px; }
+.ap-pull { font-size:15.5px; line-height:1.6; color:#b9c4cc; font-style:italic;
+           border-left:2px solid #6b4fa0; padding-left:16px; margin:22px 0; }
+
+.ap-replay { position:absolute; right:12px; bottom:12px; z-index:70; font-family:var(--mono);
+             font-size:10px; letter-spacing:.1em; padding:6px 12px; border-radius:5px;
+             background:#141a21d9; border:1px solid #252e38; color:#8d98a1; cursor:pointer; }
+.ap-replay:hover { color:#a98cd8; border-color:#4a3866; }
+
+/* ---------- breakout width ---------- */
+.ap { --bleed: clamp(0px, calc((100vw - 660px)/2 - 30px), 160px); }
+.ap-wide { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+
+/* ---------- stats band ---------- */
+.ap-stats { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#1b222b;
+            border-top:1px solid #1b222b; border-bottom:1px solid #1b222b;
+            margin-top:24px; margin-bottom:32px; }
+.ap-stats > div { background:#0f1216; padding:15px 4px 16px; text-align:center; }
+.ap-stats b { display:block; font-size:25px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+              font-variant-numeric:tabular-nums; line-height:1; }
+.ap-stats span { display:block; margin-top:7px; font-size:10.5px; line-height:1.4; color:#6c7883; }
+
+/* ================= shared blocks ================= */
+.ap-code { background:#0a0d11; border:1px solid #1a212a; border-radius:7px; padding:13px 15px;
+           font-family:var(--mono); font-size:11.5px; line-height:1.72; color:#8b97a3;
+           overflow-x:auto; margin:0 0 18px; white-space:pre; }
+.ap-src { margin:0 0 18px; }
+.ap-src > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:9px;
+                    font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+                    text-transform:uppercase; color:#6c7883; background:#0d1116;
+                    border:1px solid #1a212a; border-radius:7px; padding:9px 13px;
+                    transition:color .15s linear, border-color .15s linear; }
+.ap-src > summary::-webkit-details-marker { display:none; }
+.ap-src > summary::marker { content:""; }
+.ap-src > summary:before { content:""; flex:0 0 auto; width:0; height:0;
+                           border-left:5px solid currentColor; border-top:4px solid transparent;
+                           border-bottom:4px solid transparent; transition:transform .18s ease; }
+.ap-src > summary em { margin-left:auto; font-style:normal; letter-spacing:.06em; color:#4f5a64; }
+.ap-src > summary:hover { color:#a98cd8; border-color:#4a3866; }
+.ap-src > summary:focus-visible { outline:2px solid #a98cd8; outline-offset:2px; }
+.ap-src[open] > summary { color:#8d98a1; border-bottom-color:#0a0d11;
+                          border-bottom-left-radius:0; border-bottom-right-radius:0; }
+.ap-src[open] > summary:before { transform:rotate(90deg); }
+.ap-src .ap-code { margin:0; border-top-left-radius:0; border-top-right-radius:0; }
+
+.ap-code v { color:#7dd3fc; text-decoration:none; }
+.ap-code k { color:#a98cd8; text-decoration:none; }
+.ap-code c { color:#55606b; text-decoration:none; }
+
+/* the one amber thing on this page. ORSA is dead and gone by chapter six,
+   but the suit still runs its firmware, so the suit still talks. amber is
+   the machine's voice everywhere else on the site and it stays the machine's
+   voice here, even when nobody is left operating the machine. */
+.ap-orsa { margin:0 0 18px; border:1px solid #3c2f16; border-left:2px solid #ffb454;
+           border-radius:0 7px 7px 0; background:#0f0c07; padding:12px 15px 13px; }
+.ap-orsa em { display:block; font-family:var(--mono); font-size:9.5px; font-style:normal;
+              letter-spacing:.14em; text-transform:uppercase; color:#8a6b34; margin:0 0 8px; }
+.ap-orsa p { margin:0 0 6px; font-family:var(--mono); font-size:11.5px; line-height:1.66;
+             color:#e0b978; }
+.ap-orsa p:last-child { margin-bottom:0; }
+.ap-orsa p b { font-weight:400; color:#ffb454; }
+
+/* ================= the Thaeven Archive ================= */
+.tv { border:1px solid #1c242e; border-radius:9px; background:#0d1116; overflow:hidden; margin:0 0 20px; }
+.tv-rail { display:flex; gap:0; border-bottom:1px solid #1a212a; background:#0a0d11;
+           overflow-x:auto; scrollbar-width:none; }
+.tv-rail::-webkit-scrollbar { display:none; }
+.tv-rec { flex:0 0 auto; padding:10px 14px 9px; font-family:var(--mono); font-size:10px;
+          letter-spacing:.11em; text-transform:uppercase; color:#5f6b76; background:none;
+          border:0; border-bottom:2px solid transparent; cursor:pointer; white-space:nowrap;
+          transition:color .15s linear, border-color .15s linear; }
+.tv-rec:hover { color:#96a1aa; }
+.tv-rec.on { color:#a98cd8; border-bottom-color:#a98cd8; }
+.tv-rec:focus-visible { outline:2px solid #a98cd8; outline-offset:-2px; }
+
+.tv-head { display:flex; align-items:center; gap:12px; padding:13px 16px 0; }
+.tv-name { font-size:14px; font-weight:600; color:#e9eff3; letter-spacing:-.01em; }
+.tv-go { margin-left:auto; flex:0 0 auto; font-family:var(--mono); font-size:10px;
+         letter-spacing:.1em; text-transform:uppercase; padding:7px 13px; border-radius:5px;
+         background:#161d26; border:1px solid #2b3540; color:#a9b4bd; cursor:pointer;
+         transition:color .15s linear, border-color .15s linear; }
+.tv-go:hover { color:#a98cd8; border-color:#4a3866; }
+.tv-go:focus-visible { outline:2px solid #a98cd8; outline-offset:2px; }
+.tv-go[disabled] { cursor:default; color:#4f5a64; border-color:#1d242c; }
+
+.tv-cols { display:grid; grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr); gap:0 18px;
+           padding:12px 16px 4px; }
+.tv-col > h5 { margin:0 0 9px; font-family:var(--mono); font-size:9px; letter-spacing:.16em;
+               text-transform:uppercase; color:#4f5a64; font-weight:400; }
+.tv-raw { font-family:var(--mono); font-size:11.5px; line-height:1.78; color:#6d5f86;
+          white-space:pre-wrap; word-break:break-word; }
+.tv-raw b { font-weight:400; color:#a98cd8; }
+.tv-out { font-size:13px; line-height:1.68; color:#aab5be; }
+
+.tv-seg { display:block; margin:0 0 14px; opacity:.18; }
+.tv-seg.lit { opacity:1; transition:opacity .5s linear; }
+.tv-seg:last-child { margin-bottom:0; }
+.tv-seg p { margin:0 0 2px; }
+.tv-seg i { display:block; font-style:normal; padding-left:11px; margin:0 0 2px;
+            border-left:2px solid #2f2745; color:#9aa5ae; }
+.tv-seg u { display:block; text-decoration:none; margin:8px 0; font-family:var(--mono);
+            font-size:10.5px; letter-spacing:.06em; color:#5f6b76; }
+.tv-seg s { display:block; text-decoration:none; margin:6px 0; font-family:var(--mono);
+            font-size:12px; letter-spacing:.24em; color:#6b4fa0; }
+.tv-seg.unc p, .tv-seg.unc i { color:#7f8a94; font-style:italic; }
+.tv-seg.unc i { border-left-color:#26203a; }
+.tv-seg.unc:before { content:"unresolved"; display:block; font-family:var(--mono); font-size:8.5px;
+                     letter-spacing:.16em; text-transform:uppercase; color:#5a4a7a; margin:0 0 5px; }
+.tv-seg.rev:before { content:"revised"; color:#8a6b34; }
+.tv-seg.rev p, .tv-seg.rev i { color:#c8d2da; font-style:normal; }
+
+.tv-bot { display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+          padding:11px 16px 12px; border-top:1px solid #151b23; margin-top:10px; }
+.tv-note { font-family:var(--mono); font-size:9.5px; letter-spacing:.07em; color:#5f6b76; }
+.tv-master { margin-left:auto; display:inline-flex; align-items:center; gap:8px;
+             font-family:var(--mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase;
+             color:#6c7883; background:none; border:1px solid #2b3540; border-radius:5px;
+             padding:6px 11px; cursor:pointer; transition:color .15s linear, border-color .15s linear; }
+.tv-master:hover { color:#a98cd8; border-color:#4a3866; }
+.tv-master:focus-visible { outline:2px solid #a98cd8; outline-offset:2px; }
+.tv-master span { width:7px; height:7px; border-radius:50%; background:#2f3944; }
+.tv-master.on { color:#a98cd8; border-color:#4a3866; }
+.tv-master.on span { background:#a98cd8; }
+.tv-master[hidden] { display:none; }
+
+/* ---------- the vocabulary ---------- */
+.tv-voc { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:#1a212a;
+          border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 18px; }
+.tv-voc > div { background:#0d1116; padding:9px 13px; display:flex; gap:10px; align-items:baseline; }
+.tv-voc b { flex:0 0 auto; font-family:var(--mono); font-size:11px; color:#a98cd8; font-weight:400; }
+.tv-voc span { font-size:12px; line-height:1.5; color:#8d98a1; }
+.tv-voc em { font-style:normal; color:#5f6b76; }
+
+/* ================= the one way switch ================= */
+.me-sw { border:1px solid #1c242e; border-radius:9px; background:#0d1116; overflow:hidden; margin:0 0 20px; }
+.me-top { display:flex; align-items:center; gap:12px; padding:12px 16px;
+          background:#0a0d11; border-bottom:1px solid #1a212a; }
+.me-flag { font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:#8d98a1; }
+.me-val { font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:#7dd3fc; }
+.me-sw.on .me-val { color:#a98cd8; }
+.me-go { margin-left:auto; font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+         text-transform:uppercase; padding:7px 13px; border-radius:5px; background:#161d26;
+         border:1px solid #2b3540; color:#a9b4bd; cursor:pointer;
+         transition:color .15s linear, border-color .15s linear; }
+.me-go:hover { color:#a98cd8; border-color:#4a3866; }
+.me-go:focus-visible { outline:2px solid #a98cd8; outline-offset:2px; }
+.me-go[disabled] { cursor:default; color:#5a4a7a; border-color:#241d33; background:#12101a; }
+.me-rows { display:grid; gap:1px; background:#151b23; }
+.me-row { background:#0d1116; padding:10px 16px; display:grid;
+          grid-template-columns:minmax(0,150px) minmax(0,1fr); gap:0 14px; align-items:baseline; }
+.me-row > span { font-family:var(--mono); font-size:10px; letter-spacing:.08em;
+                 text-transform:uppercase; color:#5f6b76; }
+.me-row > em { font-style:normal; font-size:12.5px; line-height:1.55; color:#96a1aa;
+               transition:color .4s linear, opacity .3s linear; }
+.me-sw.on .me-row > em { color:#c0c9d1; }
+.me-row > em.fade { opacity:0; }
+
+/* ================= the guardian: a scale pull ================= */
+/* the whole point of the Master Architect is that its health bar is not the
+   health bar of the thing it is standing in front of. one element carries the
+   zoom, every layer under it is drawn at its true relative size in blocks, and
+   layers simply stop being visible when they get too small or too large to
+   read. transform and opacity only. */
+.ga { border:1px solid #1c242e; border-radius:9px; background:#0b0e12; overflow:hidden; margin:0 0 20px; }
+.ga-scene { position:relative; }
+.ga-view { position:relative; height:330px; overflow:hidden; background:
+           radial-gradient(120% 90% at 50% 52%, #10141b 0%, #07090b 78%); }
+.ga-stage { position:absolute; left:50%; top:50%; width:0; height:0;
+            transform:scale(1); will-change:transform; }
+.ga-lyr { position:absolute; left:0; top:0; opacity:0; pointer-events:none;
+          transform:translate(calc(-50% + var(--ox,0px)), calc(-50% + var(--oy,0px))); }
+.ga-lyr svg { display:block; width:100%; height:100%; overflow:visible; }
+.ga-vig { position:absolute; inset:0; pointer-events:none;
+          background:radial-gradient(78% 78% at 50% 50%, #0000 66%, #07090bcc 100%); }
+.ga-grid { position:absolute; inset:0; pointer-events:none; opacity:.5;
+           background-image:linear-gradient(#141b24 1px, #0000 1px),
+                            linear-gradient(90deg, #141b24 1px, #0000 1px);
+           background-size:44px 44px; background-position:50% 50%;
+           mask-image:radial-gradient(60% 60% at 50% 50%, #000 0%, #0000 100%);
+           -webkit-mask-image:radial-gradient(60% 60% at 50% 50%, #000 0%, #0000 100%); }
+
+.ga-hud { position:absolute; left:14px; top:13px; right:14px; display:flex;
+          align-items:flex-start; gap:12px; pointer-events:none; }
+.ga-hud b { font-family:var(--mono); font-size:9.5px; letter-spacing:.16em;
+            text-transform:uppercase; color:#5f6b76; }
+.ga-scale { margin-left:auto; text-align:right; font-family:var(--mono);
+            font-size:9.5px; line-height:1.35; letter-spacing:.12em;
+            text-transform:uppercase; color:#5f6b76; }
+.ga-scale em { display:block; font-style:normal; font-size:15px; line-height:1.2;
+               letter-spacing:.01em; color:#a98cd8; margin-bottom:3px; }
+
+.ga-cap { position:absolute; left:0; right:0; bottom:0; padding:14px 16px 15px;
+          background:linear-gradient(#07090b00, #07090bf2 46%); pointer-events:none; }
+.ga-cap b { display:block; font-size:15px; font-weight:600; color:#e9eff3;
+            letter-spacing:-.01em; margin:0 0 3px; }
+.ga-cap span { display:block; font-size:12.5px; line-height:1.55; color:#96a1aa; max-width:58ch; }
+
+.ga-bar { display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+          padding:11px 14px 12px; border-top:1px solid #151b23; background:#0d1116; }
+.ga-stop { flex:0 0 auto; font-family:var(--mono); font-size:9.5px; letter-spacing:.1em;
+           text-transform:uppercase; padding:6px 10px; border-radius:5px; background:none;
+           border:1px solid #232b35; color:#6c7883; cursor:pointer;
+           transition:color .15s linear, border-color .15s linear; }
+.ga-stop:hover { color:#96a1aa; border-color:#2f3944; }
+.ga-stop.on { color:#a98cd8; border-color:#4a3866; background:#141020; }
+.ga-stop:focus-visible { outline:2px solid #a98cd8; outline-offset:2px; }
+.ga-pull { margin-left:auto; font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+           text-transform:uppercase; padding:7px 13px; border-radius:5px; background:#161d26;
+           border:1px solid #2b3540; color:#a9b4bd; cursor:pointer;
+           transition:color .15s linear, border-color .15s linear; }
+.ga-pull:hover { color:#a98cd8; border-color:#4a3866; }
+.ga-pull:focus-visible { outline:2px solid #a98cd8; outline-offset:2px; }
+
+.ga-stop.ga-hid { color:#a98cd8; border-color:#4a3866; }
+.ga-stop[hidden] { display:none; }
+.ga-egg { margin:0; padding:12px 14px 13px; border-top:1px solid #241d33; background:#0f0c16;
+          font-size:12.5px; line-height:1.62; color:#9c93b0; }
+.ga-egg[hidden] { display:none; }
+.ga-egg b { color:#a98cd8; font-weight:600; }
+.ga-egg i { font-style:normal; color:#c0b6d4; }
+
+@media (max-width:640px) {
+  .ga-view { height:262px; }
+  .ga-cap { position:static; padding:12px 14px 13px; pointer-events:auto;
+            background:#0d1116; border-top:1px solid #151b23; }
+  .ga-cap b { font-size:14px; }
+  .ga-cap span { max-width:none; }
+  .ga-pull { margin-left:0; width:100%; text-align:center; }
+}
+
+.ap-cmts { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; }
+.ap-cmt { background:#0d1116; padding:12px 14px; }
+.ap-cmt b { display:block; font-family:var(--mono); font-size:11px; font-weight:500;
+            letter-spacing:.015em; color:#a98cd8; }
+.ap-cmt span { display:block; margin-top:5px; font-size:12.5px; line-height:1.6; color:#8d98a1; }
+
+.ap-pass { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; counter-reset:p; }
+.ap-pass > div { background:#0d1116; padding:10px 14px; display:flex; gap:12px; align-items:baseline; }
+.ap-pass > div:before { counter-increment:p; content:counter(p,decimal-leading-zero);
+                        font-family:var(--mono); font-size:10px; color:#4f5b67; flex:0 0 auto; }
+.ap-pass b { font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:#a98cd8;
+             flex:0 0 122px; }
+.ap-pass span { font-size:12.5px; line-height:1.55; color:#8d98a1; }
+
+.ap-phs { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+          overflow:hidden; margin:0 0 20px; }
+.ap-phs > div { background:#0d1116; padding:12px 14px 13px; }
+.ap-phs h4 { margin:0; font-size:13.5px; font-weight:600; color:#e6edf2; letter-spacing:-.01em;
+             display:flex; align-items:baseline; gap:9px; }
+.ap-phs h4 u { font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; color:#5f6b76;
+               text-decoration:none; }
+.ap-phs h4 i { width:9px; height:9px; border-radius:50%; flex:0 0 auto; align-self:center; }
+.ap-phs p { margin:6px 0 0; font-size:12.5px; line-height:1.62; color:#8d98a1; }
+.ap-phs s { display:inline-block; margin:7px 6px 0 0; font-family:var(--mono); font-size:9.5px;
+            letter-spacing:.04em; color:#93a3ad; background:#151c23; border:1px solid #212a33;
+            border-radius:3px; padding:2.5px 7px; text-decoration:none; }
+
+.ap-figs { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#1a212a;
+           border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 20px; }
+.ap-figs > div { background:#0d1116; padding:14px 12px 15px; text-align:center; }
+.ap-figs b { display:block; font-size:21px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+             font-variant-numeric:tabular-nums; }
+.ap-figs span { display:block; margin-top:6px; font-size:10.5px; line-height:1.45; color:#6c7883; }
+
+.ap-tcap { margin:0 0 17px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em;
+           line-height:1.6; color:#5a6672; }
+
+.ap-note { margin:0 0 20px; padding:14px 18px 17px; background:#0d1116; border:1px solid #1a212a;
+           border-radius:7px; font-size:13px; line-height:1.62; color:#8d98a1; }
+.ap-note b { color:#c8d2da; font-weight:600; }
+
+/* ================= chaptered deck ================= */
+.ap-deck { margin:44px 0 0; }
+
+.ap-dtop { position:sticky; top:0; z-index:8; background:#0f1216; padding:9px 0 0; }
+.ap-dtop:after { content:""; position:absolute; left:calc(-1 * var(--bleed)); right:calc(-1 * var(--bleed));
+  bottom:0; height:1px; background:#1c242e; }
+
+.ap-dtop .ap-dstrip { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+.ap-dstrip { position:relative; display:flex; align-items:flex-end; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; }
+.ap-dstrip::-webkit-scrollbar { display:none; }
+
+.ap-dtab { position:relative; flex:0 0 auto; -webkit-appearance:none; appearance:none;
+  background:none; border:0; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:#7c8891; padding:9px 13px 11px; cursor:pointer;
+  white-space:nowrap; border-radius:5px 5px 0 0;
+  transition:color .28s ease, background .28s ease, transform .2s cubic-bezier(.2,.6,.3,1); }
+.ap-dtab:hover { color:#b8c3cb; background:#141920; }
+@media (min-width:641px) { .ap-dtab { padding-left:10px; padding-right:10px; letter-spacing:.08em; }
+  .ap-dtab i { margin-right:5px; } }
+.ap-dtab:active { transform:translateY(1px); }
+.ap-dtab.on { color:#a98cd8; }
+.ap-dtab i { font-style:normal; opacity:.45; margin-right:7px; }
+
+.ap-dink { position:absolute; left:0; bottom:0; height:2px; width:0; background:#a98cd8;
+  border-radius:2px 2px 0 0; pointer-events:none;
+  transition:transform .44s cubic-bezier(.22,.8,.28,1), width .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dstage { position:relative; }
+.ap-dstage.morph { overflow:hidden; transition:height .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dpanes { position:relative; padding-top:22px; }
+.ap-pane { display:none; }
+.ap-pane.on { display:block; }
+.ap-pane.enter { animation:apSlideL .42s cubic-bezier(.2,.65,.3,1) both; }
+.ap-pane.enter.rev { animation-name:apSlideR; }
+@keyframes apSlideL { from { opacity:0; transform:translate3d(20px,0,0); } to { opacity:1; transform:none; } }
+@keyframes apSlideR { from { opacity:0; transform:translate3d(-20px,0,0); } to { opacity:1; transform:none; } }
+
+.ap-dbot { margin-top:28px; padding-top:16px; border-top:1px solid #1c242e; }
+.ap-dsteps { display:flex; gap:10px; }
+.ap-dstep { flex:1 1 0; min-width:0; -webkit-appearance:none; appearance:none; text-align:left;
+  background:#12171d; border:1px solid #1c242e; border-radius:7px; padding:10px 14px 11px;
+  cursor:pointer; font-family:inherit; }
+.ap-dstep:hover:not([disabled]) { border-color:#2c3946; background:#161c23; }
+.ap-dstep:active:not([disabled]) { transform:scale(.985); }
+.ap-dstep[disabled] { opacity:.3; cursor:default; }
+.ap-dstep em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:#5f6b76; font-style:normal; margin-bottom:4px; }
+.ap-dstep b { display:block; font-size:12.5px; font-weight:600; color:#cbd5dc; letter-spacing:-.01em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ap-dstep.next { text-align:right; }
+
+/* ---- reveal on scroll ---- */
+.ap-rv { opacity:0; transform:translate3d(0,16px,0); }
+.ap-rv.in { animation:apRise .6s cubic-bezier(.2,.65,.3,1) both; }
+.ap-rv.set { opacity:1; transform:none; animation:none; }
+.ap-pop { animation:apRise .5s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes apRise { from { opacity:0; transform:translate3d(0,16px,0); } to { opacity:1; transform:none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  /* the mod resolves Thaeven translation instantly under reduced animation.
+     the hearth does the same here: it simply is not shown. */
+  .ow-eyes { display:none !important; }
+  .ap-rv, .ap-rv.in { opacity:1 !important; transform:none !important; animation:none !important; }
+  .ap-pop, .ap-pane.enter { animation:none !important; }
+  .ap-dink, .ap-dstage.morph { transition:none !important; }
+  .ap-dtab { transition:none !important; }
+  .ap-dtab:active { transform:none !important; }
+  .ap-src > summary, .ap-src > summary:before { transition:none !important; }
+}
+
+@media (max-width:640px){
+  .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
+  .ap-dtab i { margin-right:5px; }
+  .ap-dsteps { gap:7px; }
+  .ap-dstep { padding:9px 11px 10px; }
+  .ap-dstep b { font-size:11.5px; }
+  .ap-deck { margin-top:34px; }
+  .ap-frame { height:calc(100vh - 78px); height:calc(100dvh - 78px); min-height:420px; }
+  .ap-inner { padding:36px 17px 64px; }
+  .ap-title { font-size:24px; }
+  .ap-lede { font-size:17.5px; }
+  .ap-stand { font-size:15px; }
+  .ap-p { font-size:14px; }
+  .ap-stats { grid-template-columns:repeat(3,1fr); }
+  .ap-stats b { font-size:21px; }
+  .ap-figs { grid-template-columns:1fr; }
+  .ap-pass > div { flex-wrap:wrap; }
+  .ap-pass b { flex-basis:auto; }
+  .ap-code { font-size:10.5px; }
+  .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
+}
+</style>
+
+<div class="ap">
+  <div class="ap-frame play" id="apFrame">
+    <div class="ap-black"></div>
+
+    <div class="ow-eyes" aria-hidden="true">
+      <span class="ow-pair b" style="--x:50%;--y:42%;--s:5.4;--d:.15s;--bd:1.25s;--od:1.97s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair p" style="--x:26%;--y:30%;--s:2.6;--d:.48s;--bd:1.25s;--od:1.95s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair p" style="--x:73%;--y:33%;--s:2.2;--d:.525s;--bd:1.25s;--od:1.93s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair p" style="--x:16%;--y:57%;--s:1.9;--d:.57s;--bd:1.25s;--od:1.91s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair p" style="--x:84%;--y:60%;--s:2.4;--d:.615s;--bd:1.25s;--od:1.89s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair p" style="--x:37%;--y:70%;--s:1.6;--d:.66s;--bd:1.25s;--od:1.87s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair b" style="--x:63%;--y:20%;--s:1.4;--d:.705s;--bd:1.25s;--od:1.85s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair p" style="--x:9%;--y:40%;--s:1.2;--d:.75s;--bd:1.25s;--od:1.83s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair p" style="--x:91%;--y:44%;--s:1.3;--d:.795s;--bd:1.25s;--od:1.81s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair p" style="--x:66%;--y:76%;--s:1.1;--d:.84s;--bd:1.25s;--od:1.79s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair b" style="--x:30%;--y:15%;--s:1;--d:.885s;--bd:1.25s;--od:1.77s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+      <span class="ow-pair p" style="--x:90%;--y:15%;--s:.95;--d:.93s;--bd:1.5s;--od:1.75s"><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span><span class="ow-eye"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span></span>
+    </div>
+
+    <div class="ap-doc">
+      <div class="ap-inner">
+        <div class="ap-kick">Chapter Six &middot; 11 July 2026</div>
+        <h1 class="ap-title">The Ones Who Stayed</h1>
+
+        <div class="ap-rest">
+          <p class="ap-stand">ORSA left. Humanity left. Something else did not. This is the longest continuous stretch of work in the project, seven weeks on one branch, and almost none of it is about the cold. It is about what filled the space once there was nobody in it.</p>
+
+          <div class="ap-stats ap-wide">
+            <div><b>104</b><span>commits, all of them on one branch</span></div>
+            <div><b>7</b><span>weeks, from the first Hearth to the last record</span></div>
+            <div><b>6</b><span>memory records, written before they were readable</span></div>
+            <div><b>8</b><span>things the world can send at you afterwards</span></div>
+            <div><b>1</b><span>flag, and it only turns one way</span></div>
+            <div><b>0</b><span>late systems that force-load a distant chunk</span></div>
+          </div>
+
+          <p class="ap-p">Everything before this chapter happens to a world that is still ending. This one happens after. The ships are gone, the broadcast has stopped repeating, and the question stops being <strong>how do I survive the cold</strong> and becomes <strong>who else is still here, and what have they been doing.</strong></p>
+
+          <div class="ap-deck" id="apDeck">
+            <div class="ap-dtop">
+              <div class="ap-dstrip" role="tablist" aria-label="Chapter six sections">
+                <button type="button" class="ap-dtab on" role="tab" data-i="0" data-full="Those who stayed" data-short="Stayed" aria-selected="true" tabindex="0"><i>01</i>Those who stayed</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="1" data-full="The Hearth" data-short="Hearth" aria-selected="false" tabindex="-1"><i>02</i>The Hearth</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="2" data-full="Thae Iven" data-short="Thaeven" aria-selected="false" tabindex="-1"><i>03</i>Thae Iven</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="The Master Architect" data-short="Master" aria-selected="false" tabindex="-1"><i>04</i>The Master Architect</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="The Heart, and Maeve" data-short="The Heart" aria-selected="false" tabindex="-1"><i>05</i>The Heart, and Maeve</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="5" data-full="After" data-short="After" aria-selected="false" tabindex="-1"><i>06</i>After</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="6" data-full="What the cold made of them" data-short="Evolved" aria-selected="false" tabindex="-1"><i>07</i>What the cold made of them</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="7" data-full="The Aggregate" data-short="Aggregate" aria-selected="false" tabindex="-1"><i>08</i>The Aggregate</button>
+                <span class="ap-dink" id="apDink"></span>
+              </div>
+            </div>
+
+            <div class="ap-dstage" id="apDstage">
+              <div class="ap-dpanes" id="apDpanes">
+
+<section class="ap-pane on" role="tabpanel" data-p="0" aria-label="Those who stayed">
+  <p class="ap-lede">The thing chapter two called the Architect is not a species. It is a job.</p>
+
+  <p class="ap-p">I did not plan that. It fell out of the naming. When I started adding the residents of a Hearth I needed identifiers, and the identifiers I reached for were these:</p>
+
+  <div class="ap-code"><k>entity</k>.frozendawn.returned   <c>= Returned Hunter</c>
+<k>entity</k>.frozendawn.mimic      <c>= Returned Mimic</c>
+<k>entity</k>.frozendawn.architect  <c>= Returned Architect</c></div>
+
+  <p class="ap-p">I typed the third line and stopped. Chapter two spends its whole length treating the Architect as a singular thing, my brainchild, the one mind in the project worth building properly. And the mod had been quietly telling me for months that it is one of them. <strong>Returned is the species. Hunter, Mimic and Architect are what individuals do.</strong></p>
+
+  <p class="ap-p">The population code says the same thing without any drama about it. An intact Major Hearth owns a fixed set of resident slots, and the slots are roles:</p>
+
+  <div class="ap-code"><k>enum</k> <v>HearthPopulationRole</v> {
+  <v>RETURNED</v>, <v>HUNTER</v>, <v>MIMIC</v>, <v>ARCHITECT</v>
+}</div>
+
+  <div class="ap-h3">Homo reliquus</div>
+
+  <p class="ap-p">The working name for the branch was <code>feat/homo-reliquus</code>, and it stuck because it is the most accurate thing in the repository. Not <em>sapiens</em>, the one who knows. <em>Reliquus</em>: the one left over. The remainder after a subtraction.</p>
+
+  <p class="ap-p">That is the whole biology. These are not monsters that arrived. They are what was already here, minus everything that left. The cold did not create them, it only removed the alternative.</p>
+
+  <p class="ap-pull">Kill one of the Returned. Whatever they were, they&rsquo;re at peace now.</p>
+
+  <p class="ap-tcap">The description on the advancement for your first Returned kill. It is the only advancement in the mod that apologises to you.</p>
+
+  <div class="ap-h3">One mind, several bodies</div>
+
+  <p class="ap-p">The intro to this page is twelve pairs of eyes that blink at the same instant, and that is not a flourish, it is the system. Residents of a Hearth do not each hold their own opinion of you. The Hearth holds one, and every resident reads from it.</p>
+
+  <p class="ap-p">Which is why conduct memory is stored on the Hearth and not on the mob. Kill a Hunter two kilometres out and walk home; the Architect you have never met already knows. There is no line of sight to break and no witness to silence, because there was never more than one observer to begin with.</p>
+
+  <div class="ap-cmts">
+    <div class="ap-cmt"><b>persist hive relationship memory</b><span>The commit that made hostility survive the death of every mob that had a reason to be hostile.</span></div>
+    <div class="ap-cmt"><b>Hearth conduct boundaries</b><span>A physical edge. Cross it and the shared opinion of you updates, whether or not anything is standing there.</span></div>
+  </div>
+
+  <p class="ap-p">If you caught the last pair of eyes blinking a beat behind the others, hold onto that. It comes back in pane seven.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="1" aria-label="The Hearth">
+  <p class="ap-lede">A Hearth is not a building. It is an opinion held in common, which happens to have an address.</p>
+
+  <p class="ap-p">Three weeks of this chapter went into one idea: a place on the map that remembers you. Not a spawner, not a structure, not a quest hub. A persistent settlement with a population, a maturation timeline, a physical boundary, and a single shared memory of every single thing you have ever done near it.</p>
+
+  <div class="ap-h3">You hear it before you find it</div>
+
+  <p class="ap-p">A Hearth does not announce itself with a marker. It leaks. The Surveyor Lens is an ORSA tool built to find thermal anchors, and a Hearth is not one, so at long range the lens has no vocabulary for it at all. It just reports interference and gives up.</p>
+
+  <p class="ap-p">What I like about this ladder is that every rung is written in ORSA&rsquo;s language, and ORSA&rsquo;s language is failing:</p>
+
+  <div class="ap-pass">
+    <div><b>Static</b><span>Unclassified low-band interference. Bearing unresolved.</span></div>
+    <div><b>Carrier</b><span>Repeating low-band carrier. Signal bias registers, direction does not.</span></div>
+    <div><b>Fragment</b><span>Carrier coherence rising. Fragment: VESH... THAE...</span></div>
+    <div><b>Lock</b><span>Hearth signature catalogued, with a distance and a bearing at last.</span></div>
+    <div><b>Archive</b><span>Stored permanently. The lens remembers the Hearth even when you are nowhere near it.</span></div>
+  </div>
+
+  <p class="ap-p">The fragment rung is the one I care about. <code>VESH... THAE...</code> is not noise, it is language, and the lens does not know that. It reports rising coherence the way a smoke detector reports a fire: correctly, and without the faintest idea what it is looking at.</p>
+
+  <p class="ap-p">If the Hearth already hates you, the same ladder reads differently. The carrier <strong>rejects handshake</strong>. Coherence becomes distortion. And the fragment changes from <code>VESH... THAE...</code> to a single word: <code>ORSATHAE</code>. They are not broadcasting their own name any more. They are broadcasting yours.</p>
+
+  <div class="ap-h3">One memory, not many</div>
+
+  <p class="ap-p">Every resident is a role rather than an individual, and every role reads from the same record. That record is stored on the Hearth, which is why it survives things that should erase it.</p>
+
+  <div class="ap-code"><k>enum</k> <v>HearthEncounterRole</v> {
+  <v>UNASSIGNED</v>, <v>DISPATCHED</v>, <v>RESERVED</v>,
+  <v>BYSTANDER</v>, <v>TETHERED</v>, <v>SPENT</v>
+}</div>
+
+  <p class="ap-p">Six words that decide who comes for you, who waits, who watches and who has already been used up. A Hearth does not throw its whole population at a problem. It allocates.</p>
+
+  <p class="ap-p">And because the memory lives on the settlement, killing the witnesses does nothing. There is no witness. There is one observer with several pairs of hands, and it has already written the entry.</p>
+
+  <div class="ap-h3">Major, Minor, and a boundary</div>
+
+  <div class="ap-figs">
+    <div><b>1</b><span>Major Hearth, with the full role roster and an Architect</span></div>
+    <div><b>2</b><span>readings the lens gives a Minor one before it can name it</span></div>
+    <div><b>0</b><span>chunks force-loaded to keep any of this alive</span></div>
+  </div>
+
+  <p class="ap-p">A Major Hearth carries the whole population table. A Minor one is smaller, quieter, and easier to walk past. Both own a physical boundary, and crossing it is an event: <em>the collective draws breath.</em> That subtitle is the entire warning. Nothing attacks yet. It has only noticed.</p>
+
+  <div class="ap-h3">The part nobody sees</div>
+
+  <p class="ap-p">Most of the three weeks was not the settlement. It was the rule that the settlement is not allowed to cheat.</p>
+
+  <p class="ap-p">A Hearth matures, builds, gains and loses residents, and migrates. None of that is permitted to force-load a chunk you are not standing in. So nothing runs at a distance; it <strong>reconciles</strong>. When the chunk loads again the Hearth works out what should have happened in the interval and applies it in one pass, including deaths of residents who were never on the roster when you left.</p>
+
+  <div class="ap-cmts">
+    <div class="ap-cmt"><b>reconcile hearth state on chunk load</b><span>The commit that made a settlement able to change while nobody was watching, without ever being ticked.</span></div>
+    <div class="ap-cmt"><b>record pre-roster casualties</b><span>Deaths that happened before the population list existed still count against you. They do not resurrect anyone and they do not double-count.</span></div>
+  </div>
+
+  <p class="ap-p">That last one sounds like bookkeeping and it is the moral centre of the system. Field strength falls when residents die. If I let the reconciler invent or duplicate residents, the world would quietly forgive or quietly punish you for things you did not do. Getting it exactly right is invisible when it works, which is the usual deal.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="2" aria-label="Thae Iven">
+  <p class="ap-lede">Pane three.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="3" aria-label="The Master Architect">
+  <p class="ap-lede">Two weeks, one entity. The longest single fight I have ever built, and the only one where the boss is not the thing you are actually losing to.</p>
+
+<div class="ga" id="gaWrap">
+  <div class="ga-scene">
+    <div class="ga-view" id="gaView">
+    <div class="ga-grid"></div>
+    <div class="ga-stage" id="gaStage">
+    <div class="ga-lyr" data-w="100" style="--ox:-60px;--oy:-35px;width:100px;height:100px"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke="#7dd3fc" stroke-width="1.4" stroke-linecap="square"><rect x="16" y="9" width="8" height="7" rx="1"/><path d="M17.4 12.6h5.2"/><rect x="16.5" y="16.5" width="7" height="9.5"/><path d="M16.5 19.5h-3.2M23.5 19.5h3.2M18.3 26v6M21.7 26v6"/></g><path d="M3 34h34" stroke="#1c242e" stroke-width="1"/></svg></div>
+    <div class="ga-lyr" data-w="200" style="--oy:-57.5px;width:200px;height:200px"><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M7 63 A35 35 0 0 1 73 63" fill="none" stroke="#332a49" stroke-width="1.1"/><path d="M13 63 A29 29 0 0 1 67 63" fill="none" stroke="#241d35" stroke-width="1"/><g fill="none" stroke="#a98cd8" stroke-width="1.5" stroke-linecap="square"><rect x="32.5" y="19" width="15" height="11.5" rx="1"/><path d="M34 30.5v28M46 30.5v28M34 58.5h12"/><path d="M32.5 36h-9.5M47.5 36h9.5"/><path d="M57 21v37"/></g><g fill="#a98cd8"><rect x="35.6" y="23.4" width="3.4" height="1.7"/><rect x="41" y="23.4" width="3.4" height="1.7"/></g><g fill="none" stroke="#6b4fa0" stroke-width=".9"><path d="M40 19V3M40 7 29 1M40 7 51 1M57 21l6-9M57 21l-7-8"/></g><path d="M4 63h72" stroke="#1c242e" stroke-width="1"/></svg></div>
+    <div class="ga-lyr" data-w="5120" style="width:5120px;height:5120px"><svg viewBox="0 0 512 512" aria-hidden="true"><circle cx="256" cy="256" r="232" fill="none" stroke="#6b4fa0" stroke-width="4.2" stroke-dasharray="14 12"/><circle cx="256" cy="256" r="214" fill="none" stroke="#7a5fa8" stroke-width="3"/><circle cx="256" cy="256" r="128" fill="none" stroke="#6b4fa0" stroke-width="3.4"/><rect x="392" y="293" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="364" y="386" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="269" y="402" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="171" y="414" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="115" y="332" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="62" y="246" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="114" y="159" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="172" y="74" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="275" y="85" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="379" y="103" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="413" y="203" width="14" height="14" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="315" y="260" width="6" height="6" fill="#8a6fc0"/><rect x="321" y="325" width="6" height="6" fill="#8a6fc0"/><rect x="338" y="359" width="6" height="6" fill="#8a6fc0"/><rect x="251" y="330" width="6" height="6" fill="#8a6fc0"/><rect x="240" y="366" width="6" height="6" fill="#8a6fc0"/><rect x="143" y="357" width="6" height="6" fill="#8a6fc0"/><rect x="181" y="311" width="6" height="6" fill="#8a6fc0"/><rect x="124" y="249" width="6" height="6" fill="#8a6fc0"/><rect x="183" y="245" width="6" height="6" fill="#8a6fc0"/><rect x="179" y="175" width="6" height="6" fill="#8a6fc0"/><rect x="163" y="141" width="6" height="6" fill="#8a6fc0"/><rect x="255" y="168" width="6" height="6" fill="#8a6fc0"/><rect x="266" y="132" width="6" height="6" fill="#8a6fc0"/><rect x="299" y="210" width="6" height="6" fill="#8a6fc0"/><rect x="331" y="190" width="6" height="6" fill="#8a6fc0"/><rect x="390" y="257" width="6" height="6" fill="#8a6fc0"/><rect x="248" y="248" width="16" height="16" fill="#a98cd8"/><circle cx="256" cy="256" r="34" fill="none" stroke="#a98cd8" stroke-width="4.2"/></svg></div>
+    <div class="ga-lyr" data-w="20480" style="width:20480px;height:20480px"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M150 132 Q203 160 256 256" fill="none" stroke="#7a5fa8" stroke-width="3"/><path d="M372 158 Q314 173 256 256" fill="none" stroke="#7a5fa8" stroke-width="3"/><path d="M96 300 Q176 244 256 256" fill="none" stroke="#7a5fa8" stroke-width="3"/><path d="M414 332 Q335 260 256 256" fill="none" stroke="#7a5fa8" stroke-width="3"/><path d="M214 410 Q235 299 256 256" fill="none" stroke="#7a5fa8" stroke-width="3"/><path d="M330 438 Q293 313 256 256" fill="none" stroke="#7a5fa8" stroke-width="3"/><circle cx="150" cy="132" r="26" fill="none" stroke="#a98cd8" stroke-width="3"/><circle cx="372" cy="158" r="26" fill="none" stroke="#6b4fa0" stroke-width="3"/><circle cx="96" cy="300" r="26" fill="none" stroke="#6b4fa0" stroke-width="3"/><circle cx="414" cy="332" r="26" fill="none" stroke="#6b4fa0" stroke-width="3"/><circle cx="214" cy="410" r="26" fill="none" stroke="#6b4fa0" stroke-width="3"/><circle cx="330" cy="438" r="26" fill="none" stroke="#6b4fa0" stroke-width="3"/><rect x="147" y="129" width="6" height="6" fill="#a98cd8"/><rect x="369" y="155" width="6" height="6" fill="#8a6fc0"/><rect x="93" y="297" width="6" height="6" fill="#8a6fc0"/><rect x="411" y="329" width="6" height="6" fill="#8a6fc0"/><rect x="211" y="407" width="6" height="6" fill="#8a6fc0"/><rect x="327" y="435" width="6" height="6" fill="#8a6fc0"/><circle cx="256" cy="256" r="46" fill="none" stroke="#a98cd8" stroke-width="4.2"/><circle cx="256" cy="256" r="20" fill="none" stroke="#7a5fa8" stroke-width="3"/><rect x="250" y="250" width="12" height="12" fill="#8a6fc0"/></svg></div>
+    <div class="ga-lyr" data-w="81920" style="--oy:-14080px;width:81920px;height:81920px"><svg viewBox="0 0 512 512" aria-hidden="true"><path d="M0 214h512" stroke="#3c4854" stroke-width="3" fill="none"/><path d="M150 132 C150 222 256 300 256 344" fill="none" stroke="#6b4fa0" stroke-width="3"/><path d="M372 158 C372 248 256 300 256 344" fill="none" stroke="#6b4fa0" stroke-width="3"/><path d="M96 300 C96 390 256 300 256 344" fill="none" stroke="#6b4fa0" stroke-width="3"/><path d="M414 332 C414 422 256 300 256 344" fill="none" stroke="#6b4fa0" stroke-width="3"/><path d="M214 410 C214 500 256 300 256 344" fill="none" stroke="#6b4fa0" stroke-width="3"/><path d="M330 438 C330 528 256 300 256 344" fill="none" stroke="#6b4fa0" stroke-width="3"/><circle cx="256" cy="344" r="168" fill="none" stroke="#6b4fa0" stroke-width="3"/><circle cx="256" cy="344" r="126" fill="none" stroke="#7a5fa8" stroke-width="3"/><circle cx="256" cy="344" r="84" fill="none" stroke="#7a5fa8" stroke-width="3.4"/><circle cx="256" cy="344" r="44" fill="none" stroke="#a98cd8" stroke-width="4.5"/><circle cx="256" cy="344" r="17" fill="#a98cd8"/></svg></div>
+    <div class="ga-lyr" data-w="100" style="--ox:60px;--oy:-35px;width:100px;height:100px"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20.5" r="15.5" fill="none" stroke="#2b2342" stroke-width=".9"/><circle cx="20" cy="20.5" r="10.5" fill="none" stroke="#241d35" stroke-width=".8"/><g fill="none" stroke="#a98cd8" stroke-width="1.4" stroke-linecap="square"><rect x="16" y="9" width="8" height="7" rx="1"/><rect x="16.5" y="16.5" width="7" height="9.5"/><path d="M16.5 19.5h-3.2M23.5 19.5h3.2M18.3 26v6M21.7 26v6"/></g><path d="M3 34h34" stroke="#2a2240" stroke-width="1"/></svg></div>
+    </div>
+    <div class="ga-vig"></div>
+    <div class="ga-hud">
+      <b>Field of view</b>
+      <div class="ga-scale"><em id="gaNum">2.5</em>blocks across</div>
+    </div>
+    </div>
+    <div class="ga-cap">
+      <b id="gaName">You</b>
+      <span id="gaLine">Ten hearts, one oxygen tank, and whatever you brought with you.</span>
+    </div>
+  </div>
+  <div class="ga-bar">
+    <button type="button" class="ga-stop on" data-i="0">You</button>
+    <button type="button" class="ga-stop" data-i="1">Master Architect</button>
+    <button type="button" class="ga-stop" data-i="2">The Hearth</button>
+    <button type="button" class="ga-stop" data-i="3">Thae Iven</button>
+    <button type="button" class="ga-stop" data-i="4">The Heart</button>
+    <button type="button" class="ga-stop ga-hid" data-i="5" id="gaEggBtn" hidden>Unresolved</button>
+    <button type="button" class="ga-pull" id="gaPull">Pull back</button>
+  </div>
+  <p class="ga-egg" id="gaEgg" hidden><b>You were not supposed to find that yet.</b> The rest of this chapter is what happens after it wakes up, and that is filed under <i>After</i>, two tabs along. What it was doing down there before it woke up is not in this chapter at all. It is not in this journal yet either.</p>
+</div>
+
+<p class="ap-p">That is the fight. You are told to kill the thing in the middle of the first frame, and the health bar above it belongs to a four block entity. Everything else in that pull is what the four block entity is standing in front of, and none of it has a health bar at all.</p>
+
+<h3 class="ap-h3">You cannot kill it in your world</h3>
+
+<p class="ap-p">This is the rule that took longest to get right, and the one I stole most openly. In Destiny, a Hive god cannot be put down in our space. Crota does not die on the Moon. You go to the throne world and kill it where it actually lives, or it stands back up and the whole thing was a waste of ammunition. The Master Architect works the same way, and the scale pull above is the reason it has to.</p>
+
+<p class="ap-p">Damage you deal out here is real, but it is never final. <b>Thae Iven turns the blow aside.</b> Push hard enough and the shared mind does not break, it tightens around its Master. That is the whole tether phase: you are not fighting an entity with a large health pool, you are fighting an entity that is being held up by something you have not found yet and cannot reach from where you are standing.</p>
+
+<p class="ap-p">The fight only opens at ASCENT, when the Master Architect bares its soul and the channel comes open on its own terms rather than yours. It only resolves at FLOOD, on the other side of that channel. The fold is the throne world. It is the only address at which the Master Architect is mortal, and getting in is not a skill check you pass, it is an invitation the encounter extends when it is ready.</p>
+
+<div class="ap-pull">The fold is not a phase.<br>It is an address.</div>
+<p class="ap-tcap">The entity you can see is the guard. The place you have to go is the thing being guarded.</p>
+
+  <p class="ap-p">If the Architect is a job, the Master Architect is what happens when a Hearth stops sending people to do the job and does it itself. Five phases, and the first two are not even about damage.</p>
+
+  <div class="ap-phs">
+    <div>
+      <h4><i style="background:#a98cd8"></i>KIT<u>phase 0</u></h4>
+      <p>It disarms the fight before it starts. Thermal Sever collapses a heat loop you were relying on, and the storm above you stops being weather and starts being an instrument. The subtitle for the wind-up is the honest one: <em>the storm falls silent around the Master Architect.</em> Silence is the tell.</p>
+      <s>thermal sever</s><s>storm authority</s>
+    </div>
+    <div>
+      <h4><i style="background:#a98cd8"></i>CONSTRUCTION<u>phase 1</u></h4>
+      <p>It builds. The Hearth rearranges itself around the fight, walls go up where you wanted to run, and anything you put in the way gets rejected rather than pathed around. The Last Wall rises here.</p>
+      <s>the last wall</s><s>obstruction smash</s>
+    </div>
+    <div>
+      <h4><i style="background:#a98cd8"></i>TETHER<u>phase 2</u></h4>
+      <p>The rest of them show up, and not as reinforcements. They hold it. Thae Iven turns blows aside, tightens around its Master when it is hurt, and cracks under sustained pressure. You are not fighting one thing, you are cutting through the population that decided to keep it alive.</p>
+      <s>deflect</s><s>strain</s><s>wail</s>
+    </div>
+    <div>
+      <h4><i style="background:#a98cd8"></i>ASCENT<u>phase 3</u></h4>
+      <p>Sky presentation, the fold opens, and it bares its soul. That subtitle is not mine being dramatic, it is the literal event name: <code>core_reveal</code>. This is the only window in the encounter where the thing is actually exposed.</p>
+      <s>core reveal</s><s>fold open</s>
+    </div>
+    <div>
+      <h4><i style="background:#a98cd8"></i>FLOOD<u>phase 4</u></h4>
+      <p>The collective opens the channel and pushes memory through it. Every mote that lands is a life entering continuity. Kill it here and the fold collapses, the storm dies over the following minutes, and the aftermath is staged rather than instant.</p>
+      <s>flood motes</s><s>staged death</s>
+    </div>
+  </div>
+
+  <div class="ap-h3">The other voice in the fight</div>
+
+  <p class="ap-p">ORSA has been gone for chapters by this point. The suit has not been. It still runs their firmware, it still narrates, and during this fight it narrates badly.</p>
+
+  <div class="ap-orsa">
+    <em>ORSA // SUIT AI</em>
+    <p>Biometric scan detects <b>multiple occupants</b>.</p>
+    <p>Warning: telemetry mismatch. Location services unavailable. <b>Please remain where you are.</b></p>
+    <p>Telemetry restored. <b>Have a productive day.</b></p>
+  </div>
+
+  <p class="ap-tcap">The suit, mid-encounter. It is not lying to you. It genuinely cannot tell how many people are inside your suit, and it has a customer service line ready for either answer.</p>
+
+  <p class="ap-p">That last line lands while the storm is still falling apart around a corpse. I wrote it as a joke and then could not take it out, because it is the most ORSA thing in the entire mod: a scripted pleasantry, still executing, with nobody left to be pleasant to.</p>
+
+  <div class="ap-h3">The staff</div>
+
+  <p class="ap-p">It carries an item whose internal id is <code>master_architect_staff</code> and whose player-facing name is the <strong>Thaeven Wand</strong>. I renamed it late, after the archive work in the previous pane, and the rename is the whole point. The mod stopped describing the object by who holds it and started describing it by what language it is written in.</p>
+
+  <div class="ap-cmts">
+    <div class="ap-cmt"><b>master architect combat phases</b><span>The commit that split one boss into five machines that hand off to each other.</span></div>
+    <div class="ap-cmt"><b>staged storm death aftermath</b><span>The fight does not end when the health bar does. The weather has to be told, and it takes its time.</span></div>
+  </div>
+
+  <p class="ap-p">Permanent defeat also reaches backwards. Records you read earlier and could not fully resolve get revised once the Master is genuinely dead, and only then. Temporary deaths inside the fold do not count, and neither do failed attempts. The archive will not update on a maybe.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="4" aria-label="The Heart, and Maeve">
+  <p class="ap-lede">The Heart is the only place in Frozen Dawn where the mod stops being a survival game and becomes a reading exercise.</p>
+
+  <p class="ap-p">It forms rather than spawns. Six stages, and the first one is the absence of sound.</p>
+
+  <div class="ap-code"><k>enum</k> <v>HeartFormationStage</v> {
+  <v>NONE</v>, <v>DEAD_AIR</v>, <v>SHAKE</v>, <v>GATHER</v>, <v>HOLD</v>, <v>LIVE</v>
+}
+
+<k>enum</k> <v>HeartCollapseStage</v> {
+  <v>NONE</v>, <v>RUPTURE</v>, <v>FALL</v>, <v>SETTLE</v>, <v>DORMANT</v>
+}</div>
+
+  <p class="ap-p">Two enums, eleven states, and between them the entire arc of the thing: dead air, a tremor, a gathering, a hold, life, and then rupture, fall, settle, dormant. I wrote the collapse enum on the same afternoon as the formation one. It felt dishonest to build something that could only be born.</p>
+
+  <div class="ap-h3">Cognitive Load</div>
+
+  <p class="ap-p">A live Heart is an exposed archive, and standing in it costs you. Cognitive Load is the pressure of reading somebody else&rsquo;s memory with your own head. It is not damage. It is the resource that decides how much you are allowed to understand before you have to leave.</p>
+
+  <p class="ap-p">Echoes manifest while you are in there. Each one is a memory that wants to be seen, and the counterplay is exactly that: <strong>witness it</strong>. An Echo that is acknowledged fractures quietly. An Echo that is ignored does this instead:</p>
+
+  <p class="ap-pull">An unwitnessed memory screams.</p>
+
+  <p class="ap-tcap">The subtitle for a failed Echo. It is the only mechanic in the mod where the punishment for looking away is that the thing gets louder.</p>
+
+  <div class="ap-h3">Five nodes</div>
+
+  <p class="ap-p">The archive holds five memory nodes. Four are fixed history. The fifth is about you, and the mod writes it while you play.</p>
+
+  <div class="ap-pass">
+    <div><b>Orsha&rsquo;s theft</b><span>Orsha built vel. Orsha saw Maeve coming and chose themselves.</span></div>
+    <div><b>The reckoning</b><span>Iven-Orsha waited for the world to answer. They remembered the waiting as hope.</span></div>
+    <div><b>The lie</b><span>WELCOME HOME. The message was approved before anyone returned.</span></div>
+    <div><b>Kevin</b><span>Kevin warned them. They placed him where failure would look like tragedy.</span></div>
+    <div><b>Memory of you</b><span>Visits remembered. Congregation deaths remembered. The names of those you removed.</span></div>
+  </div>
+
+  <p class="ap-p">Node three is the one that ties this chapter back to chapter three. <em>Abandonment, formatted for transmission.</em> That is the Heart&rsquo;s reading of ORSA&rsquo;s homecoming banner, written by something that was here when the banner went up, and it is a harsher review than anything I would have let myself write in my own voice.</p>
+
+  <div class="ap-h3">Orsathae-vaen</div>
+
+  <p class="ap-p">If the Heart takes enough damage, it assembles a Successor out of what is left. The subtitle is <em>the archive grinds a shape together,</em> which is exactly what it looks like. It conducts the dead with one arm and sustains the wounded with a filament, and it is not finished, and it knows.</p>
+
+  <p class="ap-p">It has five voice lines. That is all. Five, for an entire boss:</p>
+
+  <div class="ap-code"><c>// Orsathae-vaen</c>
+<v>"Why?"</v>
+<v>"It&rsquo;s cold."</v>
+<v>"Hello?"</v>
+<v>"Kevin."</v>
+<v>"Don&rsquo;t."</v></div>
+
+  <p class="ap-p">None of them are addressed to you, except possibly the last. It is running the vocabulary of everyone whose memory it was assembled from, and one of those people knew Kevin.</p>
+
+  <div class="ap-h3">Maeve</div>
+
+  <p class="ap-p">Maeve is the last memory in the archive, and killing the Heart breaks it. There is a subtitle for the moment and it is four words: <em>the last memory breaks.</em> Something distant answers, and then node five updates one final time.</p>
+
+  <p class="ap-pull">Now they do not remember you.</p>
+
+  <p class="ap-tcap">Node five, post-erasure. Every visit, every death, every line you crossed. The Hearth kept all of it for the whole game and then lost the ability to have kept it.</p>
+
+  <p class="ap-p">There is a small mercy attached, and it costs something. A final witness takes form, memory folds into a shape, and <em>the last witness remembers you</em>. It carries three memory charges. Three, total, for the rest of the world&rsquo;s existence. When they are gone, the only record of you that ever existed is gone with them.</p>
+
+  <div class="ap-cmts">
+    <div class="ap-cmt"><b>heart memory nodes and echo counterplay</b><span>The commit where reading the archive became the mechanic rather than a cutscene.</span></div>
+    <div class="ap-cmt"><b>maeve erasure world transition</b><span>One boolean, written once. Everything in the next pane hangs off it.</span></div>
+  </div>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="5" aria-label="After">
+  <p class="ap-lede">Pane six.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="6" aria-label="What the cold made of them">
+  <p class="ap-lede">Chapter five was about what the cold made out of us. This is what the cold made out of them, once nothing was holding them in a shape.</p>
+
+  <p class="ap-p">The old coordination system is gone. The Hearths still stand, but the thing that told a Hunter it was a Hunter does not answer any more, and the population starts branching. Five lineages, each one growing out of an encounter you already know.</p>
+
+  <div class="ap-phs">
+    <div>
+      <h4><i style="background:#8fa8c4"></i>Rimebound<u>from Frostbitten</u></h4>
+      <p>It buries itself and comes up under you. Burrowing, lances, armour, terrain pressure, and at the end of the sequence full encasement. Chapter four was about keeping heat in a room. This is about the room being taken away from the outside.</p>
+      <s>burrow</s><s>lance</s><s>encase</s>
+    </div>
+    <div>
+      <h4><i style="background:#9fb8a8"></i>Resonant<u>from Hollow</u></h4>
+      <p>It hunts vibration, not sight. Server-authoritative sound events, phasing through what you hid behind, breaches, grabs. The counterplay is to stop making noise, which in a survival game means stopping everything.</p>
+      <s>sound events</s><s>phase</s><s>breach</s>
+    </div>
+    <div>
+      <h4><i style="background:#c0a7d4"></i>Remnant<u>from Mimic</u></h4>
+      <p>It authors a false shelter, copies the appearance and equipment of the player it committed to, and learns your attack patterns while you fight it. Kill it and the lure collapses with it.</p>
+      <s>false shelter</s><s>copies you</s><s>learns</s>
+    </div>
+    <div>
+      <h4><i style="background:#8fc4bc"></i>Frostwrithe<u>from Frostmite colony</u></h4>
+      <p>A colony that became one animal. It travels as a coordinated burrowing superorganism, mimics whichever evolved threat is nearby, and can break apart into ordinary Frostmites to survive before regrouping somewhere else.</p>
+      <s>superorganism</s><s>mimics</s><s>disperses</s>
+    </div>
+    <div>
+      <h4><i style="background:#b8a06c"></i>Bloombound and the Spore<u>from the Bloom</u></h4>
+      <p>Not a branch of anything that was alive before. The Bloom is terrain, and these are what the terrain sends out. They extend its local ecology without ever taking over its authority to reshape ground.</p>
+      <s>bloom band</s><s>finite relays</s>
+    </div>
+  </div>
+
+  <div class="ap-h3">The one that is a beat behind</div>
+
+  <p class="ap-p">In the intro to this page, eleven pairs of eyes blink together and one blinks late. That is the Remnant, and it is late for a reason I did not have to write any code for.</p>
+
+  <p class="ap-p">The rest of them read from a shared record. The Remnant reads from <strong>you</strong>. It commits to one player, copies that player, and studies that player, which means its information is always one observation old. A hive is synchronous because it has one source. A copy is always behind, because the thing it is copying keeps moving.</p>
+
+  <p class="ap-p">So when you see something wearing your armour standing in a shelter you do not remember building, the tell is timing. It reacts a fraction after everything else does.</p>
+
+  <div class="ap-h3">Two more, and neither of them fights</div>
+
+  <p class="ap-p">The <strong>Undone</strong> and the <strong>Undone Architect</strong> persist outside the coordination system entirely, with their own grasp, construction and accretion rules. Their subtitles refuse to name them: <em>something settles into place. Something incorporates the remains. Something comes apart.</em> The mod knows what everything else is called. It will not commit to these.</p>
+
+  <p class="ap-p">The <strong>Archivist</strong> does not enter ordinary combat at all. It builds shared collection sites and preserves complete item stacks. It is the only thing in the post-Maeve world doing something constructive, and what it is constructing is a museum of everything that died.</p>
+
+  <div class="ap-h3">How often, and why</div>
+
+  <p class="ap-p">Evolution chance is not a table I can print honestly, because it scales with post-Maeve age, local Bloom density, the difficulty preset, nearby caps, and the encounter director&rsquo;s pity and variety rules all at once. What I can print is the shape of it:</p>
+
+  <div class="ap-pass">
+    <div><b>Monotonic age</b><span>The world only ever gets further from Maeve. This number never goes down.</span></div>
+    <div><b>Bloom density</b><span>Frontier, mid, core. Standing deeper in the Bloom raises what can find you.</span></div>
+    <div><b>Difficulty</b><span>Cinematic 0.65, standard 1.0, brutal 1.35 on evolution. Remnants scale separately and more gently.</span></div>
+    <div><b>Pity and variety</b><span>Guaranteed intervals so nothing stalls out, and caps so you do not get the same thing twice running.</span></div>
+  </div>
+
+  <p class="ap-p">The rarest of them is the Archivist, at a guaranteed interval of a hundred and eight thousand ticks. The most common are the ones that used to be people. That ratio was deliberate.</p>
+
+  <div class="ap-note"><b>If you want the real number,</b> the mod will tell you. <code>/fd postmaeve encounters</code> prints live probability, eligibility, cap, cooldown and guarantee state for the save you are actually in. I would rather ship a command than a wiki page that goes stale the first time I touch a constant.</div>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="7" aria-label="The Aggregate">
+  <p class="ap-lede">Everything you killed is still on the map. It has just stopped being separate things.</p>
+
+  <p class="ap-p">The Aggregate is optional, and it is the only encounter in Frozen Dawn that you build yourself. Not by crafting. By playing normally.</p>
+
+  <p class="ap-p">Every eligible Frozen Dawn kill attributed to a player adds world-scoped pressure. Nothing tells you this is happening. There is no bar, no warning, no advancement for the first hundred. The world just starts accumulating, and eight stages later it stands up.</p>
+
+  <div class="ap-code"><k>enum</k> <v>AggregateStage</v> {
+  <v>DORMANT</v>, <v>RESIDUE</v>, <v>DEPOSIT</v>, <v>OSSUARY</v>,
+  <v>GESTATION</v>, <v>AWAKENING_ELIGIBLE</v>, <v>ACTIVE</v>, <v>RESOLVED</v>
+}</div>
+
+  <p class="ap-p">You can watch it happen, if you own the right tool. The Surveyor Lens has readings for every stage, and they are the coldest text in the mod because ORSA&rsquo;s instrument has no emotional vocabulary at all:</p>
+
+  <div class="ap-orsa">
+    <em>ORSA // Surveyor Lens</em>
+    <p>COMPOSITE TRACE DETECTED</p>
+    <p>BIOLOGICAL MATERIAL: MULTIPLE // METABOLIC ACTIVITY: <b>NONE</b></p>
+    <p>MASS: <b>%s kg</b> // METABOLIC ACTIVITY: TRACE</p>
+    <p>COHESION: <b>INCREASING</b></p>
+    <p>COMPOSITE MASS: <b>MOBILE</b></p>
+  </div>
+
+  <p class="ap-tcap">The lens, across four stages. Metabolic activity goes from none, to trace, to mobile, and the readout never once changes tone.</p>
+
+  <div class="ap-h3">It inherits what you killed most</div>
+
+  <p class="ap-p">This is the part I am proudest of and it took the longest to get stable. The Aggregate does not have a fixed moveset. It locks dominant lineages out of the pressure it accumulated, and its phase reallocations inherit from them.</p>
+
+  <p class="ap-p">Kill mostly Rimebound and it comes up burrowing. Kill mostly Resonant and it hunts by sound. Kill mostly Remnants and it arrives wearing something familiar. <strong>The fight is a summary of your save file.</strong></p>
+
+  <div class="ap-code"><k>enum</k> <v>AggregatePhase</v> {
+  <v>AWAKENING</v>, <v>COHERENT</v>, <v>REALLOCATION</v>, <v>REALLOCATED</v>,
+  <v>FAILURE_TRANSITION</v>, <v>CONVERGENCE_FAILURE</v>, <v>DYING</v>, <v>DEAD</v>
+}</div>
+
+  <p class="ap-p">Two of those eight are failure states for the Aggregate itself. It can fail to converge. A thing assembled out of several hundred incompatible deaths does not always successfully agree on what it is, and when it does not, it comes apart on its own.</p>
+
+  <p class="ap-p">It awakens <strong>once per world</strong>. Not once per player, not once per attempt. There is one, you get one, and the scar it leaves is permanently owned.</p>
+
+  <div class="ap-h3">The Stillpoint Core</div>
+
+  <p class="ap-p">The reward is not a weapon. It is a forty-eight block radius in which the post-Maeve world stops.</p>
+
+  <div class="ap-figs">
+    <div><b>48</b><span>block radius of suppressed ecology and halted Bloom growth</span></div>
+    <div><b>3</b><span>relocations with an Acheronite pickaxe before terminal exhaustion</span></div>
+    <div><b>1</b><span>Aggregate per world, awakened once and resolved once</span></div>
+  </div>
+
+  <p class="ap-p">Inside it, eligible encounters are suppressed, Bloom growth stops, the boundary distorts, and exterior sound is muffled. It is the quietest place in the game, and it is finite. Three moves and it is spent.</p>
+
+  <p class="ap-p">So the last thing this chapter gives you is a small circle of silence that you have to choose a place for, no more than three times, forever.</p>
+
+  <div class="ap-cmts">
+    <div class="ap-cmt"><b>aggregate lineage pressure</b><span>Where the fight learned to be built out of the specific things you did.</span></div>
+    <div class="ap-cmt"><b>stillpoint core relocation limit</b><span>Three. It was five for a week. Five felt like a setting, three feels like a decision.</span></div>
+  </div>
+
+  <p class="ap-p">ORSA left. Humanity left. Something else did not, and by the end of these seven weeks the mod had stopped treating that as a horror premise and started treating it as the ordinary situation. There is a world here. It is busy. It is not busy with you.</p>
+</section>
+
+              </div>
+            </div>
+
+            <div class="ap-dbot">
+              <div class="ap-dsteps">
+                <button type="button" class="ap-dstep prev" id="apPrev" disabled><em>Back</em><b></b></button>
+                <button type="button" class="ap-dstep next" id="apNext"><em>Next</em><b></b></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="ap-replay" id="apReplay">Replay intro</button>
+  </div>
+</div>
+
+<script>
+
+(function(){
+  var frame = document.getElementById('apFrame');
+  if (!frame) return;
+  var doc   = frame.querySelector('.ap-doc');
+  var title = frame.querySelector('.ap-title');
+  var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function arr(n, root){ return [].slice.call((root || document).querySelectorAll(n)); }
+
+  /* ---------------- typed title ---------------- */
+  function measureTitle(){
+    var cs = getComputedStyle(title);
+    var probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:'
+      + cs.font + ';letter-spacing:' + cs.letterSpacing;
+    probe.textContent = title.textContent;
+    document.body.appendChild(probe);
+    title.style.setProperty('--tw', (probe.offsetWidth + 2) + 'px');
+    probe.remove();
+  }
+  measureTitle();
+  title.addEventListener('animationend', function(e){
+    if (e.animationName === 'apType'){ title.style.width = 'auto'; title.style.overflow = 'visible'; }
+  });
+  frame.addEventListener('animationend', function(e){
+    if (e.animationName === 'apUp') frame.classList.add('done');
+  });
+  setTimeout(function(){ frame.classList.add('done'); }, 3800);
+
+  /* any real scroll intent lands the intro immediately. wheel and touch go on
+     the frame, not the doc: during the intro the black overlay sits on top,
+     so events never reach the scroll body. */
+  function skipIntro(){
+    if (!frame.classList.contains('done')) frame.classList.add('done');
+  }
+  var introDoc = frame.querySelector('.ap-doc');
+  frame.addEventListener('wheel',     skipIntro, { passive:true });
+  frame.addEventListener('touchmove', skipIntro, { passive:true });
+  introDoc.addEventListener('scroll', function(){ if (introDoc.scrollTop > 0) skipIntro(); }, { passive:true });
+  window.addEventListener('keydown', function(e){
+    if (/^(ArrowDown|ArrowUp|PageDown|PageUp|Home|End|Spacebar| )$/.test(e.key)) skipIntro();
+  }, { passive:true });
+  window.addEventListener('resize', function(){ measureTitle(); });
+  document.getElementById('apReplay').onclick = function(){
+    title.style.width = ''; title.style.overflow = ''; measureTitle();
+    frame.classList.remove('done');
+    frame.classList.remove('play'); void frame.offsetWidth; frame.classList.add('play');
+    doc.scrollTop = 0;
+  };
+
+  /* ================= grid stagger ================= */
+  var GRIDS = ['.ap-stats > *', '.ap-figs > *', '.ap-pass > *',
+               '.ap-phs > *', '.ap-cmts > *', '.ap-read > *'];
+  function clearOn(el, cls){
+    function h(e){
+      if (e.target !== el) return;
+      el.classList.remove(cls);
+      el.style.animationDelay = '';
+      el.removeEventListener('animationend', h);
+      el.removeEventListener('animationcancel', h);
+    }
+    el.addEventListener('animationend', h);
+    el.addEventListener('animationcancel', h);
+  }
+  function stagger(root){
+    if (RM) return;
+    GRIDS.forEach(function(sel){
+      arr(sel, root).forEach(function(el, n){
+        if (n > 15) return;
+        el.style.animationDelay = (n * 0.045) + 's';
+        el.classList.remove('ap-pop'); void el.offsetWidth; el.classList.add('ap-pop');
+        clearOn(el, 'ap-pop');
+      });
+    });
+  }
+  function settle(root){
+    arr('.ap-pop', root).forEach(function(el){
+      el.classList.remove('ap-pop'); el.style.animationDelay = '';
+    });
+  }
+
+  /* ================= the deck ================= */
+  var deck = document.getElementById('apDeck');
+  if (deck){
+    var panes  = arr('.ap-pane', deck);
+    var strips = arr('.ap-dstrip', deck);
+    var stage  = deck.querySelector('.ap-dstage');
+    var bPrev  = deck.querySelector('.ap-dstep.prev');
+    var bNext  = deck.querySelector('.ap-dstep.next');
+    var cur = 0, morphT = 0;
+
+    function tabs(s){ return s.querySelectorAll('.ap-dtab'); }
+
+    /* eight tabs will not fit a phone at full length, so swap in the short
+       labels below 640px and put them back when there is room again */
+    var NARROW = window.matchMedia('(max-width:640px)');
+    strips.forEach(function(s){
+      tabs(s).forEach(function(b){
+        var n = b.lastChild;
+        if (n && n.nodeType === 3) b.setAttribute('data-long', n.nodeValue);
+      });
+    });
+    function fitTabs(){
+      var short = NARROW.matches;
+      strips.forEach(function(s){
+        tabs(s).forEach(function(b){
+          var n = b.lastChild; if (!n || n.nodeType !== 3) return;
+          var want = short ? (b.getAttribute('data-short') || b.getAttribute('data-long'))
+                           : b.getAttribute('data-long');
+          if (want && n.nodeValue !== want) n.nodeValue = want;
+        });
+      });
+    }
+
+    function ink(){
+      strips.forEach(function(s){
+        var bar = s.querySelector('.ap-dink'), t = tabs(s)[cur];
+        if (!bar || !t) return;
+        bar.style.width = t.offsetWidth + 'px';
+        bar.style.transform = 'translate3d(' + t.offsetLeft + 'px,0,0)';
+      });
+    }
+    function centre(){
+      strips.forEach(function(s){
+        var t = tabs(s)[cur]; if (!t) return;
+        var want = t.offsetLeft - (s.clientWidth - t.offsetWidth) / 2;
+        want = Math.max(0, Math.min(want, s.scrollWidth - s.clientWidth));
+        if (s.scrollTo) s.scrollTo({ left: want, behavior: RM ? 'auto' : 'smooth' });
+        else s.scrollLeft = want;
+      });
+    }
+    function fullName(i){
+      var t = tabs(strips[0])[i];
+      return t ? (t.getAttribute('data-full') || t.textContent.trim()) : '';
+    }
+    function step(btn, i, kicker){
+      if (!btn) return;
+      if (i < 0 || i >= panes.length){ btn.disabled = true; btn.innerHTML = ''; return; }
+      btn.disabled = false;
+      btn.innerHTML = '<em>' + kicker + '</em><b>' + fullName(i) + '</b>';
+    }
+    function deckTop(){
+      var a = deck.getBoundingClientRect(), b = doc.getBoundingClientRect();
+      return doc.scrollTop + (a.top - b.top);
+    }
+
+    function go(i, snap){
+      i = Math.max(0, Math.min(panes.length - 1, i));
+      if (i === cur) return;
+      var back = i < cur;
+      var from = stage.offsetHeight;
+      settle(panes[cur]);
+      panes[cur].classList.remove('on', 'enter', 'rev');
+      cur = i;
+      panes[cur].classList.add('on');
+      strips.forEach(function(s){
+        var ts = tabs(s);
+        for (var n = 0; n < ts.length; n++){
+          ts[n].classList.toggle('on', n === cur);
+          ts[n].setAttribute('aria-selected', n === cur ? 'true' : 'false');
+          ts[n].setAttribute('tabindex', n === cur ? '0' : '-1');
+        }
+      });
+      ink(); centre();
+      step(bPrev, cur - 1, 'Back to');
+      step(bNext, cur + 1, 'Next');
+      stagger(panes[cur]);
+      arr('.ap-figs b', panes[cur]).forEach(countUp);
+      if (!RM){
+        panes[cur].classList.add('enter');
+        if (back) panes[cur].classList.add('rev');
+        clearOn(panes[cur], 'enter');
+        clearOn(panes[cur], 'rev');
+      }
+      var to = stage.offsetHeight;
+      if (!RM && from && to && from !== to){
+        clearTimeout(morphT);
+        stage.classList.remove('morph');
+        stage.style.height = from + 'px';
+        void stage.offsetHeight;
+        stage.classList.add('morph');
+        stage.style.height = to + 'px';
+        morphT = setTimeout(function(){
+          stage.classList.remove('morph');
+          stage.style.height = '';
+        }, 470);
+      }
+      if (snap){
+        var want = Math.max(0, deckTop() - 6);
+        if (doc.scrollTo) doc.scrollTo({ top: want, behavior: RM ? 'auto' : 'smooth' });
+        else doc.scrollTop = want;
+      }
+    }
+
+    strips.forEach(function(s){
+      s.addEventListener('click', function(e){
+        var t = e.target.closest ? e.target.closest('.ap-dtab') : null;
+        if (!t) return;
+        go(+t.getAttribute('data-i'), false);
+      });
+      s.addEventListener('keydown', function(e){
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        go(cur + (e.key === 'ArrowRight' ? 1 : -1), false);
+        var t = tabs(s)[cur]; if (t) t.focus();
+      });
+    });
+    if (bPrev) bPrev.addEventListener('click', function(){ go(cur - 1, true); });
+    if (bNext) bNext.addEventListener('click', function(){ go(cur + 1, true); });
+    step(bPrev, -1, 'Back to');
+    step(bNext, 1, 'Next');
+    fitTabs();
+    requestAnimationFrame(function(){ ink(); });
+    window.addEventListener('resize', function(){ fitTabs(); ink(); });
+    if (NARROW.addEventListener) NARROW.addEventListener('change', function(){ fitTabs(); ink(); });
+    else if (NARROW.addListener) NARROW.addListener(function(){ fitTabs(); ink(); });
+  }
+
+  /* ================= count up + scroll reveal ================= */
+  function countUp(el){
+    if (RM || el.dataset.counted) return;
+    var m = el.textContent.trim().match(/^([\d,]+)(.*)$/);
+    if (!m) return;
+    var target = parseInt(m[1].replace(/,/g, ''), 10), suf = m[2];
+    if (!(target > 0)) return;
+    el.dataset.counted = '1';
+    var t0 = 0;
+    el.textContent = '0' + suf;
+    requestAnimationFrame(function run(t){
+      if (!t0) t0 = t;
+      var k = Math.min((t - t0) / 900, 1), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e).toLocaleString('en-US') + suf;
+      if (k < 1) requestAnimationFrame(run);
+    });
+  }
+
+  var rest = frame.querySelector('.ap-rest');
+  var pub = [], deckIdx = 0;
+  if (rest){
+    for (var n = 0; n < rest.children.length; n++){
+      var k = rest.children[n];
+      if (k === deck) break;
+      pub.push(k);
+    }
+  }
+  deckIdx = pub.length;
+  if (deck) pub.push(deck);
+
+  function land(el){
+    if (el.classList.contains('ap-rv')){
+      el.classList.add('in');
+      el.addEventListener('animationend', function h(){
+        el.classList.remove('in'); el.classList.add('set');
+        el.removeEventListener('animationend', h);
+      });
+    }
+    if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+    if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    stagger(el);
+  }
+  function revealAll(){ pub.forEach(function(el){ el.classList.remove('ap-rv'); el.classList.add('set'); }); }
+  function arm(){
+    if (RM || !window.IntersectionObserver){ revealAll(); return; }
+    pub.forEach(function(el, i){ if (i !== deckIdx) el.classList.add('ap-rv'); });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        land(e.target);
+      });
+    }, { root: doc, rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
+    pub.forEach(function(el){ io.observe(el); });
+
+    /* a jump scroll (end key, a restored position) can carry an element from
+       below the fold to above it without ever intersecting, and the observer
+       reports nothing for something it has never seen. sweep for those and
+       set them outright: they are already behind the reader. */
+    function setNow(el){
+      io.unobserve(el);
+      el.classList.remove('ap-rv'); el.classList.add('set');
+      settle(el);
+      if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+      if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    }
+    var sweeping = false;
+    function sweep(){
+      sweeping = false;
+      var top = doc.getBoundingClientRect().top, left = 0;
+      pub.forEach(function(el){
+        var c = el.classList;
+        if (!c.contains('ap-rv') || c.contains('in') || c.contains('set')) return;
+        if (el.getBoundingClientRect().bottom < top) setNow(el); else left += 1;
+      });
+      if (!left) doc.removeEventListener('scroll', onScroll);
+    }
+    function onScroll(){
+      if (sweeping) return;
+      sweeping = true;
+      requestAnimationFrame(sweep);
+    }
+    doc.addEventListener('scroll', onScroll, { passive: true });
+  }
+  if (frame.classList.contains('done')) arm();
+  else if (window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      if (frame.classList.contains('done')){ mo.disconnect(); arm(); }
+    });
+    mo.observe(frame, { attributes: true, attributeFilter: ['class'] });
+    setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 4400);
+  } else setTimeout(arm, 3600);
+})();
+</script>
+
+<script>
+/* ============ the guardian: a scale pull ============
+   six layers, each drawn at its true size in blocks. one transform on the
+   stage carries the zoom. a layer's opacity is a function of how wide it
+   actually appears on screen, so things fade out when they are too small to
+   read and again when they have swallowed the frame. */
+(function(){
+  var wrap = document.getElementById('gaWrap');
+  if (!wrap) return;
+  var scene = document.getElementById('gaView'),
+      stage = document.getElementById('gaStage'),
+      numEl = document.getElementById('gaNum'),
+      nameEl= document.getElementById('gaName'),
+      lineEl= document.getElementById('gaLine'),
+      pull  = document.getElementById('gaPull'),
+      eggBtn= document.getElementById('gaEggBtn'),
+      eggTxt= document.getElementById('gaEgg'),
+      lyrs  = [].slice.call(stage.querySelectorAll('.ga-lyr')),
+      stops = [].slice.call(wrap.querySelectorAll('.ga-stop'));
+
+  var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  var W = lyrs.map(function(el){ return +el.getAttribute('data-w'); });
+
+  var DATA = [
+    { blocks: 2.5,  name: 'You',
+      line: 'Ten hearts, one oxygen tank, and whatever you brought with you. This is the entire scale at which the fight is explained to you.' },
+    { blocks: 5,    name: 'The Master Architect',
+      line: 'Four blocks of it, five phases, and a staff the files still call master_architect_staff. The storm falls silent around it. This is the only thing in the pull that has a health bar.' },
+    { blocks: 128,  name: 'The Hearth',
+      line: 'It is standing in the middle of a Major Hearth: a boundary, a construction ring, and the residents whose survival you have already been quietly changing. The collective draws breath.' },
+    { blocks: 512,  name: 'Thae Iven',
+      line: 'The shared mind is not a place you can stand in. It is every Hearth at once, tethered, and it is where the Master Architect actually lives. This is the only address at which it can be killed.' },
+    { blocks: 2048, name: 'The Heart',
+      line: 'And under all of it, the thing the guard is a guard for. Beneath the world, the world was kept.' },
+    { blocks: 2.5,  name: 'Unresolved',
+      line: 'Something is down here at your exact scale. The Surveyor Lens will not return a bearing on it and nothing in the fight above ever mentions it. The archive has a word for it, twice, in the two records that do not translate.' }
+  ];
+
+  /* only the first five are the instrument. the sixth is the thing the
+     instrument is standing on, and you have to go looking for it. */
+  var VIS = 5;
+
+  var z = 1, tgt = 1, cur = 0, raf = 0, t0 = 0, zA = 1, DUR = 1150, dur = DUR;
+  var y = 0, yT = 0, yA = 0;
+
+  /* the first two stops are framed off the shared ground line: you and the
+     thing you are told to kill, standing on the same floor. the last three are
+     plan views, so they are framed off the scene width instead. */
+  var FRAME = [
+    { by:'h', unit:57.5,  k:0.50, pan: 0.19 },
+    { by:'h', unit:155,   k:0.66, pan: 0.23 },
+    { by:'w', unit:5120,  k:0.62, pan: 0 },
+    { by:'w', unit:20480, k:0.62, pan: 0 },
+    { by:'w', unit:81920, k:0.62, pan: 0 },
+    { by:'h', unit:57.5,  k:0.50, pan: 0.19 }
+  ];
+  function fit(i){
+    var f = FRAME[i];
+    var d = f.by === 'h' ? (scene.clientHeight || 330) : (scene.clientWidth || 700);
+    return (d * f.k) / f.unit;
+  }
+  function pan(i){ return (scene.clientHeight || 330) * FRAME[i].pan; }
+  /* a figure survives being small: two legs and a head still read at forty
+     pixels. a plan view does not. every step of the pull is four times the
+     last, so the previous plan is always a quarter the width of the current
+     one, and at that size its rings and dots merge into a single clot. so the
+     two kinds of layer get different windows, and the plans leave early.
+     the windows are fractions of the frame, not pixels, so a phone gets the
+     same crossfade a desktop does rather than a washed out middle. */
+  var BANDR = W.map(function(w){ return w > 1000 ? [0.251, 1.672] : [0.0334, 8.7]; });
+  var BAND = BANDR;
+  function bands(){
+    var d = scene.clientWidth || 598;
+    BAND = BANDR.map(function(r){ return [r[0] * d, r[1] * d]; });
+  }
+  function opac(app, band){
+    var a = (app - band[0]) / (band[0] * 0.7),
+        b = (band[1] - app) / (band[1] * 0.5);
+    return Math.max(0, Math.min(1, a, b));
+  }
+  function paint(){
+    stage.style.transform = 'translate(0,' + y + 'px) scale(' + z + ')';
+    for (var i = 0; i < lyrs.length; i++){
+      /* the last layer is the same width as the first, so the ramp alone
+         would show it in frame one. it paints on its own stop and nowhere. */
+      lyrs[i].style.opacity = (i >= VIS && cur < VIS) ? 0 : opac(W[i] * z, BAND[i]);
+    }
+  }
+  function commas(n){
+    return n < 10 ? String(n) : Math.round(n).toLocaleString('en-US');
+  }
+
+  function label(i){
+    var d = DATA[i];
+    numEl.textContent  = commas(d.blocks);
+    nameEl.textContent = d.name;
+    lineEl.textContent = d.line;
+    for (var k = 0; k < stops.length; k++) stops[k].classList.toggle('on', k === i);
+  }
+
+  function ease(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; }
+
+  function tick(now){
+    var t = Math.min(1, (now - t0) / dur), e = ease(t);
+    /* interpolate in log space so every decade of the pull reads at one pace */
+    z = Math.exp(Math.log(zA) + (Math.log(tgt) - Math.log(zA)) * e);
+    y = yA + (yT - yA) * e;
+    paint();
+    if (t < 1) raf = requestAnimationFrame(tick);
+    else { raf = 0; z = tgt; y = yT; paint(); if (running) hold(); }
+  }
+
+  function goto_(i, snap, ms){
+    cur = i;
+    dur = ms || DUR;
+    label(i);
+    tgt = fit(i); yT = pan(i);
+    if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    if (snap || RM){ z = tgt; y = yT; paint(); if (running) hold(); return; }
+    zA = z; yA = y; t0 = performance.now();
+    raf = requestAnimationFrame(tick);
+  }
+
+  /* ---- the automatic pull ---- */
+  var running = false, holdT = 0;
+  function hold(){
+    clearTimeout(holdT);
+    holdT = setTimeout(function(){
+      if (!running) return;
+      if (cur >= VIS - 1){ stopPull(); return; }
+      goto_(cur + 1);
+    }, 900);
+  }
+  function startPull(){
+    running = true;
+    pull.textContent = 'Stop';
+    goto_(0, true);
+  }
+  function stopPull(){
+    running = false;
+    clearTimeout(holdT);
+    pull.textContent = 'Pull back';
+  }
+  pull.addEventListener('click', function(){
+    if (running) stopPull(); else startPull();
+  });
+
+  /* ---- what is under the last stop ----
+     the pull ends at the Heart, and the caption stops there, because the thing
+     the Heart is holding is not something the instrument is willing to say.
+     it does not stop you either. keep pushing past the end, by wheel or by
+     hitting the last stop again, and after three shoves it gives. you can get
+     there on purpose or you can get there by fidgeting. */
+  var push = 0, opened = false;
+  function shove(){
+    if (opened) return;
+    if (++push < 3) return;
+    opened = true;
+    eggBtn.hidden = false;
+    eggTxt.hidden = false;
+    stops.push(eggBtn);
+    bind(eggBtn);
+    stopPull();
+    goto_(VIS, false, 2100);
+  }
+
+  function bind(b){
+    b.addEventListener('click', function(){
+      var i = +b.getAttribute('data-i');
+      if (i === VIS - 1 && cur === VIS - 1 && !opened){ shove(); return; }
+      stopPull();
+      goto_(i);
+    });
+  }
+  for (var i = 0; i < stops.length; i++) bind(stops[i]);
+
+  /* the keyboard gets the same door: arrow off the end of the bar. */
+  wrap.addEventListener('keydown', function(e){
+    if (opened || cur !== VIS - 1) return;
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowDown') return;
+    e.preventDefault();
+    shove();
+  });
+
+  /* wheel over the scene walks the pull one stop at a time, without ever
+     stealing the page scroll: it only acts on a decisive gesture. */
+  var wheelLock = 0;
+  scene.addEventListener('wheel', function(e){
+    if (Math.abs(e.deltaY) < 8) return;
+    var now = performance.now();
+    if (now - wheelLock < 620) return;
+    var next = cur + (e.deltaY > 0 ? 1 : -1);
+    if (next < 0) return;
+    if (next > (opened ? DATA.length : VIS) - 1){
+      if (cur === VIS - 1 && e.deltaY > 0){ wheelLock = now; shove(); }
+      return;
+    }
+    wheelLock = now;
+    stopPull();
+    goto_(next);
+  }, { passive: true });
+
+  /* the instrument is built inside a closed deck pane, so at first paint the
+     frame measures zero and every size falls back to a guess. remeasure the
+     moment it actually has a box, which also covers resize and rotation. */
+  function remeasure(){
+    if (!scene.clientWidth) return;
+    bands();
+    tgt = fit(cur); yT = pan(cur);
+    if (!raf){ z = tgt; y = yT; paint(); }
+  }
+  window.addEventListener('resize', remeasure);
+  if (window.ResizeObserver) new ResizeObserver(remeasure).observe(scene);
+
+  label(0);
+  bands();
+  z = fit(0); tgt = z; y = pan(0); yT = y; paint();
+})();
+</script>
