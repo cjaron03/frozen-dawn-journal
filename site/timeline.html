@@ -3,7 +3,8 @@
 
 <style>
 .tl { --mono: ui-monospace,"SF Mono",Menlo,monospace; --ice:#7dd3fc; --amb:#ffb454; }
-.tl-frame { position:relative; background:#0f1216; border:1px solid #1d232a; border-radius:10px; overflow:hidden; }
+.tl-frame { position:relative; background:#0f1216; overflow:hidden;
+            margin-top:-2rem; margin-left:-2rem; margin-right:-2rem; }
 
 /* ---- snow ---- */
 .tl-snow { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; }
@@ -14,7 +15,11 @@
 .tl-head { position:relative; z-index:3; display:flex; align-items:baseline; gap:10px; padding:16px 22px 0; }
 .tl-head b { color:#f2f6f8; font-size:15px; font-weight:700; letter-spacing:-.015em; }
 .tl-head i { color:#7c8891; font-size:11px; font-style:normal; letter-spacing:.06em; }
-.tl-head nav { margin-left:auto; display:flex; gap:16px; font-size:11px; color:#6c7782; }
+.tl-head nav { margin-left:auto; display:flex; flex-wrap:wrap; justify-content:flex-end;
+               gap:6px 16px; font-size:11px; }
+.tl-head nav a { color:#6c7782; text-decoration:none; white-space:nowrap; transition:color .15s linear; }
+.tl-head nav a:hover { color:#bfe6fb; }
+.tl-head nav a.arch:hover { color:#ffb454; }
 .tl-meta { position:relative; z-index:3; padding:2px 22px 0; font-family:var(--mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase; color:#4e5a66; }
 
 /* ---- stage ---- */
@@ -64,15 +69,61 @@
 .tl-bands div.p:before { background:#7dd3fc; }
 .tl-bands b { color:#aeb8c0; font-weight:500; }
 
-/* ---- notes + themes ---- */
+/* ---- chapter index ---- */
+.tl-ix { margin-top:30px; }
+.tl-ixh { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.tl-ixh b { font-family:var(--mono); font-size:9.5px; font-weight:500; letter-spacing:.15em;
+            text-transform:uppercase; color:#6a7783; }
+.tl-ixh i { flex:1; height:1px; background:#1b212a; }
+.tl-ch { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+.tl-chc { display:block; text-decoration:none; background:#0f1216; overflow:hidden;
+          border:1px solid #1d232a; border-radius:8px;
+          transition:border-color .18s, transform .18s; }
+.tl-chc:hover { border-color:#33404c; transform:translateY(-2px); }
+.tl-chb { height:62px; position:relative; overflow:hidden; border-bottom:1px solid #1a2029; }
+.tl-chb u, .tl-chb s { position:absolute; text-decoration:none; }
+.tl-chb u { inset:0; }
+.tl-chn { padding:10px 12px 12px; }
+.tl-chn em { display:block; font-family:var(--mono); font-size:9px; font-style:normal;
+             letter-spacing:.14em; text-transform:uppercase; color:#6a7783; }
+.tl-chn b { display:block; margin:4px 0 5px; font-size:12.5px; font-weight:600;
+            letter-spacing:-.01em; color:#f2f6f8; }
+.tl-chn span { display:block; font-size:11px; line-height:1.5; color:#828d96; }
+.tl-chc:hover .tl-chn b { color:#bfe6fb; }
+.tl-chc.arch:hover { border-color:#5c4620; }
+.tl-chc.arch:hover .tl-chn b { color:#ffb454; }
 
-.tl-th { margin-top:22px; display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
-.tl-thc { border:1px solid #1d232a; border-radius:8px; overflow:hidden; background:#0f1216; }
-.tl-thb { height:62px; position:relative; overflow:hidden; border-bottom:1px solid #1a2029; }
-.tl-thb u { position:absolute; inset:0; text-decoration:none; }
-.tl-thn { padding:10px 12px 12px; }
-.tl-thn b { display:block; font-size:12px; color:#f2f6f8; font-weight:600; margin-bottom:4px; }
-.tl-thn span { display:block; font-size:11px; line-height:1.5; color:#828d96; }
+/* the architect's eyes, the same three block rows the mod draws. */
+.tl-eyes { position:absolute; left:50%; top:50%; margin:-6px 0 0 -10px;
+           display:flex; gap:4px; animation:tlLook 9s ease-in-out infinite; }
+.tl-ey { display:block; animation:tlBlink 5.4s linear infinite; }
+.tl-ey i { display:block; width:8px; height:4px; }
+.tl-ey .r0 { background:#008CB4; }
+.tl-ey .r1 { background:#00D2FF; }
+.tl-ey .r2 { background:#005064; }
+@keyframes tlLook {
+  0%,14%     { transform:translate(0,0) }
+  22%,36%    { transform:translate(-3px,0) }
+  44%,58%    { transform:translate(3px,-1px) }
+  66%,80%    { transform:translate(0,1px) }
+  88%,100%   { transform:translate(0,0) }
+}
+@keyframes tlBlink {
+  0%,41%     { transform:scaleY(1) }
+  43.5%      { transform:scaleY(.12) }
+  46%,88%    { transform:scaleY(1) }
+  90%        { transform:scaleY(.12) }
+  92.5%,100% { transform:scaleY(1) }
+}
+
+/* ---- footer ---- */
+.tl-foot { margin-top:34px; padding:18px 0 4px; border-top:1px solid #1b212a;
+           display:flex; align-items:baseline; gap:20px; flex-wrap:wrap;
+           font-family:var(--mono); font-size:9.5px; letter-spacing:.14em;
+           text-transform:uppercase; color:#54626e; }
+.tl-foot a { color:#6c7883; text-decoration:none; }
+.tl-foot a:hover { color:#7dd3fc; }
+.tl-foot span { margin-left:auto; }
 
 /* ---- ambient sky, one pass ---- */
 .tl-sky { position:relative; aspect-ratio:1000/74; z-index:2; }
@@ -123,11 +174,25 @@
 .tl-stats div:nth-child(4) b:after { content:counter(c) }
 @keyframes k3 { from { --v3:0 } }
 
+@media (max-width:1100px) {
+  .tl-ch { grid-template-columns:repeat(3,1fr); }
+}
+@media (max-width:860px) {
+  .tl-head nav { display:none; }
+  .tl-ch { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:640px) {
+  .tl-frame { margin-top:-1rem; margin-left:-1rem; margin-right:-1rem; }
+  .tl-ch { grid-template-columns:1fr; }
+  .tl-foot span { margin-left:0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tl-snow span, .tl-earth, .tl-earth *, .tl-scan { animation:none !important; }
   .tl-trace, .tl-glow { animation:none !important; stroke-dashoffset:0 !important; }
   .tl-d, .tl-bands div, .tl-sil { animation:none !important; opacity:1 !important; transform:none !important; }
   .tl-stats div b { animation:none !important; }
+  .tl-eyes, .tl-ey { animation:none !important; }
   .tl-rev { opacity:1; transform:none; transition:none; }
 }
 </style>
@@ -211,14 +276,20 @@
     </div>
 
     <div class="tl-head"><b>Frozen Dawn</b><i>DEV JOURNAL</i>
-      <nav><span>The Architect</span><span>Get the mod</span><span>About</span></nav>
+      <nav>
+        <a href="chapter-1.html">I. The World That Doesn't Wait</a>
+        <a class="arch" href="architect.html">II. Building a Mind</a>
+        <a href="chapter-3.html">III. They Called it Continuity</a>
+        <a href="chapter-4.html">IV. Holding Back the Cold</a>
+        <a href="chapter-5.html">V. What the Cold Made</a>
+      </nav>
     </div>
     <div class="tl-meta">480 commits &middot; 23 Feb to 02 Sep 2026 &middot; one person</div>
 
     <div class="tl-hero">
       <h1>One person, 480 commits, and a thing that learned to think.</h1>
       <div class="tl-stats"><div><b></b><span>commits</span></div><div><b></b><span>days</span></div><div class="dim"><b></b><span>days dark</span></div><div><b></b><span>person</span></div></div>
-      <div class="tl-cta"><a class="pri" href="/architect">Meet the Architect</a><a href="/journal">Read the journal</a><a href="https://github.com/cjaron03/frozen-dawn">Get the mod</a></div>
+      <div class="tl-cta"><a class="pri" href="architect.html">Meet the Architect</a><a href="chapter-1.html">Read the journal</a><a href="https://github.com/cjaron03/frozen-dawn">Get the mod</a></div>
     </div>
 
     <div class="tl-stage">
@@ -252,33 +323,67 @@
       <div class="q" style="flex:32.29;animation-delay:2.20s">The Silence<br><b>2</b></div>
       <div style="flex:25.00;animation-delay:2.91s">Homo Reliquus<br><b>104</b></div>
       <div style="flex:3.65;animation-delay:3.70s">Now<br><b>11</b></div></div>
+  </div>
+
+  <!-- ================= CHAPTER INDEX ================= -->
+  <div class="tl-ix tl-rev">
+    <div class="tl-ixh"><b>The journal</b><i></i></div>
+    <div class="tl-ch">
+
+      <a class="tl-chc" href="chapter-1.html">
+        <div class="tl-chb" style="background:linear-gradient(160deg,#0b1016,#121a22)">
+          <u style="background:repeating-linear-gradient(115deg,transparent 0 13px,#7dd3fc0f 13px 14px)"></u>
+        </div>
+        <div class="tl-chn"><em>I &middot; 23 Feb 2026</em><b>The World That Doesn't Wait</b>
+          <span>The six-phase collapse: the sun shrinking, the temperature falling, and the loader that had to keep up.</span></div>
+      </a>
+
+      <a class="tl-chc arch" href="architect.html">
+        <div class="tl-chb" style="background:#0a0d11">
+          <u style="background:radial-gradient(circle at 50% 50%,#ffb4541a,transparent 62%),repeating-linear-gradient(0deg,transparent 0 6px,#ffb4540a 6px 7px)"></u>
+          <span class="tl-eyes">
+            <span class="tl-ey"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
+            <span class="tl-ey"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
+          </span>
+        </div>
+        <div class="tl-chn"><em>II &middot; 08 Mar 2026</em><b>Building a Mind</b>
+          <span>The Architect: what it actually weighs when it decides, and why two days of work became the centre of the mod.</span></div>
+      </a>
+
+      <a class="tl-chc" href="chapter-3.html">
+        <div class="tl-chb" style="background:#0d1014">
+          <u style="background:repeating-linear-gradient(0deg,transparent 0 7px,#ffb4540c 7px 8px)"></u>
+          <s style="left:14%;top:38%;width:46%;height:7px;background:#05070a"></s>
+          <s style="left:14%;top:56%;width:30%;height:7px;background:#05070a"></s>
+        </div>
+        <div class="tl-chn"><em>III &middot; April 2026</em><b>They Called it Continuity</b>
+          <span>ORSA, the agency that was supposed to save the planet, told in its own paperwork.</span></div>
+      </a>
+
+      <a class="tl-chc" href="chapter-4.html">
+        <div class="tl-chb" style="background:#0c1014">
+          <u style="background:radial-gradient(circle at 50% 76%,#ffb45426,#ffb4540a 36%,transparent 62%),repeating-linear-gradient(115deg,transparent 0 13px,#7dd3fc0a 13px 14px)"></u>
+        </div>
+        <div class="tl-chn"><em>IV &middot; 25 Feb 2026</em><b>Holding Back the Cold</b>
+          <span>Heaters, capacitors and sealed rooms: everything that puts warmth back, and every rule that keeps it expensive.</span></div>
+      </a>
+
+      <a class="tl-chc" href="chapter-5.html">
+        <div class="tl-chb" style="background:#0b0f14">
+          <u style="background:repeating-radial-gradient(circle at 50% 50%,transparent 0 8px,#7dd3fc14 8px 9px)"></u>
+        </div>
+        <div class="tl-chn"><em>V &middot; 01 Mar 2026</em><b>What the Cold Made</b>
+          <span>Five species in thirteen days, each one defined by how close it can get to a lit heater.</span></div>
+      </a>
+
     </div>
   </div>
 
-  <!-- ================= PER-PAGE THEMES ================= -->
-  <div class="tl-th">
-    <div class="tl-thc tl-rev">
-      <div class="tl-thb" style="background:linear-gradient(160deg,#0b1016,#121a22)">
-        <u style="background:repeating-linear-gradient(115deg,transparent 0 13px,#7dd3fc0f 13px 14px)"></u>
-      </div>
-      <div class="tl-thn"><b>The Cold</b><span>Thin diagonal frost. Widest line-height on the site. It should feel empty.</span></div>
-    </div>
-    <div class="tl-thc tl-rev">
-      <div class="tl-thb" style="background:#0a0d11">
-        <u style="background:radial-gradient(circle at 30% 55%,#ffb4541f,transparent 58%),repeating-linear-gradient(0deg,transparent 0 6px,#ffb4540a 6px 7px)"></u>
-      </div>
-      <div class="tl-thn"><b>The Architect</b><span>The only amber page. Scanlines, mono headers, and it watches your cursor.</span></div>
-    </div>
-    <div class="tl-thc tl-rev">
-      <div class="tl-thb" style="background:#0f1216">
-        <u style="background:linear-gradient(90deg,#7dd3fc00,#7dd3fc26 42%,#7dd3fc00 44%,#7dd3fc00)"></u>
-      </div>
-      <div class="tl-thn"><b>The Crunch</b><span>Dense. Tight leading, two columns, commits stacked like a wall.</span></div>
-    </div>
-    <div class="tl-thc tl-rev">
-      <div class="tl-thb" style="background:#0c0f13"><u style="background:linear-gradient(180deg,#0c0f13,#10151b)"></u></div>
-      <div class="tl-thn"><b>The Silence</b><span>No texture at all. One paragraph, centred, enormous margins. Snow stops.</span></div>
-    </div>
+  <div class="tl-foot tl-rev">
+    <a href="chapter-1.html">Start at chapter one</a>
+    <a href="architect.html">The Architect</a>
+    <a href="https://github.com/cjaron03/frozen-dawn">The mod on GitHub</a>
+    <span>480 commits &middot; 23 Feb to 02 Sep 2026 &middot; one person</span>
   </div>
 
 </div>

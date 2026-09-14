@@ -3,7 +3,8 @@
 
 <style>
 .ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
-.ap-frame { position:relative; height:660px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
+.ap-frame { position:relative; height:calc(100vh - 110px); height:calc(100dvh - 110px);
+            min-height:520px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
 
 /* ---------- the black ---------- */
 .ap-black { position:absolute; inset:0; background:#000; z-index:50; pointer-events:none; }
@@ -347,7 +348,7 @@
   .ap-dstep { padding:9px 11px 10px; }
   .ap-dstep b { font-size:11.5px; }
   .ap-deck { margin-top:34px; }
-  .ap-frame { height:76vh; min-height:520px; }
+  .ap-frame { height:calc(100vh - 78px); height:calc(100dvh - 78px); min-height:420px; }
   .ap-inner { padding:36px 17px 64px; }
   .ap-title { font-size:24px; }
   .ap-lede { font-size:17.5px; }
