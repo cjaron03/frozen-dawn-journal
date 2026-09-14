@@ -1,0 +1,1702 @@
+<h2>Chapter five: What the Cold Made</h2>
+<p class="subtitle">The March 2026 fauna. Not an enemy catalogue: an argument that every one of these things is organised around the one warm thing left in the world. The instrument is a two mode rig, the ring and the stare.</p>
+
+<style>
+.ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
+.ap-frame { position:relative; height:660px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
+
+/* ---------- the black ---------- */
+.ap-black { position:absolute; inset:0; background:#000; z-index:50; pointer-events:none; }
+.ap-frame.play .ap-black { animation: apBlack 1s linear forwards; }
+@keyframes apBlack { 0%,22% { opacity:1 } 72% { opacity:0 } 100% { opacity:0 } }
+
+/* ---------- landed state: no animation survives the intro ---------- */
+.ap-frame.done .ap-black { display:none; }
+.ap-frame.done .ap-kick,
+.ap-frame.done .ap-title,
+.ap-frame.done .ap-rest { animation:none !important; }
+.ap-frame.done .ap-kick { opacity:1; }
+.ap-frame.done .ap-title { width:auto; overflow:visible; border-right-color:#7dd3fc00; }
+.ap-frame.done .ap-rest { opacity:1; transform:none; }
+
+@keyframes apIn { from { opacity:0 } to { opacity:1 } }
+
+/* ---------- scroll body ---------- */
+.ap-doc { position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; z-index:30; font-family:var(--sans); }
+.ap-doc::-webkit-scrollbar { width:9px }
+.ap-doc::-webkit-scrollbar-thumb { background:#222a33; border-radius:5px }
+.ap-inner { max-width:660px; margin:0 auto; padding:46px 30px 70px; }
+
+.ap-kick { font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+           color:#7dd3fc; opacity:0; }
+.ap-frame.play .ap-kick { animation: apIn .5s ease-out .6s forwards; }
+
+.ap-title { font-size:40px; font-weight:700; letter-spacing:-.03em; color:#f2f6f8; margin:8px 0 0;
+            white-space:nowrap; overflow:hidden; width:0; border-right:2px solid #7dd3fc00; }
+.ap-frame.play .ap-title { animation: apType 1.3s steps(18,end) .8s forwards,
+                                      apCaret .4s step-end .8s 7; }
+@keyframes apType { to { width:var(--tw,13.5em) } }
+@keyframes apCaret { 0%,50% { border-right-color:#7dd3fc } 51%,100% { border-right-color:#7dd3fc00 } }
+
+.ap-rest { opacity:0; }
+.ap-frame.play .ap-rest { animation: apUp .7s cubic-bezier(.2,.6,.3,1) 2.2s forwards; }
+@keyframes apUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
+
+.ap-stand { font-size:16.5px; line-height:1.62; color:#b3bdc5; margin:16px 0 0; }
+.ap-p { font-size:14.5px; line-height:1.72; color:#96a1aa; margin:0 0 15px; }
+.ap-p strong { color:#d4dade; font-weight:600; }
+.ap-p code, .ap-code { font-family:var(--mono); font-size:.9em; color:#a8bcc9; }
+.ap-h3 { font-size:12px; font-family:var(--mono); letter-spacing:.14em; text-transform:uppercase;
+         color:#6c7883; margin:44px 0 16px; padding-top:18px; border-top:1px solid #1a2027; }
+.ap-lede { font-size:20px; line-height:1.5; color:#d4dade; font-weight:500; letter-spacing:-.01em;
+           margin:0 0 22px; }
+.ap-pull { font-size:15.5px; line-height:1.6; color:#b9c4cc; font-style:italic;
+           border-left:2px solid #2c688a; padding-left:16px; margin:22px 0; }
+
+.ap-replay { position:absolute; right:12px; bottom:12px; z-index:70; font-family:var(--mono);
+             font-size:10px; letter-spacing:.1em; padding:6px 12px; border-radius:5px;
+             background:#141a21d9; border:1px solid #252e38; color:#8d98a1; cursor:pointer; }
+.ap-replay:hover { color:#7dd3fc; border-color:#2c688a; }
+
+/* ---------- breakout width ---------- */
+.ap { --bleed: clamp(0px, calc((100vw - 660px)/2 - 30px), 160px); }
+.ap-wide { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+
+/* ---------- stats band ---------- */
+.ap-stats { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#1b222b;
+            border-top:1px solid #1b222b; border-bottom:1px solid #1b222b;
+            margin-top:24px; margin-bottom:32px; }
+.ap-stats > div { background:#0f1216; padding:15px 4px 16px; text-align:center; }
+.ap-stats b { display:block; font-size:25px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+              font-variant-numeric:tabular-nums; line-height:1; }
+.ap-stats span { display:block; margin-top:7px; font-size:10.5px; line-height:1.4; color:#6c7883; }
+
+/* ================= readouts ================= */
+.ap-read { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#1a212a;
+           border-top:1px solid #1a212a; }
+.ap-read > div { background:#0d1116; padding:13px 9px 14px; }
+.ap-read em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.13em;
+              text-transform:uppercase; color:#5f6b76; font-style:normal; }
+.ap-read b { display:block; margin-top:7px; font-size:17px; font-weight:600; color:#e9eff3;
+             letter-spacing:-.02em; font-variant-numeric:tabular-nums; line-height:1; }
+.ap-read b u { text-decoration:none; font-size:11px; color:#7c8891; margin-left:2px; font-weight:400; }
+.ap-read b.sm { font-size:12.5px; letter-spacing:0; }
+.ap-read i { display:block; margin-top:9px; height:3px; border-radius:2px; background:#1b232c; }
+.ap-read i s { display:block; height:100%; border-radius:2px; background:#3a6a87;
+               text-decoration:none; }
+.ap-read div.hot b { color:#ffb454; }
+.ap-read div.hot i s { background:#ffb454; }
+.ap-read div.bad b { color:#e0655a; }
+.ap-read div.bad i s { background:#e0655a; }
+.ap-read[hidden] { display:none; }
+
+.ap-note { margin:0; padding:14px 18px 17px; border-top:1px solid #1a212a; font-size:13px;
+           line-height:1.62; color:#8d98a1; min-height:60px; }
+.ap-note b { color:#c8d2da; font-weight:600; }
+
+/* ================= shared blocks ================= */
+.ap-code { background:#0a0d11; border:1px solid #1a212a; border-radius:7px; padding:13px 15px;
+           font-family:var(--mono); font-size:11.5px; line-height:1.72; color:#8b97a3;
+           overflow-x:auto; margin:0 0 18px; white-space:pre; }
+.ap-src { margin:0 0 18px; }
+.ap-src > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:9px;
+                    font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+                    text-transform:uppercase; color:#6c7883; background:#0d1116;
+                    border:1px solid #1a212a; border-radius:7px; padding:9px 13px;
+                    transition:color .15s linear, border-color .15s linear; }
+.ap-src > summary::-webkit-details-marker { display:none; }
+.ap-src > summary::marker { content:""; }
+.ap-src > summary:before { content:""; flex:0 0 auto; width:0; height:0;
+                           border-left:5px solid currentColor; border-top:4px solid transparent;
+                           border-bottom:4px solid transparent; transition:transform .18s ease; }
+.ap-src > summary em { margin-left:auto; font-style:normal; letter-spacing:.06em; color:#4f5a64; }
+.ap-src > summary:hover { color:#7dd3fc; border-color:#2c688a; }
+.ap-src > summary:focus-visible { outline:2px solid #7dd3fc; outline-offset:2px; }
+.ap-src[open] > summary { color:#8d98a1; border-bottom-color:#0a0d11;
+                          border-bottom-left-radius:0; border-bottom-right-radius:0; }
+.ap-src[open] > summary:before { transform:rotate(90deg); }
+.ap-src .ap-code { margin:0; border-top-left-radius:0; border-top-right-radius:0; }
+
+.ap-code v { color:#7dd3fc; text-decoration:none; }
+.ap-code k { color:#a98cd8; text-decoration:none; }
+.ap-code c { color:#55606b; text-decoration:none; }
+
+.ap-cmts { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; }
+.ap-cmt { background:#0d1116; padding:11px 14px; display:grid;
+          grid-template-columns:auto 1fr auto; gap:4px 12px; align-items:baseline; }
+.ap-cmt u { font-family:var(--mono); font-size:10.5px; color:#7dd3fc; text-decoration:none; }
+.ap-cmt b { font-size:13px; font-weight:500; color:#cbd5dc; letter-spacing:-.01em; }
+.ap-cmt s { font-family:var(--mono); font-size:10px; color:#6c7883; text-decoration:none;
+            white-space:nowrap; }
+.ap-cmt p { grid-column:2/-1; margin:2px 0 0; font-size:12.5px; line-height:1.6; color:#8d98a1; }
+.ap-cmt.mark { background:#101821; }
+.ap-cmt.mark u { color:#ffb454; }
+
+.ap-pass { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; counter-reset:p; }
+.ap-pass > div { background:#0d1116; padding:10px 14px; display:flex; gap:12px; align-items:baseline; }
+.ap-pass > div:before { counter-increment:p; content:counter(p,decimal-leading-zero);
+                        font-family:var(--mono); font-size:10px; color:#4f5b67; flex:0 0 auto; }
+.ap-pass b { font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:#7dd3fc;
+             flex:0 0 122px; }
+.ap-pass span { font-size:12.5px; line-height:1.55; color:#8d98a1; }
+
+.ap-phs { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+          overflow:hidden; margin:0 0 20px; }
+.ap-phs > div { background:#0d1116; padding:12px 14px 13px; }
+.ap-phs h4 { margin:0; font-size:13.5px; font-weight:600; color:#e6edf2; letter-spacing:-.01em;
+             display:flex; align-items:baseline; gap:9px; }
+.ap-phs h4 u { font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; color:#5f6b76;
+               text-decoration:none; }
+.ap-phs h4 i { width:9px; height:9px; border-radius:50%; flex:0 0 auto; align-self:center; }
+.ap-phs p { margin:6px 0 0; font-size:12.5px; line-height:1.62; color:#8d98a1; }
+.ap-phs s { display:inline-block; margin:7px 6px 0 0; font-family:var(--mono); font-size:9.5px;
+            letter-spacing:.04em; color:#93a3ad; background:#151c23; border:1px solid #212a33;
+            border-radius:3px; padding:2.5px 7px; text-decoration:none; }
+
+.ap-figs { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#1a212a;
+           border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 20px; }
+.ap-figs > div { background:#0d1116; padding:14px 12px 15px; text-align:center; }
+.ap-figs b { display:block; font-size:21px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+             font-variant-numeric:tabular-nums; }
+.ap-figs span { display:block; margin-top:6px; font-size:10.5px; line-height:1.45; color:#6c7883; }
+
+.ap-tcap { margin:0 0 17px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em;
+           line-height:1.6; color:#5a6672; }
+
+/* ---------- the bestiary table: the whole argument in one grid ---------- */
+.ap-bes { display:grid; grid-template-columns:1.2fr .62fr .62fr .9fr 1.5fr; gap:1px;
+          background:#1a212a; border:1px solid #1a212a; border-radius:7px; overflow:hidden;
+          margin:0 0 9px; font-variant-numeric:tabular-nums; }
+.ap-bes > * { background:#0d1116; padding:11px 12px; font-size:12.5px; color:#a9b4bd; }
+.ap-bes > .h { background:#0a0d11; font-family:var(--mono); font-size:8.5px; letter-spacing:.12em;
+               line-height:1.35; text-transform:uppercase; color:#5f6b76; padding:10px 12px 9px; }
+.ap-bes > .t { color:#e9eff3; font-weight:600; }
+.ap-bes > .n { color:#d4dade; }
+.ap-bes > .a { color:#ffb454; }
+.ap-bes > .z { color:#7dd3fc; }
+.ap-bes > .q { color:#7c8891; font-size:11.5px; line-height:1.5; }
+
+/* ================= chaptered deck ================= */
+.ap-deck { margin:44px 0 0; }
+
+.ap-dtop { position:sticky; top:0; z-index:8; background:#0f1216; padding:9px 0 0; }
+.ap-dtop:after { content:""; position:absolute; left:calc(-1 * var(--bleed)); right:calc(-1 * var(--bleed));
+  bottom:0; height:1px; background:#1c242e; }
+
+.ap-dtop .ap-dstrip { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+.ap-dstrip { position:relative; display:flex; align-items:flex-end; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; }
+.ap-dstrip::-webkit-scrollbar { display:none; }
+
+.ap-dtab { position:relative; flex:0 0 auto; -webkit-appearance:none; appearance:none;
+  background:none; border:0; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:#7c8891; padding:9px 13px 11px; cursor:pointer;
+  white-space:nowrap; border-radius:5px 5px 0 0;
+  transition:color .28s ease, background .28s ease, transform .2s cubic-bezier(.2,.6,.3,1); }
+.ap-dtab:hover { color:#b8c3cb; background:#141920; }
+@media (min-width:641px) { .ap-dtab { padding-left:10px; padding-right:10px; letter-spacing:.08em; }
+  .ap-dtab i { margin-right:5px; } }
+.ap-dtab:active { transform:translateY(1px); }
+.ap-dtab.on { color:#7dd3fc; }
+.ap-dtab i { font-style:normal; opacity:.45; margin-right:7px; }
+
+.ap-dink { position:absolute; left:0; bottom:0; height:2px; width:0; background:#7dd3fc;
+  border-radius:2px 2px 0 0; pointer-events:none;
+  transition:transform .44s cubic-bezier(.22,.8,.28,1), width .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dstage { position:relative; }
+.ap-dstage.morph { overflow:hidden; transition:height .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dpanes { position:relative; padding-top:22px; }
+.ap-pane { display:none; }
+.ap-pane.on { display:block; }
+.ap-pane.enter { animation:apSlideL .42s cubic-bezier(.2,.65,.3,1) both; }
+.ap-pane.enter.rev { animation-name:apSlideR; }
+@keyframes apSlideL { from { opacity:0; transform:translate3d(20px,0,0); } to { opacity:1; transform:none; } }
+@keyframes apSlideR { from { opacity:0; transform:translate3d(-20px,0,0); } to { opacity:1; transform:none; } }
+
+.ap-dbot { margin-top:28px; padding-top:16px; border-top:1px solid #1c242e; }
+.ap-dsteps { display:flex; gap:10px; }
+.ap-dstep { flex:1 1 0; min-width:0; -webkit-appearance:none; appearance:none; text-align:left;
+  background:#12171d; border:1px solid #1c242e; border-radius:7px; padding:10px 14px 11px;
+  cursor:pointer; font-family:inherit; }
+.ap-dstep:hover:not([disabled]) { border-color:#2c3946; background:#161c23; }
+.ap-dstep:active:not([disabled]) { transform:scale(.985); }
+.ap-dstep[disabled] { opacity:.3; cursor:default; }
+.ap-dstep em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:#5f6b76; font-style:normal; margin-bottom:4px; }
+.ap-dstep b { display:block; font-size:12.5px; font-weight:600; color:#cbd5dc; letter-spacing:-.01em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ap-dstep.next { text-align:right; }
+
+/* ---- reveal on scroll ---- */
+.ap-rv { opacity:0; transform:translate3d(0,16px,0); }
+.ap-rv.in { animation:apRise .6s cubic-bezier(.2,.65,.3,1) both; }
+.ap-rv.set { opacity:1; transform:none; animation:none; }
+.ap-pop { animation:apRise .5s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes apRise { from { opacity:0; transform:translate3d(0,16px,0); } to { opacity:1; transform:none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-rv, .ap-rv.in { opacity:1 !important; transform:none !important; animation:none !important; }
+  .ap-pop, .ap-pane.enter { animation:none !important; }
+  .ap-dink, .ap-dstage.morph { transition:none !important; }
+  .ap-dtab { transition:none !important; }
+  .ap-dtab:active { transform:none !important; }
+  .ap-src > summary, .ap-src > summary:before { transition:none !important; }
+  .wc-cv { transition:none !important; }
+}
+</style>
+
+<style>
+/* ================= the instrument ================= */
+.wc { margin-top:26px; margin-bottom:34px; background:#0d1116; border:1px solid #1c242e;
+      border-radius:10px; overflow:hidden; }
+
+.wc-modes { display:flex; border-bottom:1px solid #1a212a; background:#0a0d11; }
+.wc-modes button { flex:1; appearance:none; background:none; border:0; border-bottom:2px solid transparent;
+                   font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase;
+                   color:#6c7883; padding:11px 8px 9px; cursor:pointer; transition:color .15s linear; }
+.wc-modes button:hover { color:#b3bec6; }
+.wc-modes button.on { color:#ffb454; border-bottom-color:#ffb454; }
+.wc-modes button + button { border-left:1px solid #1a212a; }
+
+.wc-body { display:grid; grid-template-columns:minmax(0,1fr) 244px; }
+.wc-stage { padding:18px; display:flex; flex-direction:column; align-items:center; gap:11px; min-width:0; }
+.wc-cv { display:block; width:100%; max-width:372px; aspect-ratio:1/1; border-radius:6px;
+         background:#07090b; cursor:crosshair; touch-action:none; }
+.wc-leg { display:flex; flex-wrap:wrap; justify-content:center; gap:4px 14px;
+          font-family:var(--mono); font-size:8.5px; letter-spacing:.1em; text-transform:uppercase;
+          color:#5f6b76; }
+.wc-leg[hidden] { display:none; }
+.wc-leg span { display:inline-flex; align-items:center; gap:5px; }
+.wc-leg i { width:8px; height:8px; border-radius:2px; display:inline-block; }
+
+.wc-side { border-left:1px solid #1a212a; padding:16px 16px 18px; min-width:0; }
+.wc-side[hidden] { display:none; }
+.wc-ctl + .wc-ctl { margin-top:15px; }
+.wc-ctl > em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.13em;
+               text-transform:uppercase; color:#5f6b76; font-style:normal; }
+.wc-ctl > em u { text-decoration:none; color:#96a1aa; margin-left:6px; letter-spacing:.06em; }
+
+/* the release rack: one row per creature, with its burn distance on the right */
+.wc-rack { display:flex; flex-direction:column; gap:4px; margin-top:9px; }
+.wc-rack button { display:flex; align-items:center; gap:8px; width:100%; appearance:none;
+                  font-family:var(--mono); font-size:9.5px; letter-spacing:.07em; text-transform:uppercase;
+                  color:#8d98a1; background:#0f1419; border:1px solid #1d232a; border-radius:4px;
+                  padding:6px 9px; cursor:pointer; text-align:left;
+                  transition:color .14s linear, border-color .14s linear, background-color .14s linear; }
+.wc-rack button:hover { color:#e2e9ee; border-color:#2b3440; background:#121820; }
+.wc-rack button i { width:9px; height:9px; border-radius:50%; flex:0 0 auto; }
+.wc-rack button s { margin-left:auto; text-decoration:none; font-size:8.5px; color:#5f6b76;
+                    letter-spacing:.04em; white-space:nowrap; }
+.wc-rack button:hover s { color:#8d98a1; }
+
+.wc-act { display:flex; gap:6px; margin-top:16px; }
+.wc-act button { flex:1; appearance:none; font-family:var(--mono); font-size:9px; letter-spacing:.12em;
+                 text-transform:uppercase; padding:8px 6px; border-radius:4px; cursor:pointer;
+                 background:#0f1419; border:1px solid #1d232a; color:#96a1aa;
+                 transition:color .14s linear, border-color .14s linear; }
+.wc-act button:hover { color:#ffb454; border-color:#5c4620; }
+.wc-act button:disabled { opacity:.4; cursor:default; color:#5f6b76; border-color:#1d232a; }
+
+.wc-hint { margin:9px 0 0; font-size:12px; line-height:1.6; color:#8d98a1; }
+.wc-hint b { color:#c8d2da; font-weight:600; }
+
+/* the stare panel gets a phase ladder instead of a rack */
+.wc-ph { display:flex; flex-direction:column; gap:1px; margin-top:9px; background:#1a212a;
+         border:1px solid #1a212a; border-radius:5px; overflow:hidden; }
+.wc-ph > div { background:#0f1419; padding:7px 10px; display:flex; align-items:baseline; gap:8px;
+               font-family:var(--mono); font-size:9px; letter-spacing:.09em; text-transform:uppercase;
+               color:#5a6672; transition:color .2s linear, background-color .2s linear; }
+.wc-ph > div u { text-decoration:none; color:#414c56; }
+.wc-ph > div s { margin-left:auto; text-decoration:none; font-size:8.5px; color:#414c56; }
+.wc-ph > div.on { background:#17120a; color:#ffb454; }
+.wc-ph > div.on u, .wc-ph > div.on s { color:#a9803c; }
+.wc-ph > div.was { color:#7c8891; }
+.wc-ph > div.was u, .wc-ph > div.was s { color:#4f5a64; }
+
+@media (max-width:640px){
+  .wc-body { grid-template-columns:1fr; }
+  .wc-side { border-left:0; border-top:1px solid #1a212a; }
+  .wc-stage { padding:14px; }
+  .wc-cv { max-width:320px; }
+
+  .ap-bes { grid-template-columns:1.1fr .62fr .9fr; font-size:11.5px; }
+  .ap-bes > *:nth-child(5n+3), .ap-bes > *:nth-child(5n+5) { display:none; }
+  .ap-bes > * { padding:10px 8px; }
+  .ap-bes > .h { padding:9px 8px 8px; font-size:8px; letter-spacing:.06em; }
+
+  .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
+  .ap-dtab i { margin-right:5px; }
+  .ap-dsteps { gap:7px; }
+  .ap-dstep { padding:9px 11px 10px; }
+  .ap-dstep b { font-size:11.5px; }
+  .ap-deck { margin-top:34px; }
+  .ap-frame { height:76vh; min-height:520px; }
+  .ap-inner { padding:36px 17px 64px; }
+  .ap-title { font-size:24px; }
+  .ap-lede { font-size:17.5px; }
+  .ap-stand { font-size:15px; }
+  .ap-p { font-size:14px; }
+  .ap-stats { grid-template-columns:repeat(3,1fr); }
+  .ap-stats b { font-size:21px; }
+  .ap-read { grid-template-columns:repeat(3,1fr); }
+  .ap-read b { font-size:15px; }
+  .ap-figs { grid-template-columns:1fr; }
+  .ap-pass > div { flex-wrap:wrap; }
+  .ap-pass b { flex-basis:auto; }
+  .ap-cmt { grid-template-columns:auto 1fr; }
+  .ap-cmt s { grid-column:2; text-align:left; }
+  .ap-code { font-size:10.5px; }
+  .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
+}
+</style>
+
+<div class="ap">
+  <div class="ap-frame play" id="apFrame">
+    <div class="ap-black"></div>
+
+    <div class="ap-doc">
+      <div class="ap-inner">
+        <div class="ap-kick">Chapter Five &middot; 1 March 2026</div>
+        <h1 class="ap-title">What the Cold Made</h1>
+
+        <div class="ap-rest">
+          <p class="ap-stand">Chapter four was the heater. This one is everything that noticed you built it. Five species landed in thirteen days, and not one of them was designed as a monster. They were designed as answers to the same question the player is asking: where is the last warm thing, and what do I have to survive to reach it.</p>
+
+          <div class="ap-stats ap-wide">
+            <div><b>5</b><span>species, all of them shipped inside thirteen days</span></div>
+            <div><b>24</b><span>commits made the entire ecology</span></div>
+            <div><b>0</b><span>damage the Hollow deals, ever, by design</span></div>
+            <div><b>8</b><span>blocks: the widest burn radius, on the one that cannot hurt you</span></div>
+            <div><b>16</b><span>blocks the Returned will cross to put your fire out</span></div>
+            <div><b>600</b><span>ticks a Mimic will stand still and watch you</span></div>
+          </div>
+
+          <div class="ap-h3">Play with it</div>
+          <p class="ap-lede">Every creature in this chapter is defined by how close it can get to a lit heater.</p>
+          <p class="ap-p">I did not plan that. I wrote five entities over two weeks and only saw the pattern when I put their proximity checks next to each other. Four of them take fire damage near a heater and one of them is immune, and the exact distance at which each one starts to cook <strong>is the whole personality of the creature</strong>. Light the heater and let them come.</p>
+
+          <div class="wc ap-wide" id="wc">
+            <div class="wc-modes" id="wcModes">
+              <button type="button" class="on">The ring</button>
+              <button type="button">The stare</button>
+            </div>
+
+            <div class="wc-body">
+              <div class="wc-stage">
+                <canvas class="wc-cv" id="wcCv" width="744" height="744"
+                        aria-label="Top down view of a lit heater with creatures approaching it"></canvas>
+                <div class="wc-leg" id="wcLegA">
+                  <span><i style="background:#ffb454"></i>Heater</span>
+                  <span><i style="background:#2c688a"></i>Warm</span>
+                  <span><i style="background:#7a4a22"></i>Burn at 4</span>
+                  <span><i style="background:#3c5c76"></i>Burn at 8</span>
+                </div>
+                <div class="wc-leg" id="wcLegB" hidden>
+                  <span>Move your pointer inside the frame. You are the pale mark.</span>
+                </div>
+              </div>
+
+              <div class="wc-side" id="wcSideA">
+                <div class="wc-ctl">
+                  <em>Release <u id="wcCount">0 out there</u></em>
+                  <div class="wc-rack" id="wcRack">
+                    <button type="button" data-k="frostbitten"><i style="background:#7fb8d4"></i>Frostbitten<s>burns at 4</s></button>
+                    <button type="button" data-k="hollow"><i style="background:#dfe8ee"></i>Hollow<s>burns at 8</s></button>
+                    <button type="button" data-k="mimic"><i style="background:#4a5058"></i>Mimic<s>burns at 4</s></button>
+                    <button type="button" data-k="returned"><i style="background:#a98cd8"></i>Returned<s>burns at 4</s></button>
+                    <button type="button" data-k="frostmite"><i style="background:#6fb8a4"></i>Frostmite<s>immune</s></button>
+                  </div>
+                </div>
+                <p class="wc-hint">Damage, radii and the mite penalty are the real numbers. Walking speed is scaled so the whole thing fits in one screen.</p>
+                <div class="wc-act">
+                  <button type="button" id="wcRelight">Relight</button>
+                  <button type="button" id="wcClear">Clear</button>
+                </div>
+              </div>
+
+              <div class="wc-side" id="wcSideB" hidden>
+                <div class="wc-ctl">
+                  <em>Phase</em>
+                  <div class="wc-ph" id="wcPh">
+                    <div data-p="0" class="on"><u>0</u>Observation<s>400 to 600t</s></div>
+                    <div data-p="1"><u>1</u>Mimicry<s>100t</s></div>
+                    <div data-p="2"><u>2</u>Combat<s>until 300t blind</s></div>
+                    <div data-p="3"><u>3</u>Retreat<s>under 20 HP</s></div>
+                    <div data-p="4"><u>4</u>Burrow<s>if you never came</s></div>
+                  </div>
+                </div>
+                <p class="wc-hint">It does not chase. It waits, it faces you, and it blinks. <b>Cross sixteen blocks</b> and it starts copying you.</p>
+                <div class="wc-act">
+                  <button type="button" id="wcReset">Reset</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="ap-read" id="wcReadA">
+              <div class="hot"><em>Heater</em><b id="wcHeat">Lit</b><i><s id="wcHeatB" style="width:100%"></s></i></div>
+              <div><em>Fuel</em><b id="wcFuel">100<u>%</u></b><i><s id="wcFuelB" style="width:100%"></s></i></div>
+              <div><em>Warm radius</em><b id="wcRad">7<u>b</u></b><i><s id="wcRadB" style="width:100%"></s></i></div>
+              <div><em>Mites latched</em><b id="wcMite">0<u>/10</u></b><i><s id="wcMiteB" style="width:0"></s></i></div>
+              <div><em>Still alive</em><b id="wcAlive">0</b><i><s id="wcAliveB" style="width:0"></s></i></div>
+              <div class="bad"><em>Burned off</em><b id="wcDead">0</b><i><s id="wcDeadB" style="width:0"></s></i></div>
+            </div>
+
+            <div class="ap-read" id="wcReadB" hidden>
+              <div class="hot"><em>Phase</em><b class="sm" id="wsPhase">Observation</b><i><s id="wsPhaseB" style="width:20%"></s></i></div>
+              <div><em>Watched you</em><b id="wsObs">0<u>t</u></b><i><s id="wsObsB" style="width:0"></s></i></div>
+              <div><em>Your range</em><b id="wsRange">24<u>b</u></b><i><s id="wsRangeB" style="width:100%"></s></i></div>
+              <div><em>Eyes</em><b class="sm" id="wsEyes">Open</b><i><s id="wsEyesB" style="width:100%"></s></i></div>
+              <div><em>Stare cue</em><b class="sm" id="wsCue">Armed</b><i><s id="wsCueB" style="width:100%"></s></i></div>
+              <div><em>Copying you</em><b id="wsMim">0<u>t</u></b><i><s id="wsMimB" style="width:0"></s></i></div>
+            </div>
+
+            <p class="ap-note" id="wcNote"></p>
+          </div>
+
+          <p class="ap-p">Two things are worth taking out of that before you read any further. The first is that <strong>the Hollow dies further from your heater than anything else in the game</strong>, and it is the only creature here that cannot do you a single point of damage. The second is that the Returned does not care. It takes the burn, it arrives, and the fire goes out.</p>
+
+          <div class="ap-deck" id="apDeck">
+            <div class="ap-dtop">
+              <div class="ap-dstrip" role="tablist" aria-label="Chapter sections">
+                <button type="button" class="ap-dtab on" role="tab" data-i="0" data-full="Everything burns" data-short="Burns" aria-selected="true" tabindex="0"><i>01</i>Everything burns</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="1" data-full="The ones that still try" data-short="Still try" aria-selected="false" tabindex="-1"><i>02</i>The ones that still try</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="2" data-full="The one that can't hurt you" data-short="Hollow" aria-selected="false" tabindex="-1"><i>03</i>The one that can't hurt you</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="The one that wears you" data-short="Mimic" aria-selected="false" tabindex="-1"><i>04</i>The one that wears you</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="The one that remembers" data-short="Returned" aria-selected="false" tabindex="-1"><i>05</i>The one that remembers</button>
+                <span class="ap-dink" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="ap-dstage">
+              <div class="ap-dpanes">
+
+<!-- ============ 01 ============ -->
+<section class="ap-pane on" role="tabpanel" data-p="0" aria-label="Everything burns">
+  <p class="ap-lede">Five creatures, five files, written days apart. All five of them open the same registry and ask the same question.</p>
+  <p class="ap-p">A heater in Frozen Dawn is not a light source and it is not a block the world tracks for you. It is an entry in <code>HeaterRegistry</code>, a set of positions that know they are currently lit. I built that registry in chapter four so the temperature maths could find warm spots quickly. Then I wrote the Frostbitten, and without really thinking about it I reached for the same set.</p>
+
+  <div class="ap-bes ap-wide">
+    <div class="h">Creature</div><div class="h">HP</div><div class="h">Hit</div><div class="h">Near a lit heater</div><div class="h">What it is actually for</div>
+
+    <div class="t">Frostbitten</div><div class="n">30</div><div class="n">6</div><div class="a">burns at 4b</div>
+    <div class="q">The baseline. The thing a person turns into if nobody finds them.</div>
+
+    <div class="t">Hollow</div><div class="n">20</div><div class="n">0</div><div class="a">burns at 8b</div>
+    <div class="q">Cannot attack. Holds you still and lets the cold finish it.</div>
+
+    <div class="t">Mimic</div><div class="n">40</div><div class="n">10</div><div class="a">burns at 4b</div>
+    <div class="q">Watches you for half a minute, then copies you exactly.</div>
+
+    <div class="t">Returned</div><div class="n">50</div><div class="n">8</div><div class="a">burns at 4b</div>
+    <div class="q">Walks through the burn on purpose. Comes for the fire, not for you.</div>
+
+    <div class="t">Frostmite</div><div class="n">5</div><div class="n">1</div><div class="z">immune</div>
+    <div class="q">The only thing that can sit on a lit heater. So it does, in tens.</div>
+  </div>
+  <p class="ap-tcap">Hit is the ATTACK_DAMAGE attribute. Burn distance is the literal radius in each entity's own tick handler.</p>
+
+  <p class="ap-p">Here is the Frostbitten's copy of it. Every twenty ticks it walks the registry, and the moment it is inside four blocks of anything lit, it takes two damage and catches fire for two seconds.</p>
+
+  <details class="ap-src">
+    <summary>FrostbittenEntity.java, the heater check<em>10 lines</em></summary>
+    <pre class="ap-code"><c>// Heater burn: 2 damage per second within 4 blocks</c>
+<k>if</k> (gameTick % <v>20</v> == <v>0</v>) {
+    Set&lt;BlockPos&gt; heaters = HeaterRegistry.<v>getHeaters</v>(level());
+    <k>for</k> (BlockPos heaterPos : heaters) {
+        <k>if</k> (blockPosition().<v>closerToCenterThan</v>(heaterPos.getCenter(), <v>4.0</v>)) {
+            <v>hurt</v>(damageSources().onFire(), <v>2.0f</v>);
+            <v>setRemainingFireTicks</v>(<v>40</v>);
+            <k>break</k>;
+        }
+    }
+}</pre>
+  </details>
+
+  <p class="ap-p">The Hollow's copy is the same shape with two numbers changed, and one line missing. It burns from <strong>eight</strong> blocks instead of four, at four damage a second instead of two, and there is no <code>setRemainingFireTicks</code> call at all. It does not catch fire. It just stops.</p>
+
+  <p class="ap-pull">I never sat down and designed a burn distance for each creature. I wrote the first one, copied it four times, and changed the numbers to whatever felt right for that specific thing. The ecology is an accident of copy and paste, and it is the most coherent part of the mod.</p>
+
+  <div class="ap-figs">
+    <div><b>4</b><span>creatures that share this exact block, with different constants</span></div>
+    <div><b>20</b><span>ticks between checks, in every one of them</span></div>
+    <div><b>1</b><span>that does not have the block at all</span></div>
+  </div>
+
+  <p class="ap-p">That last one is the Frostmite, and its absence is the interesting part. It has no heater burn because it is the answer to heaters. Everything else in this chapter has to decide whether your fire is worth dying for. The mite just climbs on.</p>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="1" aria-label="The ones that still try">
+  <p class="ap-lede">One of them is what is left of a person. The other is five hit points of pure economics.</p>
+
+  <div class="ap-phs">
+    <div>
+      <h4><i style="background:#7fb8d4"></i>Frostbitten<u>1 March, one commit</u></h4>
+      <p>Thirty health, six damage, four armour, and it hits with Slowness I for two seconds so you cannot simply walk away from it. It is immune to freezing in three separate places: it reports that it cannot freeze, it reports zero frozen ticks, and its damage handler rejects anything tagged <code>IS_FREEZING</code> outright. The world it lives in cannot touch it.</p>
+      <s>30 HP</s><s>6 damage</s><s>0.24 speed</s><s>freeze immune</s><s>2&times; fire damage</s>
+    </div>
+    <div>
+      <h4><i style="background:#6fb8a4"></i>Frostmite<u>13 March, four commits</u></h4>
+      <p>Five health. One damage. No armour, no knockback resistance, and any hit at all clears its latch and usually kills it. It is not supposed to survive a fight. It is supposed to arrive before you notice and cost you the fight you have later.</p>
+      <s>5 HP</s><s>1 damage</s><s>0.42 speed</s><s>14b target range</s><s>18b heater bait</s>
+    </div>
+  </div>
+
+  <p class="ap-p">The Frostbitten pays for its freeze immunity. Its damage handler takes fire at <strong>double</strong>, which is why it dies at a heater in fifteen seconds while a vanilla zombie would shrug it off. It is a creature built entirely out of the cold, so the one thing left in the world that is not cold takes it apart.</p>
+
+  <p class="ap-p">There is also a detail I put in on the first day and have never touched since. If a Frostbitten ends up in water, every ten ticks it freezes the entire three by three by three volume around itself into ice. It does not do this as an attack. It does it because it cannot not do it.</p>
+
+  <details class="ap-src">
+    <summary>FrostbittenEntity.java, standing in water<em>7 lines</em></summary>
+    <pre class="ap-code"><c>// Water behavior: sink and freeze surrounding water every 10 ticks</c>
+<k>if</k> (isInWater() &amp;&amp; gameTick % <v>10</v> == <v>0</v>) {
+    BlockPos pos = blockPosition();
+    <k>for</k> (BlockPos nearby : BlockPos.<v>betweenClosed</v>(pos.offset(-<v>1</v>,-<v>1</v>,-<v>1</v>), pos.offset(<v>1</v>,<v>1</v>,<v>1</v>))) {
+        <k>if</k> (level().getBlockState(nearby).is(Blocks.WATER)) {
+            level().<v>setBlock</v>(nearby, Blocks.ICE.defaultBlockState(), <v>3</v>);
+        }
+    }
+}</pre>
+  </details>
+
+  <div class="ap-h3">The mite maths</div>
+  <p class="ap-p">The Frostmite is the only creature in this chapter whose effect on you is a number rather than an event. It finds a lit heater within eighteen blocks, walks to within 1.2 blocks of it, latches, and then orbits the block doing nothing visible for up to two hundred ticks. Up to ten of them can hold one heater at a time.</p>
+  <p class="ap-p">What they are doing is being counted. The heater block entity asks the mite class two questions every time it recalculates, and both answers come straight off the head count.</p>
+
+  <details class="ap-src">
+    <summary>FrostmiteEntity.java, what a latch is worth<em>13 lines</em></summary>
+    <pre class="ap-code"><k>public static</k> <v>int</v> <v>getHeaterRadiusPenalty</v>(Level level, BlockPos heaterPos) {
+    <v>int</v> attached = <v>countLatchedToHeater</v>(level, heaterPos);
+    <k>if</k> (attached &lt;= <v>0</v>) <k>return</k> <v>0</v>;
+    <k>return</k> Math.<v>min</v>(HEATER_RADIUS_CAP, (attached + <v>1</v>) / <v>2</v>);   <c>// cap 4</c>
+}
+
+<k>public static</k> <v>int</v> <v>getHeaterFuelDrain</v>(Level level, BlockPos heaterPos) {
+    <v>int</v> attached = <v>countLatchedToHeater</v>(level, heaterPos);
+    <k>if</k> (attached &lt;= <v>0</v>) <k>return</k> <v>0</v>;
+    <k>return</k> Math.<v>min</v>(HEATER_FUEL_DRAIN_CAP, attached);          <c>// cap 10</c>
+}</pre>
+  </details>
+
+  <div class="ap-figs">
+    <div><b>2</b><span>mites before your heater loses its first block of reach</span></div>
+    <div><b>7</b><span>mites to hit the radius cap of four blocks lost</span></div>
+    <div><b>10</b><span>mites and your fuel burns ten times as fast</span></div>
+  </div>
+
+  <p class="ap-p">A Thermal heater has a seven block radius. Seven mites take it to three. They have not attacked you, they have not been seen, and the room you were standing in safely thirty seconds ago now ends before it reaches you.</p>
+
+  <p class="ap-pull">The Frostmite is the only creature I wrote that never needs to touch the player to beat them. Everything it does happens to the building.</p>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="2" aria-label="The one that can't hurt you">
+  <p class="ap-lede">The Hollow has an ATTACK_DAMAGE attribute of zero. That is not a placeholder I forgot to fill in. It is the design.</p>
+  <p class="ap-p">It has no goals either. <code>registerGoals()</code> is an empty method. Minecraft's whole AI system, the thing that makes a zombie want you, is switched off, because the constructor sets <code>noPhysics</code> and turns gravity off and none of the pathfinding works any more once you do that. So it drifts. It picks a point within eight blocks, moves toward it at a speed of 0.03, and picks a new one every hundred to two hundred ticks.</p>
+
+  <p class="ap-pull">It does not hunt you. It is in the room, and eventually the room is small enough.</p>
+
+  <div class="ap-h3">What happens when it reaches you</div>
+  <p class="ap-p">It does not attack. It calls <code>startRiding</code> on you. From that tick on you are wearing it, and four things start happening at once.</p>
+
+  <div class="ap-pass">
+    <div><b>Slowness IV</b><span>reapplied every single tick for two seconds, so it never lapses</span></div>
+    <div><b>+5 freeze</b><span>per tick, ramped to a ceiling of 300 ticks frozen</span></div>
+    <div><b>Packed ice</b><span>one block every ten ticks, into the six air spaces around your head and body</span></div>
+    <div><b>80 ticks</b><span>or six blocks placed, whichever comes first, then it lets go</span></div>
+  </div>
+
+  <p class="ap-p">Vanilla Minecraft considers you fully frozen at 140 ticks and starts dealing freeze damage there. The Hollow ramps you to <strong>300</strong>. It has no attack damage because it does not need one. It holds the door open for the weather.</p>
+
+  <details class="ap-src">
+    <summary>HollowEntity.java, the entombment<em>14 lines</em></summary>
+    <pre class="ap-code"><c>// Offsets around the player for ice entombment</c>
+BlockPos[] offsets = {
+        playerPos.<v>north</v>(), playerPos.<v>south</v>(),
+        playerPos.<v>east</v>(),  playerPos.<v>west</v>(),
+        playerPos.<v>above</v>(), playerPos.above().<v>above</v>()
+};
+
+<k>for</k> (BlockPos pos : offsets) {
+    <k>if</k> (iceBlocksPlaced &gt;= <v>6</v>) <k>break</k>;
+    <k>if</k> (level().getBlockState(pos).<v>isAir</v>()) {
+        level().<v>setBlock</v>(pos, Blocks.PACKED_ICE.defaultBlockState(), <v>3</v>);
+        iceBlocksPlaced++;
+        <k>return</k>; <c>// one per call</c>
+    }
+}</pre>
+  </details>
+
+  <p class="ap-p">Six blocks: north, south, east, west, your head, and the space above your head. It is building you a coffin one wall at a time, and it is polite enough to only use air.</p>
+
+  <div class="ap-h3">Getting out</div>
+  <p class="ap-p">Swing at it. Any swing at all breaks the grab, and the same swing deals two damage. <strong>Unless you are holding Acheronite</strong>, in which case it deals six, which is nearly a third of the thing in one hit. That was deliberate: Acheronite is the late-game metal, and I wanted one moment where a player who had gone and got it felt the difference immediately rather than reading it on a tooltip.</p>
+
+  <div class="ap-figs">
+    <div><b>20</b><span>health, and projectiles do nothing to it at all</span></div>
+    <div><b>50</b><span>percent of any non-Acheronite melee hit, absorbed</span></div>
+    <div><b>100</b><span>percent of fire damage, taken in full</span></div>
+  </div>
+
+  <p class="ap-p">It ignores arrows. It shrugs off half of a normal sword. It takes fire at face value, and it burns from eight blocks out rather than four, which means the Hollow is the only creature in the game that dies to your heater <em>before it can see it properly</em>.</p>
+
+  <div class="ap-h3">The thing it is afraid of</div>
+  <p class="ap-p">Every ten ticks it scans a sixteen block radius, stepping two blocks at a time, for a Frost Ward Torch. If it finds one it sprints directly away at 0.55, which is more than three times its drift speed, and keeps going for forty ticks with no steering at all.</p>
+  <p class="ap-p">Doing that grants an advancement. I called it <code>later_casper</code>, and the fact that a joke I typed at midnight is now a permanent string in the mod's data pack is roughly how the whole creature ecology got built.</p>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="3" aria-label="The one that wears you">
+  <p class="ap-lede">The Mimic spends its first twenty to thirty seconds doing nothing at all. That is the entire point of it.</p>
+  <p class="ap-p">It has five phases and it starts in phase zero, observation, for <code>400 + random(201)</code> ticks. During those ticks it zeroes its own horizontal motion, stops its navigation, and turns to face the nearest player within forty eight blocks. It does not approach. It does not have a health bar. Its name is hidden. On the client it is rendered exactly the same way as the sanity system's hallucination, which is a flat silhouette that always turns to face the camera, so wherever you walk to look at it from a better angle, it is already looking back.</p>
+
+  <div class="ap-phs">
+    <div>
+      <h4><i style="background:#4a5058"></i>Phase 0, observation<u>400 to 600 ticks</u></h4>
+      <p>Stands still. Faces you. Plays a stare cue if it catches you looking directly at it, with a cooldown of 100 to 300 ticks so it never becomes rhythmic.</p>
+      <s>zero motion</s><s>no name</s><s>no health bar</s>
+    </div>
+    <div>
+      <h4><i style="background:#8a6a72"></i>Phase 1, mimicry<u>exactly 100 ticks</u></h4>
+      <p>Triggered the moment you come within sixteen blocks. It stores your UUID, then copies your movement and all three of your rotations every tick for five seconds.</p>
+      <s>your velocity</s><s>your YRot</s><s>your head</s><s>your pitch</s>
+    </div>
+    <div>
+      <h4><i style="background:#e0655a"></i>Phase 2, combat<u>until it loses you</u></h4>
+      <p>Forty health, ten damage, and it is now wearing your skin. Red eyes are the tell. Three hundred ticks without line of sight and it goes back to watching.</p>
+      <s>40 HP</s><s>10 damage</s><s>0.35 speed</s><s>48b follow</s>
+    </div>
+    <div>
+      <h4><i style="background:#5f6b76"></i>Phases 3 and 4<u>retreat, burrow</u></h4>
+      <p>Under half health it retreats for two hundred ticks. And if its observation timer runs out and you never engaged, it digs into the ground and is gone.</p>
+      <s>retreat at 20 HP</s><s>3600t despawn</s>
+    </div>
+  </div>
+
+  <div class="ap-h3">What mimicry actually copies</div>
+  <p class="ap-p">Not a walk cycle. Not an approximation. It reads the real player object every tick and writes the values onto itself.</p>
+
+  <details class="ap-src">
+    <summary>MimicEntity.java, the copy<em>8 lines</em></summary>
+    <pre class="ap-code"><c>// Real-time player movement mirroring</c>
+Vec3 playerVel = targetPlayer.<v>getDeltaMovement</v>();
+<v>setDeltaMovement</v>(playerVel.x, getDeltaMovement().y, playerVel.z);
+
+<v>setYRot</v>(targetPlayer.<v>getYRot</v>());
+<v>setYHeadRot</v>(targetPlayer.<v>getYHeadRot</v>());
+<v>setXRot</v>(targetPlayer.<v>getXRot</v>());</pre>
+  </details>
+
+  <p class="ap-p">Your exact velocity on X and Z, your body rotation, your head rotation, and your pitch. If you strafe left, it strafes left on the same tick. If you look up, it looks up. There is no smoothing and no delay, because a delay would read as a bad animation and an exact copy reads as something wrong with the game.</p>
+
+  <p class="ap-p">The renderer does the rest. Over those hundred ticks it crossfades: for the first half the shadow silhouette fades out, and for the second half <strong>your own skin texture</strong> fades in, pulled live from the connection by your UUID. Smoke particles cover the seam. The eyes go from dull red to pure red across the same window, because after the morph the eyes are the only thing left that tells you it is not another player.</p>
+
+  <p class="ap-pull">There is no mimic.png in the mod. The only texture the Mimic owns is a blank shadow. Everything else it ever looks like, it takes from you.</p>
+
+  <div class="ap-h3">The blink</div>
+  <p class="ap-p">The eyes are a separate render pass on a seven tick cycle, once every sixty to a hundred ticks depending on the entity's own id so a group never blinks in unison. Two ticks half closed, three ticks fully shut, two ticks half open again. Minecraft's glowing eye render type ignores alpha entirely, so a closed eye cannot be faded out. It has to simply not be drawn.</p>
+  <p class="ap-p">That is why the stare works. For three ticks there is nothing there at all.</p>
+
+  <div class="ap-figs">
+    <div><b>7</b><span>commits, most of them on the observation phase</span></div>
+    <div><b>16</b><span>blocks: the distance that ends the waiting</span></div>
+    <div><b>3600</b><span>ticks and it gives up and despawns</span></div>
+  </div>
+
+  <p class="ap-p">One more detail, and it is my favourite thing in the file. When the Mimic catches you looking at it and plays its stare cue, it does not play the sound at its own position. It plays it at <strong>yours</strong>.</p>
+  <p class="ap-p">Killing one grants <code>not_a_shadow</code>, to the killer and to every player within thirty two blocks, because the point of that advancement is that somebody else watched it happen.</p>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="ap-pane" role="tabpanel" data-p="4" aria-label="The one that remembers">
+  <p class="ap-lede">Everything else in this chapter reacts to your heater. The Returned is the only thing that goes looking for it.</p>
+  <p class="ap-p">Fifty health, eight damage, eight armour, five texture variants so a group does not look like a clone army, and it opens doors. It also takes the same three damage per second inside four blocks that everything else does. It walks in anyway.</p>
+
+  <div class="ap-h3">Three goals, one idea</div>
+  <p class="ap-p">Most of the ten commits on this thing were not the entity file. They were goals, and each one is a slightly different answer to the same question: what does a thing do when it remembers that the light used to be somewhere?</p>
+
+  <div class="ap-cmts">
+    <div><b>ReturnedHearthWatchGoal</b><span>stands near where a hearth is and does not attack. Being hearthbound disables everything below.</span></div>
+    <div><b>ReturnedBreakLightGoal</b><span>scans sixteen blocks out and four up for anything giving off light, then breaks it.</span></div>
+    <div><b>ReturnedExtinguishHeaterGoal</b><span>paths to a lit thermal heater at 1.2 speed and puts it out by hand.</span></div>
+  </div>
+
+  <p class="ap-p">The extinguish goal is the one that took the most tries. It extends Minecraft's own <code>MoveToBlockGoal</code> with a search range of sixteen and an accepted distance of two, but a block search alone was not enough, because the first version would happily beeline toward a heater on the other side of a wall and stand there grinding against the stone forever.</p>
+
+  <details class="ap-src">
+    <summary>ReturnedExtinguishHeaterGoal.java, the visibility gate<em>11 lines</em></summary>
+    <pre class="ap-code"><c>// Only target heaters the mob can actually see</c>
+Vec3 eyes = mob.<v>getEyePosition</v>();
+Vec3 target = Vec3.<v>atCenterOf</v>(pos);
+
+BlockHitResult hit = level.<v>clip</v>(<k>new</k> ClipContext(
+        eyes, target,
+        ClipContext.Block.<v>COLLIDER</v>,
+        ClipContext.Fluid.<v>NONE</v>,
+        mob));
+
+<k>return</k> hit.getType() == HitResult.Type.MISS
+        || hit.getBlockPos().<v>equals</v>(pos);</pre>
+  </details>
+
+  <p class="ap-p">A raycast from its eyes to the heater. If the ray reaches open air or lands on the heater itself, the heater is a valid target. If it hits anything else, the Returned does not know that heater exists. Walling in your hearth is a real defence, and it is a real defence because of eleven lines that exist only to stop a pathfinding bug from looking stupid.</p>
+
+  <div class="ap-figs">
+    <div><b>2</b><span>blocks: how close it has to get before it can reach out</span></div>
+    <div><b>16</b><span>blocks: how far out it can notice a lit heater at all</span></div>
+    <div><b>32</b><span>blocks: everyone who gets the advancement when it works</span></div>
+  </div>
+
+  <p class="ap-p">When it arrives it calls <code>heater.extinguish()</code>, plays the vanilla fire-out sound, and puffs ten smoke particles. Then every player within thirty two blocks is granted an advancement called <code>they_remember</code>.</p>
+
+  <p class="ap-pull">The advancement does not fire when you kill one. It fires when one wins.</p>
+
+  <div class="ap-h3">What the ledger says</div>
+  <p class="ap-p">Twenty four commits across thirteen days, and the distribution is the honest record of what was actually hard.</p>
+
+  <div class="ap-bes ap-wide">
+    <div class="h">Creature</div><div class="h">First</div><div class="h">Commits</div><div class="h">Shipped in</div><div class="h">What ate the time</div>
+
+    <div class="t">Frostbitten</div><div class="n">1 Mar</div><div class="a">1</div><div class="z">one sitting</div>
+    <div class="q">Nothing. It is a zombie with a temperature check, and it was right the first time.</div>
+
+    <div class="t">Hollow</div><div class="n">2 Mar</div><div class="a">2</div><div class="z">two days</div>
+    <div class="q">Turning off physics broke pathfinding, which meant hand-writing drift and the entire grab.</div>
+
+    <div class="t">Returned</div><div class="n">2 Mar</div><div class="a">10</div><div class="z">eleven days</div>
+    <div class="q">Three goals, and the line of sight check that stopped it pathing into walls.</div>
+
+    <div class="t">Mimic</div><div class="n">8 Mar</div><div class="a">7</div><div class="z">five days</div>
+    <div class="q">The observation phase. Making a thing convincingly do nothing took more code than making it fight.</div>
+
+    <div class="t">Frostmite</div><div class="n">13 Mar</div><div class="a">4</div><div class="z">one day</div>
+    <div class="q">The latch orbit, and capping the fuel drain before ten of them could kill a heater instantly.</div>
+  </div>
+  <p class="ap-tcap">Commit counts are every commit whose diff touched that entity or its goals, first appearance to 31 March 2026.</p>
+
+  <p class="ap-p">The Frostbitten took one commit and the Returned took ten, and they were started on consecutive days. That gap is the whole chapter. One of them is a monster. The other one had to be taught what it wanted.</p>
+
+  <div class="ap-note">Everything here is the March 2026 base tier. What happens to these five once the world has had longer to work on them, the lineages and what drives them to split, is a later chapter.</div>
+</section>
+
+              </div>
+            </div>
+
+            <div class="ap-dbot">
+              <div class="ap-dsteps">
+                <button type="button" class="ap-dstep prev" disabled></button>
+                <button type="button" class="ap-dstep next"></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <button class="ap-replay" id="apReplay">REPLAY INTRO</button>
+  </div>
+</div>
+
+<script>
+
+(function(){
+  var frame = document.getElementById('apFrame');
+  if (!frame) return;
+  var doc   = frame.querySelector('.ap-doc');
+  var title = frame.querySelector('.ap-title');
+  var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function arr(n, root){ return [].slice.call((root || document).querySelectorAll(n)); }
+
+  /* ---------------- typed title ---------------- */
+  function measureTitle(){
+    var cs = getComputedStyle(title);
+    var probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:'
+      + cs.font + ';letter-spacing:' + cs.letterSpacing;
+    probe.textContent = title.textContent;
+    document.body.appendChild(probe);
+    title.style.setProperty('--tw', (probe.offsetWidth + 2) + 'px');
+    probe.remove();
+  }
+  measureTitle();
+  title.addEventListener('animationend', function(e){
+    if (e.animationName === 'apType'){ title.style.width = 'auto'; title.style.overflow = 'visible'; }
+  });
+  frame.addEventListener('animationend', function(e){
+    if (e.animationName === 'apUp') frame.classList.add('done');
+  });
+  setTimeout(function(){ frame.classList.add('done'); }, 3200);
+
+  /* any real scroll intent lands the intro immediately.
+     wheel and touch go on the frame, not the doc: during the intro the black
+     overlay sits on top, so events never reach the scroll body. */
+  function skipIntro(){
+    if (!frame.classList.contains('done')) frame.classList.add('done');
+  }
+  var introDoc = frame.querySelector('.ap-doc');
+  frame.addEventListener('wheel',     skipIntro, { passive:true });
+  frame.addEventListener('touchmove', skipIntro, { passive:true });
+  introDoc.addEventListener('scroll', function(){ if (introDoc.scrollTop > 0) skipIntro(); }, { passive:true });
+  window.addEventListener('keydown', function(e){
+    if (/^(ArrowDown|ArrowUp|PageDown|PageUp|Home|End|Spacebar| )$/.test(e.key)) skipIntro();
+  }, { passive:true });
+  window.addEventListener('resize', function(){ measureTitle(); });
+  document.getElementById('apReplay').onclick = function(){
+    title.style.width = ''; title.style.overflow = ''; measureTitle();
+    frame.classList.remove('done');
+    frame.classList.remove('play'); void frame.offsetWidth; frame.classList.add('play');
+    doc.scrollTop = 0;
+  };
+
+  /* ================= the instrument ================= */
+  /* constants below are read straight out of the entity files: burn radius,
+     damage per burn tick, the mite radius penalty and the mite fuel drain.
+     movement speed and the heater's fuel burn rate are scaled for the screen. */
+  var SPEC = {
+    frostbitten:{ n:'Frostbitten', c:'#7fb8d4', hp:20, burn:4, dmg:2, sp:0.055, rad:0.55 },
+    hollow:     { n:'Hollow',      c:'#dfe8ee', hp:20, burn:8, dmg:4, sp:0.030, rad:0.60 },
+    mimic:      { n:'Mimic',       c:'#4a5058', hp:40, burn:4, dmg:3, sp:0.060, rad:0.55 },
+    returned:   { n:'Returned',    c:'#a98cd8', hp:50, burn:4, dmg:3, sp:0.030, rad:0.65 },
+    frostmite:  { n:'Frostmite',   c:'#6fb8a4', hp:10, burn:0, dmg:0, sp:0.085, rad:0.32 }
+  };
+  var BASE_RADIUS  = 7;     /* Thermal heater, chapter four */
+  var RADIUS_CAP   = 4;     /* FrostmiteEntity.HEATER_RADIUS_CAP */
+  var DRAIN_CAP    = 10;    /* FrostmiteEntity.HEATER_FUEL_DRAIN_CAP */
+  var MAX_LATCH    = 10;    /* FrostmiteEntity.MAX_HEATER_LATCH */
+  var OBS_MIN      = 400, OBS_SPAN = 201;   /* 400 + random(201) */
+  var MIMICRY_LEN  = 100;
+  var RETREAT_LEN  = 200;
+  var LOS_RESET    = 300;
+  var MIMIC_RANGE  = 16;
+  var BLINK_PERIOD = 76;    /* 60 + (id % 40), one fixed entity */
+  var BLINK_START  = BLINK_PERIOD - 7;
+
+  var wc = document.getElementById('wc');
+  if (wc){
+    var cv  = document.getElementById('wcCv');
+    var ctx = cv.getContext('2d');
+    var W = cv.width, CXY = W / 2;
+    var HALF_A = 18, SA = CXY / HALF_A;      /* pixels per block, ring mode */
+    var HALF_B = 24, SB = CXY / HALF_B;      /* pixels per block, stare mode */
+
+    var modeBtns = arr('button', document.getElementById('wcModes'));
+    var legA = document.getElementById('wcLegA'), legB = document.getElementById('wcLegB');
+    var sideA = document.getElementById('wcSideA'), sideB = document.getElementById('wcSideB');
+    var readA = document.getElementById('wcReadA'), readB = document.getElementById('wcReadB');
+    var note  = document.getElementById('wcNote');
+    var phRows = arr('div', document.getElementById('wcPh'));
+    var mode = 0, t = 0, running = false, visible = false, engaged = false;
+
+    function el(id){ return document.getElementById(id); }
+    function set(id, txt){ var e = el(id); if (e && e.innerHTML !== txt) e.innerHTML = txt; }
+    function bar(id, pct){
+      var e = el(id); if (!e) return;
+      e.style.width = Math.max(0, Math.min(100, pct)) + '%';
+    }
+
+    /* ---------------- mode A: the ring ---------------- */
+    var lit, fuel, mobs, dead, embers, shake;
+    function resetA(){
+      lit = true; fuel = 100; mobs = []; dead = 0; embers = []; shake = 0;
+    }
+    resetA();
+
+    function latched(){
+      var n = 0;
+      for (var i = 0; i < mobs.length; i++) if (mobs[i].k === 'frostmite' && mobs[i].latch) n += 1;
+      return Math.min(MAX_LATCH, n);
+    }
+    function reaching(){
+      for (var i = 0; i < mobs.length; i++) if (mobs[i].reach > 0) return true;
+      return false;
+    }
+    function radiusPenalty(a){ return a <= 0 ? 0 : Math.min(RADIUS_CAP, Math.floor((a + 1) / 2)); }
+    function fuelDrain(a){ return a <= 0 ? 0 : Math.min(DRAIN_CAP, a); }
+    function warmRadius(){ return lit ? Math.max(0, BASE_RADIUS - radiusPenalty(latched())) : 0; }
+
+    function spawn(k){
+      var s = SPEC[k], a = Math.random() * Math.PI * 2, r = 16.4 + Math.random() * 1.2;
+      mobs.push({
+        k:k, hp:s.hp, x:Math.cos(a) * r, y:Math.sin(a) * r,
+        latch:false, la:0, hit:0, burning:0, reach:0,
+        dx:(Math.random() - 0.5) * 0.02, dy:(Math.random() - 0.5) * 0.02,
+        wob:Math.random() * 6.28, retarget:0, tx:0, ty:0
+      });
+    }
+
+    function stepA(){
+      if (lit){
+        var drain = fuelDrain(latched());
+        fuel -= 0.0085 * (1 + drain);
+        if (fuel <= 0){ fuel = 0; lit = false; }
+      }
+      for (var i = mobs.length - 1; i >= 0; i -= 1){
+        var m = mobs[i], s = SPEC[m.k];
+        var d = Math.sqrt(m.x * m.x + m.y * m.y);
+        var stop = m.k === 'frostmite' ? 1.2 : (m.k === 'returned' ? 2.0 : 1.7);
+
+        if (m.k === 'frostmite' && m.latch){
+          m.la += 0.16;
+          m.x = Math.cos(m.la) * 0.45; m.y = Math.sin(m.la) * 0.45;
+        } else if (m.k === 'hollow'){
+          /* empty registerGoals(): it drifts to a point and repicks, it never paths to you */
+          m.retarget -= 1;
+          if (m.retarget <= 0){
+            m.retarget = 100 + Math.floor(Math.random() * 100);
+            var bias = Math.atan2(-m.y, -m.x) + (Math.random() - 0.5) * 2.2;
+            var reach = 3 + Math.random() * 6;
+            m.tx = m.x + Math.cos(bias) * reach;
+            m.ty = m.y + Math.sin(bias) * reach;
+          }
+          var hx = m.tx - m.x, hy = m.ty - m.y, hd = Math.sqrt(hx * hx + hy * hy) || 1;
+          m.x += (hx / hd) * s.sp; m.y += (hy / hd) * s.sp;
+        } else if (d > stop){
+          m.wob += 0.05;
+          var ux = -m.x / d, uy = -m.y / d;
+          var px = -uy * Math.sin(m.wob) * 0.18, py = ux * Math.sin(m.wob) * 0.18;
+          m.x += (ux + px) * s.sp; m.y += (uy + py) * s.sp;
+        } else if (m.k === 'frostmite' && !m.latch && latched() < MAX_LATCH){
+          m.latch = true; m.la = Math.atan2(m.y, m.x);
+        } else if (m.k === 'returned' && lit){
+          /* acceptedDistance is 2.0, and then it has to stand in the fire
+             long enough to put the fire out */
+          m.reach += 1;
+          if (m.reach >= 60){
+            lit = false; shake = 16; m.reach = 0;
+            for (var e = 0; e < 14; e += 1){
+              embers.push({ x:0, y:0, vx:(Math.random() - 0.5) * 0.28,
+                            vy:(Math.random() - 0.5) * 0.28, l:1, smoke:true });
+            }
+          }
+        }
+
+        d = Math.sqrt(m.x * m.x + m.y * m.y);
+        m.burning = (lit && s.burn > 0 && d <= s.burn) ? 1 : 0;
+        if (m.burning && t % 20 === 0){
+          m.hp -= s.dmg; m.hit = 10;
+          if (m.hp <= 0){
+            dead += 1;
+            for (var q = 0; q < 8; q += 1){
+              embers.push({ x:m.x, y:m.y, vx:(Math.random() - 0.5) * 0.2,
+                            vy:(Math.random() - 0.5) * 0.2, l:1, smoke:false });
+            }
+            mobs.splice(i, 1);
+            continue;
+          }
+        }
+        if (m.hit > 0) m.hit -= 1;
+      }
+      for (var p = embers.length - 1; p >= 0; p -= 1){
+        var b = embers[p];
+        b.x += b.vx; b.y += b.vy; b.vx *= 0.94; b.vy *= 0.94; b.l -= 0.022;
+        if (b.l <= 0) embers.splice(p, 1);
+      }
+      if (shake > 0) shake -= 1;
+    }
+
+    function ring(r, s, colour, dash){
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(CXY, CXY, r * s, 0, 6.2832);
+      ctx.strokeStyle = colour; ctx.lineWidth = 1.6;
+      if (dash) ctx.setLineDash(dash);
+      ctx.stroke();
+      ctx.restore();
+    }
+    function tag(txt, r, s, colour){
+      ctx.save();
+      ctx.font = '600 15px ui-monospace, "SF Mono", Menlo, monospace';
+      ctx.fillStyle = colour; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+      ctx.fillText(txt, CXY + 7, CXY - r * s);
+      ctx.restore();
+    }
+
+    function drawA(){
+      var s = SA, rad = warmRadius();
+      var ox = shake > 0 ? (Math.random() - 0.5) * shake * 0.7 : 0;
+      var oy = shake > 0 ? (Math.random() - 0.5) * shake * 0.7 : 0;
+      ctx.clearRect(0, 0, W, W);
+      ctx.save();
+      ctx.translate(ox, oy);
+
+      if (lit && rad > 0){
+        var g = ctx.createRadialGradient(CXY, CXY, 0, CXY, CXY, rad * s);
+        g.addColorStop(0, 'rgba(255,180,84,.16)');
+        g.addColorStop(.55, 'rgba(44,104,138,.16)');
+        g.addColorStop(1, 'rgba(44,104,138,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(CXY, CXY, rad * s, 0, 6.2832); ctx.fill();
+        ring(rad, s, 'rgba(44,104,138,.65)');
+        tag(rad + 'b warm', rad, s, '#3f7c9e');
+      }
+      if (lit){
+        ring(8, s, 'rgba(60,92,118,.85)', [7, 7]);
+        tag('8b  Hollow burns', 8, s, '#4d7290');
+        ring(4, s, 'rgba(122,74,34,.95)', [7, 7]);
+        tag('4b  everything else burns', 4, s, '#8a5a2c');
+      }
+
+      /* the heater */
+      var hs = lit ? 11 + Math.sin(t * 0.12) * (RM ? 0 : 1.4) : 10;
+      ctx.fillStyle = lit ? '#ffb454' : '#39434d';
+      ctx.fillRect(CXY - hs, CXY - hs, hs * 2, hs * 2);
+      if (lit){
+        ctx.save();
+        ctx.shadowColor = 'rgba(255,180,84,.85)'; ctx.shadowBlur = 26;
+        ctx.fillStyle = 'rgba(255,200,130,.9)';
+        ctx.fillRect(CXY - 5, CXY - 5, 10, 10);
+        ctx.restore();
+      }
+
+      for (var p = 0; p < embers.length; p += 1){
+        var b = embers[p];
+        ctx.fillStyle = b.smoke ? 'rgba(150,161,170,' + (b.l * .5) + ')'
+                                : 'rgba(255,180,84,' + (b.l * .75) + ')';
+        ctx.beginPath();
+        ctx.arc(CXY + b.x * s, CXY + b.y * s, (b.smoke ? 6 : 4) * b.l + 1, 0, 6.2832);
+        ctx.fill();
+      }
+
+      for (var i = 0; i < mobs.length; i += 1){
+        var m = mobs[i], sp = SPEC[m.k];
+        var x = CXY + m.x * s, y = CXY + m.y * s, r = sp.rad * s;
+        if (m.burning){
+          ctx.save();
+          ctx.shadowColor = 'rgba(255,140,50,.9)'; ctx.shadowBlur = 16 + (m.hit > 0 ? 12 : 0);
+          ctx.fillStyle = 'rgba(255,150,60,' + (0.35 + (RM ? 0 : Math.sin(t * 0.4 + i) * 0.12)) + ')';
+          ctx.beginPath(); ctx.arc(x, y, r + 5, 0, 6.2832); ctx.fill();
+          ctx.restore();
+        }
+        if (m.reach > 0){
+          ctx.save();
+          ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(CXY, CXY);
+          ctx.strokeStyle = 'rgba(169,140,216,' + (0.25 + (m.reach / 60) * 0.6) + ')';
+          ctx.lineWidth = 2.6; ctx.stroke(); ctx.restore();
+        }
+        ctx.fillStyle = m.hit > 0 ? '#ffd9a0' : sp.c;
+        ctx.beginPath(); ctx.arc(x, y, r, 0, 6.2832); ctx.fill();
+        if (m.k === 'mimic'){
+          ctx.fillStyle = '#e0655a';
+          ctx.fillRect(x - r * .55, y - r * .2, r * .34, r * .3);
+          ctx.fillRect(x + r * .21, y - r * .2, r * .34, r * .3);
+        }
+        /* health as a shrinking ring, not a number: it reads at a glance */
+        if (m.hp < sp.hp){
+          ctx.beginPath();
+          ctx.arc(x, y, r + 4, -1.5708, -1.5708 + 6.2832 * (m.hp / sp.hp));
+          ctx.strokeStyle = 'rgba(224,101,90,.9)'; ctx.lineWidth = 2.4; ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+
+    function readoutA(){
+      var a = latched(), rad = warmRadius();
+      set('wcHeat', lit ? 'Lit' : 'Out');
+      bar('wcHeatB', lit ? 100 : 0);
+      el('wcHeat').style.color = lit ? '#ffb454' : '#6c7883';
+      set('wcFuel', Math.round(fuel) + '<u>%</u>');
+      bar('wcFuelB', fuel);
+      set('wcRad', rad + '<u>b</u>');
+      bar('wcRadB', (rad / BASE_RADIUS) * 100);
+      set('wcMite', a + '<u>/' + MAX_LATCH + '</u>');
+      bar('wcMiteB', (a / MAX_LATCH) * 100);
+      set('wcAlive', String(mobs.length));
+      bar('wcAliveB', Math.min(100, mobs.length * 10));
+      set('wcDead', String(dead));
+      bar('wcDeadB', Math.min(100, dead * 10));
+      set('wcCount', mobs.length + ' out there');
+
+      var msg;
+      if (!lit && fuel <= 0){
+        msg = 'Ten mites draw ten times the fuel. The heater did not go out because something killed it, it went out because it was eaten.';
+      } else if (!lit){
+        msg = 'The Returned reached it and put it out by hand. Nothing burns now, and nothing has any reason to stay away.';
+      } else if (reaching()){
+        msg = 'It is standing inside the burn radius taking three damage a second, and it is putting the fire out anyway. This is the only thing in the chapter that wants the heater gone.';
+      } else if (a > 0){
+        msg = a + ' mite' + (a === 1 ? '' : 's') + ' latched. Radius penalty ' + radiusPenalty(a)
+            + ' block' + (radiusPenalty(a) === 1 ? '' : 's') + ', fuel drain ' + fuelDrain(a) + 'x.'
+            + (a >= 7 ? ' Seven is the cap on the penalty. The drain keeps climbing to ten.' : '');
+      } else if (dead > 0){
+        msg = dead + ' burned off so far. Every one of them walked in on its own.';
+      } else if (mobs.length === 0){
+        msg = 'One lit heater, and the two rings that every creature in this chapter is written around. Release something.';
+      } else {
+        msg = 'Nothing here is pathing to you. They are pathing to the warm thing.';
+      }
+      if (note.textContent !== msg) note.textContent = msg;
+    }
+
+    /* ---------------- mode B: the stare ---------------- */
+    var B = {};
+    function resetB(hard){
+      /* it has to come back outside its own trigger, and that trigger is
+         measured to the reader, not to the middle of the arena. */
+      var rx = hard ? 0 : B.px, ry = hard ? -14 : B.py;
+      var r = MIMIC_RANGE + 2 + Math.random() * 4, a0 = Math.random() * Math.PI * 2;
+      var bx = Math.cos(a0) * r + rx, by = Math.sin(a0) * r + ry;
+      for (var q = 1; q <= 14; q += 1){
+        if (Math.abs(bx) <= HALF_B - 1 && Math.abs(by) <= HALF_B - 1) break;
+        var a = a0 + q * 0.4488;
+        bx = Math.cos(a) * r + rx; by = Math.sin(a) * r + ry;
+      }
+      B.x = Math.max(-HALF_B + 1, Math.min(HALF_B - 1, bx));
+      B.y = Math.max(-HALF_B + 1, Math.min(HALF_B - 1, by));
+      B.ph = 0; B.obs = 0; B.obsDur = OBS_MIN + Math.floor(Math.random() * OBS_SPAN);
+      B.mim = 0; B.ret = 0; B.blind = 0; B.burrow = 0;
+      B.hp = SPEC.mimic.hp; B.face = 0; B.cueCd = 0; B.cue = 0; B.still = 0;
+      B.qdx = 0; B.qdy = 0;
+      B.trailM = []; B.trailP = [];
+      if (hard){ B.px = 0; B.py = -14; B.pIn = false; B.pdx = 0; B.pdy = 0; }
+    }
+    resetB(true);
+
+    function blink(){
+      var k = t % BLINK_PERIOD;
+      if (k < BLINK_START) return 1;
+      k -= BLINK_START;
+      if (k >= 2 && k <= 4) return 0;
+      return 0.3;
+    }
+    function distB(){
+      var dx = B.px - B.x, dy = B.py - B.y;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function stepB(){
+      /* one tick of pointer travel, whatever the refresh rate delivered.
+         the mimic reads this the way the entity reads getDeltaMovement(). */
+      B.pdx = B.qdx; B.pdy = B.qdy; B.qdx = 0; B.qdy = 0;
+      if (B.pIn){
+        var fx = B.px - B.x, fy = B.py - B.y;
+        if (fx || fy) B.face = Math.atan2(fy, fx);
+      }
+      var d = distB();
+      var sp = Math.sqrt(B.pdx * B.pdx + B.pdy * B.pdy);
+
+      if (B.ph === 0){
+        B.obs += 1;
+        if (B.cueCd > 0) B.cueCd -= 1;
+        B.still = (B.pIn && sp < 0.02) ? B.still + 1 : 0;
+        if (B.still > 20 && B.cueCd <= 0 && B.pIn){
+          B.cue = 30; B.cueCd = 100 + Math.floor(Math.random() * 200); B.still = 0;
+        }
+        if (B.pIn && d <= MIMIC_RANGE){ B.ph = 1; B.mim = 0; B.trailM = []; B.trailP = []; }
+        else if (B.obs >= B.obsDur){ B.ph = 4; B.burrow = 0; }
+      } else if (B.ph === 1){
+        B.mim += 1;
+        /* the copy: your delta, written onto it, every tick, with no smoothing */
+        B.x += B.pdx; B.y += B.pdy;
+        B.trailM.push([B.x, B.y]); B.trailP.push([B.px, B.py]);
+        if (B.trailM.length > 46){ B.trailM.shift(); B.trailP.shift(); }
+        if (B.mim >= MIMICRY_LEN) B.ph = 2;
+      } else if (B.ph === 2){
+        if (B.pIn){
+          B.blind = 0;
+          if (d > 0.9){ B.x += Math.cos(B.face) * 0.075; B.y += Math.sin(B.face) * 0.075; }
+        } else {
+          B.blind += 1;
+          if (B.blind >= LOS_RESET){ resetB(false); }
+        }
+      } else if (B.ph === 3){
+        B.ret += 1;
+        B.x -= Math.cos(B.face) * 0.09; B.y -= Math.sin(B.face) * 0.09;
+        B.x = Math.max(-20, Math.min(20, B.x)); B.y = Math.max(-20, Math.min(20, B.y));
+        if (B.ret >= RETREAT_LEN) resetB(false);
+      } else if (B.ph === 4){
+        B.burrow += 1;
+        if (B.burrow > 70) resetB(false);
+      }
+      if (B.cue > 0) B.cue -= 1;
+    }
+
+    function drawB(){
+      var s = SB;
+      ctx.clearRect(0, 0, W, W);
+      var mx = CXY + B.x * s, my = CXY + B.y * s;
+      var prog = B.ph === 1 ? B.mim / MIMICRY_LEN : (B.ph >= 2 && B.ph <= 3 ? 1 : 0);
+
+      /* the sixteen block line, drawn around the mimic because that is where
+         the check is measured from */
+      if (B.ph === 0){
+        ctx.save();
+        ctx.beginPath(); ctx.arc(mx, my, MIMIC_RANGE * s, 0, 6.2832);
+        ctx.strokeStyle = 'rgba(125,211,252,.22)'; ctx.lineWidth = 1.6;
+        ctx.setLineDash([6, 8]); ctx.stroke(); ctx.restore();
+        ctx.save();
+        ctx.font = '600 14px ui-monospace, "SF Mono", Menlo, monospace';
+        ctx.fillStyle = 'rgba(125,211,252,.42)'; ctx.textAlign = 'center';
+        ctx.fillText('16b', mx, my - MIMIC_RANGE * s - 9);
+        ctx.restore();
+      }
+
+      /* during mimicry, both paths: yours and the copy of yours */
+      if (B.trailM.length > 1){
+        for (var pass = 0; pass < 2; pass += 1){
+          var tr = pass ? B.trailM : B.trailP;
+          ctx.beginPath();
+          for (var i = 0; i < tr.length; i += 1){
+            var X = CXY + tr[i][0] * s, Y = CXY + tr[i][1] * s;
+            if (i === 0) ctx.moveTo(X, Y); else ctx.lineTo(X, Y);
+          }
+          ctx.strokeStyle = pass ? 'rgba(224,101,90,.45)' : 'rgba(212,218,222,.3)';
+          ctx.lineWidth = pass ? 2.4 : 1.6;
+          ctx.stroke();
+        }
+      }
+
+      /* the stare cue plays at your position, not at its own */
+      if (B.cue > 0){
+        var k = 1 - B.cue / 30;
+        ctx.beginPath();
+        ctx.arc(CXY + B.px * s, CXY + B.py * s, 8 + k * 46, 0, 6.2832);
+        ctx.strokeStyle = 'rgba(224,101,90,' + (1 - k) * 0.55 + ')';
+        ctx.lineWidth = 2.6; ctx.stroke();
+      }
+
+      /* the body */
+      var sink = B.ph === 4 ? Math.max(0, 1 - B.burrow / 55) : 1;
+      var bodyR = 0.9 * s * sink;
+      if (bodyR > 0.5){
+        var c0 = [42, 46, 54], c1 = [195, 205, 214];
+        var cr = Math.round(c0[0] + (c1[0] - c0[0]) * prog);
+        var cg = Math.round(c0[1] + (c1[1] - c0[1]) * prog);
+        var cb = Math.round(c0[2] + (c1[2] - c0[2]) * prog);
+        ctx.save();
+        ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 18;
+        ctx.fillStyle = 'rgb(' + cr + ',' + cg + ',' + cb + ')';
+        ctx.beginPath(); ctx.arc(mx, my, bodyR, 0, 6.2832); ctx.fill();
+        ctx.restore();
+
+        var bl = blink();
+        if (bl > 0){
+          var er = Math.round(110 + 145 * prog), eg = Math.round(42 - 22 * prog), eb = Math.round(37 - 17 * prog);
+          var ca = Math.cos(B.face), sa = Math.sin(B.face);
+          var fwd = bodyR * 0.46, side = bodyR * 0.36;
+          var ew = bodyR * 0.3, eh = bodyR * 0.2 * bl;
+          for (var e = -1; e <= 1; e += 2){
+            var ex = mx + ca * fwd - sa * side * e;
+            var ey = my + sa * fwd + ca * side * e;
+            ctx.save();
+            ctx.translate(ex, ey); ctx.rotate(B.face);
+            ctx.shadowColor = 'rgba(224,60,50,' + (.35 + .5 * prog) + ')'; ctx.shadowBlur = 12;
+            ctx.fillStyle = 'rgb(' + er + ',' + eg + ',' + eb + ')';
+            ctx.fillRect(-eh, -ew, eh * 2, ew * 2);
+            ctx.restore();
+          }
+        }
+      }
+
+      /* you */
+      var pxp = CXY + B.px * s, pyp = CXY + B.py * s;
+      ctx.beginPath(); ctx.arc(pxp, pyp, 9, 0, 6.2832);
+      ctx.strokeStyle = B.pIn ? 'rgba(212,218,222,.9)' : 'rgba(212,218,222,.3)';
+      ctx.lineWidth = 2; ctx.stroke();
+      ctx.fillStyle = B.pIn ? '#d4dade' : 'rgba(212,218,222,.3)';
+      ctx.beginPath(); ctx.arc(pxp, pyp, 3, 0, 6.2832); ctx.fill();
+    }
+
+    var PHN = ['Observation', 'Mimicry', 'Combat', 'Retreat', 'Burrow'];
+    function readoutB(){
+      var d = distB(), bl = blink();
+      phRows.forEach(function(r, i){
+        r.classList.toggle('on', i === B.ph);
+        r.classList.toggle('was', i < B.ph);
+      });
+      set('wsPhase', PHN[B.ph]);
+      bar('wsPhaseB', (B.ph + 1) / 5 * 100);
+      set('wsObs', B.obs + '<u>t</u>');
+      bar('wsObsB', Math.min(100, B.obs / B.obsDur * 100));
+      set('wsRange', d.toFixed(1) + '<u>b</u>');
+      bar('wsRangeB', Math.max(0, 100 - d / 34 * 100));
+      set('wsEyes', bl === 1 ? 'Open' : (bl === 0 ? 'Shut' : 'Half'));
+      bar('wsEyesB', bl * 100);
+      set('wsCue', B.cueCd > 0 ? 'Cooling' : 'Armed');
+      bar('wsCueB', B.cueCd > 0 ? 100 - B.cueCd / 300 * 100 : 100);
+      set('wsMim', B.ph === 1 ? B.mim + '<u>t</u>' : (B.ph >= 2 ? '100<u>t</u>' : '0<u>t</u>'));
+      bar('wsMimB', B.ph === 1 ? B.mim : (B.ph >= 2 ? 100 : 0));
+
+      var msg;
+      if (B.ph === 0 && !B.pIn){
+        msg = 'Move your pointer into the frame. Tick counts here are the real ones, run at three times game speed so you are not waiting half a minute for it to make up its mind.';
+      } else if (B.ph === 0 && B.cue > 0){
+        msg = 'It caught you looking. That cue plays at your position, not at its own, which is why it always sounds like it is behind you.';
+      } else if (B.ph === 0 && d > MIMIC_RANGE){
+        msg = 'Watching. ' + (B.obsDur - B.obs) + ' ticks left before it gives up and burrows. Cross the sixteen block line and it will not need them.';
+      } else if (B.ph === 0){
+        msg = 'Inside sixteen blocks.';
+      } else if (B.ph === 1){
+        msg = 'It has your position and it is writing your movement onto itself every tick. Move, and watch the red line.';
+      } else if (B.ph === 2){
+        msg = B.pIn ? 'It is wearing you now. Click it to fight back.'
+                    : 'You left. It has ' + (LOS_RESET - B.blind) + ' ticks before it stops looking and goes back to waiting.';
+      } else if (B.ph === 3){
+        msg = 'Under half health, so it backs off for two hundred ticks. It does not flee the area, it just stops being in reach.';
+      } else {
+        msg = 'Its timer ran out and you never came close enough. It digs in and it is gone.';
+      }
+      if (note.textContent !== msg) note.textContent = msg;
+    }
+
+    /* ---------------- wiring ---------------- */
+    function toMode(i){
+      if (i === mode) return;
+      mode = i;
+      modeBtns.forEach(function(b, n){ b.classList.toggle('on', n === i); });
+      legA.hidden = i !== 0; legB.hidden = i === 0;
+      sideA.hidden = i !== 0; sideB.hidden = i === 0;
+      readA.hidden = i !== 0; readB.hidden = i === 0;
+      if (i === 0){ resetA(); } else { resetB(true); }
+      t = 0;
+      draw();
+    }
+    modeBtns.forEach(function(b, i){ b.addEventListener('click', function(){ toMode(i); }); });
+
+    arr('button', document.getElementById('wcRack')).forEach(function(b){
+      b.addEventListener('click', function(){
+        if (mobs.length >= 26) return;
+        spawn(b.getAttribute('data-k'));
+      });
+    });
+    document.getElementById('wcRelight').addEventListener('click', function(){
+      lit = true; fuel = 100;
+    });
+    document.getElementById('wcClear').addEventListener('click', function(){ resetA(); });
+    document.getElementById('wcReset').addEventListener('click', function(){ resetB(true); t = 0; });
+
+    function pointBlocks(e){
+      var r = cv.getBoundingClientRect();
+      var k = W / r.width;
+      return [((e.clientX - r.left) * k - CXY) / SB, ((e.clientY - r.top) * k - CXY) / SB];
+    }
+    cv.addEventListener('pointermove', function(e){
+      if (mode !== 1) return;
+      var p = pointBlocks(e);
+      if (B.pIn){ B.qdx += p[0] - B.px; B.qdy += p[1] - B.py; }
+      B.px = p[0]; B.py = p[1]; B.pIn = true;
+    });
+    cv.addEventListener('pointerleave', function(){
+      B.pIn = false; B.pdx = 0; B.pdy = 0; B.qdx = 0; B.qdy = 0;
+    });
+    cv.addEventListener('pointerdown', function(e){
+      if (mode !== 1) return;
+      var p = pointBlocks(e);
+      B.pdx = 0; B.pdy = 0; B.qdx = 0; B.qdy = 0;
+      B.px = p[0]; B.py = p[1]; B.pIn = true;
+      if (B.ph === 2){
+        B.hp -= 8;
+        if (B.hp <= SPEC.mimic.hp * 0.5){ B.ph = 3; B.ret = 0; }
+      }
+    });
+
+    function draw(){ if (mode === 0) drawA(); else drawB(); }
+    function tick(){
+      t += 1;
+      if (mode === 0){ stepA(); if (t % 4 === 0) readoutA(); }
+      else { stepB(); if (t % 4 === 0) readoutB(); }
+    }
+    /* fixed step. the sim must not run four times faster on a 240hz panel
+       than it does on a laptop, and the tick counts on screen are real. */
+    var TPS = 60, STEP = 1000 / TPS, acc = 0, last = 0;
+    function loop(ts){
+      if (!running) return;
+      if (!last) last = ts;
+      acc += Math.min(220, ts - last);
+      last = ts;
+      var n = 0;
+      while (acc >= STEP && n < 5){ tick(); acc -= STEP; n += 1; }
+      if (n) draw();
+      requestAnimationFrame(loop);
+    }
+    function setRunning(on){
+      /* reduced motion: nothing moves until the reader asks it to. the first
+         frame is still drawn, so the rings read as a diagram either way. */
+      if (on && RM && !engaged) return;
+      if (on === running) return;
+      running = on;
+      if (on){ last = 0; acc = 0; requestAnimationFrame(loop); }
+    }
+    function engage(){
+      if (engaged) return;
+      engaged = true;
+      setRunning(visible);
+    }
+    wc.addEventListener('pointerdown', engage, true);
+    wc.addEventListener('click', engage, true);
+    wc.addEventListener('keydown', engage, true);
+    /* the canvas only animates while it is actually on screen */
+    if (window.IntersectionObserver){
+      new IntersectionObserver(function(es){
+        visible = es[0].isIntersecting;
+        setRunning(visible);
+      }, { root:null, threshold:0.02 }).observe(cv);
+    } else setRunning(true);
+
+    readoutA(); draw();
+  }
+  var GRIDS = ['.ap-stats > *', '.ap-figs > *', '.ap-bud > *', '.ap-pass > *',
+               '.ap-phs > *', '.ap-cmts > *', '.ap-read > *', '.ap-bes > *'];
+  function clearOn(el, cls){
+    function h(e){
+      if (e.target !== el) return;
+      el.classList.remove(cls);
+      el.style.animationDelay = '';
+      el.removeEventListener('animationend', h);
+      el.removeEventListener('animationcancel', h);
+    }
+    el.addEventListener('animationend', h);
+    el.addEventListener('animationcancel', h);
+  }
+  function stagger(root){
+    if (RM) return;
+    GRIDS.forEach(function(sel){
+      arr(sel, root).forEach(function(el, n){
+        if (n > 15) return;
+        el.style.animationDelay = (n * 0.045) + 's';
+        el.classList.remove('ap-pop'); void el.offsetWidth; el.classList.add('ap-pop');
+        clearOn(el, 'ap-pop');
+      });
+    });
+  }
+  function settle(root){
+    arr('.ap-pop', root).forEach(function(el){
+      el.classList.remove('ap-pop'); el.style.animationDelay = '';
+    });
+  }
+
+  var deck = document.getElementById('apDeck');
+  if (deck){
+    var panes  = arr('.ap-pane', deck);
+    var strips = arr('.ap-dstrip', deck);
+    var stage  = deck.querySelector('.ap-dstage');
+    var bPrev  = deck.querySelector('.ap-dstep.prev');
+    var bNext  = deck.querySelector('.ap-dstep.next');
+    var cur = 0, morphT = 0;
+
+    function tabs(s){ return s.querySelectorAll('.ap-dtab'); }
+
+    /* five tabs will not fit a phone at full length, so swap in the short
+       labels below 640px and put them back when there is room again */
+    var NARROW = window.matchMedia('(max-width:640px)');
+    strips.forEach(function(s){
+      tabs(s).forEach(function(b){
+        var n = b.lastChild;
+        if (n && n.nodeType === 3) b.setAttribute('data-long', n.nodeValue);
+      });
+    });
+    function fitTabs(){
+      var short = NARROW.matches;
+      strips.forEach(function(s){
+        tabs(s).forEach(function(b){
+          var n = b.lastChild; if (!n || n.nodeType !== 3) return;
+          var want = short ? (b.getAttribute('data-short') || b.getAttribute('data-long'))
+                           : b.getAttribute('data-long');
+          if (want && n.nodeValue !== want) n.nodeValue = want;
+        });
+      });
+    }
+
+    function ink(){
+      strips.forEach(function(s){
+        var bar = s.querySelector('.ap-dink'), t = tabs(s)[cur];
+        if (!bar || !t) return;
+        bar.style.width = t.offsetWidth + 'px';
+        bar.style.transform = 'translate3d(' + t.offsetLeft + 'px,0,0)';
+      });
+    }
+    function centre(){
+      strips.forEach(function(s){
+        var t = tabs(s)[cur]; if (!t) return;
+        var want = t.offsetLeft - (s.clientWidth - t.offsetWidth) / 2;
+        want = Math.max(0, Math.min(want, s.scrollWidth - s.clientWidth));
+        if (s.scrollTo) s.scrollTo({ left: want, behavior: RM ? 'auto' : 'smooth' });
+        else s.scrollLeft = want;
+      });
+    }
+    function fullName(i){
+      var t = tabs(strips[0])[i];
+      return t ? (t.getAttribute('data-full') || t.textContent.trim()) : '';
+    }
+    function step(btn, i, kicker){
+      if (!btn) return;
+      if (i < 0 || i >= panes.length){ btn.disabled = true; btn.innerHTML = ''; return; }
+      btn.disabled = false;
+      btn.innerHTML = '<em>' + kicker + '</em><b>' + fullName(i) + '</b>';
+    }
+    function deckTop(){
+      var a = deck.getBoundingClientRect(), b = doc.getBoundingClientRect();
+      return doc.scrollTop + (a.top - b.top);
+    }
+
+    function go(i, snap){
+      i = Math.max(0, Math.min(panes.length - 1, i));
+      if (i === cur) return;
+      var back = i < cur;
+      var from = stage.offsetHeight;
+      settle(panes[cur]);
+      panes[cur].classList.remove('on', 'enter', 'rev');
+      cur = i;
+      panes[cur].classList.add('on');
+      strips.forEach(function(s){
+        var ts = tabs(s);
+        for (var n = 0; n < ts.length; n++){
+          ts[n].classList.toggle('on', n === cur);
+          ts[n].setAttribute('aria-selected', n === cur ? 'true' : 'false');
+          ts[n].setAttribute('tabindex', n === cur ? '0' : '-1');
+        }
+      });
+      ink(); centre();
+      step(bPrev, cur - 1, 'Back to');
+      step(bNext, cur + 1, 'Next');
+      stagger(panes[cur]);
+      arr('.ap-figs b', panes[cur]).forEach(countUp);
+      if (!RM){
+        panes[cur].classList.add('enter');
+        if (back) panes[cur].classList.add('rev');
+        clearOn(panes[cur], 'enter');
+        clearOn(panes[cur], 'rev');
+      }
+      var to = stage.offsetHeight;
+      if (!RM && from && to && from !== to){
+        clearTimeout(morphT);
+        stage.classList.remove('morph');
+        stage.style.height = from + 'px';
+        void stage.offsetHeight;
+        stage.classList.add('morph');
+        stage.style.height = to + 'px';
+        morphT = setTimeout(function(){
+          stage.classList.remove('morph');
+          stage.style.height = '';
+        }, 470);
+      }
+      if (snap){
+        var want = Math.max(0, deckTop() - 6);
+        if (doc.scrollTo) doc.scrollTo({ top: want, behavior: RM ? 'auto' : 'smooth' });
+        else doc.scrollTop = want;
+      }
+    }
+
+    strips.forEach(function(s){
+      s.addEventListener('click', function(e){
+        var t = e.target.closest ? e.target.closest('.ap-dtab') : null;
+        if (!t) return;
+        go(+t.getAttribute('data-i'), false);
+      });
+      s.addEventListener('keydown', function(e){
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        go(cur + (e.key === 'ArrowRight' ? 1 : -1), false);
+        var t = tabs(s)[cur]; if (t) t.focus();
+      });
+    });
+    if (bPrev) bPrev.addEventListener('click', function(){ go(cur - 1, true); });
+    if (bNext) bNext.addEventListener('click', function(){ go(cur + 1, true); });
+    step(bPrev, -1, 'Back to');
+    step(bNext, 1, 'Next');
+    fitTabs();
+    requestAnimationFrame(function(){ ink(); });
+    window.addEventListener('resize', function(){ fitTabs(); ink(); });
+    if (NARROW.addEventListener) NARROW.addEventListener('change', function(){ fitTabs(); ink(); });
+    else if (NARROW.addListener) NARROW.addListener(function(){ fitTabs(); ink(); });
+  }
+
+  /* ================= count up + scroll reveal ================= */
+  function countUp(el){
+    if (RM || el.dataset.counted) return;
+    var m = el.textContent.trim().match(/^([\d,]+)(.*)$/);
+    if (!m) return;
+    var target = parseInt(m[1].replace(/,/g, ''), 10), suf = m[2];
+    if (!(target > 0)) return;
+    el.dataset.counted = '1';
+    var t0 = 0;
+    el.textContent = '0' + suf;
+    requestAnimationFrame(function run(t){
+      if (!t0) t0 = t;
+      var k = Math.min((t - t0) / 900, 1), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e).toLocaleString('en-US') + suf;
+      if (k < 1) requestAnimationFrame(run);
+    });
+  }
+
+  var rest = frame.querySelector('.ap-rest');
+  var pub = [], deckIdx = 0;
+  if (rest){
+    for (var n = 0; n < rest.children.length; n++){
+      var k = rest.children[n];
+      if (k === deck) break;
+      pub.push(k);
+    }
+  }
+  deckIdx = pub.length;
+  if (deck) pub.push(deck);
+
+  function land(el){
+    if (el.classList.contains('ap-rv')){
+      el.classList.add('in');
+      el.addEventListener('animationend', function h(){
+        el.classList.remove('in'); el.classList.add('set');
+        el.removeEventListener('animationend', h);
+      });
+    }
+    if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+    if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    stagger(el);
+  }
+  function revealAll(){ pub.forEach(function(el){ el.classList.remove('ap-rv'); el.classList.add('set'); }); }
+  function arm(){
+    if (RM || !window.IntersectionObserver){ revealAll(); return; }
+    pub.forEach(function(el, i){ if (i !== deckIdx) el.classList.add('ap-rv'); });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        land(e.target);
+      });
+    }, { root: doc, rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
+    pub.forEach(function(el){ io.observe(el); });
+
+    /* a jump scroll (end key, a restored position) can carry an element from
+       below the fold to above it without ever intersecting, and the observer
+       reports nothing for something it has never seen. sweep for those and
+       set them outright: they are already behind the reader. */
+    function setNow(el){
+      io.unobserve(el);
+      el.classList.remove('ap-rv'); el.classList.add('set');
+      settle(el);
+      if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+      if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    }
+    var sweeping = false;
+    function sweep(){
+      sweeping = false;
+      var top = doc.getBoundingClientRect().top, left = 0;
+      pub.forEach(function(el){
+        var c = el.classList;
+        if (!c.contains('ap-rv') || c.contains('in') || c.contains('set')) return;
+        if (el.getBoundingClientRect().bottom < top) setNow(el); else left += 1;
+      });
+      if (!left) doc.removeEventListener('scroll', onScroll);
+    }
+    function onScroll(){
+      if (sweeping) return;
+      sweeping = true;
+      requestAnimationFrame(sweep);
+    }
+    doc.addEventListener('scroll', onScroll, { passive: true });
+  }
+  if (frame.classList.contains('done')) arm();
+  else if (window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      if (frame.classList.contains('done')){ mo.disconnect(); arm(); }
+    });
+    mo.observe(frame, { attributes: true, attributeFilter: ['class'] });
+    setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 4000);
+  } else setTimeout(arm, 3000);
+})();
+</script>

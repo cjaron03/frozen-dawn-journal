@@ -1836,6 +1836,35 @@ window.ORSA_POSTERS = {
       });
     }, { root: doc, rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
     pub.forEach(function(el){ io.observe(el); });
+
+    /* a jump scroll (end key, a restored position) can carry an element from
+       below the fold to above it without ever intersecting, and the observer
+       reports nothing for something it has never seen. sweep for those and
+       set them outright: they are already behind the reader. */
+    function setNow(el){
+      io.unobserve(el);
+      el.classList.remove('ap-rv'); el.classList.add('set');
+      settle(el);
+      if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+      if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    }
+    var sweeping = false;
+    function sweep(){
+      sweeping = false;
+      var top = doc.getBoundingClientRect().top, left = 0;
+      pub.forEach(function(el){
+        var c = el.classList;
+        if (!c.contains('ap-rv') || c.contains('in') || c.contains('set')) return;
+        if (el.getBoundingClientRect().bottom < top) setNow(el); else left += 1;
+      });
+      if (!left) doc.removeEventListener('scroll', onScroll);
+    }
+    function onScroll(){
+      if (sweeping) return;
+      sweeping = true;
+      requestAnimationFrame(sweep);
+    }
+    doc.addEventListener('scroll', onScroll, { passive: true });
   }
   if (frame.classList.contains('done')) arm();
   else if (window.MutationObserver){
