@@ -1,0 +1,1401 @@
+<h2>Chapter seven: Welcome Home</h2>
+<p class="subtitle">The endgame. 14 April to 7 May 2026, 144 commits. The intro is a signal handshake, 4.75 seconds, that ends in a hard cut to black and then types the title in amber. The instrument is the fuel ledger.</p>
+
+<style>
+.ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
+.ap-frame { position:relative; height:calc(100vh - 110px); height:calc(100dvh - 110px);
+            min-height:520px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
+
+/* ---------- the black ---------- */
+/* nine seconds of it. every other chapter uses the black as a curtain that
+   lifts. here the black is the medium: the whole handshake happens inside it,
+   and it does not lift, it is cut. steps(1,end) holds opacity at 1 for the
+   entire duration and drops to 0 on the final frame. no fade. */
+.ap-black { position:absolute; inset:0; background:#000; z-index:50; pointer-events:none; }
+.ap-frame.play .ap-black { animation: whCut 4.75s steps(1,end) forwards; }
+@keyframes whCut { from { opacity:1 } to { opacity:0 } }
+
+/* ---------- the signal ---------- */
+.wh-sig { position:absolute; inset:0; z-index:55; pointer-events:none; display:flex;
+          flex-direction:column; align-items:center; justify-content:center; gap:26px;
+          font-family:var(--mono); }
+.ap-frame.play .wh-sig { animation: whCut 4.75s steps(1,end) forwards; }
+
+.wh-stage { position:relative; width:148px; height:148px; flex:0 0 auto; }
+
+/* the point. five pixels of red that could be anything. */
+.wh-pt { position:absolute; left:50%; top:50%; width:5px; height:5px; margin:-2.5px 0 0 -2.5px;
+         border-radius:50%; background:#ff6a52; box-shadow:0 0 9px 1px #ff4a3260; opacity:0; }
+.ap-frame.play .wh-pt { animation: whIn .4s ease-out .3s both, whOut .9s linear 2.05s forwards; }
+
+/* and what it turns out to be. not a planet render. a disk. */
+.wh-mars { position:absolute; left:50%; top:50%; width:112px; height:112px; margin:-56px 0 0 -56px;
+           border-radius:50%; opacity:0; transform:scale(.06);
+           background:radial-gradient(circle at 38% 34%, #7a2f24 0%, #55201a 44%, #351210 74%, #240c0a 100%);
+           box-shadow:inset 0 0 0 1px #8d3a2c33; }
+.ap-frame.play .wh-mars { animation: whIn 1.35s ease-in 2.05s both, whGrow 1.35s cubic-bezier(.3,.5,.4,1) 2.05s both; }
+@keyframes whGrow { from { transform:scale(.06) } to { transform:scale(1) } }
+
+.wh-brk { position:absolute; inset:0; opacity:0; transform:scale(.38); }
+.ap-frame.play .wh-brk { animation: whIn .35s ease-out .6s both, whGrow2 1.35s cubic-bezier(.3,.5,.4,1) 2.05s both; }
+@keyframes whGrow2 { from { transform:scale(.38) } to { transform:scale(1) } }
+.wh-brk i { position:absolute; width:13px; height:13px; border:1px solid #9c4436; }
+.wh-brk i:nth-child(1) { left:0; top:0; border-right:0; border-bottom:0; }
+.wh-brk i:nth-child(2) { right:0; top:0; border-left:0; border-bottom:0; }
+.wh-brk i:nth-child(3) { left:0; bottom:0; border-right:0; border-top:0; }
+.wh-brk i:nth-child(4) { right:0; bottom:0; border-left:0; border-top:0; }
+
+.wh-tel { display:flex; flex-direction:column; align-items:center; }
+.wh-l { height:19px; line-height:19px; font-size:11px; letter-spacing:.15em; text-transform:uppercase;
+        color:#8a6b34; opacity:0; white-space:nowrap; }
+.wh-l.s { color:#e0b978; }
+.wh-l.f { color:#ffb454; letter-spacing:.2em; }
+.wh-l.gap { height:11px; }
+.ap-frame.play .wh-l { animation: whIn .26s ease-out var(--i) both, whOut .2s linear var(--o) forwards; }
+.ap-frame.play .wh-l.keep { animation: whIn .26s ease-out var(--i) both; }
+@keyframes whIn  { from { opacity:0 } to { opacity:1 } }
+@keyframes whOut { to { opacity:0 } }
+
+/* ---------- landed state: no animation survives the cut ---------- */
+.ap-frame.done .ap-black { display:none; }
+.ap-frame.done .wh-sig { display:none; }
+.ap-frame.done .ap-kick,
+.ap-frame.done .ap-title,
+.ap-frame.done .ap-rest { animation:none !important; }
+.ap-frame.done .ap-kick { opacity:1; }
+.ap-frame.done .ap-title { width:auto; overflow:visible; border-right-color:#ffb45400; }
+.ap-frame.done .ap-rest { opacity:1; transform:none; }
+
+@keyframes apIn { from { opacity:0 } to { opacity:1 } }
+
+/* ---------- scroll body ---------- */
+.ap-doc { position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; z-index:30; font-family:var(--sans); }
+.ap-doc::-webkit-scrollbar { width:9px }
+.ap-doc::-webkit-scrollbar-thumb { background:#222a33; border-radius:5px }
+.ap-inner { max-width:660px; margin:0 auto; padding:46px 30px 70px; }
+
+.ap-kick { font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+           color:#ffb454; opacity:0; }
+.ap-frame.play .ap-kick { animation: apIn .45s ease-out 4.88s forwards; }
+
+/* the cut lands on an empty line and the title types itself in after it, the
+   same way every other chapter does. bigger here, and in caps. */
+.ap-title { font-size:56px; font-weight:700; letter-spacing:.005em; line-height:1.02; color:#f2f6f8;
+            margin:8px 0 0; text-transform:uppercase;
+            white-space:nowrap; overflow:hidden; width:0; border-right:3px solid #ffb45400; }
+.ap-frame.play .ap-title { animation: apType .82s steps(12,end) 5.02s forwards,
+                                      apCaret .34s step-end 5.02s 5; }
+@keyframes apType { to { width:var(--tw,9.2em) } }
+@keyframes apCaret { 0%,50% { border-right-color:#ffb454 } 51%,100% { border-right-color:#ffb45400 } }
+
+.ap-rest { opacity:0; }
+.ap-frame.play .ap-rest { animation: apUp .7s cubic-bezier(.2,.6,.3,1) 5.55s forwards; }
+@keyframes apUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
+
+.ap-stand { font-size:16.5px; line-height:1.62; color:#b3bdc5; margin:16px 0 0; }
+.ap-p { font-size:14.5px; line-height:1.72; color:#96a1aa; margin:0 0 15px; }
+.ap-p strong { color:#d4dade; font-weight:600; }
+.ap-p code, .ap-code { font-family:var(--mono); font-size:.9em; color:#a8bcc9; }
+.ap-h3 { font-size:12px; font-family:var(--mono); letter-spacing:.14em; text-transform:uppercase;
+         color:#6c7883; margin:44px 0 16px; padding-top:18px; border-top:1px solid #1a2027; }
+.ap-lede { font-size:20px; line-height:1.5; color:#d4dade; font-weight:500; letter-spacing:-.01em;
+           margin:0 0 22px; }
+.ap-pull { font-size:15.5px; line-height:1.6; color:#b9c4cc; font-style:italic;
+           border-left:2px solid #8a6b34; padding-left:16px; margin:22px 0; }
+
+.ap-replay { position:absolute; right:12px; bottom:12px; z-index:70; font-family:var(--mono);
+             font-size:10px; letter-spacing:.1em; padding:6px 12px; border-radius:5px;
+             background:#141a21d9; border:1px solid #252e38; color:#8d98a1; cursor:pointer; }
+.ap-replay:hover { color:#ffb454; border-color:#5c4620; }
+
+/* ---------- breakout width ---------- */
+.ap { --bleed: clamp(0px, calc((100vw - 660px)/2 - 30px), 160px); }
+.ap-wide { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+
+/* ---------- stats band ---------- */
+.ap-stats { display:grid; grid-template-columns:repeat(6,1fr); gap:1px; background:#1b222b;
+            border-top:1px solid #1b222b; border-bottom:1px solid #1b222b;
+            margin-top:24px; margin-bottom:32px; }
+.ap-stats > div { background:#0f1216; padding:15px 4px 16px; text-align:center; }
+.ap-stats b { display:block; font-size:25px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+              font-variant-numeric:tabular-nums; line-height:1; }
+.ap-stats span { display:block; margin-top:7px; font-size:10.5px; line-height:1.4; color:#6c7883; }
+
+/* ================= shared blocks ================= */
+.ap-code { background:#0a0d11; border:1px solid #1a212a; border-radius:7px; padding:13px 15px;
+           font-family:var(--mono); font-size:11.5px; line-height:1.72; color:#8b97a3;
+           overflow-x:auto; margin:0 0 18px; white-space:pre; }
+.ap-src { margin:0 0 18px; }
+.ap-src > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:9px;
+                    font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+                    text-transform:uppercase; color:#6c7883; background:#0d1116;
+                    border:1px solid #1a212a; border-radius:7px; padding:9px 13px;
+                    transition:color .15s linear, border-color .15s linear; }
+.ap-src > summary::-webkit-details-marker { display:none; }
+.ap-src > summary::marker { content:""; }
+.ap-src > summary:before { content:""; flex:0 0 auto; width:0; height:0;
+                           border-left:5px solid currentColor; border-top:4px solid transparent;
+                           border-bottom:4px solid transparent; transition:transform .18s ease; }
+.ap-src > summary em { margin-left:auto; font-style:normal; letter-spacing:.06em; color:#4f5a64; }
+.ap-src > summary:hover { color:#ffb454; border-color:#5c4620; }
+.ap-src > summary:focus-visible { outline:2px solid #ffb454; outline-offset:2px; }
+.ap-src[open] > summary { color:#8d98a1; border-bottom-color:#0a0d11;
+                          border-bottom-left-radius:0; border-bottom-right-radius:0; }
+.ap-src[open] > summary:before { transform:rotate(90deg); }
+.ap-src .ap-code { margin:0; border-top-left-radius:0; border-top-right-radius:0; }
+
+.ap-code v { color:#7dd3fc; text-decoration:none; }
+.ap-code k { color:#a98cd8; text-decoration:none; }
+.ap-code c { color:#55606b; text-decoration:none; }
+
+.ap-orsa { margin:0 0 18px; border:1px solid #3c2f16; border-left:2px solid #ffb454;
+           border-radius:0 7px 7px 0; background:#0f0c07; padding:12px 15px 13px; }
+.ap-orsa em { display:block; font-family:var(--mono); font-size:9.5px; font-style:normal;
+              letter-spacing:.14em; text-transform:uppercase; color:#8a6b34; margin:0 0 8px; }
+.ap-orsa p { margin:0 0 6px; font-family:var(--mono); font-size:11.5px; line-height:1.66;
+             color:#e0b978; }
+.ap-orsa p:last-child { margin-bottom:0; }
+.ap-orsa p b { font-weight:400; color:#ffb454; }
+
+.ap-cmts { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; }
+.ap-cmt { background:#0d1116; padding:12px 14px; }
+.ap-cmt b { display:block; font-family:var(--mono); font-size:11px; font-weight:500;
+            letter-spacing:.015em; color:#ffb454; }
+.ap-cmt span { display:block; margin-top:5px; font-size:12.5px; line-height:1.6; color:#8d98a1; }
+
+.ap-pass { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; counter-reset:p; }
+.ap-pass > div { background:#0d1116; padding:10px 14px; display:flex; gap:12px; align-items:baseline; }
+.ap-pass > div:before { counter-increment:p; content:counter(p,decimal-leading-zero);
+                        font-family:var(--mono); font-size:10px; color:#4f5b67; flex:0 0 auto; }
+.ap-pass b { font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:#ffb454;
+             flex:0 0 138px; }
+.ap-pass span { font-size:12.5px; line-height:1.55; color:#8d98a1; }
+
+.ap-figs { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#1a212a;
+           border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 20px; }
+.ap-figs > div { background:#0d1116; padding:14px 12px 15px; text-align:center; }
+.ap-figs b { display:block; font-size:21px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+             font-variant-numeric:tabular-nums; }
+.ap-figs span { display:block; margin-top:6px; font-size:10.5px; line-height:1.45; color:#6c7883; }
+
+.ap-tcap { margin:0 0 17px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em;
+           line-height:1.6; color:#5a6672; }
+
+.ap-note { margin:0 0 20px; padding:14px 18px 17px; background:#0d1116; border:1px solid #1a212a;
+           border-radius:7px; font-size:13px; line-height:1.62; color:#8d98a1; }
+.ap-note b { color:#c8d2da; font-weight:600; }
+
+/* the one sentence the whole chapter is built to earn */
+.wh-big { margin:26px 0 24px; padding:22px 24px 24px; border:1px solid #3c2f16; border-radius:9px;
+          background:linear-gradient(180deg,#0f0c07,#0b0a08); }
+.wh-big p { margin:0; font-size:21px; line-height:1.34; font-weight:700; letter-spacing:-.015em;
+            color:#f2f6f8; }
+.wh-big em { display:block; margin:12px 0 0; font-style:normal; font-family:var(--mono);
+             font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#8a6b34; }
+
+/* the Thaeven readings */
+.wh-voc { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:#1a212a;
+          border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 18px; }
+.wh-voc > div { background:#0d1116; padding:9px 13px; display:flex; gap:10px; align-items:baseline; }
+.wh-voc b { flex:0 0 auto; font-family:var(--mono); font-size:11px; color:#a98cd8; font-weight:400; }
+.wh-voc span { font-size:12px; line-height:1.5; color:#8d98a1; }
+
+/* ================= the ledger ================= */
+/* the silo will not run without a lit heater and it charges the heater for
+   every unit of progress it makes. this is that bill, drawn while it accrues.
+   the maths is the mod's: progressTargetUnits = baseTicks * 20, and the
+   surcharge is progressUnits / 20, which is baseTicks no matter the tier. */
+.lg { border:1px solid #1c242e; border-radius:9px; background:#0d1116; overflow:hidden; margin:0 0 20px; }
+.lg-top { display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:11px 14px;
+          background:#0a0d11; border-bottom:1px solid #1a212a; }
+.lg-lab { font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; text-transform:uppercase;
+          color:#5f6b76; margin-right:2px; }
+.lg-t { font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+        padding:6px 10px; border-radius:5px; background:#141920; border:1px solid #232c36;
+        color:#8d98a1; cursor:pointer; transition:color .15s linear, border-color .15s linear; }
+.lg-t:hover { color:#cbd5dc; border-color:#333e4a; }
+.lg-t.on { color:#ffb454; border-color:#5c4620; background:#17130b; }
+.lg-t:focus-visible { outline:2px solid #ffb454; outline-offset:2px; }
+.lg-go { margin-left:auto; font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+         text-transform:uppercase; padding:7px 13px; border-radius:5px; background:#161d26;
+         border:1px solid #2b3540; color:#a9b4bd; cursor:pointer;
+         transition:color .15s linear, border-color .15s linear; }
+.lg-go:hover { color:#ffb454; border-color:#5c4620; }
+.lg-go:focus-visible { outline:2px solid #ffb454; outline-offset:2px; }
+
+.lg-rate { display:flex; align-items:baseline; gap:10px; padding:11px 14px 0;
+           font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+           color:#5f6b76; }
+.lg-rate b { font-weight:400; font-size:15px; letter-spacing:.02em; color:#ffb454;
+             font-variant-numeric:tabular-nums; }
+.lg-rate u { text-decoration:none; margin-left:auto; color:#4f5a64; letter-spacing:.07em; }
+
+.lg-stages { display:grid; gap:1px; background:#151b23; margin:12px 0 0; }
+.lg-st { background:#0d1116; padding:10px 14px 12px; }
+.lg-sh { display:flex; align-items:baseline; gap:9px; font-family:var(--mono); font-size:10px;
+         letter-spacing:.08em; color:#7c8891; }
+.lg-sh b { font-weight:400; color:#cbd5dc; letter-spacing:.02em; }
+.lg-sh u { text-decoration:none; margin-left:auto; color:#5f6b76; font-variant-numeric:tabular-nums; }
+.lg-bar { position:relative; height:5px; border-radius:3px; background:#151c23; overflow:hidden;
+          margin:8px 0 0; }
+.lg-fill { position:absolute; left:0; top:0; bottom:0; width:100%; background:#8a6b34;
+           transform:scaleX(0); transform-origin:0 50%; }
+.lg-st.on .lg-fill { background:#ffb454; }
+
+.lg-rd { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#151b23;
+         border-top:1px solid #151b23; }
+.lg-rd > div { background:#0d1116; padding:12px 14px 13px; }
+.lg-rd em { display:block; font-style:normal; font-family:var(--mono); font-size:9px;
+            letter-spacing:.13em; text-transform:uppercase; color:#5f6b76; }
+.lg-rd b { display:block; margin-top:6px; font-size:19px; font-weight:600; letter-spacing:-.02em;
+           color:#e9eff3; font-variant-numeric:tabular-nums; }
+.lg-rd i { display:block; margin-top:4px; font-style:normal; font-family:var(--mono);
+           font-size:9.5px; letter-spacing:.05em; color:#6c7883; }
+.lg-rd.warm b { color:#ffb454; }
+
+.lg-cells { display:flex; gap:5px; margin-top:8px; }
+.lg-seg { flex:1 1 0; height:7px; border-radius:2px; background:#171e26; border:1px solid #222b35; }
+.lg-seg.on { background:#ffb454; border-color:#ffb454; }
+
+.lg-note { padding:11px 14px 13px; border-top:1px solid #151b23; font-family:var(--mono);
+           font-size:9.5px; line-height:1.65; letter-spacing:.05em; color:#5f6b76; }
+.lg-note b { color:#8d98a1; font-weight:400; }
+
+/* ================= the terminal ================= */
+.tm { border:1px solid #1c242e; border-radius:9px; background:#0d1116; overflow:hidden; margin:0 0 20px; }
+.tm-top { display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:11px 14px;
+          background:#0a0d11; border-bottom:1px solid #1a212a; }
+.tm-flag { font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:#8d98a1; }
+.tm-val { font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:#7dd3fc; }
+.tm.on .tm-val { color:#ff8b8b; }
+.tm-go { margin-left:auto; font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+         text-transform:uppercase; padding:7px 13px; border-radius:5px; background:#161d26;
+         border:1px solid #2b3540; color:#a9b4bd; cursor:pointer;
+         transition:color .15s linear, border-color .15s linear; }
+.tm-go:hover { color:#ffb454; border-color:#5c4620; }
+.tm-go:focus-visible { outline:2px solid #ffb454; outline-offset:2px; }
+
+.tm-screen { position:relative; min-height:268px; background:#000; padding:26px 20px 30px;
+             display:flex; flex-direction:column; align-items:center; justify-content:center;
+             gap:5px; font-family:var(--mono); text-align:center; }
+.tm-h { font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:#44e6a8; }
+.tm-v { font-size:13px; letter-spacing:.06em; color:#d9fff6; }
+.tm-sp { height:16px; }
+.tm-big { font-size:24px; letter-spacing:.09em; text-transform:uppercase; color:#a7ffea;
+          font-weight:500; }
+.tm.on .tm-h { color:#ffb84a; }
+.tm.on .tm-v { color:#fff5c2; }
+.tm.on .tm-big { color:#fff0b0; }
+.tm-screen > *[hidden] { display:none; }
+
+.tm-fx { position:relative; width:100%; max-width:520px; height:82px; margin:14px 0 0;
+         background:#180708; overflow:hidden; }
+.tm-fx:before { content:""; position:absolute; left:6px; top:6px; right:6px; bottom:6px;
+                background:#100508; }
+.tm-fx:after { content:""; position:absolute; inset:0; pointer-events:none; z-index:2;
+               background:repeating-linear-gradient(180deg,#20f0ff1c 0 1px,#0000 1px 2px,#00000022 2px 3px,#0000 3px 4px); }
+.tm-acc { position:absolute; left:0; top:0; bottom:0; width:2px; background:#ff5c5c; z-index:3; }
+.tm-st { position:absolute; height:1px; z-index:1; }
+.tm-hd, .tm-ft { position:absolute; left:10px; z-index:4; font-size:8px; letter-spacing:.11em;
+                 color:#ff8b8b; }
+.tm-hd { top:9px; } .tm-ft { bottom:9px; color:#ff5c5c; }
+.tm-hd[hidden], .tm-ft[hidden] { visibility:hidden; display:block; }
+.tm-fx[hidden] { display:none; }
+
+.tm-panel { width:100%; max-width:520px; margin:14px 0 0; padding:13px 15px 14px; text-align:left;
+            background:#180708; border-left:2px solid #ff5c5c; }
+.tm-panel[hidden] { display:none; }
+.tm-panel em { display:block; font-style:normal; font-size:9.5px; letter-spacing:.2em;
+               text-transform:uppercase; color:#ff5c5c; margin:0 0 9px; }
+.tm-panel p { margin:0 0 5px; font-size:11.5px; line-height:1.62; color:#ffc0c0; }
+.tm-panel p:last-child { margin-bottom:0; }
+
+.tm-bot { padding:11px 14px 12px; border-top:1px solid #151b23; font-family:var(--mono);
+          font-size:9.5px; line-height:1.65; letter-spacing:.05em; color:#5f6b76; }
+.tm-bot b { color:#8d98a1; font-weight:400; }
+
+/* the line the site does not link to yet */
+.wh-under { margin:40px 0 0; padding-top:20px; border-top:1px solid #151b23; text-align:center;
+            font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+            color:#39434d; }
+
+/* ================= chaptered deck ================= */
+.ap-deck { margin:44px 0 0; }
+
+.ap-dtop { position:sticky; top:0; z-index:8; background:#0f1216; padding:9px 0 0; }
+.ap-dtop:after { content:""; position:absolute; left:calc(-1 * var(--bleed)); right:calc(-1 * var(--bleed));
+  bottom:0; height:1px; background:#1c242e; }
+
+.ap-dtop .ap-dstrip { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+.ap-dstrip { position:relative; display:flex; align-items:flex-end; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; }
+.ap-dstrip::-webkit-scrollbar { display:none; }
+
+.ap-dtab { position:relative; flex:0 0 auto; -webkit-appearance:none; appearance:none;
+  background:none; border:0; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:#7c8891; padding:9px 13px 11px; cursor:pointer;
+  white-space:nowrap; border-radius:5px 5px 0 0;
+  transition:color .28s ease, background .28s ease, transform .2s cubic-bezier(.2,.6,.3,1); }
+.ap-dtab:hover { color:#b8c3cb; background:#141920; }
+@media (min-width:641px) { .ap-dtab { padding-left:10px; padding-right:10px; letter-spacing:.08em; }
+  .ap-dtab i { margin-right:5px; } }
+.ap-dtab:active { transform:translateY(1px); }
+.ap-dtab.on { color:#ffb454; }
+.ap-dtab i { font-style:normal; opacity:.45; margin-right:7px; }
+
+.ap-dink { position:absolute; left:0; bottom:0; height:2px; width:0; background:#ffb454;
+  border-radius:2px 2px 0 0; pointer-events:none;
+  transition:transform .44s cubic-bezier(.22,.8,.28,1), width .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dstage { position:relative; }
+.ap-dstage.morph { overflow:hidden; transition:height .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dpanes { position:relative; padding-top:22px; }
+.ap-pane { display:none; }
+.ap-pane.on { display:block; }
+.ap-pane.enter { animation:apSlideL .42s cubic-bezier(.2,.65,.3,1) both; }
+.ap-pane.enter.rev { animation-name:apSlideR; }
+@keyframes apSlideL { from { opacity:0; transform:translate3d(20px,0,0); } to { opacity:1; transform:none; } }
+@keyframes apSlideR { from { opacity:0; transform:translate3d(-20px,0,0); } to { opacity:1; transform:none; } }
+
+.ap-dbot { margin-top:28px; padding-top:16px; border-top:1px solid #1c242e; }
+.ap-dsteps { display:flex; gap:10px; }
+.ap-dstep { flex:1 1 0; min-width:0; -webkit-appearance:none; appearance:none; text-align:left;
+  background:#12171d; border:1px solid #1c242e; border-radius:7px; padding:10px 14px 11px;
+  cursor:pointer; font-family:inherit; }
+.ap-dstep:hover:not([disabled]) { border-color:#2c3946; background:#161c23; }
+.ap-dstep:active:not([disabled]) { transform:scale(.985); }
+.ap-dstep[disabled] { opacity:.3; cursor:default; }
+.ap-dstep em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:#5f6b76; font-style:normal; margin-bottom:4px; }
+.ap-dstep b { display:block; font-size:12.5px; font-weight:600; color:#cbd5dc; letter-spacing:-.01em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ap-dstep.next { text-align:right; }
+
+/* ---- reveal on scroll ---- */
+.ap-rv { opacity:0; transform:translate3d(0,16px,0); }
+.ap-rv.in { animation:apRise .6s cubic-bezier(.2,.65,.3,1) both; }
+.ap-rv.set { opacity:1; transform:none; animation:none; }
+.ap-pop { animation:apRise .5s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes apRise { from { opacity:0; transform:translate3d(0,16px,0); } to { opacity:1; transform:none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  /* sitting through a handshake is not a reduced motion experience. it is
+     simply not run, and the page opens where the cut would have left it. */
+  .wh-sig { display:none !important; }
+  .ap-frame.play .ap-black { animation:none !important; opacity:0 !important; }
+  .ap-frame.play .ap-kick, .ap-frame.play .ap-title,
+  .ap-frame.play .ap-rest { animation:none !important; }
+  .ap-kick { opacity:1 !important; }
+  .ap-title { width:auto !important; overflow:visible !important;
+              border-right-color:#ffb45400 !important; }
+  .ap-rest { opacity:1 !important; transform:none !important; }
+  .ap-rv, .ap-rv.in { opacity:1 !important; transform:none !important; animation:none !important; }
+  .ap-pop, .ap-pane.enter { animation:none !important; }
+  .ap-dink, .ap-dstage.morph { transition:none !important; }
+  .ap-dtab { transition:none !important; }
+  .ap-dtab:active { transform:none !important; }
+  .ap-src > summary, .ap-src > summary:before { transition:none !important; }
+}
+
+@media (max-width:640px){
+  .wh-sig { gap:20px; }
+  .wh-stage { width:112px; height:112px; }
+  .wh-mars { width:86px; height:86px; margin:-43px 0 0 -43px; }
+  .wh-l { font-size:9.5px; height:17px; line-height:17px; letter-spacing:.11em; }
+  .wh-l.f { letter-spacing:.14em; }
+  .wh-voc { grid-template-columns:minmax(0,1fr); }
+  .wh-big { padding:17px 16px 19px; }
+  .wh-big p { font-size:17.5px; }
+  .lg-rd { grid-template-columns:1fr; }
+  .lg-go { margin-left:0; }
+  .tm-screen { min-height:236px; padding:22px 14px 26px; }
+  .tm-big { font-size:19px; letter-spacing:.06em; }
+  .tm-v { font-size:11.5px; }
+  .tm-go { margin-left:0; }
+  .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
+  .ap-dtab i { margin-right:5px; }
+  .ap-dsteps { gap:7px; }
+  .ap-dstep { padding:9px 11px 10px; }
+  .ap-dstep b { font-size:11.5px; }
+  .ap-deck { margin-top:34px; }
+  .ap-frame { height:calc(100vh - 78px); height:calc(100dvh - 78px); min-height:420px; }
+  .ap-inner { padding:36px 17px 64px; }
+  .ap-title { font-size:32px; }
+  .ap-lede { font-size:17.5px; }
+  .ap-stand { font-size:15px; }
+  .ap-p { font-size:14px; }
+  .ap-stats { grid-template-columns:repeat(3,1fr); }
+  .ap-stats b { font-size:21px; }
+  .ap-figs { grid-template-columns:1fr; }
+  .ap-pass > div { flex-wrap:wrap; }
+  .ap-pass b { flex-basis:auto; }
+  .ap-code { font-size:10.5px; }
+  .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
+}
+</style>
+
+<div class="ap">
+  <div class="ap-frame play" id="apFrame">
+    <div class="ap-black"></div>
+
+    <div class="wh-sig" aria-hidden="true">
+      <div class="wh-stage">
+        <div class="wh-mars"></div>
+        <div class="wh-pt"></div>
+        <div class="wh-brk"><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="wh-tel">
+        <div class="wh-l s" style="--i:.85s;--o:3.90s">Searching&hellip;</div>
+        <div class="wh-l s" style="--i:1.25s;--o:3.955s">Signal detected</div>
+        <div class="wh-l gap"></div>
+        <div class="wh-l" style="--i:1.55s;--o:4.01s">ORSA deep space relay</div>
+        <div class="wh-l" style="--i:1.68s;--o:4.065s">Handshake accepted</div>
+        <div class="wh-l" style="--i:1.81s;--o:4.12s">Source: Earth</div>
+        <div class="wh-l" style="--i:1.94s;--o:4.175s">Destination: Mars</div>
+        <div class="wh-l gap"></div>
+        <div class="wh-l s" style="--i:2.45s;--o:4.23s">Querying colony status&hellip;</div>
+        <div class="wh-l f" style="--i:3.30s;--o:4.285s">ORSA Mars Colony</div>
+        <div class="wh-l f keep" style="--i:3.30s">Status: Active</div>
+      </div>
+    </div>
+
+    <div class="ap-doc">
+      <div class="ap-inner">
+        <div class="ap-kick">Chapter Seven &middot; 14 April 2026</div>
+        <h1 class="ap-title">Welcome Home</h1>
+
+        <div class="ap-rest">
+          <p class="ap-stand">Everything before this chapter is about staying alive. This one is about leaving. For six chapters Frozen Dawn teaches you to fight for every degree of warmth you can hold onto. Then it asks you to spend all of it at once, on a single object, pointed away from the planet.</p>
+
+          <div class="ap-stats ap-wide">
+            <div><b>144</b><span>commits across the endgame, 14 Apr to 7 May</span></div>
+            <div><b>13</b><span>fields on one saved object hold the whole ending</span></div>
+            <div><b>6</b><span>fuel cells, and not one of them is optional</span></div>
+            <div><b>30</b><span>silo runs between raw sulfur and a full rocket</span></div>
+            <div><b>50,400</b><span>ticks of heater fuel that warm nothing</span></div>
+            <div><b>1</b><span>word proves humanity survived</span></div>
+          </div>
+
+          <p class="ap-p">The obvious ending to Frozen Dawn was death. Earth gets colder, the atmosphere collapses, and eventually there is nowhere left to go. I did not want that ending. I wanted the player to discover that the people who caused the apocalypse had <strong>already built a way out</strong>, and then to have to walk through it.</p>
+
+          <p class="ap-p">For most of the game, Mars exists as a claim. It is on posters. It is in evacuation material. It is the thing ORSA kept promising in the past tense. It is in a mythology written by something that is not human. Then a machine returns a status flag, and the claim turns out to be true.</p>
+
+          <div class="ap-pull">In the beginning of Frozen Dawn, warmth is life. By the end, warmth is fuel.</div>
+
+          <p class="ap-p">That sentence is the whole chapter. Everything below is the machinery that makes it land.</p>
+
+          <div class="ap-deck" id="apDeck">
+            <div class="ap-dtop">
+              <div class="ap-dstrip" role="tablist" aria-label="Chapter seven sections">
+                <button type="button" class="ap-dtab on" role="tab" data-i="0" data-full="Earth is not the whole game" data-short="Not all" aria-selected="true" tabindex="0"><i>01</i>Earth is not the whole game</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="1" data-full="Establish contact" data-short="Contact" aria-selected="false" tabindex="-1"><i>02</i>Establish contact</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="2" data-full="A way off a dead planet" data-short="The rocket" aria-selected="false" tabindex="-1"><i>03</i>A way off a dead planet</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="The final resource" data-short="The bill" aria-selected="false" tabindex="-1"><i>04</i>The final resource</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="You become Orsha" data-short="Orsha" aria-selected="false" tabindex="-1"><i>05</i>You become Orsha</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="5" data-full="What home means" data-short="Home" aria-selected="false" tabindex="-1"><i>06</i>What home means</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="6" data-full="The truth route" data-short="The truth" aria-selected="false" tabindex="-1"><i>07</i>The truth route</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="7" data-full="End on Earth" data-short="Earth" aria-selected="false" tabindex="-1"><i>08</i>End on Earth</button>
+                <span class="ap-dink" id="apDink"></span>
+              </div>
+            </div>
+
+            <div class="ap-dstage" id="apDstage">
+              <div class="ap-dpanes" id="apDpanes">
+
+<section class="ap-pane on" role="tabpanel" data-p="0" aria-label="Earth is not the whole game">
+  <p class="ap-lede">The exit was in the code before almost anything else was.</p>
+
+  <p class="ap-p">Four days after the first commit, on 27 February 2026, the mod shipped a version whose changelog line reads like four separate projects at once: <code>v0.15.0, Win condition, ORSA MultiTool, O2 system, transponder, EVA ambience</code>. In the same window I added a satellite log entry and a piece of lore foreshadowing called Project Lighthouse, and then I did the sensible thing and put the entire ending behind a flag: <code>Gate transponder on ENABLE_WIN_CONDITION</code>.</p>
+
+  <div class="ap-figs">
+    <div><b>27</b><span>February 2026, the day an exit entered the code</span></div>
+    <div><b>46</b><span>days it sat behind a flag before I built it</span></div>
+    <div><b>144</b><span>commits once I finally did, 14 Apr to 7 May</span></div>
+  </div>
+
+  <p class="ap-p">So for six and a half weeks the game had a way out that nobody could reach. That gap was not laziness. I did not want to build the ending until the middle of the game was hard enough to make an ending mean something. An escape route from a survivable world is a fast travel button. An escape route from a world that has spent forty hours convincing you it is going to win is something else.</p>
+
+  <p class="ap-p">The important part is who built it. The rocket is not a thing the player invents. It is an ORSA asset: an ORSA blast pit, an ORSA launch manifest, an ORSA relay satellite, an ORSA transponder schematic, and a set of blueprints transmitted from an ORSA colony. <strong>The same company responsible for the reason you need an exit had already built one, used it, and left it running.</strong></p>
+
+  <p class="ap-p">Chapter III is about a corporation that kept calling the end of the world <em>continuity</em>. This is what continuity actually meant. It was never a promise to the people on the ground. It was an infrastructure plan, and the plan worked.</p>
+
+  <div class="ap-orsa">
+    <em>Advancement &middot; found_satellite_log</em>
+    <p><b>Sputnik?!</b></p>
+    <p>Find the crashed ORSA relay satellite. It came down hard.</p>
+  </div>
+
+  <p class="ap-p">The tone of that advancement is deliberate. The first contact the player has with the entire endgame is a joke, because at that moment they do not know what they have found. They have found a dead satellite in the snow. It reads as scenery. Everything after it is downstream of picking it up.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="1" aria-label="Establish contact">
+  <p class="ap-lede">The whole ending is thirteen fields on a single saved object.</p>
+
+  <div class="ap-src">
+    <summary>WinConditionState, the endgame in one file <em>SavedData</em></summary>
+    <div class="ap-code"><k>private</k> BlockPos satellitePos;
+<k>private boolean</k> satellitePlaced;
+<k>private boolean</k> schematicUnlocked;
+<k>private boolean</k> conspiracyDiscovered;
+<k>private boolean</k> rocketBlueprintUnlocked;
+<k>private boolean</k> martianReplySent;
+<k>private</k> BlockPos rocketPadCenter;
+<k>private boolean</k> rocketAssembled;
+<k>private boolean</k> rocketFuelCellsLoaded;
+<k>private boolean</k> launchInProgress;
+<k>private long</k>    launchSequenceStartTick;
+<k>private boolean</k> launchCompleted;
+<k>private boolean</k> endingTriggered;</div>
+  </div>
+
+  <p class="ap-p">Read top to bottom, that is the shape of the last act. Find the thing. Learn the thing. Optionally learn too much. Get the plans. Answer. Build. Fuel. Burn. Leave. Every one of those is a boolean because every one of them is a door that only opens forwards.</p>
+
+  <p class="ap-p">The satellite is placed by <code>initSatellitePosition</code>, which picks a random angle and a random distance <strong>between 500 and 2000 blocks from world spawn</strong>, then resolves its height when that chunk actually loads. It does not force-load anything. Chapter I is partly about a chunk epoch loader that refuses to touch chunks the player is not in, and the endgame obeys that rule as strictly as the weather does. The satellite is a promise the world keeps lazily.</p>
+
+  <p class="ap-h3">The transponder</p>
+
+  <p class="ap-p">Answering requires building an ORSA transponder from the recovered schematic, and the mod is unusually strict about where it will work:</p>
+
+  <div class="ap-pass">
+    <div><b>Underground</b><span>the block has to sit below Y zero. This is a signal from a buried world.</span></div>
+    <div><b>Powered</b><span>a Geothermal Core within twelve blocks, checked as a squared distance of 144.</span></div>
+    <div><b>Open to the sky</b><span>a clear vertical shaft all the way up, re-checked every 100 ticks.</span></div>
+    <div><b>Patient</b><span>120,000 ticks of broadcast by default, about five in-game days.</span></div>
+  </div>
+
+  <p class="ap-p">The shaft requirement is my favourite piece of it. You have spent the entire game sealing rooms, plugging gaps, and treating open air as the enemy. To call Mars you have to <strong>cut a hole in your own shelter and leave it open for five days.</strong> The signal melts the snow inside the shaft while it runs, which is the only time in Frozen Dawn that something warms a column of air on purpose and it is not for you.</p>
+
+  <div class="ap-orsa">
+    <em>Transponder &middot; status lines</em>
+    <p>PAUSED &middot; No Geothermal Core detected. %s minutes remaining.</p>
+    <p>PAUSED &middot; Shaft blocked. Clear the path to the sky. %s minutes remaining.</p>
+    <p><b>ORSA RELAY: Mars Command response buffered. Return to transponder for packet recovery.</b></p>
+  </div>
+
+  <p class="ap-tcap">Those first two strings carry a long dash in the mod itself. They are reproduced here with the site's own punctuation.</p>
+
+  <p class="ap-p">I wanted this to be one of the quietest reveals in the game. No cinematic. No survivor suddenly talking over the radio. No swelling music. A machine on Earth asks a machine on Mars whether anyone is there, and a machine on Mars answers with a status flag. <strong>One word proves that humanity survived. The same word proves that Earth was left behind.</strong></p>
+
+  <div class="ap-orsa">
+    <em>Advancement &middot; found_martian_command_packet</em>
+    <p><b>Someone Answered</b></p>
+    <p>Archive the recovered Martian Command relay packet. The silence broke first.</p>
+  </div>
+
+  <p class="ap-p">The packet itself is written to sound like a procedure nobody expected to run again. The in-game guide describes it plainly: the speaker is startled that anyone is still alive on the surface, sends rocket blueprints, and directs the respondent to the ORSA blast pit. Half improvised, half rehearsed. <strong>It sounds like nobody on Mars expected to need this.</strong></p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="2" aria-label="A way off a dead planet">
+  <p class="ap-lede">Early Frozen Dawn asks whether you can keep one room above freezing. Late Frozen Dawn asks whether you can manufacture enough propellant to escape the planet. Same game.</p>
+
+  <p class="ap-p">The rocket is not crafted. It is built, in the world, out of ten blocks in exactly the right relationship to each other, on top of an ORSA blast pit that was already there when you arrived. <code>RocketLaunchStructure.diagnose</code> checks all of it and tells you the first thing that is wrong.</p>
+
+  <div class="ap-pass">
+    <div><b>Engine</b><span>directly above the blast pit's launch pad centre, and nowhere else in the world.</span></div>
+    <div><b>Launch pad</b><span>a full three by three of pad blocks on the pit mount. One craft yields nine.</span></div>
+    <div><b>Blackstone</b><span>under the pad centre. The pit was poured for this.</span></div>
+    <div><b>Four fins</b><span>on all four cardinal sides of the engine.</span></div>
+    <div><b>Four hull</b><span>stacked one through four above the engine.</span></div>
+    <div><b>Nose cone</b><span>at five, and crafting it consumes your Acheronite Compass.</span></div>
+  </div>
+
+  <p class="ap-p">That last one is quiet and cruel. The Acheronite Compass is the navigation tool that got you through the whiteout. Building the nose cone spends it. <strong>The last thing you do before leaving is destroy the instrument you used to survive here</strong>, because where you are going you will not need to find your way back.</p>
+
+  <p class="ap-h3">Thirty five seconds</p>
+
+  <div class="ap-code"><k>static final int</k> STATE_IDLE = <v>0</v>, STATE_LAUNCHING = <v>1</v>, STATE_FINISHED = <v>2</v>;
+
+COUNTDOWN_TICKS        = <v>200</v>;  <c>// 10s, sitting in the cockpit</c>
+LIFTOFF_TRACK_TICKS    = <v>50</v>;   <c>// 2.5s, the camera stays with it</c>
+ASCENT_TICKS           = <v>260</v>;  <c>// 13s</c>
+ATMOSPHERE_EXIT_TICKS  = <v>120</v>;  <c>// 6s, and there is barely any left</c>
+FADE_TICKS             = <v>70</v>;   <c>// 3.5s</c></div>
+
+  <p class="ap-p">Seven hundred ticks. Thirty five seconds of game time between arming the launch and the screen going dark, and the particle work escalates across it: the plume thickens at tick 100 of the countdown when flame is added to the exhaust, peaks through a hundred ticks of liftoff, and then thins out for the ascent because there is almost no atmosphere left to push against.</p>
+
+  <p class="ap-p">I spent a genuinely unreasonable amount of 16 and 17 April on that thinning. It is four seconds that most players will see once. But Chapter I spends six phases stripping the atmosphere off this planet, and it would be a betrayal for the rocket to leave a thick contrail in a sky that no longer has air in it.</p>
+
+  <div class="ap-orsa">
+    <em>Advancement &middot; found_launch_manifest</em>
+    <p><b>The Burn List</b></p>
+    <p>Archive the ORSA launch manifest from the blast pit. The numbers do not add up.</p>
+  </div>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="3" aria-label="The final resource">
+  <p class="ap-lede">The fuel that lifts the rocket is the fuel that was keeping you alive.</p>
+
+  <p class="ap-p">This is the mechanic I am proudest of in the whole endgame, and it is four lines long. The Fuel Processing Silo does not have its own power source. It runs on a lit Thermal Heater, and it charges that heater for every unit of progress it makes.</p>
+
+  <div class="ap-src">
+    <summary>FuelProcessingSiloBlockEntity, the bill <em>drainHeaterForProcessing</em></summary>
+    <div class="ap-code"><k>if</k> (!structureValid || !heaterLit || recipe == <k>null</k>) { <c>/* stop */</c> }
+
+progressTargetUnits = recipe.baseTicks() * PROGRESS_UNITS_PER_TICK;  <c>// x20</c>
+<k>if</k> (heater == <k>null</k> || !drainHeaterForProcessing(heater, heaterSpeedUnits)) {
+    heaterLit = <k>false</k>;
+}
+progressUnits += heaterSpeedUnits;
+
+<k>private boolean</k> drainHeaterForProcessing(ThermalHeaterBlockEntity heater, <k>int</k> speedUnits) {
+    processingFuelDebtUnits += speedUnits;
+    <k>int</k> extraFuelTicks = processingFuelDebtUnits / PROGRESS_UNITS_PER_TICK;
+    processingFuelDebtUnits %= PROGRESS_UNITS_PER_TICK;
+    <k>return</k> extraFuelTicks &lt;= <v>0</v> || heater.consumeIndustrialFuel(extraFuelTicks);
+}</div>
+  </div>
+
+  <p class="ap-p">The heater tier sets the rate. A Basic heater feeds the silo 20 units a tick, Iron 30, Gold 40, Diamond 60, and a capacitor multiplies whatever that is by one and a half. The mod shows that to the player as a speed multiplier, <code>x1.00</code> through <code>x4.50</code>. What it does not show the player is that the speed number and the burn number are <strong>the same number.</strong></p>
+
+  <p class="ap-p">Work the arithmetic through and something falls out that I did not plan and would not change. Finishing a recipe always costs exactly <code>baseTicks</code> of extra heater fuel, because the total progress required is <code>baseTicks * 20</code> and the surcharge is one fuel tick per 20 units of progress. <strong>The tier changes how fast you pay. It does not change what you pay.</strong></p>
+
+  <p class="ap-p">Below is the actual ledger. Pick a heater, run the silo, and watch the two columns move: the cells going in, and the fuel going out. The maths is the mod's, the recipe tree is the mod's, and the total at the bottom is the same at every tier.</p>
+
+  <div class="lg ap-wide" id="lgRoot">
+    <div class="lg-top">
+      <span class="lg-lab">Heater</span>
+      <button type="button" class="lg-t on" data-u="20">Basic</button>
+      <button type="button" class="lg-t" data-u="30">Iron</button>
+      <button type="button" class="lg-t" data-u="40">Gold</button>
+      <button type="button" class="lg-t" data-u="60">Diamond</button>
+      <button type="button" class="lg-t" data-cap="1">Capacitor</button>
+      <button type="button" class="lg-go" id="lgGo">Run the silo</button>
+    </div>
+
+    <div class="lg-rate"><span>Feed rate</span><b id="lgMul">x1.00</b><span id="lgUnits">20 units per tick</span><u id="lgTier">Basic heater</u></div>
+
+    <div class="lg-stages" id="lgStages">
+      <div class="lg-st on" data-s="0">
+        <div class="lg-sh"><b>Solid propellant</b><span>12 runs &middot; 48 sulfur, 24 coal</span><u data-r="pc">0%</u></div>
+        <div class="lg-bar"><i class="lg-fill"></i></div>
+      </div>
+      <div class="lg-st" data-s="1">
+        <div class="lg-sh"><b>Liquid oxidizer</b><span>12 runs &middot; 48 frozen atmosphere shards</span><u data-r="pc">0%</u></div>
+        <div class="lg-bar"><i class="lg-fill"></i></div>
+      </div>
+      <div class="lg-st" data-s="2">
+        <div class="lg-sh"><b>Rocket fuel cells</b><span>6 runs &middot; 6 acheronite shards</span><u data-r="pc">0%</u></div>
+        <div class="lg-bar"><i class="lg-fill"></i></div>
+      </div>
+    </div>
+
+    <div class="lg-rd">
+      <div><em>Cells loaded</em><b id="lgCells">0 / 6</b>
+        <div class="lg-cells" id="lgSegs"><i class="lg-seg"></i><i class="lg-seg"></i><i class="lg-seg"></i><i class="lg-seg"></i><i class="lg-seg"></i><i class="lg-seg"></i></div>
+      </div>
+      <div><em>Silo time</em><b id="lgTime">0:00</b><i id="lgTicks">0 ticks elapsed</i></div>
+      <div class="warm"><em>Heater fuel spent</em><b id="lgFuel">0</b><i id="lgDays">0.00 in-game days of warmth</i></div>
+    </div>
+
+    <div class="lg-note">Total silo work is fixed at <b>50,400 ticks</b> of recipe time, and the processing surcharge is fixed at <b>50,400 heater fuel ticks</b>, about <b>2.10 in-game days</b>. A Diamond heater with a capacitor gets you there in a fifth of the wall clock and burns exactly the same fuel doing it.</div>
+  </div>
+
+  <p class="ap-tcap">The silo runs one recipe at a time. The three stages above are the order the tree forces: propellant and oxidizer first, then the cells that need both.</p>
+
+  <div class="wh-big">
+    <p>To leave Earth, you have to stop spending everything on surviving it.</p>
+    <em>the point of the entire endgame</em>
+  </div>
+
+  <p class="ap-p">Chapter IV is a hundred small decisions about fuel: which heater, where, how insulated, how long you can leave it. None of those decisions get easier here. They get repurposed. The moment the silo lights up, every heater optimisation you learned in the middle of the game turns into a launch schedule, and every fuel reserve you were proud of turns into a countdown.</p>
+
+  <p class="ap-p">There is a version of this mechanic where the rocket has its own generator and none of this happens. It would be easier to balance and completely inert. <strong>Making the silo parasitic on the heater is what turns a crafting chain into a decision.</strong> You are not gathering a new resource at the end of Frozen Dawn. You are taking the one that has kept you alive since the first night and pointing it at the sky.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="4" aria-label="You become Orsha">
+  <p class="ap-lede">The Returned have a word for what you are about to do, and they did not invent it for you.</p>
+
+  <p class="ap-p">Chapter VI covers the Thaeven language properly. The part that matters here is small. <code>Vel</code> is warmth. <code>Vel-Vesh</code> is the stars, which the archive glosses as an uncrossable place. And the myth that the Hearths keep retelling is about someone who took the first and went to the second.</p>
+
+  <div class="wh-voc">
+    <div><b>Orsha built vel into the world.</b><span>ORSA brought warmth. That part is remembered as a gift.</span></div>
+    <div><b>and took vel with them.</b><span>And then took it away again, which is remembered as the same event.</span></div>
+    <div><b>Orsha went to Vel-Vesh.</b><span>Upward. To the place warmth goes.</span></div>
+    <div><b>Vel-thae</b><span>the warm one. What the Returned call the player.</span></div>
+  </div>
+
+  <p class="ap-p">Now line up what the player does in this chapter, in order. Gathers what is left of Earth's resources. Takes the warmth. Constructs a vessel. Enters the sky. Goes toward Vesh.</p>
+
+  <p class="ap-p">That is the myth. Word for word, beat for beat, it is the thing the Hearths have been telling each other since before the player existed, and the player is about to perform it in front of them.</p>
+
+  <p class="ap-p">I want to be precise about this, because it would be cheap to be vague. <strong>The player did not cause this.</strong> The player arrived after. The player did not authorise Project Exodus, did not write the continuity memos, did not leave anyone behind on a runway. Frozen Dawn does not end by revealing that you were secretly as bad as ORSA all along. That would be a twist, and it would be a lie.</p>
+
+  <p class="ap-pull">It ends by making you perform an image the world has already seen once before.</p>
+
+  <p class="ap-p">And the world has no way to tell the difference. That is not a metaphor about perception. It is a property of the language I wrote for them. Thaeven has one verb for movement and I never gave it a tense marker. The archive's own recorded usages are <code>Vel-thae thaeven vel-an.</code> and <code>Vesh thaeven.</code> Nothing in the vocabulary I built separates going somewhere new from going back.</p>
+
+  <p class="ap-p">So a civilisation that inherited this planet from us, that remembers exactly one story about warm things leaving, watches a warm thing gather the last of the heat and rise. Whatever they record about it, they are going to record it with the only words they have.</p>
+
+  <p class="ap-p">Which means the final human survivor's escape most likely reads, in the language of the people who are still here, as something closer to: <strong>the warm one returns above.</strong></p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="5" aria-label="What home means">
+  <p class="ap-lede">Four groups in this game use the word home and not one of them means the same place.</p>
+
+  <div class="ap-cmts">
+    <div class="ap-cmt"><b>ORSA</b><span>Mars. The colony, the infrastructure, the thing the money was actually for. Home is where the organisation continued.</span></div>
+    <div class="ap-cmt"><b>The player</b><span>Earth. The shelter you insulated, the heater you fed, the room you kept above freezing for forty hours.</span></div>
+    <div class="ap-cmt"><b>The Returned</b><span>the Hearth. Not a location so much as a shared warmth that several bodies happen to be standing in.</span></div>
+    <div class="ap-cmt"><b>Old humanity</b><span>the world they destroyed. Home is the thing they were leaving, which is why they never called it that.</span></div>
+  </div>
+
+  <p class="ap-p">The ending screen picks one of those, and it picks it automatically.</p>
+
+  <p class="ap-p">The system that greets you on approach to Mars has no idea what you went through to reach it. It does not know about the Hearths. It does not know about the Returned, or Maeve, or the Heart, or what is buried under it. It does not know which towns went dark, or which people ORSA left on the ground when the last ships went up. It does not know what happened to Earth after, and it certainly does not know what you read in the Blackglass archive.</p>
+
+  <p class="ap-p">It knows one thing: <strong>a human is approaching Mars.</strong> And it has a string for that.</p>
+
+  <div class="ap-orsa">
+    <em>screen.frozendawn.ending.welcome</em>
+    <p><b>Welcome home.</b></p>
+  </div>
+
+  <p class="ap-p">The message is not sinister. That is exactly why it works. Nobody on Mars is sitting behind a terminal enjoying the irony. There is no villain in that line. It is simply the greeting the system was designed to give, written years ago by someone who thought they were being warm, and it has been sitting in a string table waiting for a human to trip it ever since.</p>
+
+  <p class="ap-p">All of the horror is on the player's side of the screen. The machine says the kindest sentence in the entire mod, and it is unbearable, because <strong>you are the only one in the exchange who knows what it cost.</strong></p>
+
+  <p class="ap-p">I wrote a lot of versions of that line. Every version that tried to be clever was worse. Every version that hinted the system knew something was worse. The line works because it is thoughtless. It is the sound of a process completing.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="6" aria-label="The truth route">
+  <p class="ap-lede">And then there is the version for players who read too much.</p>
+
+  <p class="ap-p">Chapter III leaves a password lying around. It is in the Blackglass material, it is optional, and nothing in the game ever tells you it matters. There is exactly one place in the entire codebase where it turns into a consequence, and it is a single boolean flip on a tower antenna console.</p>
+
+  <div class="ap-src">
+    <summary>TowerAntennaConsoleBlockEntity, the only writer of conspiracyDiscovered <em>acceptArchivePassword</em></summary>
+    <div class="ap-code"><k>boolean</k> accepted = TowerArchive.COMMAND_ARCHIVE_PASSWORD.equals(normalizedGuess);
+<k>if</k> (accepted) {
+    WinConditionState.get(level.getServer()).setConspiracyDiscovered(<k>true</k>);
+}</div>
+  </div>
+
+  <p class="ap-p">Get it wrong and the console gives you <code>ACCESS DENIED / COMMAND PERSONNEL ONLY</code>. Get it right and nothing visible happens at all. No advancement fires. No message congratulates you. A flag flips on a saved object and the game continues exactly as before, for however many hours it takes you to build a rocket.</p>
+
+  <p class="ap-p">It comes back at the very last screen. Below is the real post-credits terminal, both ways, rendered the way the ending screen renders it: the same strings, the same colours, and the same 34 ticks of signal corruption that sit between the greeting and what replaces it.</p>
+
+  <div class="tm ap-wide" id="tmRoot">
+    <div class="tm-top">
+      <span class="tm-flag">conspiracyDiscovered</span>
+      <span class="tm-val" id="tmVal">false</span>
+      <button type="button" class="tm-go" id="tmGo">Read the Blackglass archive</button>
+    </div>
+
+    <div class="tm-screen" id="tmScreen">
+      <div class="tm-h">Arrival telemetry</div>
+      <div class="tm-v">ORSA Mars Colony &middot; Active</div>
+      <div class="tm-sp"></div>
+      <div class="tm-h">Incoming signal</div>
+      <div class="tm-big" id="tmBig">Welcome home.</div>
+
+      <div class="tm-fx" id="tmFx" hidden>
+        <span class="tm-acc"></span>
+        <span class="tm-hd" id="tmHd">[ORSA] ACCESS CONTROL // SIGNAL CORRUPT</span>
+        <span class="tm-ft" id="tmFt">//// DECRYPTING COMPLIANCE PACKET ////</span>
+      </div>
+
+      <div class="tm-panel" id="tmPanel" hidden>
+        <em>Access control</em>
+        <p>Civilian #39102: Unauthorized document access detected.</p>
+        <p>Landing clearance suspended.</p>
+        <p>Remain seated.</p>
+        <p>Escort en route.</p>
+      </div>
+    </div>
+
+    <div class="tm-bot">Static drawn to the mod's own recipe: <b>44</b> streaks of 8 to 90 pixels over <b>34</b> ticks, scanlines every 4 pixels, header shown when <b>tick % 5 is not 0</b> and footer when <b>tick % 7 is under 4</b>.</div>
+  </div>
+
+  <p class="ap-p">Two things are worth noticing about that screen. The first is that the colour changes before the words do. Green is the colony's palette all the way through the ending sequence, and the moment the flag is set the same telemetry renders amber, which on this site has always been the colour of a machine talking. The second is the question mark. The unmodified ending is a statement. The informed ending is <code>The End?</code>, and that is the only editorial comment the mod ever makes about itself.</p>
+
+  <p class="ap-p">Then the compliance packet. The player has not done anything at this point except arrive. The infraction is months old and several hundred million kilometres away, and it was a document they read in a dead building on a dead planet. <strong>ORSA logged it anyway.</strong></p>
+
+  <p class="ap-p">This is where Chapter III collides with this one. ORSA preserved humanity. Fine. It also preserved its own org chart. Its bureaucracy survived. Its security posture survived. Its document classification scheme survived the literal end of the world and is still enforcing itself against a civilian who spent a year and a half not dying. The company outlived the planet, and the part of it that outlived the planet most completely was <strong>access control.</strong></p>
+
+  <p class="ap-p">Neither ending is the canonical one, and I am not going to say which is true. One of them is what happens when you leave without knowing. The other is what happens when you leave knowing. That the second is worse is not a punishment for curiosity. It is what curiosity costs when the thing you were curious about is still running.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="7" aria-label="End on Earth">
+  <p class="ap-lede">The last thing the journal should be about is not Mars.</p>
+
+  <p class="ap-p">The ending screen is eight minutes and twenty seconds long if you let it run. Five seconds of black, a minute before the credits start, and then a post-credits sequence that fades up from black into a colony readout, an incoming signal, and if you learned too much, thirty four ticks of static and a red panel. Hold Q to fast-forward at fifty five ticks a tick. There is a dedication in it that is not about the game at all.</p>
+
+  <div class="ap-figs">
+    <div><b>700</b><span>ticks from arming the launch to the screen going dark</span></div>
+    <div><b>500</b><span>ticks of ending screen before the credits even start</span></div>
+    <div><b>34</b><span>ticks of static between a greeting and a warrant</span></div>
+  </div>
+
+  <p class="ap-p">Project Exodus gives the player the one thing Frozen Dawn otherwise never gives them, which is a future. They build the rocket. They fill the cells. They ignite engines above a world with almost no atmosphere left to carry the sound. And for the first time since the game began, <strong>the temperature stops mattering.</strong></p>
+
+  <p class="ap-p">Below them are the towns. ORSA facilities with the lights still on and nobody in them. Hearths. The things that survived, the things that remembered, an entire civilisation that humanity never knew it created and never once looked down at.</p>
+
+  <p class="ap-pull">Earth keeps moving into the dark. The player does not.</p>
+
+  <p class="ap-p">ORSA built the exit before the world needed one. They created the need. They left. Something else inherited what remained. And after surviving long enough to understand all of it, you leave too.</p>
+
+  <p class="ap-p">Somewhere ahead, a machine receives your signal. It does not know where you have been. It does not know what you found. It does not know what followed humanity into the cold.</p>
+
+  <p class="ap-p">It knows only that you are coming.</p>
+
+  <div class="ap-orsa">
+    <em>screen.frozendawn.ending.welcome</em>
+    <p><b>Welcome home.</b></p>
+  </div>
+
+  <p class="wh-under">One record in this archive has not been filed</p>
+</section>
+
+              </div>
+            </div>
+
+            <div class="ap-dbot">
+              <div class="ap-dsteps">
+                <button type="button" class="ap-dstep prev" id="apPrev" disabled><em>Back</em><b></b></button>
+                <button type="button" class="ap-dstep next" id="apNext"><em>Next</em><b></b></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="ap-replay" id="apReplay">Replay intro</button>
+  </div>
+</div>
+
+<script>
+
+(function(){
+  var frame = document.getElementById('apFrame');
+  if (!frame) return;
+  var doc = frame.querySelector('.ap-doc');
+  var title = frame.querySelector('.ap-title');
+  var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function arr(n, root){ return [].slice.call((root || document).querySelectorAll(n)); }
+
+  /* ---------------- the cut, then the title ----------------
+     the black plate holds full opacity for 4.75s and drops on a single frame,
+     no fade, and the title types itself in after it. under reduced motion
+     there is no plate and no wait at all. */
+  function measureTitle(){
+    var cs = getComputedStyle(title);
+    var probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:'
+      + cs.font + ';letter-spacing:' + cs.letterSpacing + ';text-transform:' + cs.textTransform;
+    probe.textContent = title.textContent;
+    document.body.appendChild(probe);
+    title.style.setProperty('--tw', (probe.offsetWidth + 3) + 'px');
+    probe.remove();
+  }
+  measureTitle();
+  if (RM) frame.classList.add('done');
+  title.addEventListener('animationend', function(e){
+    if (e.animationName === 'apType'){ title.style.width = 'auto'; title.style.overflow = 'visible'; }
+  });
+  frame.addEventListener('animationend', function(e){
+    if (e.animationName === 'apUp') frame.classList.add('done');
+  });
+  setTimeout(function(){ frame.classList.add('done'); }, 6500);
+
+  /* any real scroll intent lands the intro immediately. wheel and touch go on
+     the frame, not the doc: during the intro the black overlay sits on top,
+     so events never reach the scroll body. */
+  function skipIntro(){
+    if (!frame.classList.contains('done')) frame.classList.add('done');
+  }
+  frame.addEventListener('wheel',     skipIntro, { passive:true });
+  frame.addEventListener('touchmove', skipIntro, { passive:true });
+  doc.addEventListener('scroll', function(){ if (doc.scrollTop > 0) skipIntro(); }, { passive:true });
+  window.addEventListener('keydown', function(e){
+    if (/^(ArrowDown|ArrowUp|PageDown|PageUp|Home|End|Spacebar| )$/.test(e.key)) skipIntro();
+  }, { passive:true });
+  window.addEventListener('resize', function(){ measureTitle(); });
+  document.getElementById('apReplay').onclick = function(){
+    title.style.width = ''; title.style.overflow = ''; measureTitle();
+    frame.classList.remove('done');
+    frame.classList.remove('play'); void frame.offsetWidth; frame.classList.add('play');
+    doc.scrollTop = 0;
+  };
+
+  /* ================= grid stagger ================= */
+  var GRIDS = ['.ap-stats > *', '.ap-figs > *', '.ap-pass > *',
+               '.ap-cmts > *', '.wh-voc > *', '.lg-rd > *'];
+  function clearOn(el, cls){
+    function h(e){
+      if (e.target !== el) return;
+      el.classList.remove(cls);
+      el.style.animationDelay = '';
+      el.removeEventListener('animationend', h);
+      el.removeEventListener('animationcancel', h);
+    }
+    el.addEventListener('animationend', h);
+    el.addEventListener('animationcancel', h);
+  }
+  function stagger(root){
+    if (RM) return;
+    GRIDS.forEach(function(sel){
+      arr(sel, root).forEach(function(el, n){
+        if (n > 15) return;
+        el.style.animationDelay = (n * 0.045) + 's';
+        el.classList.remove('ap-pop'); void el.offsetWidth; el.classList.add('ap-pop');
+        clearOn(el, 'ap-pop');
+      });
+    });
+  }
+  function settle(root){
+    arr('.ap-pop', root).forEach(function(el){
+      el.classList.remove('ap-pop'); el.style.animationDelay = '';
+    });
+  }
+
+  /* ================= the deck ================= */
+  var deck = document.getElementById('apDeck');
+  if (deck){
+    var panes  = arr('.ap-pane', deck);
+    var strips = arr('.ap-dstrip', deck);
+    var stage  = deck.querySelector('.ap-dstage');
+    var bPrev  = deck.querySelector('.ap-dstep.prev');
+    var bNext  = deck.querySelector('.ap-dstep.next');
+    var cur = 0, morphT = 0;
+
+    function tabs(s){ return s.querySelectorAll('.ap-dtab'); }
+
+    /* eight tabs will not fit a phone at full length, so swap in the short
+       labels below 640px and put them back when there is room again */
+    var NARROW = window.matchMedia('(max-width:640px)');
+    strips.forEach(function(s){
+      tabs(s).forEach(function(b){
+        var n = b.lastChild;
+        if (n && n.nodeType === 3) b.setAttribute('data-long', n.nodeValue);
+      });
+    });
+    function fitTabs(){
+      var short = NARROW.matches;
+      strips.forEach(function(s){
+        tabs(s).forEach(function(b){
+          var n = b.lastChild; if (!n || n.nodeType !== 3) return;
+          var want = short ? (b.getAttribute('data-short') || b.getAttribute('data-long'))
+                           : b.getAttribute('data-long');
+          if (want && n.nodeValue !== want) n.nodeValue = want;
+        });
+      });
+    }
+
+    function ink(){
+      strips.forEach(function(s){
+        var bar = s.querySelector('.ap-dink'), t = tabs(s)[cur];
+        if (!bar || !t) return;
+        bar.style.width = t.offsetWidth + 'px';
+        bar.style.transform = 'translate3d(' + t.offsetLeft + 'px,0,0)';
+      });
+    }
+    function centre(){
+      strips.forEach(function(s){
+        var t = tabs(s)[cur]; if (!t) return;
+        var want = t.offsetLeft - (s.clientWidth - t.offsetWidth) / 2;
+        want = Math.max(0, Math.min(want, s.scrollWidth - s.clientWidth));
+        if (s.scrollTo) s.scrollTo({ left: want, behavior: RM ? 'auto' : 'smooth' });
+        else s.scrollLeft = want;
+      });
+    }
+    function fullName(i){
+      var t = tabs(strips[0])[i];
+      return t ? (t.getAttribute('data-full') || t.textContent.trim()) : '';
+    }
+    function step(btn, i, kicker){
+      if (!btn) return;
+      if (i < 0 || i >= panes.length){ btn.disabled = true; btn.innerHTML = ''; return; }
+      btn.disabled = false;
+      btn.innerHTML = '<em>' + kicker + '</em><b>' + fullName(i) + '</b>';
+    }
+    function deckTop(){
+      var a = deck.getBoundingClientRect(), b = doc.getBoundingClientRect();
+      return doc.scrollTop + (a.top - b.top);
+    }
+
+    function go(i, snap){
+      i = Math.max(0, Math.min(panes.length - 1, i));
+      if (i === cur) return;
+      var back = i < cur;
+      var from = stage.offsetHeight;
+      settle(panes[cur]);
+      panes[cur].classList.remove('on', 'enter', 'rev');
+      cur = i;
+      panes[cur].classList.add('on');
+      strips.forEach(function(s){
+        var ts = tabs(s);
+        for (var n = 0; n < ts.length; n++){
+          ts[n].classList.toggle('on', n === cur);
+          ts[n].setAttribute('aria-selected', n === cur ? 'true' : 'false');
+          ts[n].setAttribute('tabindex', n === cur ? '0' : '-1');
+        }
+      });
+      ink(); centre();
+      step(bPrev, cur - 1, 'Back to');
+      step(bNext, cur + 1, 'Next');
+      stagger(panes[cur]);
+      arr('.ap-figs b', panes[cur]).forEach(countUp);
+      if (panes[cur].querySelector('#lgRoot') && window.lgFit) window.lgFit();
+      if (!RM){
+        panes[cur].classList.add('enter');
+        if (back) panes[cur].classList.add('rev');
+        clearOn(panes[cur], 'enter');
+        clearOn(panes[cur], 'rev');
+      }
+      var to = stage.offsetHeight;
+      if (!RM && from && to && from !== to){
+        clearTimeout(morphT);
+        stage.classList.remove('morph');
+        stage.style.height = from + 'px';
+        void stage.offsetHeight;
+        stage.classList.add('morph');
+        stage.style.height = to + 'px';
+        morphT = setTimeout(function(){
+          stage.classList.remove('morph');
+          stage.style.height = '';
+        }, 470);
+      }
+      if (snap){
+        var want = Math.max(0, deckTop() - 6);
+        if (doc.scrollTo) doc.scrollTo({ top: want, behavior: RM ? 'auto' : 'smooth' });
+        else doc.scrollTop = want;
+      }
+    }
+
+    strips.forEach(function(s){
+      s.addEventListener('click', function(e){
+        var t = e.target.closest ? e.target.closest('.ap-dtab') : null;
+        if (!t) return;
+        go(+t.getAttribute('data-i'), false);
+      });
+      s.addEventListener('keydown', function(e){
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        go(cur + (e.key === 'ArrowRight' ? 1 : -1), false);
+        var t = tabs(s)[cur]; if (t) t.focus();
+      });
+    });
+    if (bPrev) bPrev.addEventListener('click', function(){ go(cur - 1, true); });
+    if (bNext) bNext.addEventListener('click', function(){ go(cur + 1, true); });
+    step(bPrev, -1, 'Back to');
+    step(bNext, 1, 'Next');
+    fitTabs();
+    requestAnimationFrame(function(){ ink(); });
+    window.addEventListener('resize', function(){ fitTabs(); ink(); });
+    if (NARROW.addEventListener) NARROW.addEventListener('change', function(){ fitTabs(); ink(); });
+    else if (NARROW.addListener) NARROW.addListener(function(){ fitTabs(); ink(); });
+  }
+
+  /* ================= count up + scroll reveal ================= */
+  function countUp(el){
+    if (RM || el.dataset.counted) return;
+    var m = el.textContent.trim().match(/^([\d,]+)(.*)$/);
+    if (!m) return;
+    var target = parseInt(m[1].replace(/,/g, ''), 10), suf = m[2];
+    if (!(target > 0)) return;
+    el.dataset.counted = '1';
+    var t0 = 0;
+    el.textContent = '0' + suf;
+    requestAnimationFrame(function run(t){
+      if (!t0) t0 = t;
+      var k = Math.min((t - t0) / 900, 1), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e).toLocaleString('en-US') + suf;
+      if (k < 1) requestAnimationFrame(run);
+    });
+  }
+
+  var rest = frame.querySelector('.ap-rest');
+  var pub = [], deckIdx = 0;
+  if (rest){
+    for (var n = 0; n < rest.children.length; n++){
+      var k = rest.children[n];
+      if (k === deck) break;
+      pub.push(k);
+    }
+  }
+  deckIdx = pub.length;
+  if (deck) pub.push(deck);
+
+  function land(el){
+    if (el.classList.contains('ap-rv')){
+      el.classList.add('in');
+      el.addEventListener('animationend', function h(){
+        el.classList.remove('in'); el.classList.add('set');
+        el.removeEventListener('animationend', h);
+      });
+    }
+    if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+    if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    stagger(el);
+  }
+  function revealAll(){ pub.forEach(function(el){ el.classList.remove('ap-rv'); el.classList.add('set'); }); }
+  function arm(){
+    if (RM || !window.IntersectionObserver){ revealAll(); return; }
+    pub.forEach(function(el, i){ if (i !== deckIdx) el.classList.add('ap-rv'); });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        land(e.target);
+      });
+    }, { root: doc, rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
+    pub.forEach(function(el){ io.observe(el); });
+
+    /* a jump scroll (end key, a restored position) can carry an element from
+       below the fold to above it without ever intersecting, and the observer
+       reports nothing for something it has never seen. sweep for those and
+       set them outright: they are already behind the reader. */
+    function setNow(el){
+      io.unobserve(el);
+      el.classList.remove('ap-rv'); el.classList.add('set');
+      settle(el);
+      if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+      if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    }
+    var sweeping = false;
+    function sweep(){
+      sweeping = false;
+      var top = doc.getBoundingClientRect().top, left = 0;
+      pub.forEach(function(el){
+        var c = el.classList;
+        if (!c.contains('ap-rv') || c.contains('in') || c.contains('set')) return;
+        if (el.getBoundingClientRect().bottom < top) setNow(el); else left += 1;
+      });
+      if (!left) doc.removeEventListener('scroll', onScroll);
+    }
+    function onScroll(){
+      if (sweeping) return;
+      sweeping = true;
+      requestAnimationFrame(sweep);
+    }
+    doc.addEventListener('scroll', onScroll, { passive: true });
+  }
+  if (frame.classList.contains('done')) arm();
+  else if (window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      if (frame.classList.contains('done')){ mo.disconnect(); arm(); }
+    });
+    mo.observe(frame, { attributes: true, attributeFilter: ['class'] });
+    setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 7000);
+  } else setTimeout(arm, 6600);
+})();
+</script>
+
+<script>
+
+/* ================= the fuel ledger =================
+   FuelProcessingSiloRecipes, run forward. a full set of six rocket fuel cells
+   is 30 silo runs and 50,400 base ticks of work. the silo asks the heater for
+   one fuel tick per 20 progress units, and the recipe needs baseTicks * 20
+   units, so the heater surcharge is exactly baseTicks no matter which heater
+   is standing there. the tier buys speed. it does not buy a discount. */
+(function(){
+  var root = document.getElementById('lgRoot');
+  if (!root) return;
+  var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  var TOTAL = 1008000;                 /* 50,400 base ticks x 20 units */
+  var ENDS  = [288000, 720000, 1008000];
+  var STRT  = [0, 288000, 720000];
+  var CELL  = 48000;                   /* 2400 base ticks x 20, one cell */
+  var RATE  = 4600;                    /* sim game ticks per real second */
+
+  var tiers = root.querySelectorAll('.lg-t[data-u]');
+  var cap   = root.querySelector('.lg-t[data-cap]');
+  var go    = document.getElementById('lgGo');
+  var eMul  = document.getElementById('lgMul');
+  var eUnit = document.getElementById('lgUnits');
+  var eTier = document.getElementById('lgTier');
+  var eCell = document.getElementById('lgCells');
+  var eTime = document.getElementById('lgTime');
+  var eTick = document.getElementById('lgTicks');
+  var eFuel = document.getElementById('lgFuel');
+  var eDays = document.getElementById('lgDays');
+  var segs  = [].slice.call(root.querySelectorAll('.lg-seg'));
+  var stages= [].slice.call(root.querySelectorAll('.lg-st'));
+  var fills = stages.map(function(s){ return s.querySelector('.lg-fill'); });
+  var pcs   = stages.map(function(s){ return s.querySelector('u[data-r="pc"]'); });
+
+  var base = 20, capOn = false, units = 20;
+  var u = 0, gt = 0, running = false, last = 0, state = 'idle';
+  var last_ = {};
+
+  function put(el, v){ if (el && last_[el.id] !== v){ last_[el.id] = v; el.textContent = v; } }
+  function mmss(t){
+    var s = Math.floor(t / 20), m = Math.floor(s / 60);
+    s = s % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+  function rate(){
+    units = capOn ? Math.floor(base * 3 / 2) : base;
+    put(eMul, 'x' + (units / 20).toFixed(2));
+    put(eUnit, units + ' units per tick');
+    var name = base === 60 ? 'Diamond' : base === 40 ? 'Gold' : base === 30 ? 'Iron' : 'Basic';
+    put(eTier, name + ' heater' + (capOn ? ' and capacitor' : ''));
+  }
+
+  function paint(){
+    var done = -1;
+    for (var i = 0; i < 3; i++){
+      var p = (u - STRT[i]) / (ENDS[i] - STRT[i]);
+      p = p < 0 ? 0 : p > 1 ? 1 : p;
+      var whole = Math.round(p * 100);
+      if (last_['p' + i] !== whole){
+        last_['p' + i] = whole;
+        fills[i].style.transform = 'scaleX(' + (whole / 100) + ')';
+        pcs[i].textContent = whole + '%';
+      }
+      if (p > 0 && p < 1 && done < 0) done = i;
+    }
+    var act = done < 0 ? (u >= TOTAL ? 2 : 0) : done;
+    for (i = 0; i < 3; i++) stages[i].classList.toggle('on', i === act);
+
+    var cells = Math.floor((u - STRT[2]) / CELL);
+    cells = cells < 0 ? 0 : cells > 6 ? 6 : cells;
+    if (last_.cells !== cells){
+      last_.cells = cells;
+      for (i = 0; i < segs.length; i++) segs[i].classList.toggle('on', i < cells);
+    }
+    put(eCell, cells + ' / 6');
+
+    var t = Math.round(gt);
+    put(eTime, mmss(t));
+    put(eTick, t.toLocaleString('en-US') + ' ticks elapsed');
+
+    var fuel = Math.round(u / 20);
+    put(eFuel, fuel.toLocaleString('en-US'));
+    put(eDays, (fuel / 24000).toFixed(2) + ' in-game days of warmth');
+  }
+
+  function label(){
+    put(go, state === 'running' ? 'Running' : state === 'done' ? 'Run it again' : 'Run the silo');
+  }
+
+  function frame(t){
+    if (!running) return;
+    if (!last) last = t;
+    var dt = (t - last) / 1000; last = t;
+    if (dt > 0.05) dt = 0.05;       /* a backgrounded tab must not teleport */
+    gt += RATE * dt;
+    u  += RATE * units * dt;        /* swapping heaters mid batch is allowed,
+                                       and the fuel total lands on 50,400 anyway */
+    if (u >= TOTAL){ u = TOTAL; running = false; state = 'done'; label(); }
+    paint();
+    if (running) requestAnimationFrame(frame);
+  }
+
+  function start(){
+    if (state === 'running') return;
+    u = 0; gt = 0; last = 0; last_ = {};
+    rate();
+    if (RM){ u = TOTAL; gt = TOTAL / units; state = 'done'; paint(); label(); return; }
+    state = 'running'; running = true; label();
+    requestAnimationFrame(frame);
+  }
+
+  for (var i = 0; i < tiers.length; i++){
+    (function(b){
+      b.addEventListener('click', function(){
+        for (var n = 0; n < tiers.length; n++) tiers[n].classList.toggle('on', tiers[n] === b);
+        base = +b.getAttribute('data-u');
+        rate();
+      });
+    })(tiers[i]);
+  }
+  if (cap) cap.addEventListener('click', function(){
+    capOn = !capOn;
+    cap.classList.toggle('on', capOn);
+    rate();
+  });
+  if (go) go.addEventListener('click', start);
+
+  window.lgFit = function(){ last_ = {}; rate(); paint(); };
+  rate(); paint();
+})();
+</script>
+
+<script>
+
+/* ================= the post credits terminal =================
+   FrozenDawnEndingScreen.renderPostCredits. the greeting is green, the truth
+   route is amber, and between the two sits drawComplianceStatic: 34 ticks of
+   44 random streaks with the header dropped on every fifth tick and the footer
+   showing four ticks out of seven. same counts, same cadence. */
+(function(){
+  var root = document.getElementById('tmRoot');
+  if (!root) return;
+  var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+  var go    = document.getElementById('tmGo');
+  var val   = document.getElementById('tmVal');
+  var big   = document.getElementById('tmBig');
+  var fx    = document.getElementById('tmFx');
+  var hd    = document.getElementById('tmHd');
+  var ft    = document.getElementById('tmFt');
+  var panel = document.getElementById('tmPanel');
+
+  var STREAKS = 44, TICKS = 34;
+  var bars = [], timer = 0, on = false;
+
+  function build(){
+    if (bars.length) return;
+    for (var i = 0; i < STREAKS; i++){
+      var s = document.createElement('span');
+      s.className = 'tm-st';
+      fx.appendChild(s);
+      bars.push(s);
+    }
+  }
+  function noise(){
+    var w = fx.clientWidth || 520, h = fx.clientHeight || 82;
+    for (var i = 0; i < bars.length; i++){
+      var len = 8 + Math.floor(Math.random() * 83);
+      var r = Math.random();
+      var s = bars[i].style;
+      s.width  = len + 'px';
+      s.left   = Math.floor(Math.random() * Math.max(1, w - len)) + 'px';
+      s.top    = Math.floor(Math.random() * h) + 'px';
+      s.background = r < 0.35 ? '#ffc0c0' : r < 0.72 ? '#ff5c5c' : '#241014';
+    }
+  }
+  function stop(){ if (timer){ clearInterval(timer); timer = 0; } }
+
+  function set(next){
+    stop();
+    on = next;
+    root.classList.toggle('on', on);
+    val.textContent = on ? 'true' : 'false';
+    go.textContent = on ? 'Forget the password' : 'Read the Blackglass archive';
+    big.textContent = on ? 'The End?' : 'Welcome home.';
+    if (!on){ fx.hidden = true; panel.hidden = true; return; }
+    panel.hidden = true;
+    if (RM){ fx.hidden = true; panel.hidden = false; return; }
+    build();
+    fx.hidden = false;
+    noise();
+    var n = 0;
+    go.disabled = true;
+    timer = setInterval(function(){
+      n++;
+      if (n >= TICKS){
+        stop();
+        fx.hidden = true;
+        panel.hidden = false;
+        go.disabled = false;
+        return;
+      }
+      noise();
+      hd.hidden = (n % 5 === 0);
+      ft.hidden = !((n % 7) < 4);
+    }, 50);
+  }
+
+  go.addEventListener('click', function(){ if (!go.disabled) set(!on); });
+  set(false);
+})();
+</script>

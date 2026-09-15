@@ -22,6 +22,7 @@ PAGES = [
     ("holding-back-the-cold",     "chapter-4.html", "IV. Holding Back the Cold"),
     ("what-the-cold-made",        "chapter-5.html", "V. What the Cold Made"),
     ("the-ones-who-stayed",       "chapter-6.html", "VI. The Ones Who Stayed"),
+    ("welcome-home",              "chapter-7.html", "VII. Welcome Home"),
 ]
 
 # design docs, reachable from the workbench index but out of the main nav.
