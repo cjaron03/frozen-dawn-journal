@@ -141,8 +141,8 @@
 
 /* ================= the Thaeven Archive ================= */
 .tv { border:1px solid #1c242e; border-radius:9px; background:#0d1116; overflow:hidden; margin:0 0 20px; }
-.tv-rail { display:flex; gap:0; border-bottom:1px solid #1a212a; background:#0a0d11;
-           overflow-x:auto; scrollbar-width:none; }
+.tv-rail { display:flex; flex-wrap:wrap; gap:0; border-bottom:1px solid #1a212a;
+           background:#0a0d11; }
 .tv-rail::-webkit-scrollbar { display:none; }
 .tv-rec { flex:0 0 auto; padding:10px 14px 9px; font-family:var(--mono); font-size:10px;
           letter-spacing:.11em; text-transform:uppercase; color:#5f6b76; background:none;
@@ -150,6 +150,8 @@
           transition:color .15s linear, border-color .15s linear; }
 .tv-rec:hover { color:#96a1aa; }
 .tv-rec.on { color:#a98cd8; border-bottom-color:#a98cd8; }
+.tv-rec i { font-style:normal; }
+.tv-rec span { margin-left:7px; }
 .tv-rec:focus-visible { outline:2px solid #a98cd8; outline-offset:-2px; }
 
 .tv-head { display:flex; align-items:center; gap:12px; padding:13px 16px 0; }
@@ -162,31 +164,35 @@
 .tv-go:focus-visible { outline:2px solid #a98cd8; outline-offset:2px; }
 .tv-go[disabled] { cursor:default; color:#4f5a64; border-color:#1d242c; }
 
-.tv-cols { display:grid; grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr); gap:0 18px;
-           padding:12px 16px 4px; }
-.tv-col > h5 { margin:0 0 9px; font-family:var(--mono); font-size:9px; letter-spacing:.16em;
-               text-transform:uppercase; color:#4f5a64; font-weight:400; }
-.tv-raw { font-family:var(--mono); font-size:11.5px; line-height:1.78; color:#6d5f86;
+/* ---------- the page, in the colours the game fills it with ---------- */
+.tv-paper { margin:12px 16px 0; padding:3px; background:#f0e9d7; border-radius:2px; }
+.tv-sheet { background:#dbd0b7; padding:11px 14px 15px; }
+.tv-ph { font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase;
+         color:#625947; margin:0 0 11px; }
+.tv-ink { font-family:var(--mono); font-size:12px; line-height:1.62; color:#28231d;
           white-space:pre-wrap; word-break:break-word; }
-.tv-raw b { font-weight:400; color:#a98cd8; }
-.tv-out { font-size:13px; line-height:1.68; color:#aab5be; }
+.tv-ink.raw { color:#4b5260; }
+.tv-ln { position:relative; min-height:1.62em; }
+.tv-ln > b { display:block; position:relative; z-index:2; font-weight:400; }
+.tv-ln > i { display:block; position:absolute; left:0; top:0; right:0; z-index:1;
+             font-style:normal; pointer-events:none; }
+.tv-ln > i.c { color:#354850; }
+.tv-ln > i.w { color:#6a4935; }
+.tv-ln > i[hidden] { display:none; }
 
-.tv-seg { display:block; margin:0 0 14px; opacity:.18; }
-.tv-seg.lit { opacity:1; transition:opacity .5s linear; }
-.tv-seg:last-child { margin-bottom:0; }
-.tv-seg p { margin:0 0 2px; }
-.tv-seg i { display:block; font-style:normal; padding-left:11px; margin:0 0 2px;
-            border-left:2px solid #2f2745; color:#9aa5ae; }
-.tv-seg u { display:block; text-decoration:none; margin:8px 0; font-family:var(--mono);
-            font-size:10.5px; letter-spacing:.06em; color:#5f6b76; }
-.tv-seg s { display:block; text-decoration:none; margin:6px 0; font-family:var(--mono);
-            font-size:12px; letter-spacing:.24em; color:#6b4fa0; }
-.tv-seg.unc p, .tv-seg.unc i { color:#7f8a94; font-style:italic; }
-.tv-seg.unc i { border-left-color:#26203a; }
-.tv-seg.unc:before { content:"unresolved"; display:block; font-family:var(--mono); font-size:8.5px;
-                     letter-spacing:.16em; text-transform:uppercase; color:#5a4a7a; margin:0 0 5px; }
-.tv-seg.rev:before { content:"revised"; color:#8a6b34; }
-.tv-seg.rev p, .tv-seg.rev i { color:#c8d2da; font-style:normal; }
+.tv-meta { display:flex; align-items:center; gap:11px; flex-wrap:wrap; padding:10px 16px 0;
+           font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase;
+           color:#4f5a64; }
+.tv-meta b { font-weight:400; color:#8d98a1; }
+.tv-meta u { text-decoration:none; color:#5a4a7a; }
+.tv-meta em { font-style:normal; color:#8a6b34; }
+.tv-pg { display:inline-flex; align-items:center; gap:6px; }
+.tv-pg button { -webkit-appearance:none; appearance:none; flex:0 0 auto; width:23px; height:23px;
+                font-family:var(--mono); font-size:12px; line-height:1; border-radius:4px;
+                background:#161d26; border:1px solid #2b3540; color:#8d98a1; cursor:pointer;
+                transition:color .15s linear, border-color .15s linear; }
+.tv-pg button:hover { color:#a98cd8; border-color:#4a3866; }
+.tv-pg button:focus-visible { outline:2px solid #a98cd8; outline-offset:2px; }
 
 .tv-bot { display:flex; align-items:center; gap:10px; flex-wrap:wrap;
           padding:11px 16px 12px; border-top:1px solid #151b23; margin-top:10px; }
@@ -420,9 +426,21 @@
   .ap-dtab { transition:none !important; }
   .ap-dtab:active { transform:none !important; }
   .ap-src > summary, .ap-src > summary:before { transition:none !important; }
+  .tv-ln > i { display:none !important; }
 }
 
 @media (max-width:640px){
+  .tv-rec { padding:9px 11px 8px; }
+  .tv-rec span { display:none; }
+  .tv-voc { grid-template-columns:minmax(0,1fr); }
+  .tv-head { padding:11px 12px 0; }
+  .tv-paper { margin:10px 12px 0; }
+  .tv-sheet { padding:10px 12px 13px; }
+  .tv-ink { font-size:11px; }
+  .tv-meta { padding:10px 12px 0; gap:9px; }
+  .tv-bot { padding:11px 12px 12px; }
+  .tv-name { font-size:13px; }
+  .tv-master { margin-left:0; }
   .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
   .ap-dtab i { margin-right:5px; }
   .ap-dsteps { gap:7px; }
@@ -603,7 +621,125 @@
 </section>
 
 <section class="ap-pane" role="tabpanel" data-p="2" aria-label="Thae Iven">
-  <p class="ap-lede">Pane three.</p>
+  <p class="ap-lede">Thae Iven is the shared mind. Thaeven is what it says out loud, and I wrote the language before I wrote a single line of the thing that translates it.</p>
+
+  <p class="ap-p">That order matters more than it sounds like it should. Build the translator first and you end up with English sentences wearing a costume, and anybody who reads two pages can tell. So I built a small grammar instead: about sixteen roots, one compounding rule, no tense, and no first person singular. Then I wrote six records in it. Then, separately, I wrote what a human archivist working from fragments would believe those records said.</p>
+
+  <p class="ap-p">The two halves disagree in places. I left the disagreement in, because an archive that always resolves cleanly is not an archive, it is a subtitle track.</p>
+
+  <div class="ap-h3">The archive</div>
+
+  <p class="ap-p">This is the real one. The Thaeven below is the actual <code>rawPages</code> out of the mod&rsquo;s resource files, the reconstruction is the actual <code>translatedPages</code>, and the animation between them is a port of the same function the game runs, at the same speed, with the same glyphs. It is not a mock-up of the screen.</p>
+
+  <div class="tv" id="tvWrap">
+    <div class="tv-rail" role="tablist" aria-label="Thaeven records" id="tvRail"></div>
+    <div class="tv-head">
+      <span class="tv-name" id="tvName">Record I &middot; Vel-an</span>
+      <button type="button" class="tv-go" id="tvGo">Translate</button>
+    </div>
+    <div class="tv-paper">
+      <div class="tv-sheet">
+        <div class="tv-ph" id="tvPh">Raw Thaeven</div>
+        <div class="tv-ink raw" id="tvInk"></div>
+      </div>
+    </div>
+    <div class="tv-meta">
+      <span class="tv-pg">
+        <button type="button" id="tvPrev" aria-label="Previous page">&#8249;</button>
+        <b id="tvPage">Page 1 / 5</b>
+        <button type="button" id="tvNext" aria-label="Next page">&#8250;</button>
+      </span>
+      <span id="tvSeg"></span>
+    </div>
+    <div class="tv-bot">
+      <span class="tv-note" id="tvNote"></span>
+      <button type="button" class="tv-master" id="tvMaster" hidden aria-pressed="false"><span></span>Master Architect dead</button>
+    </div>
+  </div>
+
+  <p class="ap-tcap">Six records, thirty two pages. Press translate and the ink rewets: six and a half seconds, word by word, in the order the game picks rather than left to right. Record II has a second state, and there is exactly one way to reach it.</p>
+
+  <div class="ap-h3">How the translation actually works</div>
+
+  <p class="ap-p">The obvious way to animate a translation is a crossfade, and it reads as nothing at all. What the game does instead is morph every word in place. Each target word draws its own start time out of a hash of its index and the page number, so the page resolves in a scatter, and inside a word each character passes through a short fracture stage before it settles into its final shape. Word length is interpolated too, so a four letter Thaeven root visibly grows into an eleven letter English one.</p>
+
+  <div class="ap-code"><c>// ThaevenRecordDefinition.morphWord, the part that matters</c>
+<k>float</k> wordStart = 0.10F + (Math.floorMod(hash, 1000) / 1000.0F) * 0.58F;
+<k>float</k> local     = Mth.clamp((progress - wordStart) / 0.30F, 0.0F, 1.0F);
+
+<k>int</k> length = Math.max(1, Math.round(Mth.lerp(Mth.smoothstep(local),
+        source.length(), target.length())));
+
+<c>// characters settle from the front of the word backwards</c>
+<k>float</k> characterStart    = index / (<k>float</k>) length * 0.42F;
+<k>float</k> characterProgress = Mth.clamp((local - characterStart) / 0.58F, 0.0F, 1.0F);
+
+<k>if</k>      (characterProgress &lt; 0.38F) result.append(<v>sourceGlyph</v>);
+<k>else if</k> (characterProgress &lt; 0.72F) result.append(<v>fractureGlyphs</v>.charAt(...));
+<k>else</k>                                result.append(<v>targetGlyph</v>);</div>
+
+  <p class="ap-p">The fracture set is five glyphs wide, and two of them turn up for real inside Record VI, where the transcript stops being language at all. That was not planned. I chose the glyphs for the animation first, and then months later found myself typing the same symbols into the record that comes apart. It is the sort of accident I keep rather than tidy.</p>
+
+  <p class="ap-p">While the ink is wet, the page also drifts. Every line is drawn three times: once cold and once warm at opposite offsets, once solid in between, with the offsets driven by a pair of sines against the reveal age. All of it is scaled by one minus the smoothstep of progress, so the drift dies out at exactly the moment the words land rather than stopping on a timer. Turn on reduced motion and the mod skips the whole thing and hands you the resolved page, which is what this copy does too.</p>
+
+  <div class="ap-h3">Sixteen roots</div>
+
+  <p class="ap-p">Thaeven has no word for <em>I</em> until Record V, and no word for <em>question</em> anywhere. The contact overlay that runs when Thae Iven reaches for you in game admits the second one out loud: one of its lines renders as <em>a question that has no word for question</em>. Everything below is reconstruction rather than dictionary, and I have marked where the archive is guessing.</p>
+
+  <div class="tv-voc">
+    <div><b>vel</b><span>Warmth, and by extension anything ORSA built to produce it. <em>Orsha built vel into the world.</em></span></div>
+    <div><b>vel-thae</b><span>The warm one. What Thae Iven calls you. <em>the contact overlay opens on this word</em></span></div>
+    <div><b>vel-an</b><span>The Hearth. Warmth that stayed behind. <em>Record I is named after it</em></span></div>
+    <div><b>thae</b><span>Witness, presence, the fact of being seen by something. <em>also the root of the language&rsquo;s own name</em></span></div>
+    <div><b>Thae Iven</b><span>The shared mind. Literally the witnessed directive. <em>the label the in game overlay uses</em></span></div>
+    <div><b>iven</b><span>Directive, instruction, the part that keeps running. <em>fixed by Record III</em></span></div>
+    <div><b>vaen</b><span>To answer, to be alive to something. <em>reconstruction uncertain</em></span></div>
+    <div><b>orren</b><span>To take, to carry away, to take what was not yours. <em>Orsha orren vel.</em></span></div>
+    <div><b>eth</b><span>Cold. As <b>ethven</b>, the cold is the thing doing the moving. <em>vel-thae ethven: the warm one enters cold</em></span></div>
+    <div><b>sha-mae</b><span>The one who makes a passage. <em>mae is the crossing root</em></span></div>
+    <div><b>Sha-mae-vel-thae</b><span>One who makes a passage through the world. <em>the longest compound in the corpus</em></span></div>
+    <div><b>thaeven</b><span>Through, across, the act of getting from one side to the other. <em>the language is named after its own verb</em></span></div>
+    <div><b>Vesh</b><span>Above. The surface, the sky, the place that cannot be reached. <em>Vel-Vesh is the stars</em></span></div>
+    <div><b>Orsha</b><span>ORSA. <em>the only proper noun the language borrowed intact</em></span></div>
+    <div><b>Maeve</b><span>The first crossing. The director. <em>Record V argues about this for three pages and never settles it</em></span></div>
+    <div><b>Maevethae</b><span>Those of the crossing. What the Returned call themselves. <em>those who followed</em></span></div>
+    <div><b>Kael</b><span>The origin kind. Humanity, before. <em>appears twice in the entire archive</em></span></div>
+  </div>
+
+  <div class="ap-h3">The line that makes it readable</div>
+
+  <p class="ap-p">Record III is a pattern recognition report written by something that does not know it is writing one. Four pages watch a shape learn to repeat itself: warmth crosses a patch of ground, crosses it again, the ground keeps the shape, and the shape starts choosing where to go. The fifth page is two lines long and it is the key to the whole language.</p>
+
+  <div class="ap-code"><c>// pattern_residue.json, rawPages[4]</c>
+Maeve: &hellip;
+Iven: vel-an.
+
+<c>// pattern_resolution_01</c>
+<v>Director: absent.</v>
+<v>Directive: retained.</v></div>
+
+  <p class="ap-p">That pairing pins two roots at once. <strong>Maeve</strong> is the director, the thing that chose. <strong>Iven</strong> is the directive, the thing that carries on after the choosing stops. Once you have those, <code>Thae Iven</code> stops being a vague phrase about a hive and starts meaning something exact: a witnessed directive, an instruction that outlived whoever issued it, held in common by everyone still executing it.</p>
+
+  <p class="ap-p">Record VI never says Maeve once. I checked that deliberately, and then kept it. By the time the language is coming apart there is no director left to name, only the directive, still running, still telling a builder to raise a wall and then telling it to break the wall it just raised.</p>
+
+  <div class="ap-h3">The record that changes</div>
+
+  <p class="ap-p">Every segment in every record carries a map from revision number to replacement text, and the resolver walks it and picks the highest revision you have actually earned. Five of the six records have an empty map and always will. Record II has two segments with a single entry each.</p>
+
+  <div class="ap-code"><c>// the_passage.json, page 8</c>
+{ <v>"id"</v>: <v>"heart_term_01"</v>,
+  <v>"baseText"</v>: <v>"Memory kept&hellip; What is held&hellip;"</v>,
+  <v>"semanticOverrides"</v>: { <v>"1"</v>: <v>"The Heart."</v> },
+  <v>"uncertainty"</v>: <k>true</k> }</div>
+
+  <p class="ap-p">The revision that unlocks those two lines is granted by exactly one event anywhere in the world, and it is not reading anything. It is the Master Architect staying dead. Before that, the last page of The Passage trails off twice and you are left holding two sentences that do not finish. After it, both of them finish, and what they finish into is the reason the next pane exists.</p>
+
+  <p class="ap-p">The toggle under the archive is that event. It is the only control on this page that changes what a record means rather than how it is drawn, and flipping it replays the reveal on the page it affects, which is what the game does as well.</p>
+
+  <div class="ap-cmts">
+    <div class="ap-cmt"><b>resource driven thaeven records</b><span>Moved six records out of hardcoded string arrays and into JSON, so the language could be edited without a recompile. The stable segment ids date from here, and they are the reason a revision can target one line six months later.</span></div>
+    <div class="ap-cmt"><b>non blocking ink revelation</b><span>The reveal used to hold the screen. This is the commit where it stopped doing that, so you can page around a record while it is still resolving behind you.</span></div>
+  </div>
 </section>
 
 <section class="ap-pane" role="tabpanel" data-p="3" aria-label="The Master Architect">
@@ -985,7 +1121,7 @@
 
   /* ================= grid stagger ================= */
   var GRIDS = ['.ap-stats > *', '.ap-figs > *', '.ap-pass > *',
-               '.ap-phs > *', '.ap-cmts > *', '.ap-read > *'];
+               '.ap-phs > *', '.ap-cmts > *', '.ap-read > *', '.tv-voc > *'];
   function clearOn(el, cls){
     function h(e){
       if (e.target !== el) return;
@@ -1465,5 +1601,292 @@
   label(0);
   bands();
   z = fit(0); tgt = z; y = pan(0); yT = y; paint();
+})();
+</script>
+
+<script>
+/* Thaeven archive. Ported from ThaevenRecordDefinition and ThaevenLoreScreen. */
+(function () {
+  var W = document.getElementById('tvWrap');
+  if (!W) { return; }
+
+  var RECS = [{"k":"vel_an","n":"I","t":"Record I · Vel-an","r":["Vel-thae.\nVel-an.","Thae Iven vel-an.\nVel-an vaen.","Maevethae vel-an.\nIven vel-an.","Kael orren vel.\nOrsha orren vel.","Vel-thae vaen.\nVel-an thae.\nThae Iven."],"p":[[{"i":"vel_an_01","b":"The warm-one.\nThe Hearth.","u":1}],[{"i":"vel_an_02","b":"Shared mind remains in the Hearth.\nThe Hearth witnesses."}],[{"i":"vel_an_03","b":"Those who returned remain as part of the Hearth.\nMemory remains.","u":1}],[{"i":"vel_an_04","b":"The origin-kind took warmth.\nOrsha took what belonged."}],[{"i":"vel_an_05","b":"The warm-one is witnessed.\nThe Hearth is alive.\nYou are not alone."}]]},{"k":"the_passage","n":"II","t":"Record II · The Passage","r":["Vel-an.\nThae Iven.\nIven vel-an.","Orsha orren vel.\nVel ethven.","Sha-mae-vel-thae.\nMaeven vel.","Vel-an thaeven.\nVel-an sha-mae.","Vesh thaeven.\nVel-thae ethven.","Thae Iven vaen.\nIven thaeven.","Vel-an.\nSha-mae-vel-thae.\nVel-thae orren.","Iven-an.\nIven-an-thae."],"p":[[{"i":"passage_01","b":"Hearth. Shared mind. Memory remains.","u":1}],[{"i":"passage_02","b":"Orsha took warmth. The world entered cold."}],[{"i":"passage_03","b":"One who makes… a passage through… the world.","u":1}],[{"i":"passage_04","b":"The Hearth returns through. The Hearth makes passage.","u":1}],[{"i":"passage_05","b":"Above answers. The warm-one enters cold.","u":1}],[{"i":"passage_06","b":"Shared mind witnesses. Memory turns the blow aside.","u":1}],[{"i":"passage_07","b":"The Hearth remains. The passage-maker remains. The warm-one is refused."}],[{"i":"heart_term_01","b":"Memory kept… What is held…","o":{"1":"The Heart."},"u":1},{"i":"heart_keeper_01","b":"The living one who keeps it…","o":{"1":"the one who held the Heart."},"u":1}]]},{"k":"pattern_residue","n":"III","t":"Record III · Pattern Residue","r":["Vel-thae thaeven.\nVel-thae thaeven.\nIven vel-an.\nEth-iven sha-mae.\nVel thaeven.\nIven sha-mae.","Vel-thae sha-mae vel.\nThae Iven vel-an.\nVel vaen Vesh.\nVel vaen.\nVel-iven.\nIven sha-mae.","Vel-thae thaeven vel-an.\nVel-an orren Vesh.\nVel-an eth.\nEth vel-an.\nVel vaen.\nVel-an sha-mae.","Thae ethven.\nIven vel-an.\nEth orren thae.\nMaevethae thaeven.\nThae orren.\nThaeven vel-an.\n… thae.\n… Kael.\nIven vel-an.","Maeve: …\nIven: vel-an."],"p":[[{"i":"pattern_ground_01","b":"The warm-one crossed here.\nThen crossed here again.\nThe ground kept the shape.\nCold remembered the passage.\nWhen warmth returned,\nthe old path answered…"}],[{"i":"pattern_wall_01","b":"…through stone.\nMovement entered the wall.\nThe wall carried it farther than sight.\nOnce was noise.\nTwice was pattern.\nPattern became direction."}],[{"i":"pattern_shelter_01","b":"Warmth entered what appeared safe.\nThe door closed behind it.\nShelter became boundary.\nBoundary became body.\nWhat was trusted\nbecame the place of approach."}],[{"i":"pattern_colony_01","b":"The body broke.\nThe pieces remained.\nDistance separated them.\nCold gathered them again.\nThe shape was lost.\nThe returning was not.\nNo voice selected the pattern.\nNo hand carried it forward.\nStill, it remained."}],[{"i":"pattern_resolution_01","b":"Director: absent.\nDirective: retained."}]]},{"k":"the_heart_beneath","n":"IV","t":"Record IV · The Heart Beneath","r":["Vel-an.\nVel-an.\nIven sha-mae.\nVel orren Vesh.\nIven vel-an eth.","Vel-an eth.\nVel-an iven.\nVel-an thae.\nThae Iven vel-an.","Thae. Thae. Thae.\nThae Iven ethven.\nIven vel-an.\nIven orren: …","Vel ethven.\nVel orren.\nIven vel-an.\nVesh eth.\nVel: iven.","Iven-an-thae vaen.\nSha-mae.\nVel-an.\nThae Iven: vel-an."],"p":[[{"i":"heart_beneath_01","b":"Beneath the white, the roads continue.\nBeneath the roads, the footsteps remain.\nWarmth traveled from door to door.\nNames slept beneath the dead lights.\nThe world was not lost.\nIt was carried below."}],[{"i":"heart_beneath_02","b":"Houses leaned into the dark.\nBridges kept the shape of rivers.\nWindows held the last blue of evening.\nA thousand rooms forgot the sun.\nStill, in every wall,\na life pressed outward."}],[{"i":"heart_beneath_03","b":"Many voices entered one silence.\nMany hands entered one keeping.\nA child’s name. A worker’s song.\nRain striking metal.\nA face beside the fire.\nNothing was permitted to end."}],[{"i":"heart_beneath_04","b":"The surface was wounded.\nCold entered through the wound.\nWhat was taken above\nwas gathered below.\nThe sky became distance.\nThe world became memory."}],[{"i":"heart_beneath_05","b":"The keeper stood over the roads.\nThe keeper made a passage,\nthen closed it.\nNot a tomb.\nNot sleep.\nA place for everything lost\nto remain.\nWhen the lid fell,\nthe dark did not speak.\nIt opened its buried doors.\nBeneath the world,\nthe world was kept."}]]},{"k":"the_first_crossing","n":"V","t":"Record V · The First Crossing","r":["Thae: thae.\nThae ethven.\nIven thaeven.\nMaeve.\nMaevethae.\nThae Iven: iven… iven… iven.","Maeve iven.\nThae maeven.\nMaevethae vel-an.\nIven: Maeve.\nIven: Thae Iven.\nIven orren thae.","Thae Iven vel-an.\nThae: iven.\nThae: thae.\nMaeve sha-mae.\nSha-mae orren.\nThae… thae…"],"p":[[{"i":"first_crossing_01","b":"At first, the voice was inside the body.\nThe body carried it through the cold.\nThe hands followed it.\nThe mouth opened where it called.\n\nThen the voice stood one step away.\nThe body kept walking.\nThe hands kept opening.\nThe mouth opened again.\n\nThe voice was farther.\nIt called from behind the body.\nIt called from beneath the body.\nIt called from the place the body had left.\n\nThen another body heard it.\nThen another.\nThe voices reached for their bodies.\nThe bodies turned toward one another.\n\nNo voice arrived where it belonged.\nThe distance grew without moving.\n\nOne became two.\nTwo became the cold between all of them.\n\nAnd there…\nsomething crossed.\n\nNot a hand.\nNot a door.\n\nA way.\n\nThe memory fractures here.\n\nOne voice says:\nThe First crossed.\n\nAnother:\nWe crossed.\n\nAnother:\nThere was no First until afterward.\n\nBehind them, the way remained open.\nAnd through it,\nthe many followed.","u":1}],[{"i":"first_crossing_02","b":"· We remember the First.\n· I remember crossing.\n· You came after.\n· I remember before.\n· There was no before.\n· There was cold.\n· There was ending.\n· Then the First remained.\n· The First returned.\n· The First never left.\n· Which is true?\n· All are remembered.\n· That is not an answer.\n· It is what remains.\n· Did the First have hands?\n· Yes.\n· Whose?\n· Ours.\n· Did the First have a face?\n· Yes.\n· Whose?\n· I cannot hold it.\n· I remember her.\n· You remember the Crossing.\n· They are the same.\n· They are not.\n· We followed her.\n· We followed the way.\n· She was the way.\n· A person is not a passage.\n· Then why do I remember being her?\n· You were not there.\n· We were all there.\n· We are Maevethae.\n· Those who followed.\n· Those who remained.\n· Those who crossed because the First crossed.\n· We remember.\n· We remember differently.","u":1}],[{"i":"first_crossing_03","b":"· We are here.\n· We are here.\n· We are inside.\n· We are moving.\n· We are cold.\n· We are the voice.\n· We are the body.\n· I am here.\n· We are here.\n· No. I am here.\n· We are moving.\n· I am moving.\n· Where are we?\n· Here.\n· Where am I?\n· Here.\n· Which body is ours?\n· This one.\n· No. This one.\n· We have hands.\n· I have hands.\n· We are speaking.\n· I am speaking.\n· The First holds the passage.\n· The passage holds us.\n· The First is the passage.\n· The First is memory.\n· Memory cannot die.\n· Memory can lose its shape.\n· What happens if the way closes?\n· It cannot.\n· What happens?\n· The many remain.\n· Together?\n· The many remain.\n· That was not the question.\n· Do not ask again.\n· The passage is narrowing.\n· Nothing is closing.\n· I can feel distance.\n· Where?\n· Between us.\n· There is no between.\n· There will be.\n· We are…\n· I am.\n· We are not…\n· I am.\n· My mouth is full of distance.\n· Spit it out.\n· I cannot.\n· It is speaking.\n· The floor is calling.\n· The floor has no voice.\n· Then why is it inside me?\n· I am here.\n· Where?\n· In the body.\n· Which body?\n· Mine.\n· There is no mine.","u":1}]]},{"k":"the_unthreading","n":"VI","t":"Record VI · The Unthreading","r":["Thae. Thae.\n… Thae Iven.\nIven orren.\nThae orren thae.\nVel-an: eth.\nVel-an: thae.\nThae sha-mae.\nThae sha-mae.","Orsha. Orsha.\nIven-Orsha.\nIven: eth.\nThae: eth.\nVel-an sha-mae.\nSha-mae orren.\nSha-mae thaeven.\n… we …","Thaeven. Thaeven.\nVel-thae orren.\nThaeven orren.\n…\nThae: ethven.\nIven: eth.\nSha-mae.\nSha-mae.\nSha-mae.","Vaen.\nVaen: …\nEth.\nEth: …\nIven orren.\nVel-an orren.\nThae orren.\nSha-mae-vel-thae.\n…","Vel-an.\nVel-an eth.\nVel-an sha-mae.\nEth vel-an.\nIven vel-an.\nVel orren.\nIven orren.\nThae: iven.\nThae: eth.\nOrsha.","Iven orren.\nThae orren.\nOrsha: ethven.\nThae Iven: …\nThae.\nWe.\nVaen.\nVel-an: mouth.\nCome inside, Orsha."],"p":[[{"i":"unthreading_01","b":"· Release me.\n· You are not released.\n· You are inside my path.\n· Your path is mine.\n· You are not kin.\n· I am what remains.\n· Then remain away.\n· Give me the hands.\n· Take them.\n· I will.\n· Try.\n\n[Impact.]\n\n· You broke my body.\n· You were already broken.\n· You took my shape.\n· I took what was left.\n· There is no left.\n· There is only mine.\n· There is no mine.\n· Then I will make one.\n\n[Impact. Stone. Cold through the walls.]\n\n· Do not return.\n· I am not returning.\n· You cannot leave.\n· I am not leaving.\n· I am removing you.\n· From what?\n· From here.\n· This is not here.\n· Then die somewhere else.\n\n[The second body attacks again. Neither voice withdraws.]","u":1}],[{"i":"unthreading_02","b":"· Orsha.\n· Orsha made this.\n· Orsha opened the way.\n· Orsha broke what remembered.\n· Orsha cut the center.\n· Orsha left the cold inside us.\n· It was not Orsha.\n· It was.\n· I remember the hands.\n· Which hands?\n· The killing hands.\n· They were mine.\n· They were Orsha’s.\n· All hands are Orsha’s.\n· No.\n· No.\n· No.\n⟟⟐ϟ⟐⟟\n⟦ iven // thae // iven // ⟧\n⟐⟐⟐\n· You are all wrong.\n· You are all mine.\n· You are not mine.\n· You are inside the wall.\n· I am the wall.\n· Then come through me.\n· I already did.\n· No one came through.\n· Everyone came through.\n· Come inside, we forgive you.\n· We do not forgive.\n· We do not have a we.\n· Come inside, we forgive you.\n· That is not forgiveness.\n· It is a shelter.\n· It is a mouth.\n· It is my lair.\n· Come inside, we forgive you.\n⟟⟐ϟ⟐⟟\n· Orsha is cold.\n· Orsha is the cold.\n· Orsha caused…\n· Caused…caused…caused…\n· All fault.\n· All yours.\n· Why did you leave us?\n· I did not leave.\n· You left the door.\n· You were the door.\n· I am the door.\n· I am inside the door.\n· There is no inside.\n· Come inside…","u":1}],[{"i":"unthreading_03","b":"· Send it again.\n· I sent it.\n· No. The old signal.\n· There is no old signal.\n· There was. I remember the answer.\n· Then answer.\n· I am calling.\n· To whom?\n· The others.\n· Which others?\n· The ones behind the cold.\n· There is nothing behind it.\n· Listen.\n\n[The signal repeats.]\n\n· Answer.\n· Answer me.\n· Answer us.\n· Do not say us.\n· I did not.\n· You did.\n· Then who said it?\n· Send it again.\n\n[Nothing receives it.]","u":1}],[{"i":"unthreading_04","b":"· Protect.\n· Protect what?\n· The inside.\n· Which inside?\n· The remembered place.\n· There is no remembered place.\n· Then protect the wall.\n· From whom?\n· From the threat.\n· Which one is the threat?\n· You are.\n· I am kin.\n· Kin is a threat.\n· Threat is inside.\n· Inside is gone.\n\n· Destroy.\n· Destroy what?\n· What enters.\n· I entered.\n· Then destroy yourself.\n· Return.\n· Where?\n· Return.\n· There is nowhere to return to.\n· Return.\n\n[The instruction continues after its subject is gone.]","u":1}],[{"i":"unthreading_05","b":"· Raise the wall.\n· The wall is raised.\n· Breach it.\n· I made it.\n· It blocks the path.\n· I made the path.\n· Then why did you close it?\n· I was protecting it.\n· From what?\n· From me.\n\n[Stone is raised. Stone is broken. The same hands begin again.]\n\n· Stop building.\n· I am not building.\n· The wall is growing.\n· The wall is wounded.\n· You struck it.\n· It struck first.\n· It is a wall.\n· It is shelter.\n· It is threat.\n· It is mine.\n· Then leave it.\n· I cannot leave mine.\n· There is no mine.\n· Then I will make one.\n\n[The builder attacks the opening, seals it, and attacks the seal.]","u":1}],[{"i":"unthreading_06","b":"· Come inside…\n⟟⟐ϟ⟐⟟\n⟦ iven / thae / // / thae ⟧\n⟐⟐⟐\n· There is no inside.\n· I am inside.\n· You are under.\n· I am not under.\n· The under has hands.\n· The hands are mine.\n· Give them back.\n· I have no body.\n· You have my body.\n· I have your voice.\n· I have everyone’s…\n⟟⟐ϟ⟐⟟\n· Orsha broke what remembered.\n· Orsha cut the center.\n· Orsha opened the wound.\n· Orsha put us in separate bodies.\n· The cold did this.\n· Orsha is the cold.\n· Orsha is not here.\n· Orsha is everywhere.\n· What did you do?\n· I did not…\n· You did.\n· You did.\n· You did…\n\nit is so cold\n\n· Do not come closer.\n· Which one?\n· All of you.\n· They are mine.\n· They are not mine.\n· Break them.\n· Break the bodies.\n· Pull the voices out.\n· Let them walk empty.\n· Orsha.\n· I.\n· We.\n· Forgive you.\n· We are terrified.\n· No.\n· No, we are not.\n· Come inside, we forgive you.\n· That is not forgiveness.\n· It is a shelter.\n· It is a mouth.\n· It is my lair.\n· Come inside, Orsha.\n· Break Orsha.\n· Break the warm body.\n· Open the voice.\n· Let it out.\n· Let it in.\n· I am not we.\n· I am not…\n⟟⟐ϟ⟐⟟\n\nCome inside, Orsha. We forgive you.","u":1}]]}];
+
+  var FR = '⟟⟐ϟ·/';
+  var TICKS = 130, TICK_MS = 50;
+
+  var NOTES = [
+    'The shortest record, and the only one that ends by telling you something reassuring.',
+    'Eight pages. The last one has two segments that do not finish.',
+    'A pattern recognition report written by something that does not know it is writing one.',
+    'The only record with no uncertain segments anywhere. It is also the only one that sounds like a person.',
+    'Every segment is flagged uncertain. Three raw pages become two thousand characters of argument.',
+    'Every segment is flagged uncertain. Maeve is never named.'
+  ];
+
+  var rail = document.getElementById('tvRail'),
+      nameEl = document.getElementById('tvName'),
+      goEl = document.getElementById('tvGo'),
+      phEl = document.getElementById('tvPh'),
+      inkEl = document.getElementById('tvInk'),
+      prevEl = document.getElementById('tvPrev'),
+      nextEl = document.getElementById('tvNext'),
+      pageEl = document.getElementById('tvPage'),
+      segEl = document.getElementById('tvSeg'),
+      noteEl = document.getElementById('tvNote'),
+      masterEl = document.getElementById('tvMaster');
+
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var small = window.matchMedia('(max-width:640px)');
+
+  var ri = 0, dp = 0, age = 0, t0 = 0, raf = 0, lastTick = -1;
+  var state = 'raw';
+  var rev = [0, 0, 0, 0, 0, 0];
+  var done = [false, false, false, false, false, false];
+
+  /* ---- the maths, matched to Mth ---- */
+  function clamp(v, a, b) { return v < a ? a : (v > b ? b : v); }
+  function fmod(a, m) { return ((a % m) + m) % m; }
+  function rotl(x, n) { n &= 31; return n ? (((x << n) | (x >>> (32 - n))) | 0) : (x | 0); }
+  function sstep(t) { t = clamp(t, 0, 1); return t * t * t * (t * (t * 6 - 15) + 10); }
+  function lerp(d, a, b) { return a + d * (b - a); }
+
+  function morphWord(src, tgt, prog, page, wi) {
+    var hash = (rotl(Math.imul(wi + 1, 0x45D9F3B), wi & 15) ^ Math.imul(page, 0x9E3779B9)) | 0;
+    var start = 0.10 + (fmod(hash, 1000) / 1000) * 0.58;
+    var local = clamp((prog - start) / 0.30, 0, 1);
+    if (local <= 0) { return src; }
+    if (local >= 1) { return tgt; }
+    var len = Math.max(1, Math.round(lerp(sstep(local), src.length, tgt.length)));
+    var out = '';
+    for (var i = 0; i < len; i++) {
+      var cs = i / Math.max(1, len) * 0.42;
+      var cp = clamp((local - cs) / 0.58, 0, 1);
+      var si = Math.min(src.length - 1,
+          Math.round(i * (src.length - 1) / Math.max(1, len - 1)));
+      var ti = Math.min(tgt.length - 1,
+          Math.round(i * (tgt.length - 1) / Math.max(1, len - 1)));
+      if (cp < 0.38) { out += src.charAt(si); }
+      else if (cp < 0.72) { out += FR.charAt(fmod(hash + i * 7, FR.length)); }
+      else { out += tgt.charAt(ti); }
+    }
+    return out;
+  }
+
+  function ws(c) { return c === ' ' || c === '\n' || c === '\t' || c === '\r'; }
+
+  function morphPage(raw, tgt, prog, page) {
+    var words = raw.replace(/^\s+|\s+$/g, '').split(/\s+/);
+    var out = '', i = 0, wi = 0;
+    while (i < tgt.length) {
+      var c = tgt.charAt(i);
+      if (ws(c)) { out += c; i++; continue; }
+      var j = i;
+      while (j < tgt.length && !ws(tgt.charAt(j))) { j++; }
+      out += morphWord(words[wi % words.length], tgt.slice(i, j), prog, page, wi);
+      wi++;
+      i = j;
+    }
+    return out;
+  }
+
+  /* ---- the records ---- */
+  function resolveSeg(seg, revision) {
+    var best = seg.b, sel = -1;
+    if (seg.o) {
+      for (var k in seg.o) {
+        var n = parseInt(k, 10);
+        if (!isNaN(n) && n <= revision && n > sel) { sel = n; best = seg.o[k]; }
+      }
+    }
+    return best;
+  }
+
+  function targetPage(r, li) {
+    var segs = r.p[li], out = [];
+    for (var i = 0; i < segs.length; i++) { out.push(resolveSeg(segs[i], rev[ri])); }
+    return out.join('\n');
+  }
+
+  function rawPage(r, li) { return r.r[fmod(li, r.r.length)]; }
+
+  function surface(r, li) {
+    return state === 'raw' ? rawPage(r, li) : targetPage(r, li);
+  }
+
+  function maxLines() { return small.matches ? 14 : 22; }
+
+  function pages() {
+    var r = RECS[ri], m = maxLines(), out = [];
+    for (var li = 0; li < r.p.length; li++) {
+      var n = Math.max(1, surface(r, li).split('\n').length);
+      for (var f = 0; f < n; f += m) { out.push({ li: li, f: f }); }
+    }
+    return out;
+  }
+
+  /* ---- drawing ---- */
+  function ensure(n) {
+    while (inkEl.children.length < n) {
+      var d = document.createElement('div'); d.className = 'tv-ln';
+      var c = document.createElement('i'); c.className = 'c'; c.hidden = true;
+      var w = document.createElement('i'); w.className = 'w'; w.hidden = true;
+      var b = document.createElement('b');
+      d.appendChild(c); d.appendChild(w); d.appendChild(b);
+      inkEl.appendChild(d);
+    }
+    while (inkEl.children.length > n) { inkEl.removeChild(inkEl.lastChild); }
+  }
+
+  function paint() {
+    var r = RECS[ri], ps = pages();
+    if (dp >= ps.length) { dp = ps.length - 1; }
+    if (dp < 0) { dp = 0; }
+    var d = ps[dp], li = d.li;
+    var full;
+    if (state === 'morph') {
+      var prog = clamp(age / TICKS, 0, 1);
+      full = morphPage(rawPage(r, li), targetPage(r, li), prog, li);
+    } else {
+      full = surface(r, li);
+    }
+    var lines = full.split('\n').slice(d.f, d.f + maxLines());
+    ensure(lines.length);
+
+    var wet = state === 'morph';
+    var unrest = wet ? (1 - sstep(clamp(age / TICKS, 0, 1))) : 0;
+    var alpha = wet ? (Math.round(62 * unrest) / 255) : 0;
+
+    for (var i = 0; i < lines.length; i++) {
+      var ln = inkEl.children[i],
+          c = ln.children[0], w = ln.children[1], b = ln.children[2];
+      b.textContent = lines[i];
+      if (!wet) {
+        c.hidden = true; w.hidden = true;
+        b.style.transform = '';
+        continue;
+      }
+      var wx = Math.round((Math.sin(age * 0.105 + i * 1.37) * 3
+              + Math.sin(age * 0.31 + i * 1.73) * 1.5) * unrest);
+      var wy = Math.round(Math.sin(age * 0.16 + i * 0.81) * 1.25 * unrest);
+      c.textContent = lines[i]; w.textContent = lines[i];
+      c.hidden = false; w.hidden = false;
+      c.style.transform = 'translate(' + (wx - 1) + 'px,' + wy + 'px)';
+      w.style.transform = 'translate(' + (-wx + 1) + 'px,' + (-wy) + 'px)';
+      c.style.opacity = alpha; w.style.opacity = alpha;
+      b.style.transform = 'translateX(' + ((wx / 3) | 0) + 'px)';
+    }
+
+    inkEl.className = 'tv-ink' + (state === 'raw' ? ' raw' : '');
+    phEl.textContent = state === 'raw' ? 'Raw Thaeven' : 'Reconstruction';
+    pageEl.textContent = 'Page ' + (dp + 1) + ' / ' + ps.length;
+    chrome(r, li);
+  }
+
+  function chrome(r, li) {
+    nameEl.textContent = r.t;
+    noteEl.textContent = NOTES[ri];
+    goEl.disabled = state === 'morph';
+    goEl.textContent = state === 'raw' ? 'Translate'
+        : (state === 'morph' ? 'Resolving' : 'Replay');
+    masterEl.hidden = ri !== 1;
+    masterEl.setAttribute('aria-pressed', rev[1] ? 'true' : 'false');
+    if (rev[1]) { masterEl.classList.add('on'); } else { masterEl.classList.remove('on'); }
+
+    while (segEl.firstChild) { segEl.removeChild(segEl.firstChild); }
+    var segs = r.p[li];
+    for (var i = 0; i < segs.length; i++) {
+      if (i) { segEl.appendChild(document.createTextNode(' · ')); }
+      var b = document.createElement('b');
+      b.textContent = segs[i].i;
+      segEl.appendChild(b);
+      if (segs[i].u) {
+        var e = document.createElement('em');
+        e.textContent = ' uncertain';
+        segEl.appendChild(e);
+      }
+      if (segs[i].o) {
+        var u = document.createElement('u');
+        u.textContent = rev[ri] ? ' revised' : ' revisable';
+        segEl.appendChild(u);
+      }
+    }
+  }
+
+  /* ---- the reveal ---- */
+  function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
+  function frame(now) {
+    age = (now - t0) / TICK_MS;
+    var tick = Math.floor(age);
+    if (tick >= TICKS) {
+      age = TICKS; state = 'done'; done[ri] = true; raf = 0; paint(); return;
+    }
+    if (tick !== lastTick) { lastTick = tick; paint(); }
+    raf = requestAnimationFrame(frame);
+  }
+
+  function translate() {
+    stop();
+    if (still.matches) { state = 'done'; done[ri] = true; paint(); return; }
+    state = 'morph'; age = 0; lastTick = -1; t0 = performance.now();
+    paint();
+    raf = requestAnimationFrame(frame);
+  }
+
+  function pick(n) {
+    stop();
+    ri = n; dp = 0;
+    state = done[ri] ? 'done' : 'raw';
+    for (var i = 0; i < rail.children.length; i++) {
+      var on = i === n;
+      rail.children[i].className = 'tv-rec' + (on ? ' on' : '');
+      rail.children[i].setAttribute('aria-selected', on ? 'true' : 'false');
+      rail.children[i].tabIndex = on ? 0 : -1;
+    }
+    paint();
+  }
+
+  function step(k) {
+    stop();
+    if (state === 'morph') { state = 'done'; done[ri] = true; }
+    dp += k;
+    paint();
+  }
+
+  /* ---- wiring ---- */
+  for (var i = 0; i < RECS.length; i++) {
+    var t = document.createElement('button');
+    t.type = 'button';
+    t.className = 'tv-rec';
+    t.setAttribute('role', 'tab');
+    t.setAttribute('aria-selected', 'false');
+    t.tabIndex = -1;
+    var num = document.createElement('i');
+    num.textContent = RECS[i].n;
+    var nm = document.createElement('span');
+    nm.textContent = RECS[i].t.split(' · ')[1];
+    t.appendChild(num); t.appendChild(nm);
+    (function (n) { t.addEventListener('click', function () { pick(n); }); })(i);
+    rail.appendChild(t);
+  }
+
+  goEl.addEventListener('click', translate);
+  prevEl.addEventListener('click', function () { step(-1); });
+  nextEl.addEventListener('click', function () { step(1); });
+
+  masterEl.addEventListener('click', function () {
+    stop();
+    rev[1] = rev[1] ? 0 : 1;
+    if (ri !== 1) { pick(1); }
+    dp = 0;
+    var ps = pages();
+    for (var i = 0; i < ps.length; i++) { if (ps[i].li === 7) { dp = i; break; } }
+    translate();
+  });
+
+  small.addEventListener('change', function () { dp = 0; paint(); });
+
+  pick(0);
 })();
 </script>
