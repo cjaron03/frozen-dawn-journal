@@ -1,5 +1,5 @@
 <h2>Chapter seven: Welcome Home</h2>
-<p class="subtitle">The endgame. 14 April to 7 May 2026, 144 commits. The intro is a signal handshake, 4.75 seconds, that ends in a hard cut to black and then types the title in amber. The instrument is the fuel ledger.</p>
+<p class="subtitle">The endgame. 14 April to 7 May 2026, 144 commits. The intro is the mod's own ending screen rebuilt in the browser, same order and same numbers: the star field, Mars turning once every 26.2 seconds, then the approach vector. 5.44 seconds, with a full second of stillness on STATUS: ACTIVE. The instrument is the fuel ledger.</p>
 
 <style>
 .ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
@@ -7,43 +7,110 @@
             min-height:520px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
 
 /* ---------- the black ---------- */
-/* nine seconds of it. every other chapter uses the black as a curtain that
-   lifts. here the black is the medium: the whole handshake happens inside it,
-   and it does not lift, it is cut. steps(1,end) holds opacity at 1 for the
-   entire duration and drops to 0 on the final frame. no fade. */
+/* every other chapter uses the black as a curtain that lifts. here the black
+   is the medium: the whole handshake happens inside it, and it does not lift,
+   it is cut. steps(1,end) holds opacity at 1 for the entire duration and drops
+   to 0 on the final frame. no fade. the signal is cut three tenths of a second
+   before the black is, so there is a beat of nothing at all in between. */
 .ap-black { position:absolute; inset:0; background:#000; z-index:50; pointer-events:none; }
-.ap-frame.play .ap-black { animation: whCut 4.75s steps(1,end) forwards; }
+.ap-frame.play .ap-black { animation: whCut 5.44s steps(1,end) forwards; }
 @keyframes whCut { from { opacity:1 } to { opacity:0 } }
 
 /* ---------- the signal ---------- */
+/* this is the mod's own ending screen, in the mod's own order. renderSpace,
+   then renderMars, then the approach vector. the numbers below are lifted
+   out of FrozenDawnEndingScreen rather than invented. */
 .wh-sig { position:absolute; inset:0; z-index:55; pointer-events:none; display:flex;
-          flex-direction:column; align-items:center; justify-content:center; gap:26px;
+          flex-direction:column; align-items:center; justify-content:center; gap:24px;
           font-family:var(--mono); }
-.ap-frame.play .wh-sig { animation: whCut 4.75s steps(1,end) forwards; }
+.ap-frame.play .wh-sig { animation: whCut 5.14s steps(1,end) forwards; }
 
-.wh-stage { position:relative; width:148px; height:148px; flex:0 0 auto; }
+/* renderSpace. the gradient, then the haze across the top half. */
+.wh-space { position:absolute; inset:0; opacity:0;
+            background:linear-gradient(#26466822 0%, #26466800 50%),
+                       linear-gradient(#02040a, #090d17); }
+.ap-frame.play .wh-space { animation: whIn .55s ease-out .1s both; }
 
-/* the point. five pixels of red that could be anything. */
-.wh-pt { position:absolute; left:50%; top:50%; width:5px; height:5px; margin:-2.5px 0 0 -2.5px;
-         border-radius:50%; background:#ff6a52; box-shadow:0 0 9px 1px #ff4a3260; opacity:0; }
-.ap-frame.play .wh-pt { animation: whIn .4s ease-out .3s both, whOut .9s linear 2.05s forwards; }
+/* 170 stars, positioned by the game's own hash. the script fills this. */
+.wh-field { position:absolute; inset:0; opacity:0; }
+.ap-frame.play .wh-field { animation: whIn .7s ease-out .3s both; }
+.wh-field i { position:absolute; width:1px; height:1px; background:#fff; }
+.wh-field i.b { width:2px; height:2px; }
+.wh-field i.t { background:#d8f6ff; }
 
-/* and what it turns out to be. not a planet render. a disk. */
-.wh-mars { position:absolute; left:50%; top:50%; width:112px; height:112px; margin:-56px 0 0 -56px;
-           border-radius:50%; opacity:0; transform:scale(.06);
-           background:radial-gradient(circle at 38% 34%, #7a2f24 0%, #55201a 44%, #351210 74%, #240c0a 100%);
-           box-shadow:inset 0 0 0 1px #8d3a2c33; }
-.ap-frame.play .wh-mars { animation: whIn 1.35s ease-in 2.05s both, whGrow 1.35s cubic-bezier(.3,.5,.4,1) 2.05s both; }
-@keyframes whGrow { from { transform:scale(.06) } to { transform:scale(1) } }
+.wh-stage { position:relative; width:452px; height:252px; flex:0 0 auto; }
 
-.wh-brk { position:absolute; inset:0; opacity:0; transform:scale(.38); }
-.ap-frame.play .wh-brk { animation: whIn .35s ease-out .6s both, whGrow2 1.35s cubic-bezier(.3,.5,.4,1) 2.05s both; }
-@keyframes whGrow2 { from { transform:scale(.38) } to { transform:scale(1) } }
-.wh-brk i { position:absolute; width:13px; height:13px; border:1px solid #9c4436; }
+/* renderMarsBacklight. three disks at 1.58, 1.18 and 0.76 of the face. */
+.wh-glow { position:absolute; left:150px; top:101px; width:266px; height:266px;
+           margin:-133px 0 0 -133px; border-radius:50%; opacity:0;
+           background:radial-gradient(circle closest-side, #ff844412, #ff844400 48%),
+                      radial-gradient(circle closest-side, #e65c281c, #e65c2800 75%),
+                      radial-gradient(circle closest-side, #9e341c16, #9e341c00 100%); }
+
+/* renderMars. the game turns a textured cube at 0.012 radians a tick, which is
+   one revolution every 26.2 seconds, so that is the rate here too. the body
+   colours are the fallback texture: rust, dark south, white cap. */
+.wh-mars { position:absolute; left:150px; top:101px; width:168px; height:168px;
+           margin:-84px 0 0 -84px; border-radius:50%; overflow:hidden; opacity:0; }
+.ap-frame.play .wh-mars,
+.ap-frame.play .wh-glow { animation: whIn .95s ease-out .95s both; }
+
+.wh-surf { position:absolute; top:0; left:0; width:200%; height:100%;
+  background:linear-gradient(#e8f6ffdb 0 6%, #e8f6ff5e 11%, #e8f6ff00 17%),
+             linear-gradient(to top, #6a251dd4 0 6%, #6a251d66 11%, #6a251d00 17%),
+             radial-gradient(ellipse 9% 27% at 5% 34%, #6a251dcc, #6a251d00 72%),
+             radial-gradient(ellipse 6% 19% at 12% 68%, #8d3a22aa, #8d3a2200 72%),
+             radial-gradient(ellipse 8% 24% at 19% 23%, #f08a4aaa, #f08a4a00 72%),
+             radial-gradient(ellipse 7% 21% at 28% 57%, #6a251daa, #6a251d00 72%),
+             radial-gradient(ellipse 10% 29% at 36% 41%, #c25a28aa, #c25a2800 72%),
+             radial-gradient(ellipse 6% 17% at 45% 75%, #58201aaa, #58201a00 72%),
+             radial-gradient(ellipse 9% 27% at 55% 34%, #6a251dcc, #6a251d00 72%),
+             radial-gradient(ellipse 6% 19% at 62% 68%, #8d3a22aa, #8d3a2200 72%),
+             radial-gradient(ellipse 8% 24% at 69% 23%, #f08a4aaa, #f08a4a00 72%),
+             radial-gradient(ellipse 7% 21% at 78% 57%, #6a251daa, #6a251d00 72%),
+             radial-gradient(ellipse 10% 29% at 86% 41%, #c25a28aa, #c25a2800 72%),
+             radial-gradient(ellipse 6% 17% at 95% 75%, #58201aaa, #58201a00 72%),
+             linear-gradient(#e07134, #e07134); }
+.ap-frame.play .wh-surf { animation: whSpin 26.2s linear infinite; }
+@keyframes whSpin { from { transform:translateX(0) } to { transform:translateX(-50%) } }
+
+/* the sphere, and the terminator. the disk is a flat strip until this lands. */
+.wh-lit { position:absolute; inset:0; border-radius:50%;
+          background:radial-gradient(circle at 34% 29%, #ffd7b52e, #ffd7b500 44%),
+                     radial-gradient(circle at 42% 38%, #00000000 30%, #1a0805bd 79%, #0b0303 100%); }
+
+/* drawCornerBracket. two pixel arms, cyan, one per corner of the view. */
+.wh-brk { position:absolute; inset:0; opacity:0; }
+.ap-frame.play .wh-brk { animation: whIn .4s ease-out 1.72s both; }
+.wh-brk i { position:absolute; width:18px; height:18px; border:2px solid #8deaffd0; }
 .wh-brk i:nth-child(1) { left:0; top:0; border-right:0; border-bottom:0; }
 .wh-brk i:nth-child(2) { right:0; top:0; border-left:0; border-bottom:0; }
 .wh-brk i:nth-child(3) { left:0; bottom:0; border-right:0; border-top:0; }
 .wh-brk i:nth-child(4) { right:0; bottom:0; border-left:0; border-top:0; }
+
+/* renderApproachVectorTelemetry. the panel the game parks bottom right. */
+.wh-vec { position:absolute; right:0; bottom:0; width:194px; padding:9px 12px 10px 14px;
+          background:#061218e6; border-left:2px solid #4fc7dacc; opacity:0;
+          box-shadow:inset 0 0 0 1px #10293166; }
+.ap-frame.play .wh-vec { animation: whIn .45s ease-out 1.92s both; }
+.wh-vec em { display:block; font-style:normal; font-size:9.5px; letter-spacing:.17em;
+             text-transform:uppercase; color:#8deaff; padding-bottom:6px;
+             border-bottom:1px solid #4fc7da55; margin-bottom:7px; }
+.wh-vec u { display:block; text-decoration:none; font-size:9.5px; line-height:15px;
+            letter-spacing:.04em; color:#c9fff8; white-space:nowrap; }
+.wh-vec u.c { color:#a7ffea; }
+.wh-vec b { display:block; margin-top:5px; font-weight:400; font-size:9.5px;
+            letter-spacing:.04em; color:#b8efff; }
+
+.wh-plot { display:block; width:100%; height:auto; margin-top:5px; overflow:visible; }
+.wh-base { stroke:#55c6d8; stroke-opacity:.42; stroke-width:1; }
+.wh-run { stroke:#8deaff; stroke-width:1.4; stroke-linecap:round;
+          stroke-dasharray:100; stroke-dashoffset:100; }
+.ap-frame.play .wh-run { animation: whDraw .72s cubic-bezier(.4,.1,.3,1) 2.04s both; }
+@keyframes whDraw { to { stroke-dashoffset:0 } }
+.wh-craft { fill:#e7f5ff; }
+.wh-ret { stroke:#e06d3c; stroke-width:1.4; opacity:0; }
+.ap-frame.play .wh-ret { animation: whIn .35s ease-out 2.8s both; }
 
 .wh-tel { display:flex; flex-direction:column; align-items:center; }
 .wh-l { height:19px; line-height:19px; font-size:11px; letter-spacing:.15em; text-transform:uppercase;
@@ -51,7 +118,7 @@
 .wh-l.s { color:#e0b978; }
 .wh-l.f { color:#ffb454; letter-spacing:.2em; }
 .wh-l.gap { height:11px; }
-.ap-frame.play .wh-l { animation: whIn .26s ease-out var(--i) both, whOut .2s linear var(--o) forwards; }
+.ap-frame.play .wh-l { animation: whIn .26s ease-out var(--i) both, whOut .22s linear var(--o) forwards; }
 .ap-frame.play .wh-l.keep { animation: whIn .26s ease-out var(--i) both; }
 @keyframes whIn  { from { opacity:0 } to { opacity:1 } }
 @keyframes whOut { to { opacity:0 } }
@@ -76,20 +143,20 @@
 
 .ap-kick { font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
            color:#ffb454; opacity:0; }
-.ap-frame.play .ap-kick { animation: apIn .45s ease-out 4.88s forwards; }
+.ap-frame.play .ap-kick { animation: apIn .45s ease-out 5.44s forwards; }
 
 /* the cut lands on an empty line and the title types itself in after it, the
    same way every other chapter does. bigger here, and in caps. */
 .ap-title { font-size:56px; font-weight:700; letter-spacing:.005em; line-height:1.02; color:#f2f6f8;
             margin:8px 0 0; text-transform:uppercase;
             white-space:nowrap; overflow:hidden; width:0; border-right:3px solid #ffb45400; }
-.ap-frame.play .ap-title { animation: apType .82s steps(12,end) 5.02s forwards,
-                                      apCaret .34s step-end 5.02s 5; }
+.ap-frame.play .ap-title { animation: apType .82s steps(12,end) 5.57s forwards,
+                                      apCaret .34s step-end 5.57s 5; }
 @keyframes apType { to { width:var(--tw,9.2em) } }
 @keyframes apCaret { 0%,50% { border-right-color:#ffb454 } 51%,100% { border-right-color:#ffb45400 } }
 
 .ap-rest { opacity:0; }
-.ap-frame.play .ap-rest { animation: apUp .7s cubic-bezier(.2,.6,.3,1) 5.55s forwards; }
+.ap-frame.play .ap-rest { animation: apUp .7s cubic-bezier(.2,.6,.3,1) 6.14s forwards; }
 @keyframes apUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
 
 .ap-stand { font-size:16.5px; line-height:1.62; color:#b3bdc5; margin:16px 0 0; }
@@ -401,9 +468,14 @@
 }
 
 @media (max-width:640px){
-  .wh-sig { gap:20px; }
-  .wh-stage { width:112px; height:112px; }
-  .wh-mars { width:86px; height:86px; margin:-43px 0 0 -43px; }
+  .wh-sig { gap:18px; }
+  .wh-stage { width:318px; height:190px; }
+  .wh-glow { left:96px; top:72px; width:170px; height:170px; margin:-85px 0 0 -85px; }
+  .wh-mars { left:96px; top:72px; width:108px; height:108px; margin:-54px 0 0 -54px; }
+  .wh-brk i { width:14px; height:14px; }
+  .wh-vec { width:158px; padding:7px 9px 8px 11px; }
+  .wh-vec em { font-size:8.5px; letter-spacing:.13em; padding-bottom:5px; margin-bottom:5px; }
+  .wh-vec u, .wh-vec b { font-size:8px; letter-spacing:.02em; line-height:13px; }
   .wh-l { font-size:9.5px; height:17px; line-height:17px; letter-spacing:.11em; }
   .wh-l.f { letter-spacing:.14em; }
   .wh-voc { grid-template-columns:minmax(0,1fr); }
@@ -442,23 +514,40 @@
     <div class="ap-black"></div>
 
     <div class="wh-sig" aria-hidden="true">
+      <div class="wh-space"></div>
+      <div class="wh-field" id="whField"></div>
       <div class="wh-stage">
-        <div class="wh-mars"></div>
-        <div class="wh-pt"></div>
+        <div class="wh-glow"></div>
+        <div class="wh-mars"><div class="wh-surf"></div><div class="wh-lit"></div></div>
         <div class="wh-brk"><i></i><i></i><i></i><i></i></div>
+        <div class="wh-vec">
+          <em>Approach vector</em>
+          <u>Mars gravity well: captured</u>
+          <u class="c">Entry corridor: locked</u>
+          <svg class="wh-plot" viewBox="0 0 150 27" fill="none">
+            <path class="wh-base" d="M3 16H147"/>
+            <path class="wh-run" pathLength="100" d="M34 24L127 9"/>
+            <path class="wh-run" pathLength="100" d="M127 9l-9 1.4M127 9l-5 5.6"/>
+            <g class="wh-ret">
+              <path d="M126 9h-4.5M131.5 9h4.5M129 6.5V2M129 11.5V16"/>
+            </g>
+            <rect class="wh-craft" x="32.5" y="22.5" width="3" height="3"/>
+          </svg>
+          <b>0.38g capture</b>
+        </div>
       </div>
       <div class="wh-tel">
-        <div class="wh-l s" style="--i:.85s;--o:3.90s">Searching&hellip;</div>
-        <div class="wh-l s" style="--i:1.25s;--o:3.955s">Signal detected</div>
+        <div class="wh-l s" style="--i:.70s;--o:4.24s">Searching&hellip;</div>
+        <div class="wh-l s" style="--i:1.02s;--o:4.36s">Signal detected</div>
         <div class="wh-l gap"></div>
-        <div class="wh-l" style="--i:1.55s;--o:4.01s">ORSA deep space relay</div>
-        <div class="wh-l" style="--i:1.68s;--o:4.065s">Handshake accepted</div>
-        <div class="wh-l" style="--i:1.81s;--o:4.12s">Source: Earth</div>
-        <div class="wh-l" style="--i:1.94s;--o:4.175s">Destination: Mars</div>
+        <div class="wh-l" style="--i:1.30s;--o:4.48s">ORSA deep space relay</div>
+        <div class="wh-l" style="--i:1.40s;--o:4.48s">Handshake accepted</div>
+        <div class="wh-l" style="--i:1.50s;--o:4.48s">Source: Earth</div>
+        <div class="wh-l" style="--i:1.60s;--o:4.48s">Destination: Mars</div>
         <div class="wh-l gap"></div>
-        <div class="wh-l s" style="--i:2.45s;--o:4.23s">Querying colony status&hellip;</div>
-        <div class="wh-l f" style="--i:3.30s;--o:4.285s">ORSA Mars Colony</div>
-        <div class="wh-l f keep" style="--i:3.30s">Status: Active</div>
+        <div class="wh-l s" style="--i:2.10s;--o:4.60s">Querying colony status&hellip;</div>
+        <div class="wh-l f" style="--i:2.98s;--o:4.72s">ORSA Mars Colony</div>
+        <div class="wh-l f keep" style="--i:2.98s">Status: Active</div>
       </div>
     </div>
 
@@ -870,6 +959,27 @@ progressUnits += heaterSpeedUnits;
 
 <script>
 
+/* renderSpace seeds its star field with hash01, so running the same hash here
+   gives the same 170 stars the credits draw. */
+(function(){
+  var field = document.getElementById('whField');
+  if (!field) return;
+  function h(seed){
+    var x = (Math.imul(seed, 1664525) + 1013904223) | 0;
+    x ^= x >>> 16;
+    return (x & 0xFFFFFF) / 0x1000000;
+  }
+  var out = '', i, c;
+  for (i = 0; i < 170; i++){
+    c = (i % 17 === 0 ? 'b ' : '') + (i % 11 === 0 ? 't' : '');
+    out += '<i' + (c ? ' class="' + c.trim() + '"' : '')
+        +  ' style="left:' + (h(i * 71 + 5) * 100).toFixed(3)
+        +  '%;top:'       + (h(i * 113 + 19) * 100).toFixed(3)
+        +  '%;opacity:'   + ((80 + h(i * 31) * 150) / 255).toFixed(3) + '"></i>';
+  }
+  field.innerHTML = out;
+})();
+
 (function(){
   var frame = document.getElementById('apFrame');
   if (!frame) return;
@@ -900,7 +1010,7 @@ progressUnits += heaterSpeedUnits;
   frame.addEventListener('animationend', function(e){
     if (e.animationName === 'apUp') frame.classList.add('done');
   });
-  setTimeout(function(){ frame.classList.add('done'); }, 6500);
+  setTimeout(function(){ frame.classList.add('done'); }, 7100);
 
   /* any real scroll intent lands the intro immediately. wheel and touch go on
      the frame, not the doc: during the intro the black overlay sits on top,
@@ -1181,8 +1291,8 @@ progressUnits += heaterSpeedUnits;
       if (frame.classList.contains('done')){ mo.disconnect(); arm(); }
     });
     mo.observe(frame, { attributes: true, attributeFilter: ['class'] });
-    setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 7000);
-  } else setTimeout(arm, 6600);
+    setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 7600);
+  } else setTimeout(arm, 7200);
 })();
 </script>
 
