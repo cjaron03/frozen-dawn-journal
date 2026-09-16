@@ -1877,3 +1877,25 @@ window.ORSA_POSTERS = {
   } else setTimeout(arm, 3000);
 })();
 </script>
+
+<script>
+/* how far the reader actually got. a chapter counts when its body has been
+   scrolled to the bottom, not when the page was opened. */
+(function(){
+  var N = 3, doc = document.querySelector('.ap-doc');
+  if (!doc) return;
+  function mark(){
+    try {
+      var s = window.localStorage,
+          v = (parseInt(s.getItem('fd.read'), 10) || 0) | (1 << N);
+      s.setItem('fd.read', String(v));
+      if (v === 254) s.setItem('fd.ok', '1');
+    } catch (e) {}
+  }
+  function check(){
+    if (doc.scrollHeight - doc.clientHeight < 200) return;
+    if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 80) mark();
+  }
+  doc.addEventListener('scroll', check, { passive: true });
+})();
+</script>

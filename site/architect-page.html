@@ -461,6 +461,79 @@
   .ap-why { padding:0 12px 14px; font-size:12px; }
   .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
 }
+
+/* ---------- the second time ---------- */
+.ap-frame.mv .ap-black { animation:none; opacity:1; }
+.ap-frame.mv .ap-replay { display:none; }
+.ap-frame.mv .ap-eyes { animation: mvFade 4.4s linear forwards; }
+.ap-frame.mv .ap-eye .r0 { animation: mvR0 4.4s linear forwards; }
+.ap-frame.mv .ap-eye .r1 { animation: mvR1 4.4s linear forwards; }
+.ap-frame.mv .ap-eye .r2 { animation: mvR2 4.4s linear forwards; }
+.ap-frame.mv .ap-head,
+.ap-frame.mv .ap-kick,
+.ap-frame.mv .ap-title,
+.ap-frame.mv .ap-rest { animation:none !important; }
+
+/* identical to apFade and apR0..apR2 up to 47%, which is where the flash
+   would begin. past that they hold. the frame never arrives. */
+@keyframes mvFade {
+  0%   { opacity:0; filter:none }
+  11%  { opacity:0; filter:none }
+  28%  { opacity:1; filter:drop-shadow(0 0 6px #00d2ff40) }
+  100% { opacity:1; filter:drop-shadow(0 0 6px #00d2ff40) }
+}
+@keyframes mvR0 {
+  0%,35% { background:#008CB4 } 37%,40.5% { background:#0C0C16 } 42%,100% { background:#008CB4 }
+}
+@keyframes mvR1 {
+  0%,35% { background:#00D2FF } 37%,40.5% { background:#007896 } 42%,100% { background:#00D2FF }
+}
+@keyframes mvR2 {
+  0%,35% { background:#005064 } 37%,40.5% { background:#0C0C16 } 42%,100% { background:#005064 }
+}
+
+/* past the held frame the eyes are driven by script. the glow moves from a
+   filter to a box shadow at the same radius and alpha, so the swap is
+   invisible, and nothing keeps a filter alive while things are moving. */
+.ap-frame.mv-b .ap-eyes { animation:none !important; opacity:1; filter:none;
+                          will-change:transform;
+                          transition:transform .34s cubic-bezier(.4,0,.2,1); }
+.ap-frame.mv-b .ap-eye i { animation:none !important; }
+.ap-frame.mv-b .ap-eye { box-shadow:0 0 6px #00d2ff40; }
+
+.mv-stage { position:absolute; inset:0; z-index:56; pointer-events:none; }
+.mv-stage > * { position:absolute; left:50%; top:43%; opacity:0;
+                transform:translate(-50%,-50%) translate(var(--x,0px),var(--y,0px))
+                          scale(var(--s,1)) rotate(var(--rot,0deg));
+                transition:opacity .22s linear var(--dl,0s); }
+.mv-stage > .on { opacity:1; }
+.mv-stage .mv-pair { display:flex; gap:4px; }
+.mv-stage .mv-pair span { display:block; }
+.mv-stage .mv-pair i { display:block; width:8px; height:4px; }
+.mv-stage .mv-pair .r0 { background:#7a5fa8; }
+.mv-stage .mv-pair .r1 { background:#a98cd8; }
+.mv-stage .mv-pair .r2 { background:#4a3866; }
+.mv-stage .mv-pair.b .r0 { background:#008CB4; }
+.mv-stage .mv-pair.b .r1 { background:#00D2FF; }
+.mv-stage .mv-pair.b .r2 { background:#005064; }
+.mv-stage .mv-gl { line-height:0; }
+.mv-stage .mv-gl.on { opacity:.72; }
+.mv-stage.fon .mv-fp { opacity:1; }
+.mv-stage.foff .mv-fp { opacity:0; transition-duration:.14s; transition-delay:var(--dl2,0s); }
+
+.mv-line { position:absolute; left:50%; top:calc(43% + 118px); z-index:58;
+           transform:translate(-50%,0); opacity:0; transition:opacity .45s ease-out;
+           font-family:var(--sans); font-size:14px; letter-spacing:.01em; color:#c3ccd3;
+           white-space:nowrap; pointer-events:none; }
+.mv-line.on { opacity:1; }
+
+.mv-out { position:absolute; inset:0; z-index:70; background:#000; opacity:0;
+          pointer-events:none; transition:opacity .35s linear; }
+.mv-out.on { opacity:1; }
+
+@media (max-width:640px) {
+  .mv-line { font-size:12.5px; top:calc(43% + 94px); }
+}
 </style>
 
 <div class="ap">
@@ -817,6 +890,21 @@
 
 <script>
 (function(){
+  function MaeveDirector(){
+    try {
+      var s = window.localStorage;
+      return s.getItem('fd.ok') === '1'
+          && s.getItem('fd.idx') === '1'
+          && s.getItem('fd.mv') !== '1';
+    } catch (e) { return false; }
+  }
+  var f = document.getElementById('apFrame');
+  if (f && MaeveDirector()) f.classList.add('mv');
+})();
+</script>
+
+<script>
+(function(){
   var frame = document.getElementById('apFrame');
   var title = frame.querySelector('.ap-title');
   function measureTitle(){           // measure the real rendered width of the title
@@ -836,7 +924,9 @@
   frame.addEventListener('animationend', function(e){
     if(e.animationName === 'apUp') frame.classList.add('done');
   });
-  setTimeout(function(){ frame.classList.add('done'); }, 5200);   // belt and braces
+  if (!frame.classList.contains('mv')) {
+    setTimeout(function(){ frame.classList.add('done'); }, 5200);   // belt and braces
+  }
 
   /* any real scroll intent lands the intro immediately.
      wheel and touch go on the frame, not the doc: during the intro the black
@@ -2044,5 +2134,244 @@
     mo.observe(frame, { attributes: true, attributeFilter: ['class'] });
     setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 6000);
   } else setTimeout(arm, 4500);
+})();
+</script>
+
+<script>
+/* how far the reader actually got. a chapter counts when its body has been
+   scrolled to the bottom, not when the page was opened. */
+(function(){
+  var N = 2, doc = document.querySelector('.ap-doc');
+  if (!doc) return;
+  function mark(){
+    try {
+      var s = window.localStorage,
+          v = (parseInt(s.getItem('fd.read'), 10) || 0) | (1 << N);
+      s.setItem('fd.read', String(v));
+      if (v === 254) s.setItem('fd.ok', '1');
+    } catch (e) {}
+  }
+  function check(){
+    if (doc.scrollHeight - doc.clientHeight < 200) return;
+    if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 80) mark();
+  }
+  doc.addEventListener('scroll', check, { passive: true });
+})();
+</script>
+
+<script>
+(function(){
+  var frame = document.getElementById('apFrame');
+  if (!frame || !frame.classList.contains('mv')) return;
+
+  var eyes = frame.querySelector('.ap-eyes'),
+      RM   = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches),
+      W    = frame.clientWidth  || 900,
+      H    = frame.clientHeight || 560,
+      hw   = Math.min(W, 1160) * 0.46,
+      hh   = H * 0.44,
+      T    = [],
+      live = true,
+      mo   = null;
+
+  var stage = document.createElement('div');
+  stage.className = 'mv-stage';
+  stage.setAttribute('aria-hidden', 'true');
+  var line = document.createElement('div');
+  line.className = 'mv-line';
+  line.textContent = 'There you are.';
+  var out = document.createElement('div');
+  out.className = 'mv-out';
+  frame.appendChild(stage);
+  frame.appendChild(line);
+  frame.appendChild(out);
+
+  function at(ms, fn){ T.push(setTimeout(function(){ if (live) fn(); }, ms)); }
+
+  /* same little generator the credits field uses, so placement is stable. */
+  function rnd(seed){
+    var x = (Math.imul(seed, 1664525) + 1013904223) | 0;
+    x ^= x >>> 16;
+    return (x & 0xFFFFFF) / 0x1000000;
+  }
+
+  /* ---- the Architect's gaze ---- */
+  var gx = 0, gy = 0, shut = 0, pend = 0;
+  function gaze(dur){
+    eyes.style.transitionDuration = dur || '.34s';
+    eyes.style.transform = 'translate(-50%,-50%) translate(' + gx.toFixed(1) + 'px,'
+      + gy.toFixed(1) + 'px) scale(6)' + (shut ? ' scaleY(.08)' : '');
+  }
+  function look(x, y, dur){ gx = x; gy = y; gaze(dur); }
+  function toward(x, y){
+    look(Math.max(-17, Math.min(17, x * 0.075)),
+         Math.max(-11, Math.min(11, y * 0.065)));
+  }
+  function track(e){
+    if (pend) return;
+    pend = 1;
+    requestAnimationFrame(function(){
+      pend = 0;
+      if (!live) return;
+      var r = frame.getBoundingClientRect(),
+          cx = r.left + r.width * 0.5,
+          cy = r.top  + r.height * 0.43;
+      look(Math.max(-16, Math.min(16, (e.clientX - cx) * 0.045)),
+           Math.max(-10, Math.min(10, (e.clientY - cy) * 0.040)), '.22s');
+    });
+  }
+
+  /* ---- things that get shown to it ---- */
+  function pair(cls){
+    var d = document.createElement('div');
+    d.className = 'mv-pair' + (cls ? ' ' + cls : '');
+    d.innerHTML = '<span><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>'
+                + '<span><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>';
+    return d;
+  }
+  var GLYPH = {
+    door:    'M6 22V4h12v18M14.3 13.4h.3',
+    wall:    'M2 6.5h20M2 12.5h20M2 18.5h20M9 6.5v6M15 12.5v6M9 18.5v3.5',
+    player:  'M12 3.2a2.4 2.4 0 1 0 .01 0M12 8v7M8 10.6h8M9 22L12 15 15 22',
+    heater:  'M5 10.5h14v11H5zM8.5 5.8h7M10 8c0 2 1.8 2 1.8 4M14.2 8c0 2 1.8 2 1.8 4',
+    shelter: 'M2.5 12L12 3.6 21.5 12M6 12v10h12V12M10.5 22V17h3v5',
+    breach:  'M2 7.5h20M2 19.5h20M9 2L11.6 7.5 7.6 11.5 13 16.5 10.6 22'
+  };
+  function glyph(k){
+    var d = document.createElement('div');
+    d.className = 'mv-gl';
+    d.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" '
+      + 'stroke="#a98cd8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">'
+      + '<path d="' + GLYPH[k] + '"/></svg>';
+    return d;
+  }
+  function put(el, x, y, s){
+    el.style.setProperty('--x', Math.round(x) + 'px');
+    el.style.setProperty('--y', Math.round(y) + 'px');
+    el.style.setProperty('--s', s);
+    stage.appendChild(el);
+    return el;
+  }
+  function flash(el, t, life){
+    at(t,        function(){ el.classList.add('on'); });
+    at(t + life, function(){ el.classList.remove('on'); });
+  }
+
+  /* ---- the field: what was behind the two blue pixels all along ---- */
+  var N = W < 520 ? 44 : 64,
+      BANDS = [0.55, 0.85, 1.25, 1.8],
+      BLUE  = N > 50 ? [9, 23, 34, 47, 58] : [7, 16, 24, 33, 40],
+      fps = [], rmax = 1;
+  (function(){
+    var i, fr, band, a, rr, x, y, m, r, rot, el;
+    for (i = 0; i < N; i++){
+      fr   = i / (N - 1);
+      band = fr < 0.42 ? 0 : fr < 0.72 ? 1 : fr < 0.91 ? 2 : 3;
+      a    = rnd(i * 37 + 11) * Math.PI * 2;
+      rr   = 0.20 + rnd(i * 53 + 7) * 0.78;
+      x    = Math.cos(a) * rr * hw;
+      y    = Math.sin(a) * rr * hh;
+      m    = Math.sqrt((x / 118) * (x / 118) + (y / 78) * (y / 78));
+      if (m > 0.001 && m < 1){ x /= m; y /= m; }
+      x = Math.max(-hw, Math.min(hw, x));
+      y = Math.max(-hh, Math.min(hh, y));
+      rot = Math.atan2(y, x) * 180 / Math.PI + 90;
+      while (rot >  90) rot -= 180;
+      while (rot < -90) rot += 180;
+      el = put(pair(BLUE.indexOf(i) >= 0 ? 'mv-fp b' : 'mv-fp'), x, y, BANDS[band]);
+      el.style.setProperty('--rot', (rot * 0.55).toFixed(1) + 'deg');
+      el.style.setProperty('--dl', Math.round(Math.pow(fr, 1.65) * (RM ? 820 : 1320)) + 'ms');
+      r = Math.sqrt(x * x + y * y);
+      if (r > rmax) rmax = r;
+      fps.push(el);
+    }
+    for (i = 0; i < fps.length; i++){
+      fps[i].style.setProperty('--dl2',
+        Math.round(Math.sqrt(Math.pow(parseFloat(fps[i].style.getPropertyValue('--x')), 2)
+                           + Math.pow(parseFloat(fps[i].style.getPropertyValue('--y')), 2))
+                   / rmax * 340) + 'ms');
+    }
+  })();
+
+  /* ---- teardown: any skip gesture lands chapter two exactly as it was ---- */
+  function abort(){
+    if (!live) return;
+    live = false;
+    for (var i = 0; i < T.length; i++) clearTimeout(T[i]);
+    window.removeEventListener('mousemove', track);
+    frame.classList.remove('mv', 'mv-b');
+    eyes.style.cssText = '';
+    stage.remove(); line.remove(); out.remove();
+  }
+  function reveal(){
+    live = false;
+    if (mo) mo.disconnect();
+    try { window.localStorage.setItem('fd.mv', '1'); } catch (e) {}
+    location.replace('director.html');
+  }
+  if (window.MutationObserver){
+    mo = new MutationObserver(function(){
+      if (frame.classList.contains('done')){ mo.disconnect(); abort(); }
+    });
+    mo.observe(frame, { attributes:true, attributeFilter:['class'] });
+  }
+
+  /* ---- the timeline ---- */
+  at(2180, function(){ frame.classList.add('mv-b'); gaze('0s'); });
+
+  if (RM){
+    at(2760, function(){ stage.classList.add('fon'); });
+    at(4000, function(){ stage.classList.add('foff'); });
+    at(4400, function(){ line.classList.add('on'); });
+    at(5060, function(){ out.classList.add('on'); });
+    at(5420, reveal);
+    return;
+  }
+
+  at(2660, function(){ look(-15, -3, '.42s'); });
+  flash(put(pair(), -hw * 0.82, -hh * 0.12, 1.35), 3220, 440);
+  at(3880, function(){ look(16, 4, '.42s'); });
+  flash(put(pair(), hw * 0.86, hh * 0.20, 1.25), 4440, 440);
+
+  var BEATS = [
+    { t:5000, g:0,         fx:-0.52, fy: 0.62, s:1.30 },
+    { t:5460, g:0,         fx: 0.64, fy:-0.56, s:1.15 },
+    { t:5880, g:'door',    fx:-0.80, fy:-0.34, s:1.25 },
+    { t:6260, g:'wall',    fx: 0.54, fy: 0.70, s:1.15 },
+    { t:6600, g:'player',  fx:-0.28, fy:-0.78, s:1.05 },
+    { t:6900, g:'heater',  fx: 0.84, fy: 0.12, s:1.00 },
+    { t:7160, g:'shelter', fx:-0.72, fy: 0.50, s:1.00, inv:1 },
+    { t:7500, g:'breach',  fx: 0.40, fy:-0.74, s:1.00, inv:1 },
+    { t:7840, g:0,         fx:-0.44, fy: 0.06, s:1.20, inv:1 }
+  ];
+  BEATS.forEach(function(b){
+    var x  = b.fx * hw,
+        y  = b.fy * hh,
+        el = put(b.g ? glyph(b.g) : pair(), x, y, b.s);
+    if (b.inv){
+      at(b.t, function(){ toward(x, y); });
+      flash(el, b.t + 180, 520);
+    } else {
+      flash(el, b.t, 520);
+      at(b.t + 170, function(){ toward(x, y); });
+    }
+  });
+
+  at(8250, function(){
+    var on = stage.querySelectorAll('.on'), i;
+    for (i = 0; i < on.length; i++) on[i].classList.remove('on');
+    look(0, 0, '.5s');
+  });
+  at(8560,  function(){ stage.classList.add('fon'); });
+  at(10400, function(){ shut = 1; gaze('.14s'); });
+  at(11000, function(){ shut = 0; gaze('.16s'); stage.classList.add('foff'); });
+  at(11600, function(){
+    if (window.matchMedia && matchMedia('(pointer: fine)').matches){
+      window.addEventListener('mousemove', track, { passive:true });
+    }
+  });
+  at(12300, function(){ line.classList.add('on'); });
+  at(13060, function(){ out.classList.add('on'); });
+  at(13400, reveal);
 })();
 </script>

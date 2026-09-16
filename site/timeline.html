@@ -417,3 +417,14 @@
   items.forEach(function (el) { io.observe(el); });
 })();
 </script>
+
+<script>
+/* the index is a checkpoint: a reader who has finished everything and come
+   back here has done something a first pass never does. */
+(function(){
+  try {
+    var s = window.localStorage;
+    if (s.getItem('fd.ok') === '1') s.setItem('fd.idx', '1');
+  } catch (e) {}
+})();
+</script>

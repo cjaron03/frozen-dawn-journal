@@ -1,0 +1,1222 @@
+<h2>Chapter eight: Maeve</h2>
+<p class="subtitle">The hidden chapter. Built to director.html, absent from every index and nav. No kicker, no date, no number until the reader has scrolled. Zero commits, zero files, implementation not started: the whole page is a design document for a machine that does not exist yet. The instrument is the section 9.15 developer dump made live.</p>
+
+<style>
+.ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
+.ap-frame { position:relative; height:calc(100vh - 110px); height:calc(100dvh - 110px);
+            min-height:520px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
+
+/* ---------- the black ---------- */
+/* the reader arrives here from the end of the second chapter's intro, which
+   closed on a black plate. this page opens on the same plate so the cut is
+   continuous, then drops it on a single frame. nothing else happens first. */
+.ap-black { position:absolute; inset:0; background:#000; z-index:50; pointer-events:none; }
+.ap-frame.play .ap-black { animation: mvCut .62s steps(1,end) forwards; }
+@keyframes mvCut { from { opacity:1 } to { opacity:0 } }
+
+/* ---------- landed state: no animation survives the cut ---------- */
+.ap-frame.done .ap-black { display:none; }
+.ap-frame.done .ap-title,
+.ap-frame.done .ap-rest { animation:none !important; }
+.ap-frame.done .ap-title { width:auto; overflow:visible; border-right-color:#a98cd800; }
+.ap-frame.done .ap-rest { opacity:1; transform:none; }
+
+@keyframes apIn { from { opacity:0 } to { opacity:1 } }
+
+/* ---------- scroll body ---------- */
+.ap-doc { position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; z-index:30; font-family:var(--sans); }
+.ap-doc::-webkit-scrollbar { width:9px }
+.ap-doc::-webkit-scrollbar-thumb { background:#222a33; border-radius:5px }
+.ap-inner { max-width:660px; margin:0 auto; padding:46px 30px 70px; }
+
+/* one word, lower case, no kicker above it and no number beside it. every
+   other chapter in this journal announces itself. this one does not. */
+.ap-title { font-size:64px; font-weight:700; letter-spacing:-.025em; line-height:1.02; color:#f2f6f8;
+            margin:0; white-space:nowrap; overflow:hidden; width:0;
+            border-right:3px solid #a98cd800; }
+.ap-frame.play .ap-title { animation: apType .5s steps(5,end) .72s forwards,
+                                      apCaret .3s step-end .72s 4; }
+@keyframes apType { to { width:var(--tw,3.2em) } }
+@keyframes apCaret { 0%,50% { border-right-color:#a98cd8 } 51%,100% { border-right-color:#a98cd800 } }
+
+.ap-rest { opacity:0; }
+.ap-frame.play .ap-rest { animation: apUp .7s cubic-bezier(.2,.6,.3,1) 1.3s forwards; }
+@keyframes apUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
+
+.ap-stand { font-size:16.5px; line-height:1.62; color:#b3bdc5; margin:18px 0 0; }
+.ap-p { font-size:14.5px; line-height:1.72; color:#96a1aa; margin:0 0 15px; }
+.ap-p strong { color:#d4dade; font-weight:600; }
+.ap-p code, .ap-code { font-family:var(--mono); font-size:.9em; color:#a8bcc9; }
+.ap-h3 { font-size:12px; font-family:var(--mono); letter-spacing:.14em; text-transform:uppercase;
+         color:#6c7883; margin:44px 0 16px; padding-top:18px; border-top:1px solid #1a2027; }
+.ap-lede { font-size:20px; line-height:1.5; color:#d4dade; font-weight:500; letter-spacing:-.01em;
+           margin:0 0 22px; }
+.ap-pull { font-size:15.5px; line-height:1.6; color:#b9c4cc; font-style:italic;
+           border-left:2px solid #6b5691; padding-left:16px; margin:22px 0; }
+
+.ap-replay { position:absolute; right:12px; bottom:12px; z-index:70; font-family:var(--mono);
+             font-size:10px; letter-spacing:.1em; padding:6px 12px; border-radius:5px;
+             background:#141a21d9; border:1px solid #252e38; color:#8d98a1; cursor:pointer; }
+.ap-replay:hover { color:#a98cd8; border-color:#3f3357; }
+
+/* ---------- breakout width ---------- */
+.ap { --bleed: clamp(0px, calc((100vw - 660px)/2 - 30px), 160px); }
+.ap-wide { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+
+/* ---------- stats band ---------- */
+/* four cells, and two of them are words. that is the whole joke. */
+.ap-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:#1b222b;
+            border-top:1px solid #1b222b; border-bottom:1px solid #1b222b;
+            margin-top:26px; margin-bottom:32px; }
+.ap-stats > div { background:#0f1216; padding:15px 4px 16px; text-align:center; }
+.ap-stats b { display:block; font-size:25px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+              font-variant-numeric:tabular-nums; line-height:1; }
+.ap-stats b.w { font-size:14px; letter-spacing:.02em; line-height:25px; color:#a98cd8; }
+.ap-stats span { display:block; margin-top:7px; font-size:10.5px; line-height:1.4; color:#6c7883; }
+
+/* ================= shared blocks ================= */
+.ap-code { background:#0a0d11; border:1px solid #1a212a; border-radius:7px; padding:13px 15px;
+           font-family:var(--mono); font-size:11.5px; line-height:1.72; color:#8b97a3;
+           overflow-x:auto; margin:0 0 18px; white-space:pre; }
+.ap-src { margin:0 0 18px; }
+.ap-src > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:9px;
+                    font-family:var(--mono); font-size:10px; letter-spacing:.12em;
+                    text-transform:uppercase; color:#6c7883; background:#0d1116;
+                    border:1px solid #1a212a; border-radius:7px; padding:9px 13px;
+                    transition:color .15s linear, border-color .15s linear; }
+.ap-src > summary::-webkit-details-marker { display:none; }
+.ap-src > summary::marker { content:""; }
+.ap-src > summary:before { content:""; flex:0 0 auto; width:0; height:0;
+                           border-left:5px solid currentColor; border-top:4px solid transparent;
+                           border-bottom:4px solid transparent; transition:transform .18s ease; }
+.ap-src > summary em { margin-left:auto; font-style:normal; letter-spacing:.06em; color:#4f5a64; }
+.ap-src > summary:hover { color:#a98cd8; border-color:#3f3357; }
+.ap-src > summary:focus-visible { outline:2px solid #a98cd8; outline-offset:2px; }
+.ap-src[open] > summary { color:#8d98a1; border-bottom-color:#0a0d11;
+                          border-bottom-left-radius:0; border-bottom-right-radius:0; }
+.ap-src[open] > summary:before { transform:rotate(90deg); }
+.ap-src .ap-code { margin:0; border-top-left-radius:0; border-top-right-radius:0; }
+
+.ap-code v { color:#7dd3fc; text-decoration:none; }
+.ap-code k { color:#a98cd8; text-decoration:none; }
+.ap-code c { color:#55606b; text-decoration:none; }
+
+.ap-orsa { margin:0 0 18px; border:1px solid #3c2f16; border-left:2px solid #ffb454;
+           border-radius:0 7px 7px 0; background:#0f0c07; padding:12px 15px 13px; }
+.ap-orsa em { display:block; font-family:var(--mono); font-size:9.5px; font-style:normal;
+              letter-spacing:.14em; text-transform:uppercase; color:#8a6b34; margin:0 0 8px; }
+.ap-orsa p { margin:0 0 6px; font-family:var(--mono); font-size:11.5px; line-height:1.66;
+             color:#e0b978; }
+.ap-orsa p:last-child { margin-bottom:0; }
+.ap-orsa p b { font-weight:400; color:#ffb454; }
+
+.ap-cmts { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; }
+.ap-cmt { background:#0d1116; padding:12px 14px; }
+.ap-cmt b { display:block; font-family:var(--mono); font-size:11px; font-weight:500;
+            letter-spacing:.015em; color:#a98cd8; }
+.ap-cmt span { display:block; margin-top:5px; font-size:12.5px; line-height:1.6; color:#8d98a1; }
+
+.ap-pass { display:grid; gap:1px; background:#1a212a; border:1px solid #1a212a; border-radius:7px;
+           overflow:hidden; margin:0 0 20px; counter-reset:p; }
+.ap-pass > div { background:#0d1116; padding:10px 14px; display:flex; gap:12px; align-items:baseline; }
+.ap-pass > div:before { counter-increment:p; content:counter(p,decimal-leading-zero);
+                        font-family:var(--mono); font-size:10px; color:#4f5b67; flex:0 0 auto; }
+.ap-pass b { font-family:var(--mono); font-size:11px; letter-spacing:.05em; color:#a98cd8;
+             flex:0 0 138px; }
+.ap-pass span { font-size:12.5px; line-height:1.55; color:#8d98a1; }
+
+.ap-figs { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:#1a212a;
+           border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 20px; }
+.ap-figs > div { background:#0d1116; padding:14px 12px 15px; text-align:center; }
+.ap-figs b { display:block; font-size:21px; font-weight:600; color:#e9eff3; letter-spacing:-.03em;
+             font-variant-numeric:tabular-nums; }
+.ap-figs span { display:block; margin-top:6px; font-size:10.5px; line-height:1.45; color:#6c7883; }
+
+.ap-tcap { margin:0 0 17px; font-family:var(--mono); font-size:9.5px; letter-spacing:.08em;
+           line-height:1.6; color:#5a6672; }
+
+.ap-note { margin:0 0 20px; padding:14px 18px 17px; background:#0d1116; border:1px solid #1a212a;
+           border-radius:7px; font-size:13px; line-height:1.62; color:#8d98a1; }
+.ap-note b { color:#c8d2da; font-weight:600; }
+
+/* ================= the number, late ================= */
+/* until the reader scrolls past this line there is no eighth chapter. the
+   site spent seven chapters insisting on that and it was telling the truth
+   right up to here. */
+.mv-num { display:flex; align-items:center; gap:14px; margin:34px 0 26px; }
+.mv-num i { flex:1 1 auto; height:1px; background:linear-gradient(90deg,#1a212a,#3f3357); }
+.mv-num i.l { background:linear-gradient(90deg,#3f3357,#1a212a); }
+.mv-num b { flex:0 0 auto; font-family:var(--mono); font-size:11px; font-weight:400;
+            letter-spacing:.34em; text-transform:uppercase; color:#a98cd8; padding-left:.34em; }
+
+/* ================= the six laws ================= */
+.mv-laws { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:#1a212a;
+           border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 20px; }
+.mv-law { background:#0d1116; padding:13px 15px 15px; }
+.mv-law b { display:block; font-size:14px; font-weight:650; color:#cbb6ee; letter-spacing:-.01em; }
+.mv-law em { display:block; margin-top:3px; font-style:normal; font-family:var(--mono);
+             font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#5a4c72; }
+.mv-law span { display:block; margin-top:8px; font-size:12.5px; line-height:1.58; color:#8d98a1; }
+
+/* ================= two brains ================= */
+.mv-brain { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:#1a212a;
+            border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 6px; }
+.mv-brain > div { background:#0d1116; padding:15px 16px 17px; }
+.mv-brain h4 { margin:0; font-family:var(--mono); font-size:10px; letter-spacing:.14em;
+               text-transform:uppercase; font-weight:400; color:#5f6b76; }
+.mv-brain b { display:block; margin:7px 0 0; font-size:15px; font-weight:650; letter-spacing:-.015em;
+              color:#cbb6ee; }
+.mv-brain > div.b b { color:#7dd3fc; }
+.mv-brain p { margin:8px 0 0; font-size:12.5px; line-height:1.6; color:#8d98a1; }
+.mv-brain u { display:block; margin-top:10px; text-decoration:none; font-family:var(--mono);
+              font-size:10px; line-height:1.66; letter-spacing:.02em; color:#6c7883; }
+
+/* ================= two ledgers ================= */
+.mv-led { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1px; background:#1a212a;
+          border:1px solid #1a212a; border-radius:7px; overflow:hidden; margin:0 0 20px; }
+.mv-led > div { background:#0d1116; padding:14px 16px 16px; }
+.mv-led b { display:block; font-size:13.5px; font-weight:650; color:#cbd5dc; letter-spacing:-.01em; }
+.mv-led em { display:block; margin-top:4px; font-style:normal; font-family:var(--mono);
+             font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; }
+.mv-led .k em { color:#7dd3fc; }
+.mv-led .p em { color:#a98cd8; }
+.mv-led span { display:block; margin-top:9px; font-size:12.5px; line-height:1.58; color:#8d98a1; }
+
+/* ================= the facade ================= */
+.mv-fac { border:1px solid #1c242e; border-radius:9px; background:#0d1116; overflow:hidden;
+          margin:0 0 20px; }
+.mv-fac > b { display:block; padding:12px 15px; background:#0a0d11; border-bottom:1px solid #1a212a;
+              font-family:var(--mono); font-size:11.5px; font-weight:400; letter-spacing:.02em;
+              color:#a98cd8; }
+.mv-fac > b u { text-decoration:none; float:right; font-size:9.5px; letter-spacing:.1em;
+                text-transform:uppercase; color:#4f5a64; }
+.mv-fac ul { list-style:none; display:grid; grid-template-columns:repeat(2,minmax(0,1fr));
+             gap:1px; background:#1a212a; }
+.mv-fac li { background:#0d1116; padding:10px 14px 12px; }
+.mv-fac li b { display:block; font-family:var(--mono); font-size:11px; font-weight:400;
+               letter-spacing:.01em; color:#9fb0bd; }
+.mv-fac li span { display:block; margin-top:4px; font-size:11.5px; line-height:1.5; color:#7c8891; }
+.mv-fac li.w { grid-column:1 / -1; }
+
+/* ================= the instrument: a live belief dump ================= */
+.bi { border:1px solid #1c242e; border-radius:9px; background:#0d1116; overflow:hidden; margin:0 0 8px; }
+.bi-top { display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:11px 14px;
+          background:#0a0d11; border-bottom:1px solid #1a212a; }
+.bi-lab { font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; text-transform:uppercase;
+          color:#5f6b76; }
+.bi-day { margin-left:auto; font-family:var(--mono); font-size:9.5px; letter-spacing:.1em;
+          text-transform:uppercase; color:#4f5a64; }
+.bi-day b { font-weight:400; color:#9fb0bd; font-variant-numeric:tabular-nums; }
+
+.bi-dump { padding:14px 15px 4px; font-family:var(--mono); font-size:11.5px; line-height:1.66; }
+.bi-r { display:flex; gap:12px; align-items:baseline; margin:0 0 9px; }
+.bi-r > i { flex:0 0 136px; font-style:normal; font-size:9.5px; letter-spacing:.11em;
+            text-transform:uppercase; color:#55606b; }
+.bi-r > span { flex:1 1 auto; min-width:0; color:#9fb0bd; }
+.bi-r > span.d { color:#55606b; }
+.bi-r > span.v { color:#a98cd8; }
+.bi-r > span.i { color:#7dd3fc; }
+
+.bi-bar { position:relative; height:7px; border-radius:4px; background:#141a21;
+          border:1px solid #1e2630; overflow:hidden; }
+.bi-fill { position:absolute; left:0; top:0; bottom:0; width:0; background:#6b5691;
+           transition:width .5s cubic-bezier(.3,.7,.3,1), background .3s linear; }
+.bi-fill.hi { background:#a98cd8; }
+.bi-th { position:absolute; top:-3px; bottom:-3px; left:75%; width:1px; background:#4a5560; }
+.bi-cf { display:flex; align-items:center; gap:11px; }
+.bi-cf > u { flex:0 0 38px; text-decoration:none; color:#cbd5dc; font-variant-numeric:tabular-nums; }
+.bi-cf > div { flex:1 1 auto; }
+
+.bi-ev { margin:2px 0 0; padding:0 0 12px; max-height:112px; overflow-y:auto; }
+.bi-ev p { margin:0 0 4px; font-family:var(--mono); font-size:10.5px; line-height:1.55;
+           color:#7c8891; display:flex; gap:9px; }
+.bi-ev p u { flex:0 0 auto; text-decoration:none; color:#4f5a64; }
+.bi-ev p b { flex:0 0 auto; font-weight:400; color:#55606b; }
+.bi-ev p.x u, .bi-ev p.x b, .bi-ev p.x { color:#4a5560; }
+.bi-ev p.n { color:#4f5a64; font-style:italic; }
+
+.bi-ctl { display:flex; flex-wrap:wrap; gap:7px; padding:12px 14px; background:#0a0d11;
+          border-top:1px solid #1a212a; }
+.bi-b { -webkit-appearance:none; appearance:none; font-family:var(--mono); font-size:10px;
+        letter-spacing:.06em; padding:8px 11px; border-radius:5px; background:#141920;
+        border:1px solid #232c36; color:#8d98a1; cursor:pointer;
+        transition:color .15s linear, border-color .15s linear; }
+.bi-b:hover:not([disabled]) { color:#cbd5dc; border-color:#333e4a; }
+.bi-b:focus-visible { outline:2px solid #a98cd8; outline-offset:2px; }
+.bi-b[disabled] { opacity:.34; cursor:default; }
+.bi-b.v { color:#a98cd8; border-color:#3f3357; }
+.bi-b.v:hover:not([disabled]) { color:#c2aae6; border-color:#574870; }
+.bi-b.r { margin-left:auto; color:#6c7883; }
+
+.bi-flag { display:flex; align-items:center; gap:9px; padding:10px 14px; border-top:1px solid #1a212a;
+           background:#0b0910; font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+           text-transform:uppercase; color:#a98cd8; }
+.bi-flag[hidden] { display:none; }
+.bi-flag i { flex:0 0 auto; width:6px; height:6px; border-radius:50%; background:#a98cd8; }
+.bi-flag u { margin-left:auto; text-decoration:none; color:#6b5691; letter-spacing:.07em; }
+.bi-flag.cool { background:#0a0d11; color:#7c8891; }
+.bi-flag.cool i { background:#4a5560; }
+.bi-flag.cool u { color:#4f5a64; }
+
+/* ================= chaptered deck ================= */
+.ap-deck { margin:44px 0 0; }
+
+.ap-dtop { position:sticky; top:0; z-index:8; background:#0f1216; padding:9px 0 0; }
+.ap-dtop:after { content:""; position:absolute; left:calc(-1 * var(--bleed)); right:calc(-1 * var(--bleed));
+  bottom:0; height:1px; background:#1c242e; }
+
+.ap-dtop .ap-dstrip { margin-left:calc(-1 * var(--bleed)); margin-right:calc(-1 * var(--bleed)); }
+.ap-dstrip { position:relative; display:flex; align-items:flex-end; overflow-x:auto;
+  scrollbar-width:none; -ms-overflow-style:none; -webkit-overflow-scrolling:touch; }
+.ap-dstrip::-webkit-scrollbar { display:none; }
+
+.ap-dtab { position:relative; flex:0 0 auto; -webkit-appearance:none; appearance:none;
+  background:none; border:0; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:#7c8891; padding:9px 13px 11px; cursor:pointer;
+  white-space:nowrap; border-radius:5px 5px 0 0;
+  transition:color .28s ease, background .28s ease, transform .2s cubic-bezier(.2,.6,.3,1); }
+.ap-dtab:hover { color:#b8c3cb; background:#141920; }
+@media (min-width:641px) { .ap-dtab { padding-left:10px; padding-right:10px; letter-spacing:.08em; }
+  .ap-dtab i { margin-right:5px; } }
+.ap-dtab:active { transform:translateY(1px); }
+.ap-dtab.on { color:#a98cd8; }
+.ap-dtab i { font-style:normal; opacity:.45; margin-right:7px; }
+
+.ap-dink { position:absolute; left:0; bottom:0; height:2px; width:0; background:#a98cd8;
+  border-radius:2px 2px 0 0; pointer-events:none;
+  transition:transform .44s cubic-bezier(.22,.8,.28,1), width .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dstage { position:relative; }
+.ap-dstage.morph { overflow:hidden; transition:height .44s cubic-bezier(.22,.8,.28,1); }
+
+.ap-dpanes { position:relative; padding-top:22px; }
+.ap-pane { display:none; }
+.ap-pane.on { display:block; }
+.ap-pane.enter { animation:apSlideL .42s cubic-bezier(.2,.65,.3,1) both; }
+.ap-pane.enter.rev { animation-name:apSlideR; }
+@keyframes apSlideL { from { opacity:0; transform:translate3d(20px,0,0); } to { opacity:1; transform:none; } }
+@keyframes apSlideR { from { opacity:0; transform:translate3d(-20px,0,0); } to { opacity:1; transform:none; } }
+
+.ap-dbot { margin-top:28px; padding-top:16px; border-top:1px solid #1c242e; }
+.ap-dsteps { display:flex; gap:10px; }
+.ap-dstep { flex:1 1 0; min-width:0; -webkit-appearance:none; appearance:none; text-align:left;
+  background:#12171d; border:1px solid #1c242e; border-radius:7px; padding:10px 14px 11px;
+  cursor:pointer; font-family:inherit; }
+.ap-dstep:hover:not([disabled]) { border-color:#2c3946; background:#161c23; }
+.ap-dstep:active:not([disabled]) { transform:scale(.985); }
+.ap-dstep[disabled] { opacity:.3; cursor:default; }
+.ap-dstep em { display:block; font-family:var(--mono); font-size:8.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:#5f6b76; font-style:normal; margin-bottom:4px; }
+.ap-dstep b { display:block; font-size:12.5px; font-weight:600; color:#cbd5dc; letter-spacing:-.01em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ap-dstep.next { text-align:right; }
+
+/* ---- the last line on the page ---- */
+.mv-end { margin:44px 0 0; padding-top:22px; border-top:1px solid #151b23; text-align:center;
+          font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+          line-height:2; color:#39434d; }
+
+/* ---- reveal on scroll ---- */
+.ap-rv { opacity:0; transform:translate3d(0,16px,0); }
+.ap-rv.in { animation:apRise .6s cubic-bezier(.2,.65,.3,1) both; }
+.ap-rv.set { opacity:1; transform:none; animation:none; }
+.ap-pop { animation:apRise .5s cubic-bezier(.2,.65,.3,1) both; }
+@keyframes apRise { from { opacity:0; transform:translate3d(0,16px,0); } to { opacity:1; transform:none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-frame.play .ap-black { animation:none !important; opacity:0 !important; }
+  .ap-frame.play .ap-title, .ap-frame.play .ap-rest { animation:none !important; }
+  .ap-title { width:auto !important; overflow:visible !important;
+              border-right-color:#a98cd800 !important; }
+  .ap-rest { opacity:1 !important; transform:none !important; }
+  .ap-rv, .ap-rv.in { opacity:1 !important; transform:none !important; animation:none !important; }
+  .ap-pop, .ap-pane.enter { animation:none !important; }
+  .ap-dink, .ap-dstage.morph { transition:none !important; }
+  .ap-dtab { transition:none !important; }
+  .ap-dtab:active { transform:none !important; }
+  .ap-src > summary, .ap-src > summary:before { transition:none !important; }
+  .bi-fill { transition:none !important; }
+}
+
+@media (max-width:640px){
+  .ap-frame { height:calc(100vh - 78px); height:calc(100dvh - 78px); min-height:420px; }
+  .ap-inner { padding:36px 17px 64px; }
+  .ap-title { font-size:40px; }
+  .ap-lede { font-size:17.5px; }
+  .ap-stand { font-size:15px; }
+  .ap-p { font-size:14px; }
+  .ap-stats { grid-template-columns:repeat(2,1fr); }
+  .ap-stats b { font-size:21px; }
+  .ap-stats b.w { font-size:13px; line-height:21px; }
+  .ap-figs { grid-template-columns:1fr; }
+  .ap-pass > div { flex-wrap:wrap; }
+  .ap-pass b { flex-basis:auto; }
+  .ap-code { font-size:10.5px; }
+  .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
+  .mv-num b { font-size:10px; letter-spacing:.26em; }
+  .mv-laws, .mv-brain, .mv-led { grid-template-columns:minmax(0,1fr); }
+  .mv-fac ul { grid-template-columns:minmax(0,1fr); }
+  .bi-dump { font-size:10.5px; }
+  .bi-r { flex-wrap:wrap; gap:3px 12px; }
+  .bi-r > i { flex-basis:100%; }
+  .bi-b { font-size:9.5px; padding:8px 9px; }
+  .bi-b.r { margin-left:0; }
+  .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
+  .ap-dtab i { margin-right:5px; }
+  .ap-dsteps { gap:7px; }
+  .ap-dstep { padding:9px 11px 10px; }
+  .ap-dstep b { font-size:11.5px; }
+  .ap-deck { margin-top:34px; }
+}
+</style>
+
+<div class="ap">
+  <div class="ap-frame play" id="apFrame">
+    <div class="ap-black"></div>
+
+    <div class="ap-doc">
+      <div class="ap-inner">
+        <h1 class="ap-title">Maeve</h1>
+
+        <div class="ap-rest">
+          <p class="ap-stand">Every other chapter of this journal is a record of something I built. This one is a record of something I have not built. There is no commit to link to, no file to open, no screenshot to take. What follows is the specification, written down in full, for the thing Frozen Dawn is pointed at.</p>
+
+          <div class="ap-stats ap-wide">
+            <div><b>0</b><span>commits, as of the current checkout</span></div>
+            <div><b>0</b><span>files changed, ever</span></div>
+            <div><b class="w">NOT STARTED</b><span>implementation status</span></div>
+            <div><b class="w">DESIGN DOC</b><span>the only source of truth there is</span></div>
+          </div>
+
+          <p class="ap-p">Everything the reader has just spent seven chapters on, the collapse, the heaters, the corporation, the creatures, the hive, the rocket, was built first and explained afterwards. That is what a dev journal is. You do the work, then you write down what the work turned out to be.</p>
+
+          <p class="ap-p">This is the opposite. The specification came first and it has been sitting in a document for months while I built everything around it. <strong>The mod already contains the world Maeve is supposed to wake up into.</strong> It does not contain Maeve.</p>
+
+          <div class="mv-num ap-rv"><i class="l"></i><b>Chapter VIII</b><i></i></div>
+
+          <p class="ap-p">I put off writing this page for a long time, because a design document is not an achievement. It is a promise with a deadline attached to it. But leaving it out would have been dishonest in a way that bothered me more. The whole second half of Frozen Dawn is shaped by a system that does not exist, and a journal that only shows the finished parts is a sales page, not a record.</p>
+
+          <p class="ap-p">So: this is the blueprint, before construction. The laws it has to obey, the two brains it runs on, the one door it walks through, and the seven objects I already know it will be made of. Where the document says a value is locked, I have said so. Where I still do not know the answer, I have said that too.</p>
+
+          <div class="ap-pull">The player spends the apocalypse learning how Frozen Dawn works. Once Maeve wakes, Frozen Dawn begins learning how the player works.</div>
+
+          <p class="ap-p">That sentence has been the first line of the specification since the day I started it. Everything below is the machinery for making it true without cheating.</p>
+
+          <div class="ap-deck" id="apDeck">
+            <div class="ap-dtop">
+              <div class="ap-dstrip" role="tablist" aria-label="Chapter eight sections">
+                <button type="button" class="ap-dtab on" role="tab" data-i="0" data-full="Six laws it cannot break" data-short="The laws" aria-selected="true" tabindex="0"><i>01</i>Six laws it cannot break</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="1" data-full="Two brains" data-short="Two brains" aria-selected="false" tabindex="-1"><i>02</i>Two brains</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="2" data-full="A door that only opens once" data-short="The door" aria-selected="false" tabindex="-1"><i>03</i>A door that only opens once</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="Beliefs, not facts" data-short="Beliefs" aria-selected="false" tabindex="-1"><i>04</i>Beliefs, not facts</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="Being wrong in public" data-short="Commitment" aria-selected="false" tabindex="-1"><i>05</i>Being wrong in public</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="5" data-full="What it can afford to watch" data-short="Attention" aria-selected="false" tabindex="-1"><i>06</i>What it can afford to watch</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="6" data-full="Seven objects and a name" data-short="The facade" aria-selected="false" tabindex="-1"><i>07</i>Seven objects and a name</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="7" data-full="None of this exists yet" data-short="Not built" aria-selected="false" tabindex="-1"><i>08</i>None of this exists yet</button>
+                <span class="ap-dink" id="apDink"></span>
+              </div>
+            </div>
+
+            <div class="ap-dstage" id="apDstage">
+              <div class="ap-dpanes" id="apDpanes">
+
+<section class="ap-pane on" role="tabpanel" data-p="0" aria-label="Six laws it cannot break">
+  <p class="ap-lede">Six rules sit above everything else, including the difficulty setting.</p>
+
+  <p class="ap-p">Before there was a single class name in the document there was this list. They are marked LOCKED, which in my own notes means I am not allowed to argue with them later when something is inconvenient to build. Every mechanic further down has to be checked against all six, and a mechanic that fails one is not shipped in a weakened form. It is cut.</p>
+
+  <div class="mv-laws ap-wide">
+    <div class="mv-law"><b>Lagged</b><em>Law 01</em><span>Adaptation answers what the player has done historically. It never answers what they are doing this second. A director that reacts to your current input is not intelligent, it is a cheat, and players can feel the difference immediately.</span></div>
+    <div class="mv-law"><b>Legible</b><em>Law 02</em><span>Every counter has to be observable and understandable from inside the game. If the player cannot eventually work out what changed and why, the system has not been adaptive, it has just been unfair.</span></div>
+    <div class="mv-law"><b>Exploitable</b><em>Law 03</em><span>Every adaptation creates a counter of its own. If it can be learned it can be baited, including on purpose. Feeding it false evidence is a legitimate strategy, not an exploit to be patched.</span></div>
+    <div class="mv-law"><b>Fallible</b><em>Law 04</em><span>It is allowed to hold beliefs that are uncertain, out of date, or flatly wrong, and it is allowed to act on them. Being wrong in a way the player can see is the feature.</span></div>
+    <div class="mv-law"><b>Bounded</b><em>Law 05</em><span>Attention, memory, inference depth, reconnaissance and simulation all have budgets. Nothing about it is unlimited, and the limits are fixed numbers I have to defend.</span></div>
+    <div class="mv-law"><b>Causal</b><em>Law 06</em><span>Knowledge has to trace back to something that was actually observed in the world. No server omniscience wearing a costume. If it knows where you sleep, something saw you sleep there.</span></div>
+  </div>
+
+  <p class="ap-p">The one I expect to fight with is <strong>Legible</strong>. It is easy to write an opponent model that produces genuinely clever behaviour and completely impossible to read from the player&rsquo;s side of the screen. That version feels like the game is cheating even when it is not. A slightly worse decision that the player can reconstruct afterwards is worth more than a better one they cannot.</p>
+
+  <p class="ap-p">And the one that most people would call a bug is <strong>Fallible</strong>. A director that is always right is not a mind, it is a difficulty multiplier. The document is explicit about this: <em>perfect knowledge is a design failure.</em></p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="1" aria-label="Two brains">
+  <p class="ap-lede">The architecture is stolen, deliberately, from Alien: Isolation.</p>
+
+  <p class="ap-p">Isolation splits its alien into two systems. One brain knows roughly where you are and steers the creature towards you. The other brain is the creature itself, which knows only what it can sense and is genuinely ignorant of your position. The horror comes from the gap between them.</p>
+
+  <p class="ap-p">Frozen Dawn does the same split, with one important difference: the second brain is not one creature, it is every Returned in the region, and the Master Architect is the piece that both brains can see at once.</p>
+
+  <div class="mv-brain ap-wide">
+    <div>
+      <h4>Brain one</h4>
+      <b>The Director</b>
+      <p>Regional, slow, and never rendered. It holds beliefs about the player, chooses an objective, and issues pressure. It does not have hands.</p>
+      <u>Runs on a tick budget<br>Wiped on ERASED<br>Never an entity</u>
+    </div>
+    <div class="b">
+      <h4>Brain two</h4>
+      <b>The bodies</b>
+      <p>Individual Returned, Architects, and the Master Architect. They act on what they can actually perceive plus whatever packet the Director has pushed to them.</p>
+      <u>Local senses only<br>Can be deceived<br>Can refuse the packet</u>
+    </div>
+  </div>
+
+  <p class="ap-tcap">The Director never manifests. There is no boss bar, no entity, no health pool, and no model in the files.</p>
+
+  <p class="ap-p">This is the single most important canon rule in the whole document, and it is the one I have had to explain the most: <strong>Maeve is not a person and she is not a monster.</strong> She is the emergent collective will of the hive. The Returned experience Director pressure as something arriving from outside themselves, and the name they give it is Maeve. The myth is the system, perceived from the inside by the things the system is running on.</p>
+
+  <div class="ap-cmts">
+    <div class="ap-cmt"><b>Difficulty is theology</b><span>Brutal does not give the Returned more health. Brutal means Maeve is paying attention to you. The hive treats sustained attention as a religious event, because from where they stand it is one.</span></div>
+    <div class="ap-cmt"><b>She never speaks to you</b><span>There is no dialogue, no taunt, no voice line. Everything the player learns about her they learn from Returned behaviour and from Thaeven text written by people who are inside her.</span></div>
+    <div class="ap-cmt"><b>The payoff is in the source</b><span>The design document says it outright: dataminers finding MaeveDirector is the payoff. She is a class name. That is the whole reveal.</span></div>
+  </div>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="2" aria-label="A door that only opens once">
+  <p class="ap-lede">Waking her is a one way door, and the game tells you so in a language you should not be able to understand.</p>
+
+  <p class="ap-p">Activation sits at the late end of Phase 6, gated on Major Hearths. It is not a boss trigger and it is not an item pickup. It is a state change on the region that cannot be undone, reloaded around, or walked back.</p>
+
+  <p class="ap-p">The signal is a Thaeven transmission. Not text on screen, not a cutscene: the player receives the Orsha sensation of a door closing, delivered in their own inner voice. By this point in the game the player has been reading Thaeven for hours in the archive, which means the moment lands as comprehension rather than as a notification.</p>
+
+  <div class="ap-orsa">
+    <em>Design note &middot; first encounter</em>
+    <p><b>No counter fires in the first encounter.</b></p>
+    <p>The first time the player meets her she does nothing clever at all. She watches. Every counter she ever plays is built out of what happened during the encounters where she appeared to be doing nothing.</p>
+  </div>
+
+  <p class="ap-p">That restraint is load bearing. Law 01 says adaptation is lagged, and the cleanest way to prove a system is lagged is to have it visibly do nothing the first time. The player should get through the first encounter thinking it was overhyped, and then spend the second one finding out what she was doing during the first.</p>
+
+  <p class="ap-p">The terminal state is called <code>ERASED</code>. When a region reaches it, the tactical belief store is wiped completely: every hypothesis, every confidence value, every piece of evidence. She does not remember how you fight.</p>
+
+  <p class="ap-p">She does remember what you did. That is a different ledger, and it survives.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="3" aria-label="Beliefs, not facts">
+  <p class="ap-lede">She does not store what you did. She stores what she thinks you did.</p>
+
+  <p class="ap-p">This is the difference between an opponent model and a stat tracker, and it is where most adaptive AI in games quietly gives up. It is far easier to read the player&rsquo;s actual inventory than to maintain a guess about it. The document does not allow the easy version, because Law 06 says knowledge has to trace to observed evidence.</p>
+
+  <p class="ap-p">So the unit of memory is a belief record. Every one of them carries its own confidence, its own evidence list, and its own expiry.</p>
+
+  <div class="ap-src">
+    <summary>A belief record, as the dump prints it <em>Section 9.1</em></summary>
+    <div class="ap-code"><c>// approach.roof</c>
+<k>belief</k>        the player enters from above
+<k>confidence</k>    <v>0.68</v>
+<k>support</k>       3 observations
+<k>contradicted</k>  0 times
+<k>first_seen</k>    day 34
+<k>last_seen</k>     day 41
+<k>stale_at</k>      day 61   <c>// 20 in-game days after last support</c>
+<k>evidence</k>      ARCHITECT_SIGHT  day 34  east ridge
+              HEARTH_WITNESS   day 38  roof breach
+              ARCHITECT_SIGHT  day 41  rope anchor</div>
+  </div>
+
+  <p class="ap-p">Staleness onset is a locked value: twenty in-game days after the last supporting observation, a belief begins to decay. It is not deleted, it is demoted. She keeps believing you come in through the roof for a while after you have stopped, which is exactly the behaviour a real opponent has and exactly the behaviour that makes deliberate disinformation worth the player&rsquo;s time.</p>
+
+  <p class="ap-p">There are two memory stores and they are strictly separate. Mixing them was the single worst version of this design I wrote, and untangling them took most of a weekend of notes.</p>
+
+  <div class="mv-led ap-wide">
+    <div class="k"><b>Tactical beliefs</b><em>Wiped on ERASED</em><span>How you fight. Where you come in. What you carry. What you are afraid of. All of it is guesswork with confidence attached, and all of it is destroyed when the region is erased. A new region starts genuinely ignorant of you.</span></div>
+    <div class="p"><b>Violation memory</b><em>Death proof, permanent</em><span>What you did. Hearths you burned. Returned you killed. Whether you honoured a truce. This is not tactical information and it does not decay, reset, or forgive. Dying does not clear it.</span></div>
+  </div>
+
+  <p class="ap-p">The split is what makes the ending of a run mean something. Wiping her tactical model is a reward, and it is available: erase the region and she forgets how to fight you. <strong>The other ledger is not negotiable.</strong> She forgets your tactics and remembers your conduct, which is, I think, the more frightening way around.</p>
+
+  <div class="ap-note"><b>Not machine learning.</b> Nothing here trains, and nothing here has weights. It is opponent modelling with counter strategy selection, which is a forty year old idea and a completely honest description of what the code does. I am also not going to market it as Nemesis like: that system is patented (US 10,926,179) and the comparison is both legally careless and technically wrong.</div>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="4" aria-label="Being wrong in public">
+  <p class="ap-lede">The mechanic that makes fallibility legible is called commitment, and it is the load bearing piece of the whole design.</p>
+
+  <p class="ap-p">A director that only ever acts once it is certain is indistinguishable from a director that can read the save file. The player never sees it think, they only see it be right. So the rule is the opposite: once confidence in a belief crosses <strong>0.75</strong>, she has to act on it early, visibly, and before it is confirmed, and then she has to hold that commitment for about twenty seconds whatever happens next.</p>
+
+  <p class="ap-p">Commitment is sticky on purpose. If she could drop a bet the instant it looked wrong, the player would never get to watch her be wrong, and being watched being wrong is the entire point.</p>
+
+  <p class="ap-p">Below is the developer dump from section 9.15, wired up. Feed her sightings and watch the confidence climb. Cross the threshold and she commits out loud. Then contradict her while the commitment is still live.</p>
+
+  <div class="bi ap-wide" id="biRoot">
+    <div class="bi-top">
+      <span class="bi-lab">Director diagnostics</span>
+      <span class="bi-day">In&#8209;game day <b id="biDay">30</b></span>
+    </div>
+
+    <div class="bi-dump">
+      <div class="bi-r"><i>Belief</i><span>approach.roof &middot; the player enters from above</span></div>
+      <div class="bi-r"><i>Confidence</i><span class="bi-cf"><u id="biVal">0.00</u><div><div class="bi-bar"><span class="bi-fill" id="biFill"></span><span class="bi-th"></span></div></div></span></div>
+      <div class="bi-r"><i>Evidence</i><span id="biSup" class="d">no observations</span></div>
+      <div class="bi-r"><i>Contradictions</i><span id="biCon" class="d">0</span></div>
+      <div class="bi-r"><i>Uncertainty</i><span id="biUnc" class="d">nothing has been seen yet</span></div>
+      <div class="bi-r"><i>Objective</i><span>hold the hearth</span></div>
+      <div class="bi-r"><i>Strategy</i><span id="biStr" class="d">none selected</span></div>
+      <div class="bi-r"><i>Architect packet</i><span id="biPkt" class="d">none</span></div>
+    </div>
+
+    <div class="bi-ev" id="biList"><p class="n">The evidence list is empty. She has no opinion about you.</p></div>
+
+    <div class="bi-flag" id="biFlag" hidden><i></i><span id="biFlagT">Commitment live</span><u id="biFlagN"></u></div>
+
+    <div class="bi-ctl">
+      <button type="button" class="bi-b" data-o="ridge">Sighting &middot; east ridge</button>
+      <button type="button" class="bi-b" data-o="rope">Sighting &middot; rope anchor</button>
+      <button type="button" class="bi-b" data-o="breach">Sighting &middot; roof breach</button>
+      <button type="button" class="bi-b v" data-o="contra">Player enters at ground level</button>
+      <button type="button" class="bi-b" data-o="wait">Advance 20 days</button>
+      <button type="button" class="bi-b r" data-o="reset">Reset</button>
+    </div>
+  </div>
+
+  <p class="ap-tcap">The twenty second hold runs at roughly three times speed so it fits in a browser. Every other number here is the one in the document.</p>
+
+  <p class="ap-p">Three things in that panel are not tunable, and I have written them down as not tunable so that a future version of me does not quietly soften them when playtesting gets uncomfortable:</p>
+
+  <div class="ap-pass ap-wide">
+    <div><b>One per encounter</b><span>She gets a single active commitment at a time. She cannot hedge by committing to two reads of the player at once and taking credit for whichever lands.</span></div>
+    <div><b>Precedence by cost</b><span>When two beliefs both qualify, she does not take the higher confidence one. She takes the cheaper bet to abandon. Confidence decides what she believes, not what she is willing to stake.</span></div>
+    <div><b>Contradiction cooldown</b><span>After a commitment is contradicted, she cannot open a new one for a fixed window. Getting caught costs her tempo, and the player can spend that window doing the thing she was about to stop.</span></div>
+  </div>
+
+  <p class="ap-p">Law 03 falls straight out of this. If she commits on evidence, and the evidence is things you were seen doing, then <strong>letting yourself be seen doing the wrong thing is a weapon</strong>. Walking a decoy route past an Architect three times and then taking the other one is not an exploit to be patched. It is the intended skill ceiling.</p>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="5" aria-label="What it can afford to watch">
+  <p class="ap-lede">Law 05 says she is bounded. In practice that means she can only pay attention to a few things at once, and that number is the difficulty setting.</p>
+
+  <div class="ap-figs ap-wide">
+    <div><b>2</b><span>focus slots on Cinematic</span></div>
+    <div><b>3</b><span>focus slots on Normal</span></div>
+    <div><b>5</b><span>focus slots on Brutal</span></div>
+  </div>
+  <p class="ap-tcap">Attention is the only thing the difficulty slider moves. Nothing gets more health.</p>
+
+  <p class="ap-p">I went back and forth on this one for a long time, because the obvious version is a pool. Give her a meter, make her spend it, let it refill. It reads well on paper and it is wrong for two reasons.</p>
+
+  <p class="ap-p">The first is that a pool is farmable. Anything with a refill rate turns into a timing puzzle, and within a week somebody has worked out how to drain her and walk past. The second is that it is off fiction. A hive does not run out of attention. It runs out of <em>places to put it</em>. So attention is a <strong>concurrency cap</strong>, not a currency: a fixed number of slots, always full, always doing something, and taking an interest in you means dropping an interest in something else.</p>
+
+  <p class="ap-p">Which raises the only question that matters. When every slot is busy and something new happens, what does she stop watching? The answer is ranked by legibility, not by value. She drops the things whose loss the player can most easily read.</p>
+
+  <div class="ap-pass ap-wide">
+    <div><b>Reconnaissance</b><span>Speculative scouting goes first. You will notice the pressure ease before you understand why, which is exactly the tell I want.</span></div>
+    <div><b>Passive tracking</b><span>Low confidence beliefs stop being fed. They go stale rather than wrong, and she quietly forgets a habit of yours.</span></div>
+    <div><b>Active commitment</b><span>An open bet can be abandoned under load, but the twenty second hold still runs out first. She never escapes a commitment by getting busy.</span></div>
+    <div><b>Siege orchestration</b><span>Coordinated pressure on a shelter collapses back into individual behaviour. The bodies keep coming, they just stop arriving together.</span></div>
+    <div><b>The Master Architect</b><span>Never evictable. Whatever else is happening on the map, one slot is always on the guardian, because the moment it is not, the thing it guards stops mattering.</span></div>
+  </div>
+
+  <p class="ap-p">That last line is a design lock as much as a technical one. The Master Architect is the only entity in Frozen Dawn that Maeve is never allowed to lose track of, and the reason is in Chapter VI: it is not guarding itself.</p>
+
+  <div class="ap-orsa">
+    <em>Design note</em>
+    <p><b>Brutal</b> is not a damage multiplier. It is five slots instead of three. Everything that makes the hard difficulty hard is her noticing more of what you are already doing.</p>
+  </div>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="6" aria-label="Seven objects and a name">
+  <p class="ap-lede">There is a strict limit on how much of this is allowed to live in one class, and it is about three hundred lines.</p>
+
+  <p class="ap-p">Everything above is a lot of machinery, and there is a very ordinary failure mode waiting at the end of it: one enormous god object called <span class="ap-code">MaeveDirector</span> that does belief storage, inference, attention, commitment, planning, strategy selection and logging, and that nobody, me included, can safely change a year from now.</p>
+
+  <p class="ap-p">So the name is a facade and nothing else. It owns no logic. It holds seven collaborators, delegates to them in a fixed order once per director tick, and stays small enough to read in one sitting.</p>
+
+  <div class="mv-fac ap-wide">
+    <b>MaeveDirector<u>~300 lines, hard cap</u></b>
+    <ul>
+      <li><b>BeliefStore</b><span>Holds the beliefs, their support, their contradictions and their decay. Knows nothing about what any of it means.</span></li>
+      <li><b>WorldModel</b><span>Hearth states, routes, thermal geography, where the bodies are. The facts, as distinct from the opinions.</span></li>
+      <li><b>AttentionManager</b><span>Owns the slots and the eviction order. The only thing allowed to decide what she stops watching.</span></li>
+      <li><b>CommitmentPolicy</b><span>Threshold, hold duration, precedence, cooldown. The three non tunables live here so they are hard to quietly change.</span></li>
+      <li><b>MissionPlanner</b><span>Turns a selected strategy into orders that bodies can actually carry out, given where they are.</span></li>
+      <li><b>StrategySelector</b><span>Picks the counter from the unlocked tree. Bounded by the counter cap, which sits between five and eight.</span></li>
+      <li class="w"><b>DirectorDiagnostics</b><span>Prints the developer dump. It exists because a system this opaque is untestable without a window into it, and because I would rather read her reasoning than guess at it. The panel two tabs back is this class, rendered in a browser.</span></li>
+    </ul>
+  </div>
+
+  <details class="ap-src">
+    <summary>The dump, in full <em>Section 9.15</em></summary>
+    <pre class="ap-code"><c>// DirectorDiagnostics, one tick, one focused target</c>
+<k>BELIEF</k>               approach.roof            <v>0.81</v>
+<k>EVIDENCE</k>             4 observations, newest day 47
+<k>CONTRADICTIONS</k>       1                        <c>// day 44, ground entry</c>
+<k>UNCERTAINTY</k>          moderate, one recent contradiction
+<k>DIRECTOR OBJECTIVE</k>   deny the northern hearth
+<k>SELECTED STRATEGY</k>    SEAL_HIGH_APPROACH       <c>// counter 3 of 6 unlocked</c>
+<k>ARCHITECT PACKET</k>     reposition east ridge, 2 slots, hold 20s</pre>
+  </details>
+
+  <p class="ap-p">That dump is the honesty check for the whole chapter. If I can read those seven lines and understand why she did what she just did, the system is legible. If I cannot, then neither can the player, and Law 02 has been broken somewhere upstream.</p>
+
+  <div class="ap-note">
+    <p>And this is the one place in the journal where the name appears on purpose. <b>Dataminers finding <span class="ap-code">MaeveDirector</span> is the payoff.</b> There is no entity called Maeve in the game files, no dialogue, no boss bar, no health value. There is a class that coordinates the hive, and a people who feel that coordination from the inside and gave it a name.</p>
+  </div>
+</section>
+
+<section class="ap-pane" role="tabpanel" data-p="7" aria-label="None of this exists yet">
+  <p class="ap-lede">There is no code. What there is instead is an order to write it in, and a set of conditions that say when each piece is allowed to be called finished.</p>
+
+  <p class="ap-p">Eight slices. Each one has a testable done condition, and no slice starts until the one before it has met its bar. That constraint exists because I know exactly how I would otherwise build this: all of it at once, in a single branch, for two months, and then discover none of it is debuggable.</p>
+
+  <div class="ap-pass ap-wide">
+    <div><b>Belief store</b><span>Beliefs, confidence, evidence, contradictions, staleness, provenance. Observations write to it. Nothing reads from it yet. Done when a developer command dumps a populated store after a normal session and every entry traces to a real observed event.</span></div>
+    <div><b>Observability</b><span>The developer dump, built second rather than last, because nothing after this slice is debuggable without it. Done when the tool can answer, for any belief, what she believes, why, and what contradicts it.</span></div>
+    <div><b>Commitment</b><span>Thresholds, precedence, the one per encounter cap, the cooldown. Done when a blind tester, unprompted, describes an Architect waiting somewhere that turned out to be wrong.</span></div>
+    <div><b>World MVP</b><span>Access points, danger zones, heat sources, derived unknowns, and spatial beliefs keyed to bearings rather than named exits. Done when sealing one side of your base makes her walk into the discovery.</span></div>
+    <div><b>Attention</b><span>Focus slots, eviction priority, visible eviction, minimum dwell. Done when a tester can reliably shed a stalker by making noise elsewhere and reports it as a tactic rather than a bug.</span></div>
+    <div><b>Reconnaissance</b><span>Mission packets and information gain as utility. Done when a tester says some version of <em>that one wasn&rsquo;t attacking me</em>.</span></div>
+    <div><b>Depth</b><span>Conditional player models and strategy performance memory. Depth on a proven core, never as a substitute for one.</span></div>
+    <div><b>Optional</b><span>Persistent individual Architects, tactical traits, bounded forward simulation. Only if everything above is stable, and honestly only if I still want to.</span></div>
+  </div>
+
+  <p class="ap-p">Slice 3 is the one I care about. Its exit criterion is not a unit test, it is a sentence out of a stranger&rsquo;s mouth, and the document says what happens if that sentence never comes: <strong>stop and fix it before continuing, because if nobody notices her being wrong, nothing else in this system will land either.</strong></p>
+
+  <div class="ap-note">
+    <p>Then the tuning, which is the part that actually scares me. The window between <b>reads as stupid</b> and <b>reads as cheating</b> is narrow and only findable in play. Thresholds first, then how fast confidence climbs, then decay, then slot count last because it interacts with everything above it. Targets: roughly two thirds of her commitments correct, and a tactic that works three to five times before the answer arrives.</p>
+    <p>And the rule I wrote down mostly as a warning to myself: <b>never tune two variables in the same session.</b> There are six interacting numbers here, and adjusting all of them by feel is how a system like this becomes unfinishable.</p>
+  </div>
+
+  <p class="ap-p">One capability was designed in full and then deliberately cut. Maeve could track which counters you have already seen, and then pick a familiar one on purpose to bait a prediction before switching to something else. A feint.</p>
+
+  <p class="ap-p">It is cut because <strong>a feint is definitionally illegible</strong>. Its whole function is to be misread. Every other counter in this system telegraphs: a changed search pattern, preemptive cover, a held position. Deception cannot, and when it works the player has no way to tell the difference between <em>she deceived me</em> and <em>the game did something random and I lost</em>. Small fraction of the emotional payoff, large share of the quality assurance surface, highest risk of the whole thing reading as unfair. Law 02 wins.</p>
+
+  <p class="ap-p">Four things are still genuinely unresolved, and I would rather leave them written down as questions than pretend the document is finished:</p>
+
+  <div class="ap-cmts ap-wide">
+    <div class="ap-cmt"><b>Veteran legibility</b><span>If an individual Architect remembering you is never perceivable, that layer is engineering nobody experiences. Either veterans get a legible tell, or persistent individual history gets cut entirely.</span></div>
+    <div class="ap-cmt"><b>The desperation phase</b><span>After an interrupted heal, retreat utility is zeroed for a minute, and what happens in that minute is currently emergent. It is also the emotional peak of the fight. Last stand or last wall, and I have to pick one on purpose.</span></div>
+    <div class="ap-cmt"><b>The shield counter</b><span>If blocked hits void the freeze riders, a shielded player invalidates the entire melee loop. It needs an in character answer, not a weapon swap.</span></div>
+    <div class="ap-cmt"><b>Twenty seconds</b><span>The commitment hold is the number this whole chapter rests on and it is currently a guess. It has never been tested against real encounter pacing.</span></div>
+  </div>
+
+  <p class="ap-p">There is even a branch contract written for work that has not started. Maeve gets a protected integration branch cut from a clean <span class="ap-code">main</span>, one short lived branch per slice, pull requests that target the integration branch and never the mainline, and a merge bar that includes the exit criterion from the list above. Notion records the contract. GitHub enforces it.</p>
+
+  <p class="ap-p">I wrote all of that before a single line of it exists, which is either good discipline or a very elaborate way of not starting. Probably both. But I have built enough of this mod now to know which parts of it hurt, and every rule on this page is a scar from something earlier in this journal: the Architect that knew too much, the systems that were clever in ways nobody could see, the week I spent tuning four numbers at once and could not tell you afterwards which one had helped.</p>
+
+  <p class="ap-p">So this chapter is a promise rather than a record. The rest of the journal is what I built. This is what I am going to build, written down carefully enough that a year from now I will not be able to pretend I meant something else.</p>
+
+  <div class="ap-pull">The player spends the apocalypse learning how Frozen Dawn works. Once Maeve wakes, Frozen Dawn begins learning how the player works.</div>
+
+  <p class="ap-p">She is not awake yet.</p>
+</section>
+
+              </div>
+            </div>
+
+            <div class="ap-dbot">
+              <div class="ap-dsteps">
+                <button type="button" class="ap-dstep prev" id="apPrev" disabled><em>Back</em><b></b></button>
+                <button type="button" class="ap-dstep next" id="apNext"><em>Next</em><b></b></button>
+              </div>
+            </div>
+          </div>
+
+          <p class="mv-end">Commits 0 &middot; Files 0 &middot; Implementation not started<br>This chapter is not listed anywhere</p>
+
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="ap-replay" id="apReplay">Replay intro</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var frame = document.getElementById('apFrame');
+  if (!frame) return;
+  var doc = frame.querySelector('.ap-doc');
+  var title = frame.querySelector('.ap-title');
+  var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  function arr(n, root){ return [].slice.call((root || document).querySelectorAll(n)); }
+
+  function measureTitle(){
+    var cs = getComputedStyle(title);
+    var probe = document.createElement('span');
+    probe.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:'
+      + cs.font + ';letter-spacing:' + cs.letterSpacing + ';text-transform:' + cs.textTransform;
+    probe.textContent = title.textContent;
+    document.body.appendChild(probe);
+    title.style.setProperty('--tw', (probe.offsetWidth + 3) + 'px');
+    probe.remove();
+  }
+  measureTitle();
+  if (RM) frame.classList.add('done');
+  title.addEventListener('animationend', function(e){
+    if (e.animationName === 'apType'){ title.style.width = 'auto'; title.style.overflow = 'visible'; }
+  });
+  frame.addEventListener('animationend', function(e){
+    if (e.animationName === 'apUp') frame.classList.add('done');
+  });
+  setTimeout(function(){ frame.classList.add('done'); }, 2400);
+
+  function skipIntro(){
+    if (!frame.classList.contains('done')) frame.classList.add('done');
+  }
+  frame.addEventListener('wheel',     skipIntro, { passive:true });
+  frame.addEventListener('touchmove', skipIntro, { passive:true });
+  doc.addEventListener('scroll', function(){ if (doc.scrollTop > 0) skipIntro(); }, { passive:true });
+  window.addEventListener('keydown', function(e){
+    if (/^(ArrowDown|ArrowUp|PageDown|PageUp|Home|End|Spacebar| )$/.test(e.key)) skipIntro();
+  }, { passive:true });
+  window.addEventListener('resize', function(){ measureTitle(); });
+  document.getElementById('apReplay').onclick = function(){
+    title.style.width = ''; title.style.overflow = ''; measureTitle();
+    frame.classList.remove('done');
+    frame.classList.remove('play'); void frame.offsetWidth; frame.classList.add('play');
+    doc.scrollTop = 0;
+  };
+
+  /* ================= grid stagger ================= */
+  var GRIDS = ['.ap-stats > *', '.ap-figs > *', '.ap-pass > *', '.ap-cmts > *',
+               '.mv-laws > *', '.mv-brain > *', '.mv-led > *', '.mv-fac li'];
+  function clearOn(el, cls){
+    function h(e){
+      if (e.target !== el) return;
+      el.classList.remove(cls);
+      el.style.animationDelay = '';
+      el.removeEventListener('animationend', h);
+      el.removeEventListener('animationcancel', h);
+    }
+    el.addEventListener('animationend', h);
+    el.addEventListener('animationcancel', h);
+  }
+  function stagger(root){
+    if (RM) return;
+    GRIDS.forEach(function(sel){
+      arr(sel, root).forEach(function(el, n){
+        if (n > 15) return;
+        el.style.animationDelay = (n * 0.045) + 's';
+        el.classList.remove('ap-pop'); void el.offsetWidth; el.classList.add('ap-pop');
+        clearOn(el, 'ap-pop');
+      });
+    });
+  }
+  function settle(root){
+    arr('.ap-pop', root).forEach(function(el){
+      el.classList.remove('ap-pop'); el.style.animationDelay = '';
+    });
+  }
+
+  /* ================= the deck ================= */
+  var deck = document.getElementById('apDeck');
+  if (deck){
+    var panes  = arr('.ap-pane', deck);
+    var strips = arr('.ap-dstrip', deck);
+    var stage  = deck.querySelector('.ap-dstage');
+    var bPrev  = deck.querySelector('.ap-dstep.prev');
+    var bNext  = deck.querySelector('.ap-dstep.next');
+    var cur = 0, morphT = 0;
+
+    function tabs(s){ return s.querySelectorAll('.ap-dtab'); }
+
+    var NARROW = window.matchMedia('(max-width:640px)');
+    strips.forEach(function(s){
+      tabs(s).forEach(function(b){
+        var n = b.lastChild;
+        if (n && n.nodeType === 3) b.setAttribute('data-long', n.nodeValue);
+      });
+    });
+    function fitTabs(){
+      var short = NARROW.matches;
+      strips.forEach(function(s){
+        tabs(s).forEach(function(b){
+          var n = b.lastChild; if (!n || n.nodeType !== 3) return;
+          var want = short ? (b.getAttribute('data-short') || b.getAttribute('data-long'))
+                           : b.getAttribute('data-long');
+          if (want && n.nodeValue !== want) n.nodeValue = want;
+        });
+      });
+    }
+
+    function ink(){
+      strips.forEach(function(s){
+        var bar = s.querySelector('.ap-dink'), t = tabs(s)[cur];
+        if (!bar || !t) return;
+        bar.style.width = t.offsetWidth + 'px';
+        bar.style.transform = 'translate3d(' + t.offsetLeft + 'px,0,0)';
+      });
+    }
+    function centre(){
+      strips.forEach(function(s){
+        var t = tabs(s)[cur]; if (!t) return;
+        var want = t.offsetLeft - (s.clientWidth - t.offsetWidth) / 2;
+        want = Math.max(0, Math.min(want, s.scrollWidth - s.clientWidth));
+        if (s.scrollTo) s.scrollTo({ left: want, behavior: RM ? 'auto' : 'smooth' });
+        else s.scrollLeft = want;
+      });
+    }
+    function fullName(i){
+      var t = tabs(strips[0])[i];
+      return t ? (t.getAttribute('data-full') || t.textContent.trim()) : '';
+    }
+    function step(btn, i, kicker){
+      if (!btn) return;
+      if (i < 0 || i >= panes.length){ btn.disabled = true; btn.innerHTML = ''; return; }
+      btn.disabled = false;
+      btn.innerHTML = '<em>' + kicker + '</em><b>' + fullName(i) + '</b>';
+    }
+    function deckTop(){
+      var a = deck.getBoundingClientRect(), b = doc.getBoundingClientRect();
+      return doc.scrollTop + (a.top - b.top);
+    }
+
+    function go(i, snap){
+      i = Math.max(0, Math.min(panes.length - 1, i));
+      if (i === cur) return;
+      var back = i < cur;
+      var from = stage.offsetHeight;
+      settle(panes[cur]);
+      panes[cur].classList.remove('on', 'enter', 'rev');
+      cur = i;
+      panes[cur].classList.add('on');
+      strips.forEach(function(s){
+        var ts = tabs(s);
+        for (var n = 0; n < ts.length; n++){
+          ts[n].classList.toggle('on', n === cur);
+          ts[n].setAttribute('aria-selected', n === cur ? 'true' : 'false');
+          ts[n].setAttribute('tabindex', n === cur ? '0' : '-1');
+        }
+      });
+      ink(); centre();
+      step(bPrev, cur - 1, 'Back to');
+      step(bNext, cur + 1, 'Next');
+      stagger(panes[cur]);
+      arr('.ap-figs b', panes[cur]).forEach(countUp);
+      if (!RM){
+        panes[cur].classList.add('enter');
+        if (back) panes[cur].classList.add('rev');
+        clearOn(panes[cur], 'enter');
+        clearOn(panes[cur], 'rev');
+      }
+      var to = stage.offsetHeight;
+      if (!RM && from && to && from !== to){
+        clearTimeout(morphT);
+        stage.classList.remove('morph');
+        stage.style.height = from + 'px';
+        void stage.offsetHeight;
+        stage.classList.add('morph');
+        stage.style.height = to + 'px';
+        morphT = setTimeout(function(){
+          stage.classList.remove('morph');
+          stage.style.height = '';
+        }, 470);
+      }
+      if (snap){
+        var want = Math.max(0, deckTop() - 6);
+        if (doc.scrollTo) doc.scrollTo({ top: want, behavior: RM ? 'auto' : 'smooth' });
+        else doc.scrollTop = want;
+      }
+    }
+
+    strips.forEach(function(s){
+      s.addEventListener('click', function(e){
+        var t = e.target.closest ? e.target.closest('.ap-dtab') : null;
+        if (!t) return;
+        go(+t.getAttribute('data-i'), false);
+      });
+      s.addEventListener('keydown', function(e){
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        go(cur + (e.key === 'ArrowRight' ? 1 : -1), false);
+        var t = tabs(s)[cur]; if (t) t.focus();
+      });
+    });
+    if (bPrev) bPrev.addEventListener('click', function(){ go(cur - 1, true); });
+    if (bNext) bNext.addEventListener('click', function(){ go(cur + 1, true); });
+    step(bPrev, -1, 'Back to');
+    step(bNext, 1, 'Next');
+    fitTabs();
+    requestAnimationFrame(function(){ ink(); });
+    window.addEventListener('resize', function(){ fitTabs(); ink(); });
+    if (NARROW.addEventListener) NARROW.addEventListener('change', function(){ fitTabs(); ink(); });
+    else if (NARROW.addListener) NARROW.addListener(function(){ fitTabs(); ink(); });
+  }
+
+  /* ================= count up + scroll reveal ================= */
+  function countUp(el){
+    if (RM || el.dataset.counted) return;
+    var m = el.textContent.trim().match(/^([\d,]+)(.*)$/);
+    if (!m) return;
+    var target = parseInt(m[1].replace(/,/g, ''), 10), suf = m[2];
+    if (!(target > 0)) return;
+    el.dataset.counted = '1';
+    var t0 = 0;
+    el.textContent = '0' + suf;
+    requestAnimationFrame(function run(t){
+      if (!t0) t0 = t;
+      var k = Math.min((t - t0) / 900, 1), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(target * e).toLocaleString('en-US') + suf;
+      if (k < 1) requestAnimationFrame(run);
+    });
+  }
+
+  var rest = frame.querySelector('.ap-rest');
+  var pub = [], deckIdx = 0;
+  if (rest){
+    for (var n = 0; n < rest.children.length; n++){
+      var k = rest.children[n];
+      if (k === deck) break;
+      pub.push(k);
+    }
+  }
+  deckIdx = pub.length;
+  if (deck) pub.push(deck);
+
+  function land(el){
+    if (el.classList.contains('ap-rv')){
+      el.classList.add('in');
+      el.addEventListener('animationend', function h(){
+        el.classList.remove('in'); el.classList.add('set');
+        el.removeEventListener('animationend', h);
+      });
+    }
+    if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+    if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    stagger(el);
+  }
+  function revealAll(){ pub.forEach(function(el){ el.classList.remove('ap-rv'); el.classList.add('set'); }); }
+  function arm(){
+    if (RM || !window.IntersectionObserver){ revealAll(); return; }
+    pub.forEach(function(el, i){ if (i !== deckIdx) el.classList.add('ap-rv'); });
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        land(e.target);
+      });
+    }, { root: doc, rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
+    pub.forEach(function(el){ io.observe(el); });
+
+    function setNow(el){
+      io.unobserve(el);
+      el.classList.remove('ap-rv'); el.classList.add('set');
+      settle(el);
+      if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+      if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+    }
+    var sweeping = false;
+    function sweep(){
+      sweeping = false;
+      var top = doc.getBoundingClientRect().top, left = 0;
+      pub.forEach(function(el){
+        var c = el.classList;
+        if (!c.contains('ap-rv') || c.contains('in') || c.contains('set')) return;
+        if (el.getBoundingClientRect().bottom < top) setNow(el); else left += 1;
+      });
+      if (!left) doc.removeEventListener('scroll', onScroll);
+    }
+    function onScroll(){
+      if (sweeping) return;
+      sweeping = true;
+      requestAnimationFrame(sweep);
+    }
+    doc.addEventListener('scroll', onScroll, { passive: true });
+  }
+  if (frame.classList.contains('done')) arm();
+  else if (window.MutationObserver){
+    var mo = new MutationObserver(function(){
+      if (frame.classList.contains('done')){ mo.disconnect(); arm(); }
+    });
+    mo.observe(frame, { attributes: true, attributeFilter: ['class'] });
+    setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 2800);
+  } else setTimeout(arm, 2600);
+})();
+</script>
+
+<script>
+/* the section 9.15 developer dump, made live. one belief, three observation
+   types, one contradiction. confidence is support over support plus
+   contradictions plus one, so three clean sightings land exactly on 0.75. */
+(function(){
+  var root = document.getElementById('biRoot');
+  if (!root) return;
+
+  var DAY0 = 30, HOLD = 20, COOL = 15, TICK = 333;   /* 20s of game time at 3x */
+  var THRESH = 0.75;
+
+  var elDay  = document.getElementById('biDay'),
+      elVal  = document.getElementById('biVal'),
+      elFill = document.getElementById('biFill'),
+      elSup  = document.getElementById('biSup'),
+      elCon  = document.getElementById('biCon'),
+      elUnc  = document.getElementById('biUnc'),
+      elStr  = document.getElementById('biStr'),
+      elPkt  = document.getElementById('biPkt'),
+      elList = document.getElementById('biList'),
+      elFlag = document.getElementById('biFlag'),
+      elFlagT= document.getElementById('biFlagT'),
+      elFlagN= document.getElementById('biFlagN');
+
+  var SEEN = {
+    ridge:  'movement on the east ridge, above the hearth line',
+    rope:   'rope anchor set on the north wall, high',
+    breach: 'roof breach opened, hearth structure'
+  };
+
+  var S;
+  function blank(){
+    S = { day: DAY0, ev: [], live: false, cool: false, armed: true,
+          bad: false, left: 0, timer: 0 };
+  }
+  blank();
+
+  function weight(e){
+    var age = S.day - e.d;
+    if (age <= 20) return 1;
+    if (age <= 40) return 0.5;
+    return 0;
+  }
+  function tally(){
+    var sup = 0, con = 0, cons = 0, stale = false, obs = 0, live = 0, newest = 0;
+    S.ev.forEach(function(e){
+      var w = weight(e);
+      if (e.k === 'contra'){ con += w; cons += 1; return; }
+      if (w < 1) stale = true;
+      sup += w; obs += 1;
+      if (w > 0){ live += 1; if (e.d > newest) newest = e.d; }
+    });
+    return { sup: sup, con: con, cons: cons, stale: stale, obs: obs, live: live,
+             newest: newest, conf: sup / (sup + con + 1) };
+  }
+
+  function say(el, text, cls){
+    el.textContent = text;
+    el.className = cls || '';
+  }
+
+  function drawList(){
+    if (!S.ev.length){
+      elList.innerHTML = '<p class="n">The evidence list is empty. She has no opinion about you.</p>';
+      return;
+    }
+    var rows = S.ev.slice().sort(function(a, b){ return b.d - a.d; }).map(function(e){
+      var w = weight(e), sign = e.k === 'contra' ? '-' : '+';
+      var cls = w === 0 ? ' class="x"' : '';
+      return '<p' + cls + '><u>Day ' + e.d + '</u><b>' + sign + w.toFixed(1) + '</b>'
+           + e.t + '</p>';
+    });
+    elList.innerHTML = rows.join('');
+  }
+
+  function draw(){
+    var t = tally();
+    elDay.textContent = S.day;
+    elVal.textContent = t.conf.toFixed(2);
+    elFill.style.width = (t.conf * 100) + '%';
+    elFill.classList.toggle('hi', t.conf >= THRESH);
+
+    if (!t.obs) say(elSup, 'no observations', 'd');
+    else if (!t.live) say(elSup, t.obs + ' observations, none inside the window', 'd');
+    else say(elSup, t.live + (t.live === 1 ? ' observation' : ' observations')
+                  + ', newest day ' + t.newest, '');
+
+    say(elCon, String(t.cons), t.cons ? 'v' : 'd');
+
+    if (!t.obs) say(elUnc, 'nothing has been seen yet', 'd');
+    else if (!t.live) say(elUnc, 'total, nothing recent enough to trust', 'd');
+    else if (t.con) say(elUnc, 'moderate, contradicted on day ' + lastCon(), '');
+    else if (t.stale) say(elUnc, 'rising, the evidence is going stale', '');
+    else if (t.conf >= THRESH) say(elUnc, 'low, three consistent approaches', '');
+    else say(elUnc, 'high, too few observations to act on', '');
+
+    drawList();
+  }
+  function lastCon(){
+    var d = 0;
+    S.ev.forEach(function(e){ if (e.k === 'contra' && e.d > d) d = e.d; });
+    return d;
+  }
+
+  function flag(kind, n){
+    if (!kind){ elFlag.hidden = true; return; }
+    elFlag.hidden = false;
+    elFlag.classList.toggle('cool', kind === 'cool');
+    elFlagT.textContent = kind === 'cool'
+      ? 'Contradiction cooldown, no new commitment'
+      : 'Commitment live, held regardless of what happens next';
+    elFlagN.textContent = n + 's';
+  }
+
+  function stop(){ if (S.timer){ clearInterval(S.timer); S.timer = 0; } }
+
+  function run(kind){
+    stop();
+    S.timer = setInterval(function(){
+      S.left -= 1;
+      if (S.left > 0){ flag(kind, S.left); return; }
+      stop();
+      if (kind === 'hold'){
+        S.live = false;
+        if (S.bad){
+          say(elStr, 'abandoned, the roof was never the approach', 'd');
+          say(elPkt, 'none', 'd');
+          S.cool = true; S.bad = false;
+          S.left = COOL;
+          flag('cool', COOL);
+          run('cool');
+        } else {
+          say(elPkt, 'delivered, twenty seconds elapsed', '');
+          flag(null);
+        }
+      } else {
+        S.cool = false;
+        flag(null);
+      }
+    }, TICK);
+  }
+
+  function maybeCommit(){
+    var t = tally();
+    if (t.conf < THRESH){ S.armed = true; return; }
+    if (!S.armed || S.live || S.cool) return;
+    S.armed = false; S.live = true; S.bad = false;
+    say(elStr, 'SEAL_HIGH_APPROACH', 'v');
+    say(elPkt, 'reposition east ridge · 2 slots · hold 20s', 'v');
+    S.left = HOLD;
+    flag('hold', HOLD);
+    run('hold');
+  }
+
+  function see(k){
+    S.day += 2;
+    S.ev.push({ d: S.day, k: k, t: SEEN[k] });
+    draw();
+    maybeCommit();
+  }
+  function contra(){
+    S.day += 2;
+    S.ev.push({ d: S.day, k: 'contra',
+                t: 'entered at ground level, south door, no roof approach' });
+    if (S.live) S.bad = true;
+    draw();
+    var t = tally();
+    if (t.conf < THRESH) S.armed = true;
+  }
+  function wait(){
+    S.day += 20;
+    draw();
+    var t = tally();
+    if (t.conf < THRESH) S.armed = true;
+  }
+  function reset(){
+    stop(); blank();
+    say(elStr, 'none selected', 'd');
+    say(elPkt, 'none', 'd');
+    flag(null);
+    draw();
+  }
+
+  root.addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('.bi-b') : null;
+    if (!b || b.disabled) return;
+    var o = b.getAttribute('data-o');
+    if (o === 'reset') reset();
+    else if (o === 'contra') contra();
+    else if (o === 'wait') wait();
+    else if (SEEN[o]) see(o);
+  });
+
+  draw();
+})();
+</script>

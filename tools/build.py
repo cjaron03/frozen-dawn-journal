@@ -25,6 +25,12 @@ PAGES = [
     ("welcome-home",              "chapter-7.html", "VII. Welcome Home"),
 ]
 
+# built, but deliberately absent from every index, nav and card on the site.
+# there is exactly one intended way in and it is not a link.
+UNLISTED = [
+    ("maeve", "director.html", "Maeve"),
+]
+
 # design docs, reachable from the workbench index but out of the main nav.
 WORKBENCH = [
     ("page-map",        "Section 1: page map and the gate"),
@@ -121,6 +127,18 @@ def main() -> int:
         (OUT / out).write_text(
             wrap(shell, f"{label} · {TITLE}" if out != "index.html" else TITLE,
                  out, body), encoding="utf-8")
+        built.append(out)
+
+    for stem, out, label in UNLISTED:
+        src = SITE / f"{stem}.html"
+        if not src.exists():
+            skipped.append(stem)
+            continue
+        body, ok = strip_notes(src.read_text(encoding="utf-8"))
+        if not ok:
+            kept_notes.append(stem)
+        (OUT / out).write_text(
+            wrap(shell, f"{label} · {TITLE}", out, body), encoding="utf-8")
         built.append(out)
 
     for stem, label in WORKBENCH:
