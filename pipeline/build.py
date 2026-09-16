@@ -101,7 +101,8 @@ def grain(raw, y_of):
     span = len(raw)
     step = W / float(span - 1)
     base = H - 18
-    return "".join("M%.2f %.1fh%.2fV%.1fZ" % (i * step - step / 2.0, y_of(v), step, base)
+    return "".join("M%.2f %.1fh%.2fV%.1fH%.2fZ"
+                   % (i * step - step / 2.0, y_of(v), step, base, i * step - step / 2.0)
                    for i, v in enumerate(raw) if v)
 
 
