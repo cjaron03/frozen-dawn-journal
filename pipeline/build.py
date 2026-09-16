@@ -112,9 +112,12 @@ def main():
         x = x_of(d)
         y, frac = at_x(pts, cum, x)
         edge = " edgeL" if x / W * 100 < 12 else (" edgeR" if x / W * 100 > 88 else "")
-        dots.append((x, '<a class="tl-d %s" style="left:%.2f%%;top:%.2f%%;animation-delay:%.2fs">'
+        if not m.get("go"):
+            sys.exit("milestone %r has no \"go\"; every dot has to lead somewhere"
+                     % m["match"])
+        dots.append((x, '<a class="tl-d %s" href="%s" style="left:%.2f%%;top:%.2f%%;animation-delay:%.2fs">'
                         '<i></i><span class="tl-card %s%s"><em>%s</em><b>%s</b><code>%s</code></span></a>'
-                        % (m["kind"], x / W * 100, y / H * 100, delay(frac), m["place"], edge,
+                        % (m["kind"], m["go"], x / W * 100, y / H * 100, delay(frac), m["place"], edge,
                            short(d), m["title"], subject)))
     dots.sort()
 

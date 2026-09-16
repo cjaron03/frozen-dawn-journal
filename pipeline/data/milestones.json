@@ -1,18 +1,122 @@
 [
-  { "match": "Initial commit: Frozen Dawn mod (NeoForge 1.21.1)",          "kind": "major", "title": "Frozen Dawn begins",  "place": "below" },
-  { "match": "Add ORSA Document item, 5-book lore system, armor heat trapping","kind": "minor", "title": "The phase system",   "place": "below" },
-  { "match": "Add Returned Hunter mob, mob spawn multiplier",              "kind": "minor", "title": "Returned Hunter",    "place": "above" },
-  { "match": "Add Architect and Mimic mobs with D* Lite pathfinding",      "kind": "arch",  "title": "The Architect arrives", "place": "above" },
-  { "match": "architect finally done",                                     "kind": "minor", "title": "Two days later",     "place": "above" },
-  { "match": "Refine tower terminal UI and unlock compass recovery",       "kind": "minor", "title": "Tower terminal",     "place": "above" },
-  { "match": "fix(atmosphere): add breathable zone authority pass 1",      "kind": "major", "title": "Everything changes", "place": "above" },
-  { "match": "refactor(architect): extract decision engine",               "kind": "arch2", "title": "The decision engine","place": "below" },
-  { "match": "feat(blizzard_goggles): add Curios whiteout optics",         "kind": "minor", "title": "Instruments",        "place": "below" },
-  { "match": "feat(endgame): add blast pit launch pad and rocket launch entity", "kind": "minor", "title": "The way out",  "place": "above" },
-  { "match": "Merge pull request #31 from cjaron03/release/alpha-1.0-release",   "kind": "major", "title": "alpha-1.0",   "place": "above" },
-  { "match": "chore(release): bump alpha hotfix version", "date": "2026-05-08", "kind": "minor", "title": "The last commit",    "place": "above" },
-  { "match": "fix(world): reconcile snow after tree catch-up",             "kind": "major", "title": "Coming back",        "place": "above" },
-  { "match": "feat(homo-reliquus): add Master Architect combat suite",     "kind": "major", "title": "Master Architect",   "place": "above" },
-  { "match": "feat(homo-reliquus): add the Aggregate",                     "kind": "minor", "title": "The Aggregate",      "place": "above" },
-  { "match": "docs(release): prepare The Long Silence launch notes",       "kind": "major", "title": "The Long Silence",   "place": "above" }
+  {
+    "match": "Initial commit: Frozen Dawn mod (NeoForge 1.21.1)",
+    "kind": "major",
+    "title": "Frozen Dawn begins",
+    "go": "chapter-1.html",
+    "place": "below"
+  },
+  {
+    "match": "Add ORSA Document item, 5-book lore system, armor heat trapping",
+    "kind": "minor",
+    "title": "The phase system",
+    "go": "chapter-1.html",
+    "place": "below"
+  },
+  {
+    "match": "Add Returned Hunter mob, mob spawn multiplier",
+    "kind": "minor",
+    "title": "Returned Hunter",
+    "go": "chapter-6.html",
+    "place": "above"
+  },
+  {
+    "match": "Add Architect and Mimic mobs with D* Lite pathfinding",
+    "kind": "arch",
+    "title": "The Architect arrives",
+    "go": "architect.html",
+    "place": "above"
+  },
+  {
+    "match": "architect finally done",
+    "kind": "minor",
+    "title": "Two days later",
+    "go": "architect.html",
+    "place": "above"
+  },
+  {
+    "match": "add frostmite swarm pressure",
+    "kind": "minor",
+    "title": "Swarm pressure",
+    "go": "chapter-5.html",
+    "place": "below"
+  },
+  {
+    "match": "Refine tower terminal UI and unlock compass recovery",
+    "kind": "minor",
+    "title": "Tower terminal",
+    "go": "chapter-3.html",
+    "place": "above"
+  },
+  {
+    "match": "fix(atmosphere): add breathable zone authority pass 1",
+    "kind": "major",
+    "title": "Everything changes",
+    "go": "chapter-1.html",
+    "place": "above"
+  },
+  {
+    "match": "refactor(architect): extract decision engine",
+    "kind": "arch2",
+    "title": "The decision engine",
+    "go": "architect.html",
+    "place": "below"
+  },
+  {
+    "match": "feat(blizzard_goggles): add Curios whiteout optics",
+    "kind": "minor",
+    "title": "Instruments",
+    "go": "chapter-4.html",
+    "place": "below"
+  },
+  {
+    "match": "feat(endgame): add blast pit launch pad and rocket launch entity",
+    "kind": "minor",
+    "title": "The way out",
+    "go": "chapter-7.html",
+    "place": "above"
+  },
+  {
+    "match": "Merge pull request #31 from cjaron03/release/alpha-1.0-release",
+    "kind": "major",
+    "title": "alpha-1.0",
+    "go": "chapter-7.html",
+    "place": "above"
+  },
+  {
+    "match": "chore(release): bump alpha hotfix version",
+    "date": "2026-05-08",
+    "kind": "minor",
+    "title": "The last commit",
+    "go": "chapter-7.html",
+    "place": "above"
+  },
+  {
+    "match": "fix(world): reconcile snow after tree catch-up",
+    "kind": "major",
+    "title": "Coming back",
+    "go": "chapter-6.html",
+    "place": "above"
+  },
+  {
+    "match": "feat(homo-reliquus): add Master Architect combat suite",
+    "kind": "major",
+    "title": "Master Architect",
+    "go": "chapter-6.html",
+    "place": "above"
+  },
+  {
+    "match": "feat(homo-reliquus): add the Aggregate",
+    "kind": "minor",
+    "title": "The Aggregate",
+    "go": "chapter-6.html",
+    "place": "above"
+  },
+  {
+    "match": "docs(release): prepare The Long Silence launch notes",
+    "kind": "major",
+    "title": "The Long Silence",
+    "go": "chapter-6.html",
+    "place": "above"
+  }
 ]
