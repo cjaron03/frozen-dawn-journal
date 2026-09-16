@@ -387,16 +387,66 @@
 .tl-stats div:nth-child(4) b:after { content:counter(c) }
 @keyframes k3 { from { --v3:0 } }
 
-@media (max-width:1100px) {
-  .tl-ch { grid-template-columns:repeat(3,1fr); }
-}
 @media (max-width:860px) {
   .tl-ch { grid-template-columns:repeat(2,1fr); }
+  /* the shortest chapter is eleven days of a 205 day project, so its band is
+     five percent of the width. A point of type buys it back. */
+  .tl-bands div { font-size:9.5px; }
 }
+@media (max-width:700px) {
+  /* seven proportional bands cannot hold seven names at this width. The two
+     short chapters come out 16px wide and their labels climb over the ones
+     either side. The graph above is already the time axis, so down here the
+     bands give up their widths and become a list that can actually be read. */
+  .tl-bands { display:grid; grid-template-columns:1fr 1fr; gap:0 16px;
+              padding-top:0; border-top:none; margin-top:14px; }
+  .tl-bands div { padding:7px 0 8px; font-size:11px; }
+  .tl-bands div:before { right:0; }
+  /* an odd count would otherwise leave a dead cell on the end. */
+  .tl-bands div:last-child:nth-child(odd) { grid-column:1 / -1; }
+}
+
 @media (max-width:640px) {
   .tl-frame { margin-top:-1rem; margin-left:-1rem; margin-right:-1rem; }
   .tl-ch { grid-template-columns:1fr; }
   .tl-foot span { margin-left:0; }
+
+  /* 16px in, so the stage lines up with the chapter cards underneath it
+     rather than sitting 6px narrower than everything else on the page. */
+  .tl-head, .tl-hero { padding-left:16px; padding-right:16px; }
+  .tl-meta { padding-left:16px; padding-right:16px; font-size:8.5px; letter-spacing:.1em; }
+  .tl-stage, .tl-bands { margin-left:16px; margin-right:16px; }
+
+  .tl-head b { font-size:14px; }
+  .tl-hero { padding-top:14px; }
+  .tl-hero h1 { font-size:22px; }
+  .tl-stats { gap:0; justify-content:space-between; margin-top:14px; }
+  .tl-stats div b { font-size:19px; }
+  .tl-stats div span { font-size:8px; letter-spacing:.1em; }
+  .tl-cta { gap:8px; margin-top:16px; }
+  .tl-cta a { font-size:12px; padding:7px 12px; }
+
+  /* 205 days across 343px is a day and a half per pixel, so the eight smaller
+     milestones stop being targets and go back to being marks: ten of them were
+     landing inside each other's 26px tap box, and whichever sat on top won.
+     They keep their place on the line, and the six that open a chapter keep
+     the finger. */
+  .tl-stage { height:200px; }
+  .tl-d.minor { pointer-events:none; }
+  .tl-d.minor i { width:4px; height:4px; opacity:.7; }
+  .tl-card { width:168px; }
+  .tl-card b { font-size:12px; }
+  .tl-sil span { font-size:8.5px; }
+}
+
+/* A finger has no hover state, and eleven of the sixteen cards hang off the
+   side of a phone-width stage anyway. On touch the dot is simply a link.
+   Crowding is a question of how precisely you can point, not of how wide the
+   window is, so a tablet gets the thinned set of targets as well. */
+@media (hover:none) {
+  .tl-card { display:none; }
+  .tl-d.minor { pointer-events:none; }
+  .tl-d.minor i { width:4px; height:4px; opacity:.7; }
 }
 
 @media (prefers-reduced-motion: reduce) {
