@@ -269,7 +269,7 @@
              color:#8a96a1; border:1px dashed #35404c; border-radius:3px; padding:3px 8px 2.5px; }
 .ap-wbmeta { font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; color:#6c7883;
              margin:0 0 16px; }
-.ap-wbmeta b { color:#8d99a3; font-weight:500; }
+.ap-wbmeta b { color:#8d99a3; font-weight:500; white-space:nowrap; }
 
 .ap-wbsec { margin-top:38px; }
 .ap-wbsec:first-of-type { margin-top:30px; }
@@ -299,6 +299,7 @@
 .ap-rsn b { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.05em;
             color:#9fb2c0; font-weight:500; margin-bottom:4px; }
 .ap-rsn span { display:block; font-size:12px; line-height:1.5; color:#818d97; }
+.ap-rsn > div:last-child:nth-child(odd) { grid-column:1 / -1; }
 
 /* candidate trace */
 .ap-trace { margin:20px 0 8px; background:#0d1116; border:1px solid #1c242e; border-radius:8px;
@@ -666,6 +667,7 @@
                 <button type="button" class="ap-dtab" role="tab" data-i="5" data-full="How do you test a mind" aria-selected="false" tabindex="-1"><i>06</i>Testing a mind</button>
                 <button type="button" class="ap-dtab" role="tab" data-i="6" data-full="Out of the box" aria-selected="false" tabindex="-1"><i>07</i>Out of the box</button>
                 <button type="button" class="ap-dtab" role="tab" data-i="7" data-full="Watching it think" aria-selected="false" tabindex="-1"><i>08</i>Watching it think</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="8" data-full="How it picks one of you" aria-selected="false" tabindex="-1"><i>09</i>Who it picks</button>
                 <span class="ap-dink" aria-hidden="true"></span>
               </div>
             </div>
@@ -676,7 +678,7 @@
                 <h2>On the workbench</h2>
                 <span class="ap-wbflag">Unmerged</span>
               </div>
-              <div class="ap-wbmeta">branch <b>feat/architect-visual-debugger</b> &middot; 35 commits &middot; 2 to 15 September 2026 &middot; <b>+11,239</b> / <b>&minus;498</b> across 263 files</div>
+              <div class="ap-wbmeta">two branches, neither merged &middot; 48 commits &middot; 2 to 15 September 2026<br><b>feat/architect-visual-debugger</b> &middot; <b>+11,239</b> / <b>&minus;498</b> across 263 files<br><b>fix/2.0.1-hearth-target-commitment</b> &middot; <b>+3,705</b> / <b>&minus;180</b> across 54 files</div>
               <p class="ap-p">Everything above this line is in the mod you can download. Everything below it is sitting on a branch that has not been merged into anything, and might not survive in this shape. It is here because the last two weeks have been the most interesting stretch the Architect has had since April, and a journal that only reports finished work is a press release.</p>
               </div>
 
@@ -997,6 +999,56 @@
 
             <p class="ap-p">On 13 September the build passed, the unit tests passed, and the required gate passed all thirty seven GameTests, including the thirty two named Architect cases. The live overlay is still unverified, because the client would not start: <code>Failed to locate a primary monitor</code>. The one part of this I built specifically so that I could see it with my own eyes is the one part I have not seen yet.</p>
             <span class="ap-wbmeta" style="display:block;margin-top:-4px">feat(debug): add Architect visual debugger and snapshot exports &middot; 73e1fc60</span>
+                </section>
+
+                <section class="ap-pane wb" role="tabpanel" data-p="8">
+            <div class="ap-h3">How it picks one of you</div>
+            <p class="ap-p">Stand near a Hearth with a friend and the Architect assessing you never finishes. Not slowly. Never. Both of the controllers that run that scene re-picked the nearest player every single tick and reset the counter whenever the pick changed, and the counter needs sixty <em>consecutive</em> ticks to complete. Three seconds. It could not get three uninterrupted seconds with two people in the room, because the two of you only had to keep trading which one was marginally closer.</p>
+            <p class="ap-p">You can watch it happen, which is the part that gave it away. The head snaps back and forth between you. It starts walking toward whoever is momentarily nearer, then turns around. Three symptoms, one cause, and the cause is six lines of code that reset a counter.</p>
+
+            <p class="ap-pull">The fix is borrowed from Phasmophobia. The Banshee chooses one person at the start of a contract and keeps them for the whole thing. It lets go on events, when you die or when you leave, and never because somebody else wandered closer.</p>
+
+            <p class="ap-p">That is the whole property worth stealing, and it is worth being precise about why it works. Distance changes every tick. Events do not. Releasing on events rather than on proximity is what makes it thrash-proof, instead of merely slower to thrash.</p>
+            <p class="ap-p">So it commits. One target, held, and the one it holds is the weakest of you. The score is armour value and nothing else, which sounds crude until you look at the ladder it produces, where every piece of gear in the mod already sits in the right place and anything added later slots in without a line of code.</p>
+
+            <div class="ap-trace ap-wide">
+              <div class="ap-tscroll">
+              <table class="ap-ttab">
+                <tr><th>Armour</th><th>Points</th><th></th></tr>
+                <tr class="sel"><td>Unarmoured</td><td>0</td><td>picked first, every time</td></tr>
+                <tr><td>Leather</td><td>7</td><td></td></tr>
+                <tr><td>Insulated, tier 1</td><td>10</td><td></td></tr>
+                <tr><td>Chain</td><td>12</td><td></td></tr>
+                <tr><td>Reinforced, tier 2</td><td>14</td><td></td></tr>
+                <tr><td>Iron</td><td>15</td><td></td></tr>
+                <tr><td>EVA, tier 3</td><td>16</td><td></td></tr>
+                <tr><td>Diamond, Netherite</td><td>20</td><td></td></tr>
+                <tr><td>Acheronite</td><td>24</td><td>picked last, and it has to be desperate</td></tr>
+              </table>
+              </div>
+              <div class="ap-tcap">Ties break on distance, then on player id, so two people dressed identically never coin flip between each other. Taking a commitment away from someone needs a gap of eight points, about two tiers: leather steals you from iron, and leather does not steal you from reinforced. Putting a coat on in front of it genuinely moves its attention to your friend.</div>
+            </div>
+
+            <p class="ap-p">Underneath that is a five step resolution that runs once a tick, in this order, and the order is the design.</p>
+
+            <div class="ap-rsn ap-wide">
+              <div><b>1 &middot; FORGET</b><span>The committed target is no longer anywhere on the server. Died, disconnected, went spectator. Clear it.</span></div>
+              <div><b>2 &middot; RESUME</b><span>A bookmarked target has walked back into range. It takes the commitment straight back, without being scored against anyone.</span></div>
+              <div><b>3 &middot; HOLD</b><span>The committed target is still in range. Keep it, unless somebody here is eight armour points weaker.</span></div>
+              <div><b>4 &middot; SUSPEND</b><span>The committed target is still online but out of range. Bookmark it and let go for now.</span></div>
+              <div><b>5 &middot; PICK</b><span>Nobody is committed. Take the most vulnerable person in range. If the range is empty, take nobody and patrol.</span></div>
+            </div>
+
+            <p class="ap-p">Step one and step four are the same situation to a naive implementation and they are the entire reason the stall closes. A player id that is still on the server but out of range gets bookmarked. One that is gone gets forgotten. Without that split, a committed target who logs out locks the Architect onto an id that is never coming back, while somebody stands directly in front of it being ignored.</p>
+            <p class="ap-p">While you are the bookmark, nothing about the Architect looks any different. It assesses whoever else is there, properly, to completion, and patrols when nobody is. The bookmark has no behaviour of its own and there is no way to see it from outside. It matters for exactly one instant: the moment you walk back into range, when you take the commitment back and whoever it had picked up in your absence is dropped mid scan. Resuming restarts the three seconds rather than banking what it already had, and only one bookmark is ever kept, because the alternative is an unbounded queue of people who might come back.</p>
+
+            <div class="ap-h3" style="margin-top:30px">And if you hit it</div>
+            <p class="ap-p">An Architect being hit should fight, not scan. Both controllers now bail out the moment something has hurt them and hand the tick to the combat brain. That alone was not enough, and the reason is worth writing down: the target lookup underneath filtered on relationship, so a friendly player punching an Architect produced no valid target and therefore no retaliation at all. You could stand there hitting it and it would keep politely assessing you. Now whoever actually hit it is returned first, ahead of every other rule, and it does not dogpile. Each Architect answers only the thing that hit it.</p>
+
+            <p class="ap-p">Two of these controllers watch at different distances, twenty eight blocks and thirty two, through two different constants that happen to share a name. I left them different. Unifying them is a change to how far two separate creatures can see, which is not a thing to do quietly while fixing a counter.</p>
+
+            <p class="ap-p">The last honest part: I did not write the test to match the fix. <code>HearthTargetArbitrationGameTest</code> already existed and already failed, on purpose, and it is the reason the build gate sat red for over a week. One of the commits on this branch is <code>fail the game test gate when tests never run</code>, because the gate had been reporting a pass when zero tests ran, which is the most dangerous kind of green there is.</p>
+            <span class="ap-wbmeta" style="display:block;margin-top:-4px">feat(entity): add Architect target commitment policy and state machine &middot; 2938f9e6 &middot; fourteen commits, 10 September</span>
                 </section>
 
               </div>
