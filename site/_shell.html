@@ -58,6 +58,15 @@
   .fd-rail i { display:block; height:100%; border-radius:2px;
                background:#33404c; width:var(--tw,0px);
                transform:translateX(var(--tx,0px)); }
+  /* a wide table is the other thing that runs off the edge of a phone. it
+     hides its native bar the same way and the rail rides the bottom, because
+     the top edge of a table is its header row. */
+  .fd-xw { position:relative; margin-bottom:15px; }
+  /* just below the table, not on its bottom border, where it would read as a
+     rule rather than as something that moves. */
+  .fd-rail.b { top:auto; bottom:-4px; }
+  .fd-x { scrollbar-width:none; -ms-overflow-style:none; }
+  .fd-x::-webkit-scrollbar { display:none; }
   .sb-nav.can { cursor:grab; }
   .sb-nav.can.drag { cursor:grabbing; }
   .sb-nav.drag a { pointer-events:none; }
@@ -80,6 +89,18 @@
 
   /* the homepage has its own masthead and nav, so the shared bar is dropped there. */
   body.home .sb { display:none; }
+
+  /* the replay and swap controls float in the gutter beside the reading
+     column. below about 870px the gutter is narrower than the control, so
+     it lands on the words instead. the controls belong to the moment the
+     intro ends, so they step aside as soon as you start reading and come
+     back when you scroll to the top again. */
+  @media (max-width:900px) {
+    .ap-tools, .ap-replay { transition:opacity .2s linear; }
+    .ap-frame.read .ap-tools, .ap-frame.read .ap-replay {
+      opacity:0; pointer-events:none;
+    }
+  }
 
   @media (max-width:640px) {
     .sb { gap:12px; padding:0 12px; }
@@ -194,17 +215,28 @@ __BODY__
 </script>
 
 <script>
-/* the chapter tab strips are cut off on a phone the same way the bar is, and
-   they hide their native scrollbar too, so they get the same drawn one. */
+/* the chapter tab strips and the wide tables are cut off on a phone the same
+   way the bar is, and they hide their native scrollbar too, so they get the
+   same drawn one. */
 (function () {
-  var strips = document.querySelectorAll('.ap-dstrip');
+  var strips = document.querySelectorAll('.ap-dstrip, .fd-x');
   for (var i = 0; i < strips.length; i++) attach(strips[i]);
 
   function attach(strip) {
     var host = strip.parentNode;
     if (!host) return;
+    /* a tab strip already sits inside a positioned deck. a table does not, so
+       it gets a wrapper of its own for the rail to hang from. */
+    var low = strip.className.indexOf('fd-x') > -1;
+    if (low) {
+      var wrap = document.createElement('div');
+      wrap.className = 'fd-xw';
+      host.insertBefore(wrap, strip);
+      wrap.appendChild(strip);
+      host = wrap;
+    }
     var rail = document.createElement('div');
-    rail.className = 'fd-rail';
+    rail.className = low ? 'fd-rail b' : 'fd-rail';
     rail.setAttribute('aria-hidden', 'true');
     rail.appendChild(document.createElement('i'));
     host.appendChild(rail);
@@ -229,6 +261,24 @@ __BODY__
     else { setTimeout(edges, 600); setTimeout(edges, 2400); setTimeout(edges, 6000); }
     edges();
   }
+})();
+</script>
+
+<script>
+/* the chapter pages float their replay and swap controls in the corner of the
+   frame. on a phone that corner is on top of the words, so the controls step
+   aside the moment the reader moves off the opening screen, which is the only
+   place replaying the intro means anything. the CSS decides at what width it
+   matters: this only says whether you are reading yet. */
+(function () {
+  var frame = document.querySelector('.ap-frame');
+  if (!frame) return;
+  var doc = frame.querySelector('.ap-doc');
+  if (!doc) return;
+  doc.addEventListener('scroll', function () {
+    var read = doc.scrollTop > 48;
+    if (read !== frame.classList.contains('read')) frame.classList.toggle('read', read);
+  }, { passive: true });
 })();
 </script>
 </body>

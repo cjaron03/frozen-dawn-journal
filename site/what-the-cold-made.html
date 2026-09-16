@@ -133,7 +133,8 @@
            font-family:var(--mono); font-size:11.5px; line-height:1.72; color:#8b97a3;
            overflow-x:auto; margin:0 0 18px; white-space:pre; }
 .ap-src { margin:0 0 18px; }
-.ap-src > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:9px;
+.ap-src > summary { list-style:none; cursor:pointer; display:flex; align-items:center;
+                    flex-wrap:wrap; gap:9px;
                     font-family:var(--mono); font-size:10px; letter-spacing:.12em;
                     text-transform:uppercase; color:#6c7883; background:#0d1116;
                     border:1px solid #1a212a; border-radius:7px; padding:9px 13px;
@@ -353,10 +354,12 @@
   .wc-stage { padding:14px; }
   .wc-cv { max-width:320px; }
 
-  .ap-bes { grid-template-columns:1.1fr .62fr .9fr; font-size:11.5px; }
-  .ap-bes > *:nth-child(5n+3), .ap-bes > *:nth-child(5n+5) { display:none; }
-  .ap-bes > * { padding:10px 8px; }
-  .ap-bes > .h { padding:9px 8px 8px; font-size:8px; letter-spacing:.06em; }
+  /* the column this used to drop was "what it is actually for", which is the
+     argument the whole chapter is making. it stays, and the table swipes. */
+  .ap-bes { grid-template-columns:104px 46px 44px 108px 190px; overflow-x:auto;
+            font-size:11.5px; }
+  .ap-bes > * { padding:10px 9px; }
+  .ap-bes > .h { padding:9px 9px 8px; font-size:8px; letter-spacing:.06em; }
 
   .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
   .ap-dtab i { margin-right:5px; }
@@ -514,7 +517,7 @@
   <p class="ap-lede">Five creatures, five files, written days apart. All five of them open the same registry and ask the same question.</p>
   <p class="ap-p">A heater in Frozen Dawn is not a light source and it is not a block the world tracks for you. It is an entry in <code>HeaterRegistry</code>, a set of positions that know they are currently lit. I built that registry in chapter four so the temperature maths could find warm spots quickly. Then I wrote the Frostbitten, and without really thinking about it I reached for the same set.</p>
 
-  <div class="ap-bes ap-wide">
+  <div class="ap-bes ap-wide fd-x">
     <div class="h">Creature</div><div class="h">HP</div><div class="h">Hit</div><div class="h">Near a lit heater</div><div class="h">What it is actually for</div>
 
     <div class="t">Frostbitten</div><div class="n">30</div><div class="n">6</div><div class="a">burns at 4b</div>
@@ -793,7 +796,7 @@ BlockHitResult hit = level.<v>clip</v>(<k>new</k> ClipContext(
   <div class="ap-h3">What the ledger says</div>
   <p class="ap-p">Twenty four commits across thirteen days, and the distribution is the honest record of what was actually hard.</p>
 
-  <div class="ap-bes ap-wide">
+  <div class="ap-bes ap-wide fd-x">
     <div class="h">Creature</div><div class="h">First</div><div class="h">Commits</div><div class="h">Shipped in</div><div class="h">What ate the time</div>
 
     <div class="t">Frostbitten</div><div class="n">1 Mar</div><div class="a">1</div><div class="z">one sitting</div>

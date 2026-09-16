@@ -108,7 +108,8 @@
            overflow-x:auto; margin:0 0 18px; white-space:pre; }
 /* code is the deep end, so it stays folded until somebody asks for it */
 .ap-src { margin:0 0 18px; }
-.ap-src > summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:9px;
+.ap-src > summary { list-style:none; cursor:pointer; display:flex; align-items:center;
+                    flex-wrap:wrap; gap:9px;
                     font-family:var(--mono); font-size:10px; letter-spacing:.12em;
                     text-transform:uppercase; color:#6c7883; background:#0d1116;
                     border:1px solid #1a212a; border-radius:7px; padding:9px 13px;
@@ -344,10 +345,13 @@
   .hb-side { border-left:0; border-top:1px solid #1a212a; }
   .hb-stage { padding:14px; }
   .hb-cv { max-width:320px; }
-  .ap-ladder { grid-template-columns:1fr 1fr 1fr; font-size:11.5px; }
-  .ap-ladder > *:nth-child(5n+4), .ap-ladder > *:nth-child(5n+5) { display:none; }
-  .ap-ladder > * { padding:10px 8px; }
-  .ap-ladder > .h { padding:9px 8px 8px; font-size:8px; letter-spacing:.06em; }
+  /* the two columns this used to drop were the capacitor pair, which is the
+     whole subject of the paragraph underneath. a phone gets the same table
+     everyone else gets, and swipes it. */
+  .ap-ladder { grid-template-columns:100px repeat(4,78px); overflow-x:auto;
+               font-size:11.5px; }
+  .ap-ladder > * { padding:10px 9px; }
+  .ap-ladder > .h { padding:9px 9px 8px; font-size:8px; letter-spacing:.06em; }
 
   .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
   .ap-dtab i { margin-right:5px; }
@@ -366,9 +370,10 @@
   .ap-read { grid-template-columns:repeat(3,1fr); }
   .ap-read b { font-size:15px; }
   .ap-bud { grid-template-columns:1fr; }
-  .ap-heat { grid-template-columns:.9fr 1fr 1fr 1.05fr; font-size:11.5px; }
-  .ap-heat > * { padding:10px 7px; }
-  .ap-heat > .h { padding:9px 7px 8px; font-size:8px; letter-spacing:.06em; }
+  .ap-heat { grid-template-columns:116px 58px 62px 186px; overflow-x:auto;
+             font-size:11.5px; }
+  .ap-heat > * { padding:10px 9px; }
+  .ap-heat > .h { padding:9px 9px 8px; font-size:8px; letter-spacing:.06em; }
   .ap-figs { grid-template-columns:1fr; }
   .ap-pass > div { flex-wrap:wrap; }
   .ap-pass b { flex-basis:auto; }
@@ -533,7 +538,7 @@
   <p class="ap-lede">Four heaters. The difference between them is two numbers, and one block sitting next to them doubles both.</p>
   <p class="ap-p">A heater is not a machine that warms the air around it. It is a radius and a constant. If the block you are standing on is inside the radius, you get the whole constant. If it is not, you get nothing at all. That decision is one line, and it never changed after the day I wrote it.</p>
 
-  <div class="ap-ladder ap-wide">
+  <div class="ap-ladder ap-wide fd-x">
     <div class="h">Heater</div><div class="h">Radius</div><div class="h">Heat</div><div class="h">With capacitor</div><div class="h">Capacitor heat</div>
     <div class="t">Thermal</div><div class="n">7</div><div class="a">+35.0</div><div class="n">14</div><div class="a">+52.5</div>
     <div class="t">Iron</div><div class="n">9</div><div class="a">+50.0</div><div class="n">18</div><div class="a">+75.0</div>
@@ -561,7 +566,7 @@
   <div class="ap-h3">Everything else that is warm</div>
   <p class="ap-p">Heaters are the tech answer. Before you have one, the world has a short list of things that happen to be hot, and they are all much worse.</p>
 
-  <div class="ap-heat ap-wide">
+  <div class="ap-heat ap-wide fd-x">
     <div class="h">Source</div><div class="h">Radius</div><div class="h">Heat</div><div class="h">What it is good for</div>
     <div class="e">Thermal vent lava</div><div class="n">6</div><div class="n">+42.0</div><div class="n">The best thing in the world you did not build</div>
     <div class="e">Lava</div><div class="n">4</div><div class="n">+30.0</div><div class="n">Warm, and it will kill you</div>
@@ -699,7 +704,7 @@
 
   <p class="ap-p">The heat penalty is the one that matters, and the arithmetic is worth doing out loud. It is subtracted from the heater's constant with a floor at zero, and it only ever grows while the mites are on it. So the steady state of any infestation you ignore is the cap.</p>
 
-  <div class="ap-ladder ap-wide">
+  <div class="ap-ladder ap-wide fd-x">
     <div class="h">Heater</div><div class="h">Heat</div><div class="h">At the 50 cap</div><div class="h">With capacitor</div><div class="h">Capped</div>
     <div class="t">Thermal</div><div class="n">+35.0</div><div class="a">0.0</div><div class="n">+52.5</div><div class="a">+2.5</div>
     <div class="t">Iron</div><div class="n">+50.0</div><div class="a">0.0</div><div class="n">+75.0</div><div class="a">+25.0</div>
