@@ -129,6 +129,84 @@
   background:radial-gradient(circle at 50% 50%,#ffb4541a,transparent 62%),
              repeating-linear-gradient(0deg,transparent 0 6px,#ffb4540a 6px 7px); }
 .tl-chn em .tl-num { font-style:normal; }
+
+/* ---- card gestures ---- */
+/* the architect is the only card that moves on its own. these six move only
+   while the pointer is on them, or while they are tabbed to, so the page at
+   rest still has exactly one moving thing on it. transform and opacity only.
+   there is no hover on a phone, so on a phone these simply never fire. */
+
+/* I. the hatch keeps falling. the layer is inflated past the thumbnail so the
+   drift never shows an edge, and the step is one full period of the 115deg
+   repeat, which is what makes the loop seamless. */
+.tl-chc.cold .tl-chb u { inset:-30px; }
+.tl-chc.cold:hover .tl-chb u,
+.tl-chc.cold:focus-visible .tl-chb u { animation:tlFall 2.6s linear infinite; }
+@keyframes tlFall { to { transform:translate(4.26px,24px) } }
+
+/* III. a third bar arrives and takes more of the page away. */
+.tl-chc.orsa .tl-chb .tl-rd { left:14%; top:74%; width:54%; height:7px;
+  background:#05070a; transform-origin:left center; transform:scaleX(0);
+  transition:transform .52s cubic-bezier(.2,.72,.25,1); }
+.tl-chc.orsa:hover .tl-chb .tl-rd,
+.tl-chc.orsa:focus-visible .tl-chb .tl-rd { transform:scaleX(1); }
+
+/* IV. heat leaves, and then you put it back. */
+.tl-chc.heat:hover .tl-chb u,
+.tl-chc.heat:focus-visible .tl-chb u { animation:tlCool 3.1s ease-in-out infinite; }
+@keyframes tlCool {
+  0%      { opacity:1 }
+  46%     { opacity:.34 }
+  62%     { opacity:.96 }
+  100%    { opacity:1 }
+}
+
+/* V. the rings are a radius. one washes outward every time you look. */
+.tl-chc.made .tl-chb .tl-rg { left:50%; top:50%; width:18px; height:18px;
+  margin:-9px 0 0 -9px; border:1px solid #7dd3fc; border-radius:50%; opacity:0; }
+.tl-chc.made:hover .tl-chb .tl-rg,
+.tl-chc.made:focus-visible .tl-chb .tl-rg { animation:tlPing 2.3s ease-out infinite; }
+@keyframes tlPing {
+  0%   { opacity:0;   transform:scale(.3) }
+  14%  { opacity:.5;  transform:scale(.8) }
+  100% { opacity:0;   transform:scale(3.6) }
+}
+
+/* VI. the three of them blink, and not together. */
+.tl-chc.stay:hover .tl-chb s,
+.tl-chc.stay:focus-visible .tl-chb s { animation:tlWink 3.9s linear infinite; }
+/* the delays sit after the rule that names the animation, and match its
+   specificity, because the shorthand above would otherwise reset them. */
+.tl-chc.stay:hover .tl-chb s:nth-of-type(3),
+.tl-chc.stay:hover .tl-chb s:nth-of-type(4),
+.tl-chc.stay:focus-visible .tl-chb s:nth-of-type(3),
+.tl-chc.stay:focus-visible .tl-chb s:nth-of-type(4) { animation-delay:.85s; }
+.tl-chc.stay:hover .tl-chb s:nth-of-type(5),
+.tl-chc.stay:hover .tl-chb s:nth-of-type(6),
+.tl-chc.stay:focus-visible .tl-chb s:nth-of-type(5),
+.tl-chc.stay:focus-visible .tl-chb s:nth-of-type(6) { animation-delay:2.2s; }
+@keyframes tlWink {
+  0%,8%      { transform:scaleY(1) }
+  10.5%      { transform:scaleY(.1) }
+  13%,100%   { transform:scaleY(1) }
+}
+
+/* VII. the burn runs outward along the line, toward the other planet. */
+.tl-chc.home:hover .tl-chb s:nth-of-type(n+2),
+.tl-chc.home:focus-visible .tl-chb s:nth-of-type(n+2) { animation:tlBurn 2.1s linear infinite; }
+.tl-chc.home:hover .tl-chb s:nth-of-type(3),
+.tl-chc.home:focus-visible .tl-chb s:nth-of-type(3) { animation-delay:.17s; }
+.tl-chc.home:hover .tl-chb s:nth-of-type(4),
+.tl-chc.home:focus-visible .tl-chb s:nth-of-type(4) { animation-delay:.34s; }
+.tl-chc.home:hover .tl-chb s:nth-of-type(5),
+.tl-chc.home:focus-visible .tl-chb s:nth-of-type(5) { animation-delay:.51s; }
+.tl-chc.home:hover .tl-chb s:nth-of-type(6),
+.tl-chc.home:focus-visible .tl-chb s:nth-of-type(6) { animation-delay:.68s; }
+@keyframes tlBurn {
+  0%,66%,100% { opacity:.14; transform:scale(1) }
+  10%         { opacity:1;   transform:scale(1.5) }
+  26%         { opacity:.2;  transform:scale(1) }
+}
 .tl-eyes2, .tl-fld { display:none; }
 
 /* ---- the card after she has been found ---- */
@@ -319,6 +397,10 @@
   .tl-stats div b { animation:none !important; }
   .tl-eyes, .tl-ey { animation:none !important; }
   .tl-chb u, .tl-num:after { animation:none !important; }
+  .tl-chc.stay .tl-chb s, .tl-chc.home .tl-chb s {
+    animation:none !important; transform:none !important; }
+  .tl-rd { display:none !important; }
+  .tl-rg { animation:none !important; opacity:0 !important; }
   .tl-num:after { opacity:0 !important; }
   /* she does not move at all, so she is simply where she stays longest. */
   .tl-eyes2 { animation:none !important; opacity:.85 !important;
@@ -454,7 +536,7 @@
     <div class="tl-ixh"><b>The journal</b><i></i></div>
     <div class="tl-ch">
 
-      <a class="tl-chc" href="chapter-1.html">
+      <a class="tl-chc cold" href="chapter-1.html">
         <div class="tl-chb" style="background:linear-gradient(160deg,#0b1016,#121a22)">
           <u style="background:repeating-linear-gradient(115deg,transparent 0 13px,#7dd3fc0f 13px 14px)"></u>
         </div>
@@ -479,17 +561,18 @@
           <span>The Architect: what it actually weighs when it decides, and why two days of work became the centre of the mod.</span></div>
       </a>
 
-      <a class="tl-chc" href="chapter-3.html">
+      <a class="tl-chc orsa" href="chapter-3.html">
         <div class="tl-chb" style="background:#0d1014">
           <u style="background:repeating-linear-gradient(0deg,transparent 0 7px,#ffb4540c 7px 8px)"></u>
           <s style="left:14%;top:38%;width:46%;height:7px;background:#05070a"></s>
           <s style="left:14%;top:56%;width:30%;height:7px;background:#05070a"></s>
+          <s class="tl-rd" aria-hidden="true"></s>
         </div>
         <div class="tl-chn"><em>III &middot; April 2026</em><b>They Called it Continuity</b>
           <span>ORSA, the agency that was supposed to save the planet, told in its own paperwork.</span></div>
       </a>
 
-      <a class="tl-chc" href="chapter-4.html">
+      <a class="tl-chc heat" href="chapter-4.html">
         <div class="tl-chb" style="background:#0c1014">
           <u style="background:radial-gradient(circle at 50% 76%,#ffb45426,#ffb4540a 36%,transparent 62%),repeating-linear-gradient(115deg,transparent 0 13px,#7dd3fc0a 13px 14px)"></u>
         </div>
@@ -497,9 +580,10 @@
           <span>Heaters, capacitors and sealed rooms: everything that puts warmth back, and every rule that keeps it expensive.</span></div>
       </a>
 
-      <a class="tl-chc" href="chapter-5.html">
+      <a class="tl-chc made" href="chapter-5.html">
         <div class="tl-chb" style="background:#0b0f14">
           <u style="background:repeating-radial-gradient(circle at 50% 50%,transparent 0 8px,#7dd3fc14 8px 9px)"></u>
+          <s class="tl-rg" aria-hidden="true"></s>
         </div>
         <div class="tl-chn"><em>V &middot; 01 Mar 2026</em><b>What the Cold Made</b>
           <span>Five species in thirteen days, each one defined by how close it can get to a lit heater.</span></div>
