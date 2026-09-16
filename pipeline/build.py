@@ -14,7 +14,7 @@ OUT  = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "out" / "timel
 REPO_URL = "https://github.com/cjaron03/frozen-dawn"
 
 W, H     = 1000.0, 200.0   # stage viewBox
-SMOOTH   = 7               # days in the moving average
+WEIGHT   = [7, 6, 5, 4, 3, 2, 1]   # trailing days, today weighted heaviest
 T0, DRAW = 0.15, 3.6       # when the line starts, how long it takes
 TRAV     = 72.0            # seconds for Earth to cross the header
 SPIN     = 7.0             # seconds per rotation
@@ -59,7 +59,13 @@ def curve(rows, first, span):
     # The divisor is the whole window even at the start, because dividing by the
     # days actually available would hand day one a sevenfold bonus and make the
     # initial commit the tallest thing on the page.
-    sm = [sum(raw[max(0, i - SMOOTH + 1):i + 1]) / float(SMOOTH)
+    # Weighted toward today. A flat window splits one big day across seven, so
+    # the day the Architect landed, the largest single day of the first six
+    # weeks, drew as a dip because the five silent days before it were still in
+    # the average. Weighting the near days heavier lets a day's own work show on
+    # its own date while the week behind it still shapes the slope.
+    span_w = float(sum(WEIGHT))
+    sm = [sum(raw[i - k] * w for k, w in enumerate(WEIGHT) if i - k >= 0) / span_w
           for i in range(span)]
     peak = max(sm) or 1.0
     pts = [(i / float(span - 1) * W, H - 18 - (v / peak) * (H - 40)) for i, v in enumerate(sm)]
