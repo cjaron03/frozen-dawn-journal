@@ -327,6 +327,18 @@
 .ap-scen span { font-family:var(--mono); font-size:10px; letter-spacing:.02em; padding:3px 8px 2.5px;
                 border-radius:3px; background:#141a21; color:#8996a1; border:1px solid #1f2833; }
 
+.ap-leg { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#1c242e;
+          border:1px solid #1c242e; border-radius:8px; overflow:hidden; margin:20px 0 8px; }
+.ap-leg > div { background:#12171d; padding:11px 14px 12px; display:flex; gap:11px;
+                align-items:flex-start; }
+.ap-leg i { flex:0 0 auto; width:9px; height:9px; margin-top:4px; border-radius:2px;
+            background:currentColor; box-shadow:0 0 9px currentColor; }
+.ap-leg b { display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.05em;
+            font-weight:500; color:#c6d2da; margin-bottom:3px; }
+.ap-leg span { display:block; font-size:12px; line-height:1.5; color:#818d97; }
+/* an odd number of entries would otherwise leave a dead cell on the end. */
+.ap-leg > div:last-child:nth-child(odd) { grid-column:1 / -1; }
+
 /* ================= chaptered deck ================= */
 .ap-deck { margin:44px 0 0; }
 
@@ -435,6 +447,8 @@
   .ap-wbmeta { font-size:9.5px; line-height:1.65; }
   .ap-rsn { grid-template-columns:1fr 1fr; } .ap-rsn b { font-size:9.5px; } .ap-rsn span { font-size:11px; }
   .ap-labn { grid-template-columns:repeat(2,1fr); }
+  .ap-leg { grid-template-columns:1fr; }
+  .ap-leg span { font-size:11px; }
   .ap-labn b { font-size:20px; }
   .ap-labn.res b { font-size:17px; }
   .ap-prow { gap:5px 12px; font-size:10px; }
@@ -650,6 +664,8 @@
                 <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="It stops to think" aria-selected="false" tabindex="-1"><i>04</i>It stops to think</button>
                 <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="Why it breaks a block" aria-selected="false" tabindex="-1"><i>05</i>Why it breaks</button>
                 <button type="button" class="ap-dtab" role="tab" data-i="5" data-full="How do you test a mind" aria-selected="false" tabindex="-1"><i>06</i>Testing a mind</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="6" data-full="Out of the box" aria-selected="false" tabindex="-1"><i>07</i>Out of the box</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="7" data-full="Watching it think" aria-selected="false" tabindex="-1"><i>08</i>Watching it think</button>
                 <span class="ap-dink" aria-hidden="true"></span>
               </div>
             </div>
@@ -660,7 +676,7 @@
                 <h2>On the workbench</h2>
                 <span class="ap-wbflag">Unmerged</span>
               </div>
-              <div class="ap-wbmeta">branch <b>feat/architect-lab</b> &middot; 26 commits &middot; 2 to 12 September 2026 &middot; <b>+8,952</b> / <b>&minus;470</b> across 242 files</div>
+              <div class="ap-wbmeta">branch <b>feat/architect-visual-debugger</b> &middot; 35 commits &middot; 2 to 15 September 2026 &middot; <b>+11,239</b> / <b>&minus;498</b> across 263 files</div>
               <p class="ap-p">Everything above this line is in the mod you can download. Everything below it is sitting on a branch that has not been merged into anything, and might not survive in this shape. It is here because the last two weeks have been the most interesting stretch the Architect has had since April, and a journal that only reports finished work is a press release.</p>
               </div>
 
@@ -699,31 +715,31 @@
               </div>
 
               <div class="ap-ev">
-                <div class="ap-evd">10 March 2026 &middot; 202b1f9d</div>
+                <div class="ap-evd">09 March 2026 &middot; 202b1f9d</div>
                 <div class="ap-evh">"architect finally done"</div>
                 <p class="ap-evp">That is the entire commit message, verbatim. The next day brought <em>architect polish pass 1</em> and <em>architect polish pass 2</em>. Fifty more commits followed over the next six months. I have never been more wrong in a commit message and I am leaving it in.</p>
               </div>
 
               <div class="ap-ev key">
-                <div class="ap-evd">07 April 2026 &middot; thirteen commits in one day</div>
+                <div class="ap-evd">06 April 2026 &middot; fifteen commits in one day</div>
                 <div class="ap-evh">The mind moves out of the body</div>
                 <p class="ap-evp">Everything above had been living inside one enormous entity class. In a single day it came apart: the decision engine, the brain state, the combat state, the approach state, and four separate controllers. One of those commit messages names the reason out loud, <em>to avoid further god-class growth</em>. The engine the simulation on this page runs on is the file that came out of that day.</p>
               </div>
 
               <div class="ap-ev">
-                <div class="ap-evd">08 April 2026 &middot; nine commits in one day</div>
+                <div class="ap-evd">07 April 2026 &middot; thirteen commits in one day</div>
                 <div class="ap-evh">Teaching it to walk</div>
                 <p class="ap-evp">Deciding turned out to be the easy half. Every fix that day is named after the exact way it had embarrassed itself: slab spin, scaffold-up retry loops, water lockups, chase stalls during corridor replans. A mind that cannot cross a half block is not much of a mind.</p>
               </div>
 
               <div class="ap-ev">
-                <div class="ap-evd">09 April 2026 &middot; three commits, same file</div>
+                <div class="ap-evd">08 April 2026 &middot; three commits, same file</div>
                 <div class="ap-evh">How long should it stare at you?</div>
                 <p class="ap-evp">Six seconds, for testing. Then back to thirty to sixty seconds. Then a flat two hundred ticks. Three commits, two changed lines each, all in one afternoon. Nothing about that number was ever going to come out of reasoning. I had to stand in the snow and be watched by it until it felt right.</p>
               </div>
 
               <div class="ap-ev">
-                <div class="ap-evd">24 August 2026 &middot; three commits</div>
+                <div class="ap-evd">23 August 2026 &middot; three commits</div>
                 <div class="ap-evh">Still learning, five months later</div>
                 <p class="ap-evp">Traverse frozen atmosphere reliably. Breach enclosed targets. Bound healing retreats. The last one is the telling one: it had been allowed to back off and heal without limit, which is a perfectly rational thing to do and a miserable thing to fight.</p>
               </div>
@@ -876,6 +892,111 @@
 
             <p class="ap-p">The rule the whole suite runs on is the part I am most pleased with, and it is not technical. <strong>A failed case stays a failure with its trace attached.</strong> It does not get skipped, quietly relabelled, or handed a larger tick budget until it passes. The last run written down in the notes covers 396 of these cases: 378 passed, 18 failed, nothing missing. Those eighteen are still sitting there failing, which is the entire reason for having built the thing.</p>
             <span class="ap-wbmeta" style="display:block;margin-top:-4px">test(architect): add Architect lab harness and headless verification gate &middot; 47b09de4</span>
+                </section>
+
+                <section class="ap-pane wb" role="tabpanel" data-p="6">
+            <div class="ap-h3">Out of the box</div>
+            <p class="ap-p">The arena in the last tab is a room. A fair room, rotated four ways and reseeded eight, but still a room I specified: flat floor, square walls, ceiling exactly where I said to put it. After a few hundred passes I stopped believing it. Nothing in Minecraft is that shape, and a mind that only works in a room I built for it is a mind that works in one room.</p>
+            <p class="ap-p">So the second lab builds nothing. It takes a 128 by 128 region in a dimension of its own, lets vanilla generate it the way it would generate any other patch of Overworld, and then lets Frozen Dawn do what Frozen Dawn does to a landscape: deep snow over the trails, Acheronite pushing up through the rock, frozen atmosphere settling into the low ground. A cave. A fenced passage. A shelter with doors. A ravine with one crossing over it. Preparation saves the sixty four native chunks before it touches them, puts them back afterwards, and fingerprints the result, so a run that fails can never be blamed on terrain that quietly drifted between attempts.</p>
+            <p class="ap-p">What it chases out there is not a marker or a moving point. It is a villager with a hundred hit points, walking on its own legs, with normal collision, normal gravity, normal jumping, normal pathfinding and normal damage. The harness only chooses where that villager should go. It never teleports it, never replaces it, never lifts it out of a hole it walked into. If the villager cannot get somewhere, that is the finding, not a bug in the test.</p>
+
+            <div class="ap-trace ap-wide">
+              <div class="ap-tscroll">
+              <table class="ap-ttab">
+                <tr><th>Scenario</th><th>Runs for</th><th>What it has to show</th></tr>
+                <tr><td>surface</td><td>3 min</td><td>unbroken pursuit around the frozen circuit</td></tr>
+                <tr><td>caves</td><td>5 min</td><td>in through the cave branch, and back out</td></tr>
+                <tr><td>shelter_open</td><td>5 min</td><td>nothing broken. breaking anything fails it</td></tr>
+                <tr><td>shelter_breach</td><td>5 min</td><td>doors shut behind the target. break in, land a hit</td></tr>
+                <tr><td>changing</td><td>8 min</td><td>a gate closes, snow rises, the crossing is taken away</td></tr>
+                <tr><td>construction</td><td>15 min</td><td>climb six, bridge four, breach a wall, duck a ceiling</td></tr>
+                <tr><td>weather</td><td>15 min</td><td>real phase five snowfall, checked every minute</td></tr>
+                <tr class="sel"><td>endurance</td><td>30 min</td><td>all of the above at once, with no reset in the middle</td></tr>
+                <tr class="skip"><td>roam</td><td>10 min</td><td>the villager runs its own brain. not graded</td></tr>
+                <tr class="skip"><td>player</td><td>30 min</td><td>it comes after me instead. not graded</td></tr>
+              </table>
+              </div>
+              <div class="ap-tcap">The changing scenarios do not fire on a timer. A gate only closes once the villager is through it and the Architect is behind it, a second gate is always left open so there is something to find, and the bridge is only taken away after the villager has crossed. A trap that springs on an empty corridor tests nothing.</div>
+            </div>
+
+            <p class="ap-pull">Every minute of a graded run has to contain at least twelve blocks of horizontal travel by the target and one melee hit confirmed by health actually coming off it. A good final minute does not rescue a bad third one.</p>
+
+            <p class="ap-p">That rule is most of the reason the wilderness lab exists. In a room, a stalled Architect still looks busy. Out here, if it spends a minute mining into a hillside while the villager walks away, that minute fails and stays failed, and the run carries it to the end instead of averaging it away. Seven outcomes are possible and only one of them is a pass.</p>
+
+            <div class="ap-scen">
+              <span>PASSED</span><span>FAILED</span><span>TARGET_FAILED</span><span>SCENARIO_INCOMPLETE</span>
+              <span>OBSERVED</span><span>ABORTED</span><span>HARNESS_ERROR</span>
+            </div>
+
+            <p class="ap-p" style="margin-top:14px">The third one is there because of this, which is my favourite thing that has happened on this branch.</p>
+
+            <div class="ap-evo">
+              <div class="ap-ev key">
+                <div class="ap-evd">14 September 2026 &middot; seed 1337</div>
+                <div class="ap-evh">The villager died of scenery</div>
+                <p class="ap-evp">The surface run stalled at waypoint 43, near <code>(22.5, 65, 40.3)</code>. Four decorative snow layers I had put there to make the trail look better had quietly made the step up taller than a villager can physically jump, while vanilla pathfinding went on cheerfully reporting the route as reachable. It bounced in place until it died, at tick 2419. The harness recorded <code>TARGET_FAILED</code>, which is the run saying the Architect never got a fair test, rather than the Architect being told it won.</p>
+              </div>
+              <div class="ap-ev">
+                <div class="ap-evd">The fix, in two halves</div>
+                <div class="ap-evh">Move the snow, then stop trusting the clock</div>
+                <p class="ap-evp">The decoration moved to the shoulder of the trail, off the walking line. The more useful half: the stall timer stopped measuring time and started measuring ground. It now wants a quarter of a block of <em>net horizontal</em> displacement, so a target bouncing enthusiastically in one spot no longer reads as progress.</p>
+              </div>
+              <div class="ap-ev">
+                <div class="ap-evd">And then the recovery</div>
+                <div class="ap-evh">Sixty ticks, twenty four guesses, three strikes</div>
+                <p class="ap-evp">After sixty ticks without improvement the harness goes looking for a way round: up to twenty four candidate points within six blocks, each needing two separate paths to check out, target to side point and side point back to the original waypoint, both tested with an unspawned probe villager so the real one is never spent on a guess. A hundred and twenty ticks per attempt, and three failed attempts end the run honestly rather than nursing it to the finish.</p>
+              </div>
+            </div>
+
+            <p class="ap-p">The notes for this branch end with a line I am leaving exactly where it is, because it is most of what separates a journal from a sales page: <em>this addition has received compilation and resource checks only. No simulations or visual runs were executed during implementation.</em></p>
+            <span class="ap-wbmeta" style="display:block;margin-top:-4px">feat(debug): add native-terrain Architect wilderness lab &middot; fb56dda3</span>
+                </section>
+
+                <section class="ap-pane wb" role="tabpanel" data-p="7">
+            <div class="ap-h3">Watching it think</div>
+            <p class="ap-p">Everything up to here is me reading numbers after the fact. A trace tells you what it chose. It does not tell you what it was looking at while it chose, and by the time the file exists the moment is long gone and I am guessing at it.</p>
+            <p class="ap-p">So the newest thing on the bench draws the server's own working state into the world in front of you, while it is happening. Not a replay, and not an artist's impression of intent: the corridor it has actually committed to, the candidates it actually scored, the boxes it actually believes are solid.</p>
+
+            <div class="ap-leg ap-wide">
+              <div><i style="color:#4cc9e8"></i><div><b>Committed route</b><span>The corridor it has settled on. The small box is the one waypoint it is walking to right now.</span></div></div>
+              <div><i style="color:#f0b429"></i><div><b>Next D* step</b><span>The single step the planner wants next, which is not always where the body is going.</span></div></div>
+              <div><i style="color:#5ec26a"></i><div><b>Movement and scaffold</b><span>Where the move controller is actually pushing, and any block it placed itself to climb.</span></div></div>
+              <div><i style="color:#e8863c"></i><div><b>Mining</b><span>A block it means to break, drawn before the first swing lands.</span></div></div>
+              <div><i style="color:#5a9ae0"></i><div><b>Support</b><span>What it is standing on, or expects to be standing on next.</span></div></div>
+              <div><i style="color:#e05a5a"></i><div><b>Excluded</b><span>A candidate it ruled out. Usually the interesting ones.</span></div></div>
+              <div><i style="color:#a26bd6"></i><div><b>Evaluated</b><span>A candidate it scored and did not take.</span></div></div>
+            </div>
+
+            <p class="ap-p">Two trails run underneath all of that, one for each actor, which is the cheapest possible way to tell a stall from a circle. A thing stuck against a wall and a thing walking a perfect loop both look like failure in a log. They look nothing alike drawn on the ground.</p>
+            <p class="ap-p">It is an operator tool rather than a feature. It wants permission level two, it stops drawing past a hundred and twenty eight blocks, and it only ever holds a short window of the recent past.</p>
+
+            <div class="ap-labn ap-wide">
+              <div><b>120</b><span>frames kept, about 30 seconds</span></div>
+              <div><b>512</b><span>events</span></div>
+              <div><b>64</b><span>trail points</span></div>
+              <div><b>64</b><span>nodes per route</span></div>
+              <div><b>96</b><span>collision shapes</span></div>
+              <div><b>128</b><span>blocks, then it stops drawing</span></div>
+            </div>
+
+            <p class="ap-p">Thirty seconds is not an arbitrary budget, it is the useful one. Nearly every Architect bug I have chased announces itself and resolves inside half a minute, and for the rest of the time I would rather the debugger cost the server nothing at all.</p>
+
+            <div class="ap-rsn ap-wide">
+              <div><b>freeze / step 20 / resume</b><span>Stop the world, advance it exactly twenty ticks, let it go again. Decisions happen far too fast to watch at full speed.</span></div>
+              <div><b>history 200 / live</b><span>Scrub two hundred ticks back through the kept frames, then return to now.</span></div>
+              <div><b>mark contact</b><span>Drop a labelled pin into the event log the moment something interesting happens.</span></div>
+              <div><b>inspect / dump</b><span>Print what it currently believes, or write the whole bundle out to disk.</span></div>
+            </div>
+
+            <p class="ap-p">The bundle is the real point of it: a snapshot, a frame by frame history, an event table, the camera view it was all drawn from, and a summary carrying a SHA-256 for every attachment, so a recording can be checked against itself later instead of trusted.</p>
+
+            <div class="ap-h3" style="margin-top:30px">What it refuses to pretend</div>
+            <p class="ap-p">Every honest thing in that overlay was a decision to draw less. Observing never forces a target, never resets the AI, never reseeds anything, because the moment a debugger changes the run it is no longer debugging it. Historical mode says outright that it is painting saved observations over the terrain as it is now, not replaying the terrain as it was. When the melee commitment check was not sampled on a frame it draws <code>COMMIT_NOT_SAMPLED</code>, rather than an empty space that would look like a decision. Options it never reached are labelled <code>NOT_EVALUATED_AFTER_SELECTION</code> instead of quietly sharing a colour with the ones it rejected. The range sphere uses the same 2.8 blocks as the real hit check, and the documentation states in plain words that being inside it does not prove the hit landed.</p>
+
+            <p class="ap-p">Drawing any of it was harder than it had any right to be. The shipping runtime's <code>DebugPackets.sendPathFindingPacket</code> is an empty method, and <code>Path.writeToStream</code> expects optional debug data that an ordinary navigation path does not carry, so there is nothing to subscribe to. The overlay rebuilds the route from the server's own committed corridor and hands it to Minecraft's real <code>PathfindingRenderer</code> through a render hook, which means the lines on your screen are drawn by the same code Mojang draws its own debug paths with, without a line of Mojang source being copied into this mod.</p>
+
+            <p class="ap-p">On 13 September the build passed, the unit tests passed, and the required gate passed all thirty seven GameTests, including the thirty two named Architect cases. The live overlay is still unverified, because the client would not start: <code>Failed to locate a primary monitor</code>. The one part of this I built specifically so that I could see it with my own eyes is the one part I have not seen yet.</p>
+            <span class="ap-wbmeta" style="display:block;margin-top:-4px">feat(debug): add Architect visual debugger and snapshot exports &middot; 73e1fc60</span>
                 </section>
 
               </div>
