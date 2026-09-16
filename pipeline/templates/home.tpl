@@ -20,6 +20,8 @@
 /* ---- stage ---- */
 .tl-stage { position:relative; z-index:2; height:238px; margin:10px 22px 0; }
 .tl-stage svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+.tl-grain { fill:#22506d; opacity:0; animation:tlgrain 1.1s ease __GRAINAT__s forwards; }
+@keyframes tlgrain { to { opacity:.3 } }
 .tl-trace { fill:none; stroke:#2c688a; stroke-width:2; stroke-linejoin:round; stroke-dasharray:__LEN__; stroke-dashoffset:__LEN__; animation:tldraw 3.6s cubic-bezier(.32,.02,.2,1) forwards; }
 .tl-glow { fill:none; stroke:#7dd3fc; stroke-width:5; opacity:.13; filter:blur(3px); stroke-dasharray:__LEN__; stroke-dashoffset:__LEN__; animation:tldraw 3.6s cubic-bezier(.32,.02,.2,1) forwards; }
 @keyframes tldraw { to { stroke-dashoffset:0 } }
@@ -183,6 +185,7 @@ __COUNTERCSS__
 
     <div class="tl-stage">
       <svg viewBox="0 0 1000 200" preserveAspectRatio="none">
+        <path class="tl-grain" d="__GRAIN__"/>
         <polyline class="tl-glow" points="__POLY__"/>
         <polyline class="tl-trace" points="__POLY__"/>
         <polyline class="tl-scan" points="__POLY__"/>

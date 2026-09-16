@@ -21,7 +21,12 @@ SPIN     = 7.0             # seconds per rotation
 ARC      = "M 34 46 C 250 14, 640 11, 1078 40"
 STAGE_H  = 238.0           # .tl-stage height in px, for the lifted dot stems
 RANK     = {"arch": 0, "arch2": 1, "major": 1, "minor": 2}
-NEAR_X, NEAR_Y, LIFT = 24.0, 17.0, 24.0   # collision box and lift, in stage units
+NEAR_X, NEAR_Y, LIFT = 24.0, 12.0, 24.0   # collision box and lift, in stage units
+# NEAR_Y is the moment two dots actually touch, not a comfortable gap: 12 stage
+# units is 14.3px on the rendered stage, and the Architect dot with its halo
+# measures 11px from centre to edge against a plain dot's 3.5px. Anything
+# looser lifts dots that were never overlapping, and a lifted dot reads worse
+# than a tight one.
 LAND = ('<path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/>'
         '<path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/>'
         '<path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/>'
@@ -70,9 +75,34 @@ def curve(rows, first, span):
     span_w = float(sum(WEIGHT))
     sm = [sum(raw[i - k] * w for k, w in enumerate(WEIGHT) if i - k >= 0) / span_w
           for i in range(span)]
-    peak = max(sm) or 1.0
-    pts = [(i / float(span - 1) * W, H - 18 - (v / peak) * (H - 40)) for i, v in enumerate(sm)]
-    return pts, per
+    # Square root, not linear. Linear height is honest about ratios and useless
+    # about shape: 105 of these days are zero and 86 more sit under a tenth of
+    # the peak, so nearly half the width draws as one flat line and every quiet
+    # month looks like every other quiet month. A square root leaves the order
+    # of the days untouched and gives the small ones somewhere to go.
+    # Both layers divide by the same number, the largest single day, so the
+    # grain and the line share one vertical axis and a spike standing above the
+    # line really was a day bigger than the week around it.
+    peak = float(max(max(raw), max(sm))) or 1.0
+    y_of = lambda v: H - 18 - math.sqrt(v / peak) * (H - 40)
+    pts = [(i / float(span - 1) * W, y_of(v)) for i, v in enumerate(sm)]
+    return pts, per, raw, y_of
+
+
+def grain(raw, y_of):
+    """One column per day at its true, unsmoothed height.
+
+    The line is a week of work averaged into a shape. This is what the days
+    themselves looked like: the single biggest day of the project moved 7,920
+    lines and the smoothed line draws it at a quarter of that, because the six
+    days around it were quiet. The columns tile the full width, so the 105 days
+    with no commit at all read as gaps rather than as a low flat run.
+    """
+    span = len(raw)
+    step = W / float(span - 1)
+    base = H - 18
+    return "".join("M%.2f %.1fh%.2fV%.1fZ" % (i * step - step / 2.0, y_of(v), step, base)
+                   for i, v in enumerate(raw) if v)
 
 
 def arclen(pts):
@@ -108,7 +138,7 @@ def main():
     rows = load()
     first, last = rows[0][0], rows[-1][0]
     span = (last - first).days + 1
-    pts, per = curve(rows, first, span)
+    pts, per, raw, y_of = curve(rows, first, span)
     cum = arclen(pts)
     total_len = cum[-1]
     x_of = lambda d: (d - first).days / float(span - 1) * W
@@ -217,6 +247,8 @@ def main():
         .replace("__POLY__", " ".join("%.1f,%.1f" % p for p in pts))
         .replace("__LEN__", "%.0f" % total_len)
         .replace("__SCANAT__", "%.1f" % (T0 + DRAW + 1.2))
+        .replace("__GRAIN__", grain(raw, y_of))
+        .replace("__GRAINAT__", "%.2f" % (T0 + DRAW + 0.15))
         .replace("__DOTS__", "\n      ".join(d for _, d in dots))
         .replace("__BANDS__", "\n      ".join(bands))
         .replace("__SNOW__", "\n      ".join(snow))
