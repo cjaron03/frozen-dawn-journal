@@ -33,8 +33,9 @@ def load():
     rows = []
     for line in (ROOT / "data" / "commits.tsv").read_text(encoding="utf-8").splitlines():
         if line.strip():
-            date, subject = line.split("\t", 1)
-            rows.append((datetime.date.fromisoformat(date), subject))
+            date, added, removed, subject = line.split("\t", 3)
+            rows.append((datetime.date.fromisoformat(date),
+                         int(added), int(removed), subject))
     if not rows:
         sys.exit("no commits in data/commits.tsv, run fetch.py first")
     rows.sort()
@@ -42,13 +43,23 @@ def load():
 
 
 def curve(rows, first, span):
-    """Commits per day, smoothed, as a polyline in the stage viewBox."""
-    per = collections.Counter(d for d, _ in rows)
-    raw = [per[first + datetime.timedelta(days=i)] for i in range(span)]
-    # Trailing, not centred. A centred window lets a commit lift the line on the
-    # days BEFORE it was made, which on a journal is just false. Trailing means
-    # each day shows the week behind it, so a return to work lands on its real date.
-    sm = [sum(raw[max(0, i - SMOOTH + 1):i + 1]) / float(min(i + 1, SMOOTH))
+    """How much code moved per day, smoothed, as a polyline in the stage viewBox."""
+    per = collections.Counter(d for d, _a, _r, _s in rows)
+    moved = collections.Counter()
+    for d, added, removed, _s in rows:
+        moved[d] += added + removed
+    raw = [moved[first + datetime.timedelta(days=i)] for i in range(span)]
+    # Lines, not commits. A commit is a habit, not a quantity. The crunch was
+    # 261 commits averaging 148 lines and Homo Reliquus was 104 averaging 933,
+    # so counting commits draws the smaller of the two as the mountain.
+    # Trailing, not centred. A centred window lets a day's work lift the line on
+    # the days BEFORE it was done, which on a journal is just false. Trailing
+    # means each day shows the week behind it, so a return to work lands on its
+    # real date.
+    # The divisor is the whole window even at the start, because dividing by the
+    # days actually available would hand day one a sevenfold bonus and make the
+    # initial commit the tallest thing on the page.
+    sm = [sum(raw[max(0, i - SMOOTH + 1):i + 1]) / float(SMOOTH)
           for i in range(span)]
     peak = max(sm) or 1.0
     pts = [(i / float(span - 1) * W, H - 18 - (v / peak) * (H - 40)) for i, v in enumerate(sm)]
@@ -75,7 +86,7 @@ def at_x(pts, cum, x):
 
 def longest_gap(rows):
     """The real quiet stretch: the largest span between two commits."""
-    days = sorted(set(d for d, _ in rows))
+    days = sorted(set(r[0] for r in rows))
     best = (0, None, None)
     for i in range(len(days) - 1):
         g = (days[i + 1] - days[i]).days
@@ -102,7 +113,7 @@ def main():
     # ---- milestone dots, placed on the curve at their real dates ----
     dots = []
     for m in json.loads((ROOT / "data" / "milestones.json").read_text(encoding="utf-8")):
-        hits = sorted(set((d, s) for d, s in rows if s.startswith(m["match"])
+        hits = sorted(set((d, s) for d, _a, _r, s in rows if s.startswith(m["match"])
                           and (not m.get("date") or str(d) == m["date"])))
         if len(hits) != 1:
             sys.exit("milestone %r matched %d commits, expected exactly 1%s"
@@ -163,9 +174,10 @@ def main():
     headline = ("One person, %s commits, and a thing that learned to think."
                 % "{:,}".format(len(rows)).replace(",", " hundred and ") if False else
                 "One person, %d commits, and a thing that learned to think." % len(rows))
-    subtitle = ("The line is commits per day across %d days, so drawing it in draws the real shape of the "
-                "project. Hover any dot. The amber dot is the Architect. Every number here is read from the "
-                "repository at build time." % span)
+    subtitle = ("The line is how much code moved each day across %d days, so drawing it in draws the real "
+                "shape of the project. Hover a dot to read the commit, click it to open the chapter. The "
+                "amber dots are the Architect. Every number here is read from the repository at build "
+                "time." % span)
     meta = "%d commits &middot; %s to %s &middot; one person" % (len(rows), short(first), longd(last))
 
     tpl = (ROOT / "templates" / "home.tpl").read_text(encoding="utf-8")

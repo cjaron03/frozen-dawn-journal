@@ -1,52 +1,90 @@
-"""Pull the mod's commit history into data/commits.tsv.
+"""Pull the mod's history into data/commits.tsv.
 
 Runs at build time, never in the browser. Re-runnable and idempotent.
-Unauthenticated GitHub allows 60 requests an hour, and a 480 commit
-history costs 5 of them, so this is safe to run on every deploy.
-Set GITHUB_TOKEN in the environment to raise that ceiling.
+
+This reads the repository with git rather than the REST API, for two
+reasons. The homepage curve is drawn from how much code moved on a day,
+not how many commits were made, and per commit line counts over the REST
+API cost one request each, which is a rate limit problem the moment the
+history grows. Git gives the whole history, every branch, and the line
+counts, in one network operation and no token.
+
+The clone is a bare mirror kept in .cache, so the second run and every
+run after it is a fetch of whatever is new.
 """
-import json, os, sys, urllib.request, pathlib
+import os, pathlib, subprocess, sys
 
 REPO   = os.environ.get("FD_REPO", "cjaron03/frozen-dawn")
-BRANCH = os.environ.get("FD_BRANCH", "main")
-OUT    = pathlib.Path(__file__).parent / "data" / "commits.tsv"
+ROOT   = pathlib.Path(__file__).parent
+CACHE  = ROOT / ".cache" / (REPO.split("/")[-1] + ".git")
+OUT    = ROOT / "data" / "commits.tsv"
+URL    = os.environ.get("FD_URL", "https://github.com/%s.git" % REPO)
+
+# Art, audio and archives are real work, but they are not lines, and a
+# single texture import would otherwise outweigh a week of engine code.
+ASSETS = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico", ".svg",
+          ".ogg", ".wav", ".mp3", ".ttf", ".otf",
+          ".jar", ".zip", ".gz", ".bin", ".nbt", ".schem", ".lock")
+
+REC = "\x01"   # record separator, so a subject can hold anything it likes
 
 
-def get(url):
-    req = urllib.request.Request(url, headers={
-        "Accept": "application/vnd.github+json",
-        "User-Agent": "frozen-dawn-journal-build",
-    })
-    tok = os.environ.get("GITHUB_TOKEN")
-    if tok:
-        req.add_header("Authorization", "Bearer " + tok)
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.load(r)
+def git(*args, **kw):
+    return subprocess.run(("git",) + args, check=True, text=True,
+                          capture_output=kw.get("capture", True)).stdout
+
+
+def sync():
+    if (CACHE / "HEAD").exists():
+        git("-C", str(CACHE), "remote", "update", "--prune", capture=False)
+    else:
+        CACHE.parent.mkdir(parents=True, exist_ok=True)
+        git("clone", "--mirror", URL, str(CACHE), capture=False)
+
+
+def history():
+    """Every commit on every branch, newest first, with its line counts.
+
+    Branches only. A mirror also carries GitHub's refs/pull/*, and those
+    are synthetic merge previews of work that is already on a branch, so
+    counting them would invent commits that were never written.
+    """
+    raw = git("-C", str(CACHE), "log", "--branches", "--numstat", "--date=short",
+              "--pretty=format:%s%%ad%%x09%%s" % REC)
+    rows = []
+    for block in raw.split(REC):
+        if not block.strip():
+            continue
+        head, _, body = block.partition("\n")
+        date, _, subject = head.partition("\t")
+        added = removed = 0
+        for line in body.splitlines():
+            parts = line.split("\t")
+            if len(parts) != 3:
+                continue
+            a, d, path = parts
+            # a binary file reports its counts as dashes.
+            if a == "-" or path.lower().endswith(ASSETS):
+                continue
+            added += int(a); removed += int(d)
+        rows.append((date.strip(), added, removed,
+                     subject.strip().replace("\t", " ")))
+    return rows
 
 
 def main():
-    rows, page = [], 1
-    while True:
-        batch = get("https://api.github.com/repos/%s/commits?sha=%s&per_page=100&page=%d"
-                    % (REPO, BRANCH, page))
-        if not batch:
-            break
-        for c in batch:
-            date = c["commit"]["author"]["date"][:10]
-            subject = c["commit"]["message"].split("\n")[0].strip()
-            rows.append((date, subject))
-        if len(batch) < 100:
-            break
-        page += 1
-        if page > 40:
-            sys.exit("refusing to page past 4000 commits")
-
+    sync()
+    rows = history()
+    if not rows:
+        sys.exit("no commits found, is %s reachable?" % URL)
     rows.sort()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
-        for date, subject in rows:
-            f.write("%s\t%s\n" % (date, subject.replace("\t", " ")))
-    print("wrote %d commits, %s to %s" % (len(rows), rows[0][0], rows[-1][0]))
+        for date, added, removed, subject in rows:
+            f.write("%s\t%d\t%d\t%s\n" % (date, added, removed, subject))
+    print("wrote %d commits, %s to %s, %d lines added, %d removed"
+          % (len(rows), rows[0][0], rows[-1][0],
+             sum(r[1] for r in rows), sum(r[2] for r in rows)))
 
 
 if __name__ == "__main__":

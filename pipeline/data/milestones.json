@@ -85,7 +85,7 @@
   },
   {
     "match": "chore(release): bump alpha hotfix version",
-    "date": "2026-05-08",
+    "date": "2026-05-07",
     "kind": "minor",
     "title": "The last commit",
     "go": "chapter-7.html",

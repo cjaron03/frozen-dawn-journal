@@ -1,480 +1,535 @@
-2026-02-23	Add README with installation, features, and configuration docs
-2026-02-23	Initial commit: Frozen Dawn mod (NeoForge 1.21.1)
-2026-02-23	Optimize TemperatureManager heat source scanning
-2026-02-24	Add 6 features: config presets, player agency, endgame loop, atmosphere, ORSA narrative, docs
-2026-02-24	Add cold effects: breath particles, shivering, temp-based frost overlay, crop freeze
-2026-02-24	Add proper pixel art textures and fix thermal heater light level
-2026-02-24	Add sound muffling below -15C
-2026-02-24	Add weather effects, temperature HUD, wind ambience, and environmental enhancements
-2026-02-24	Add wind chill exhaustion in phase 5
-2026-02-24	Fix snow accumulation, add underground protection, phase 5 permanent night
-2026-02-24	Improve tree decay: gradual leaf death, phase 5 tree snapping, faster volume checks
-2026-02-25	Add 3-tier armor system, fix textures, armor-based freeze suppression, and nether portal advancement
-2026-02-25	Add ORSA Document item, 5-book lore system, armor heat trapping, and phase 0 temp HUD
-2026-02-25	Add Patchouli guide, nether severance, world time sync, and code review fixes
-2026-02-25	Add Phase 0 (normal Minecraft), visual sun scaling via mixin
-2026-02-25	Add Phase 6: Atmospheric Collapse — stars, suffocation, geothermal ambience, vacuum silence
-2026-02-25	Add food spoilage system, thermal container, and frost visuals
-2026-02-25	Add mod logo and author metadata
-2026-02-25	Add phase 6 late surface sublimation: ice, snow, and water evaporate in vacuum
-2026-02-25	Add phase-based fuel scaling and shelter-gated heater radius
-2026-02-25	Add shelter ambience: muffled wind, indoor snow suppression, creaking sounds
-2026-02-25	Add tiered heaters, geothermal core upgrades, heat stacking, and hyperthermia system
-2026-02-25	Bump version to 0.9.1
-2026-02-25	Cache heater shelter status, drop unmodifiable wrappers, deduplicate armor tier
-2026-02-25	Fix portal scan performance, add input validation, commit untracked data
-2026-02-25	Fix suffocation: sky-based detection, no knockback, escalating symptoms
-2026-02-25	Low-priority polish: consolidate shelter check, clean up dead code
-2026-02-25	Performance and correctness fixes across core systems
-2026-02-25	Redesign temperature HUD and add hypothermia guide to Patchouli book
-2026-02-25	Remove Tough As Nails integration
-2026-02-25	Reset client-side state on logout so new worlds start clean
-2026-02-25	Reuse flood-fill collections, split WorldTickHandler, fix exposed heater radius
-2026-02-25	Update README with armor system, nether severance, guide book, and corrected counts
-2026-02-26	Add Acheronite system: crystals, forge, tools, armor, and frostbite
-2026-02-26	Bump version to 0.10.0
-2026-02-27	Add EVA suit breathing ambience and suffocation sound in phase 6 vacuum
-2026-02-27	Add Project Lighthouse lore foreshadowing and satellite log entry
-2026-02-27	Add win condition, ORSA MultiTool, UI overhauls, and Patchouli reorganization
-2026-02-27	Gate transponder on ENABLE_WIN_CONDITION and show win state in status command
-2026-02-27	Update README install instructions with Patchouli requirement
-2026-02-27	v0.15.0 — Win condition, ORSA MultiTool, O2 system, transponder, EVA ambience
-2026-02-28	Add JEI integration, fix shelter detection, and fix v0.15.0 bugs
-2026-03-01	Add Frostbitten mob — first hostile entity for Phase 4+
-2026-03-01	v0.16.0 — The Benadryl Update: sanity system, comfort items, shadow figures
-2026-03-02	Add Hollow mob, Cryo Fuel, Frost Ward Torch, Thermal Capacitor, spawn eggs
-2026-03-02	Add Returned Hunter mob, mob spawn multiplier, and spawner sky access checks
-2026-03-08	Add Architect and Mimic mobs with D* Lite pathfinding and walk oscillation fix
-2026-03-09	Fix missing subtitle keys for Architect ambient and observe sounds
-2026-03-10	architect finally done
-2026-03-11	add architect soul rewards and progression polish
-2026-03-11	add architect soul rewards and progression polish
-2026-03-11	architect polish pass 1
-2026-03-11	architect polish pass 2
-2026-03-12	add surveyor lens thermal detection
-2026-03-12	add thermal visor interface mode
-2026-03-12	add thermal visor upgrade path
-2026-03-12	refine thermal visor rendering
-2026-03-13	add architect trophy head
-2026-03-13	add frostmite swarm pressure
-2026-03-13	bump version to 0.17.0
-2026-03-13	fix thermal visor crystal suppression
-2026-03-13	polish thermal visor shutdown and shader stability
-2026-03-13	update readme for hostile roster
-2026-03-14	Add Frozen Dawn UI theme and curated music
-2026-03-14	Add lore collectibles and apocalypse gameplay hooks
-2026-03-15	Expand frozen world decay and snowfall systems
-2026-03-15	Polish menu snowfall and add handbook recovery
-2026-03-15	Refine Acheronite crystal burial and growth visuals
-2026-03-16	Add first-load difficulty selection screen
-2026-03-16	Add forest biome ambience and theme advancements UI
-2026-03-16	Bump version to 0.18.0
-2026-03-17	Add Blast Pit sanctuary and ORSA supply crate
-2026-03-21	Add ORSA communication tower landmark chain
-2026-03-22	Refine tower terminal UI and unlock compass recovery
-2026-03-23	Add ORSA field camp scattered structure (camp pass 1)
-2026-03-23	Fix server crash and add Spotless formatter
-2026-03-24	Ignore local assistant workspace files
-2026-03-24	ORSA camp flag pass 1
-2026-03-24	fix orsa camp command
-2026-03-24	orsa camp pass 2
-2026-03-25	fix monitoring station reload hang
-2026-03-25	monitoring station pass 1
-2026-03-25	monitoring station pass 2
-2026-03-26	final monitoring station pass
-2026-03-26	fix monitoring station prop placement
-2026-03-26	monitoring station pass 3
-2026-03-26	monitoring station pass 4
-2026-03-26	monitoring station pass 5
-2026-03-26	remove monitoring station calendar command
-2026-03-26	tower polish 1
-2026-03-27	cargo drop pod 1
-2026-03-27	cargo drop pod 2
-2026-03-27	evac vehicle pass 1
-2026-03-27	final cargo pass
-2026-03-27	link monitoring station trail to tower archive
-2026-03-31	evac vehicle pass 2
-2026-03-31	siren pass 1
-2026-03-31	siren pass 2
-2026-03-31	siren pass 3
-2026-03-31	town pass 1
-2026-03-31	town pass 2
-2026-03-31	town pass 3
-2026-04-01	town optimization pass 5
-2026-04-01	town pass 4
-2026-04-01	town pass 6
-2026-04-02	chore(dev): add client debug hotswap toggle
-2026-04-02	final pass 1
-2026-04-02	fix(atmosphere): add breathable zone authority pass 1
-2026-04-02	fix(atmosphere): align EVA vacuum feedback and habitable checks
-2026-04-02	fix(geothermal-core): gate guide penalty by core depth
-2026-04-02	fix(geothermal-core): keep guide clear of JEI overlay
-2026-04-02	fix(geothermal-core): relax main screen value layout
-2026-04-02	fix(geothermal-core): show surface-penalized warmth in screen
-2026-04-02	release 0.19.0
-2026-04-02	town final pass 2
-2026-04-02	town pass 7
-2026-04-03	Merge pull request #1 from cjaron03/codex/giant-screen-class-split
-2026-04-03	feat(hud): add EVA air status telemetry
-2026-04-03	fix(blast-pit): prevent frozen town overlap
-2026-04-03	fix(blast-pit): reroute invalid target rerolls through planner
-2026-04-03	fix(camp): queue planned evac vehicles on load
-2026-04-03	fix(config): align defaults and spawn suppression
-2026-04-03	fix(geothermal-core): simplify surface penalty screen layout
-2026-04-03	fix(patchouli): align handbook survival rules
-2026-04-03	fix(phase): centralize phase 6 thresholds
-2026-04-03	refactor(block): extract shared terminal session framework
-2026-04-03	refactor(client): split terminal screen responsibilities
-2026-04-03	refactor(orsa): split landmark planning from saved state
-2026-04-03	refactor(phase): clarify phase 6 presentation stages
-2026-04-07	Merge pull request #2 from cjaron03/codex/shared-terminal-session-framework
-2026-04-07	feat(architect): add ambient helmet and soul death fx
-2026-04-07	feat(architect): add conditional approach sprinting
-2026-04-07	feat(architect): refine observe body language
-2026-04-07	fix(architect): anchor observe movement
-2026-04-07	fix(architect): separate brain state from render sync
-2026-04-07	fix(architect): smooth committed walk steering
-2026-04-07	refactor(architect): extract approach controller
-2026-04-07	refactor(architect): extract approach state
-2026-04-07	refactor(architect): extract combat controller
-2026-04-07	refactor(architect): extract combat state
-2026-04-07	refactor(architect): extract decision engine
-2026-04-07	refactor(architect): extract fx controller
-2026-04-07	refactor(architect): extract observation controller
-2026-04-07	refactor(architect): extract tactics controller
-2026-04-07	refactor(architect): simplify persistence helpers
-2026-04-08	fix(approach): drive vertical ladder motion during climb steps
-2026-04-08	fix(approach): escape water lockups without entity bloat
-2026-04-08	fix(approach): handle partial-block support in D* costs
-2026-04-08	fix(approach): harden dynamic obstruction recovery and crystal breach policy
-2026-04-08	fix(approach): prefer D* build routes over ladder/direct chase
-2026-04-08	fix(approach): reduce chase stalls during corridor replans
-2026-04-08	fix(approach): reduce slab jitter in committed walk corridors
-2026-04-08	fix(approach): remove stall-on-idle and safer scaffold-up resolution
-2026-04-08	fix(approach): slightly increase safe fall limits
-2026-04-08	fix(approach): stabilize ladder traversal in tower pursuit
-2026-04-08	fix(approach): stabilize slab traversal and rebalance architect mining
-2026-04-08	fix(approach): stop slab spin and scaffold-up retry loops
-2026-04-08	fix(dstar): bound incremental reseed growth under block churn
-2026-04-08	fix(observe): sample observe duration once per cycle
-2026-04-08	fix(renderer): restore walk gait during observe movement
-2026-04-08	refactor(architect): extract approach support helpers and slim core entity
-2026-04-08	refactor(architect): extract walk/combat/environment helpers from entity
-2026-04-08	refactor(architect): split approach into focused planning and movement helpers
-2026-04-09	Merge pull request #3 from cjaron03/codex/starter-books-evac-notice-first-login
-2026-04-09	Merge pull request #4 from cjaron03/codex/decomposition-readability-pass
-2026-04-09	Merge pull request #5 from cjaron03/codex/sanity-disable-honor-fix
-2026-04-09	Merge pull request #6 from cjaron03/codex/runtime-cache-cleanup-and-wilson-ownership
-2026-04-09	Merge pull request #7 from cjaron03/codex/advancement-unreachable-grants
-2026-04-09	Merge pull request #8 from cjaron03/codex/acheronite-growth-density-cooldown
-2026-04-09	chore(acheronite): remove temporary growth debug logs
-2026-04-09	chore(git): ignore local codex environment directory
-2026-04-09	docs(config): sync README configuration table with active keys
-2026-04-09	docs(event): align temperature tick-rate comments with runtime
-2026-04-09	docs(readme): clarify expanded lore sources
-2026-04-09	docs(readme): note acheronite growth and config scope
-2026-04-09	fix(acheronite): throttle formation with density cap and chunk cooldown
-2026-04-09	fix(advancements): grant disassembled and returned_killed on kill
-2026-04-09	fix(architect): add D* overflow handoff diagnostics
-2026-04-09	fix(architect): distance-gate D* planning during long-range approach
-2026-04-09	fix(architect): reduce D* diagnostics and walk invalidation log noise
-2026-04-09	fix(architect): remove periodic approach reseed churn
-2026-04-09	fix(architect): restore production observe duration to 30-60 seconds
-2026-04-09	fix(architect): set observe duration to fixed 6 seconds for active testing
-2026-04-09	fix(architect): shorten observe duration to fixed 10 seconds
-2026-04-09	fix(event): clear PlayerTickHandler caches on logout
-2026-04-09	fix(frostbite): preserve exposure state across reconnects
-2026-04-09	fix(release): bump version to 0.19.1 hotfix patch
-2026-04-09	fix(runtime): clean logout caches and bind Wilson drops to tosser
-2026-04-09	fix(sanity): force stage 0 when sanity is disabled
-2026-04-09	fix(sanity): restore creative and spectator stage bypass
-2026-04-09	fix(station): remove forced roof snow and protect interior from burial
-2026-04-09	merge: integrate architect observe 10s hotfix
-2026-04-09	merge: integrate config accuracy README pass
-2026-04-09	refactor(decomp): split command, lens, cargo, and mimic responsibilities
-2026-04-10	feat(blizzard_goggles): add Curios whiteout optics
-2026-04-10	feat(curios): add optional Curios integration scaffolding
-2026-04-10	feat(hot_wings): add frost-resistant blaze ration
-2026-04-10	feat(ice_claws): add frozen wall climbing accessory
-2026-04-10	feat(miteaway): add frostmite repellent burner
-2026-04-10	feat(miteaway): polish guidebook manual presentation
-2026-04-10	feat(phase_barometer): add pass 1 forecast instrument
-2026-04-10	feat(phase_barometer): add pass 2 device UI polish
-2026-04-10	feat(snowshoes): add Curios snowshoes accessory
-2026-04-10	feat(snowshoes): polish movement feel and Curios visuals
-2026-04-10	feat(thermal_visor): surface blizzard plugin hint
-2026-04-10	fix(blizzard_goggles): filter whiteout weather rendering
-2026-04-10	fix(ice_claws): remove climb debug traces
-2026-04-10	fix(ice_claws): switch to anchored frozen wall climbing
-2026-04-10	fix(phase_barometer): add pass 3 diagnostics tuning
-2026-04-10	fix(phase_barometer): anchor front overlay to block face
-2026-04-10	fix(phase_barometer): remove header badge
-2026-04-10	fix(phase_barometer): simplify diagnostics header
-2026-04-10	fix(snowshoes): soften snow boost and refresh hot wings art
-2026-04-11	feat(geothermal_vents): add pass 1 hydrothermal basin system
-2026-04-11	feat(geothermal_vents): add pass 2 volcanic escalation
-2026-04-11	fix(geothermal_vents): checkpoint rupture vent flow iteration
-2026-04-12	fix(geothermal_vents): polish rupture vents and sulfur lava
-2026-04-12	fix(geothermal_vents): stabilize rupture cone shaping
-2026-04-14	Merge pull request #11 from cjaron03/feat/geothermal-vents
-2026-04-14	chore(release): bump version to 0.19.5
-2026-04-14	docs(geothermal_vents): seed sulfur lore and overload messaging
-2026-04-14	feat(endgame): add caldera sulfur refinement loop
-2026-04-14	feat(endgame): rewire transponder ending into rocket unlock
-2026-04-14	feat(geothermal_vents): add vacuum ash and rupture escalation
-2026-04-14	feat(geothermal_vents): add vent docs and vacuum vibration cues
-2026-04-14	fix(geothermal_vents): stabilize vent sync and fallout
-2026-04-14	fix(ui): use transparent blue furnace flames
-2026-04-15	feat(endgame): add fuel processing silo and cap rupture scar ring
-2026-04-15	feat(endgame): add rocket assembly and martian command transmission
-2026-04-15	fix(endgame): show rocket recipes correctly in JEI
-2026-04-16	chore(config): remove local run config from branch
-2026-04-16	feat(endgame): add blast pit launch pad and rocket launch entity
-2026-04-16	feat(endgame): refine rocket launch iteration flow
-2026-04-16	feat(jei): add fuel silo recipe integration
-2026-04-16	fix(endgame): add rocket altitude telemetry
-2026-04-16	fix(endgame): add rocket viewport fuel gauge
-2026-04-16	fix(endgame): keep launch view inside the cockpit
-2026-04-16	fix(endgame): polish formed pad and parked rocket presentation
-2026-04-16	fix(endgame): polish rocket viewport framing
-2026-04-16	fix(endgame): simplify rocket viewport telemetry
-2026-04-16	fix(endgame): stabilize rocket viewport rendering
-2026-04-16	fix(endgame): steady rocket viewport overlay
-2026-04-16	fix(endgame): surface rocket prompts in cockpit HUD
-2026-04-16	fix(jei): polish fuel silo recipe display
-2026-04-16	fix(silo): protect formed shell and heater drain feedback
-2026-04-17	feat(ending): add Mars credits sequence
-2026-04-17	feat(ending): add Mars cube approach art
-2026-04-17	feat(ending): polish Mars approach and truth compliance
-2026-04-21	Merge pull request #12 from cjaron03/feat/final-content-update
-2026-04-21	Merge pull request #13 from cjaron03/feat/phase-7-ending
-2026-04-21	Merge pull request #14 from cjaron03/feat/phase-8-narrative-polish
-2026-04-21	Merge pull request #15 from cjaron03/feat/phase-8-narrative-polish
-2026-04-21	Merge pull request #16 from cjaron03/feat/phase-8-narrative-polish
-2026-04-21	Merge pull request #17 from cjaron03/feat/phase-8-narrative-polish
-2026-04-21	Merge pull request #18 from cjaron03/feat/phase-8-narrative-polish
-2026-04-21	Merge pull request #19 from cjaron03/feat/phase-8-narrative-polish
-2026-04-21	Merge pull request #20 from cjaron03/feat/phase-8-release-safety
-2026-04-21	Merge pull request #21 from cjaron03/feat/phase-8-ending-polish
-2026-04-21	docs(license): correct LGPL metadata
-2026-04-21	docs(license): use 2026 copyright notice
-2026-04-21	docs(readme): clarify license and feature overview
-2026-04-21	docs(readme): refresh final content overview
-2026-04-21	docs(readme): require Curios in install docs
-2026-04-21	docs(readme): update captured title hero
-2026-04-21	docs(readme): use ending credits title hero
-2026-04-21	docs(readme): use runtime title hero
-2026-04-21	feat(ending): expand credits statistics
-2026-04-21	feat(ending): polish credits audio and approach HUD
-2026-04-21	feat(lore): add ending polish breadcrumbs
-2026-04-21	fix(audio): boost forest ambience source gain
-2026-04-21	fix(audio): raise forest ambience volume
-2026-04-21	fix(audio): remove unverified forest track
-2026-04-21	fix(audio): replace forest ambience with cc0 source
-2026-04-21	fix(audio): suppress existing music during ending
-2026-04-22	feat(audio): add original phase music
-2026-04-22	feat(blackglass): add lockdown archive transcript UI
-2026-04-22	feat(blackglass): add recovered transcript audio
-2026-04-22	fix(blackglass): rebalance recovered audio mix
-2026-04-22	fix(blackglass): suppress music during recovered audio
-2026-04-23	Merge pull request #22 from cjaron03/feat/blackglass-cipher-chain
-2026-04-23	Merge pull request #23 from cjaron03/feat/blackglass-tts
-2026-04-23	Merge pull request #24 from cjaron03/feat/blackglass-cipher-chain-progression
-2026-04-23	feat(blackglass): add cipher-chain progression clues
-2026-04-23	fix(blackglass): deepen Hollis recovered voice
-2026-04-23	fix(blackglass): disable hidden directory hit targets
-2026-04-23	fix(blackglass): keep transcript sessions alive
-2026-04-23	fix(blackglass): label voiceprint masking state
-2026-04-23	fix(blackglass): slow Hollis recovered audio
-2026-04-24	Merge pull request #25 from cjaron03/feat/blackglass-cipher-chain-progression
-2026-04-24	Merge pull request #26 from cjaron03/feat/orsa-continuity-polish
-2026-04-24	Merge pull request #27 from cjaron03/feat/phase-9a-orsa-book-branding
-2026-04-24	feat(orsa): add martian command packet archive
-2026-04-24	feat(patchouli): add ORSA book texture
-2026-04-24	feat(patchouli): add ORSA guide item texture
-2026-04-24	feat(patchouli): add ORSA landing masthead
-2026-04-24	feat(patchouli): document rocket launch path and silo fuel chain
-2026-04-24	feat(patchouli): expand ORSA board packet entry
-2026-04-24	feat(textures): add Martian command packet icon
-2026-04-24	feat(textures): add ORSA board packet icon
-2026-04-24	feat(textures): add recovered log icons
-2026-04-24	feat(textures): refresh ORSA rocket components
-2026-04-24	feat(textures): refresh acheronite armor textures
-2026-04-24	feat(textures): refresh acheronite tool materials
-2026-04-24	feat(textures): refresh elemental drop icons
-2026-04-24	feat(textures): refresh insulated armor textures
-2026-04-24	feat(textures): refresh sulfur lava materials
-2026-04-24	feat(textures): refresh sulfur volcanic materials
-2026-04-24	feat(textures): refresh survey equipment icons
-2026-04-24	feat(textures): refresh survival gear icons
-2026-04-24	feat(textures): refresh thermal containment components
-2026-04-24	feat(textures): refresh thermal energy components
-2026-04-24	feat(textures): update ORSA document icon
-2026-04-24	fix(orsa): polish continuity artifacts
-2026-04-24	fix(patchouli): remove page background rules
-2026-04-24	fix(polish): surface caldera retrofit guidance
-2026-04-25	Merge pull request #28 from cjaron03/feat/phase-9c-orsa-document-texture
-2026-04-25	feat(textures): refresh MiteAway block states
-2026-04-25	feat(textures): refresh frozen terrain materials
-2026-04-25	feat(textures): refresh remaining item icons
-2026-04-28	feat(textures): refresh ORSA machine blocks
-2026-04-28	feat(textures): refresh fuel silo controller
-2026-04-29	feat(textures): refresh forge and terminal blocks
-2026-04-29	feat(textures): refresh late threat entities
-2026-04-30	Merge pull request #29 from cjaron03/feat/phase-9c-machines-mobs-entities
-2026-04-30	Merge pull request #30 from cjaron03/feat/phase-9d-first-awakening
-2026-04-30	Merge pull request #31 from cjaron03/release/alpha-1.0-release
-2026-04-30	Merge pull request #32 from cjaron03/docs/asset-provenance-notes
-2026-04-30	Merge pull request #33 from cjaron03/docs/license-notice-cleanup
-2026-04-30	Merge pull request #34 from cjaron03/chore/require-jei-dependency
-2026-04-30	chore(release): bump version to alpha 1.0-release
-2026-04-30	chore: require JEI dependency
-2026-04-30	docs: clarify LGPL notice
-2026-04-30	docs: document asset provenance
-2026-04-30	feat(audio): refresh ORSA boot ident
-2026-04-30	feat(ui): add ORSA first awakening intro
-2026-04-30	feat(ui): render ORSA logos with custom renderer
-2026-04-30	fix: use loader-valid alpha version
-2026-05-01	fix: continue scanning beyond storm windows
-2026-05-01	fix: detect exterior terrain beyond glass
-2026-05-01	fix: muffle wind ambience indoors
-2026-05-01	fix: obscure blizzards through windows
-2026-05-01	fix: show exterior blizzards through glass
-2026-05-01	fix: strengthen blizzard fog through glass
-2026-05-01	fix: suppress blizzard visuals indoors
-2026-05-01	fix: unblock acheronite refinement progression
-2026-05-02	fix: prevent tower terminal completion reopen (#36)
-2026-05-02	fix: smooth blizzard shelter transitions (#35)
-2026-05-03	fix: restore phase progression during phase 5
-2026-05-06	Revert "fix: classify storm cover transitions"
-2026-05-06	fix: classify storm cover transitions
-2026-05-06	fix: restore storm cover classification
-2026-05-06	fix: restore storm-window snow particles
-2026-05-06	fix: tune brutal phase six variants
-2026-05-06	fix: tune frostmite spawn pressure
-2026-05-06	fix: tune late storm pressure
-2026-05-07	chore(release): bump alpha hotfix version
-2026-05-07	fix: buffer mars command at transponder
-2026-05-07	fix: gate launch package behind packet recovery
-2026-05-07	fix: loosen brutal mimic light checks
-2026-05-07	fix: make returned variant spawns terrain robust
-2026-05-07	fix: remove mimic light spawn requirement
-2026-05-07	fix: speed up comfort item sanity recovery
-2026-05-08	chore(release): bump alpha hotfix version
-2026-05-25	feat(world): add chunk catch-up epoch processing
-2026-05-30	fix(world): stabilize chunk catch-up bursts
-2026-07-10	chore(release): bump version to alpha 1.1.0
-2026-07-10	fix(world): reconcile snow after tree catch-up
-2026-07-11	feat(homo-reliquus): add Hearth persistence foundation
-2026-07-11	feat(homo-reliquus): add offline Hearth maturation
-2026-07-12	feat(homo-reliquus): add Architect Hearth assessment
-2026-07-12	feat(homo-reliquus): add Hearth-bound watcher AI
-2026-07-12	feat(homo-reliquus): add Thaeven first-contact transmissions
-2026-07-12	feat(homo-reliquus): persist hive relationship memory
-2026-07-12	feat(homo-reliquus): reconcile Trace Hearth scenes
-2026-07-13	feat(homo-reliquus): add formed Hearth settlements
-2026-07-14	feat(homo-reliquus): add Hearth survey discovery
-2026-07-15	Merge pull request #53 from cjaron03/feat/homo-reliquus-master-weather
-2026-07-15	feat(homo-reliquus): add Major Hearth Master Architect
-2026-07-15	feat(homo-reliquus): add Master Architect combat suite
-2026-07-15	feat(homo-reliquus): add hostile Master Architect storm
-2026-07-15	feat(homo-reliquus): add intact Major Hearth settlement
-2026-07-15	feat(homo-reliquus): populate intact Hearths
-2026-07-16	Merge pull request #55 from cjaron03/feat/homo-reliquus-master-visuals
-2026-07-16	Merge pull request #56 from cjaron03/feat/homo-reliquus-hearth-boundary
-2026-07-16	feat(entities): refresh Returned and Frostbitten textures
-2026-07-16	feat(homo-reliquus): add Hearth conduct boundaries
-2026-07-16	feat(homo-reliquus): add Master Architect visual identity
-2026-07-16	feat(homo-reliquus): complete Master Architect encounter identity
-2026-07-19	Merge pull request #57 from cjaron03/feat/homo-reliquus-master-tether
-2026-07-19	Merge pull request #58 from cjaron03/feat/homo-reliquus-master-phases
-2026-07-19	feat(homo-reliquus): add Master Architect phase authority
-2026-07-19	feat(homo-reliquus): add Master Architect tether phase
-2026-07-19	feat(homo-reliquus): add Master construction opening fort
-2026-07-21	feat(homo-reliquus): complete Master construction war
-2026-07-25	feat(homo-reliquus): add Master Architect finale
-2026-07-25	feat(homo-reliquus): add Master Architect storm aura
-2026-07-25	feat(homo-reliquus): polish Fold rupture and Sever warning
-2026-07-25	feat(survival): add EVA suit puncture system
-2026-07-26	feat(survival): add emergency O2 cartridges
-2026-07-26	fix(homo-reliquus): let Hearth Architects assess ORSA gear
-2026-07-27	feat(homo-reliquus): add Master storm eye and aftermath
-2026-07-27	feat(homo-reliquus): add distant Master storm beacon
-2026-07-27	feat(homo-reliquus): deepen Hearth encounters and harden reconciliation
-2026-07-27	fix(homo-reliquus): stabilize Hearth terrain reconciliation
-2026-07-28	Merge pull request #60 from cjaron03/feat/homo-reliquus-heart-formation
-2026-07-28	Merge pull request #61 from cjaron03/feat/homo-reliquus-cognitive-load
-2026-07-28	Merge pull request #62 from cjaron03/feat/homo-reliquus-heart-memory-nodes
-2026-07-28	feat(homo-reliquus): awaken cognitive load
-2026-07-28	feat(homo-reliquus): expose Heart memory nodes
-2026-07-28	feat(homo-reliquus): form the Thae Iven Heart
-2026-07-28	merge: integrate Master Architect construction and aftermath
-2026-07-30	feat(homo-reliquus): complete Heart collapse and Maeve erasure
-2026-07-30	feat(homo-reliquus): polish the Successor encounter
-2026-07-30	feat(homo-reliquus): stage Heart collapse and Successor
-2026-07-31	feat(homo-reliquus): stage Maeve erasure world event
-2026-08-01	feat(homo-reliquus): add post-erasure world response
-2026-08-03	Merge Bloom counter-loop
-2026-08-03	Merge Bloom foundation
-2026-08-03	Merge Bloom hardening
-2026-08-03	Merge Bloom presentation and ecology
-2026-08-03	Merge Bloom world growth
-2026-08-03	Merge pull request #63 from cjaron03/feat/homo-reliquus-heart-collapse
-2026-08-03	Merge pull request #64 from cjaron03/feat/homo-reliquus-post-maeve-world
-2026-08-03	feat(bloom): activate loaded-chunk world growth
-2026-08-03	feat(bloom): add growth ambience and ecology
-2026-08-03	feat(bloom): add lattice sealing loop
-2026-08-03	feat(bloom): establish deterministic growth authority
-2026-08-03	feat(homo-reliquus): transform the post-Maeve world
-2026-08-03	test(bloom): cover growth policy and persistence
-2026-08-05	feat(bloom): add Spore frontier relay
-2026-08-05	feat(bloom): enrich post-Maeve growth
-2026-08-08	Merge pull request #70 from cjaron03/feat/homo-reliquus-post-maeve-moon
-2026-08-08	feat(homo-reliquus): add post-Maeve damaged moon
-2026-08-09	Merge pull request #71 from cjaron03/feat/homo-reliquus-hearthrot
-2026-08-09	feat(homo-reliquus): add Hearthrot player condition
-2026-08-09	feat(homo-reliquus): add the Archivist
-2026-08-12	Merge pull request #72 from cjaron03/feat/homo-reliquus-archivist
-2026-08-12	Merge pull request #73 from cjaron03/feat/homo-reliquus-rimebound
-2026-08-12	feat(homo-reliquus): add the Resonant
-2026-08-12	feat(homo-reliquus): add the Rimebound
-2026-08-13	Merge pull request #74 from cjaron03/feat/homo-reliquus-remnant
-2026-08-13	feat(homo-reliquus): add the Frostwrithe
-2026-08-13	feat(homo-reliquus): add the Remnant
-2026-08-14	feat(homo-reliquus): add first Aggregate visual pass
-2026-08-14	feat(homo-reliquus): add the Aggregate
-2026-08-14	feat(homo-reliquus): merge Frostwrithe evolution
-2026-08-14	feat(homo-reliquus): scale evolved mobs by difficulty
-2026-08-16	feat(homo-reliquus): add Aggregate convergence and collapse
-2026-08-16	feat(homo-reliquus): add Aggregate pressure and death signals
-2026-08-16	feat(homo-reliquus): stage Aggregate emergence
-2026-08-16	fix(homo-reliquus): clarify Aggregate convergence waves
-2026-08-19	feat(homo-reliquus): add Stillpoint protective field
-2026-08-19	feat(homo-reliquus): coordinate post-Maeve encounters
-2026-08-19	feat(homo-reliquus): limit Stillpoint relocations
-2026-08-19	fix(homo-reliquus): throttle blocked Frostwrithe assembly
-2026-08-20	Merge pull request #75 from cjaron03/feat/homo-reliquus-aggregate
-2026-08-20	Merge pull request #76 from cjaron03/feat/homo-reliquus-hearth-lore
-2026-08-20	feat(homo-reliquus): add Thaeven lore archive
-2026-08-22	fix(homo-reliquus): stabilize Master survivor scaling
-2026-08-24	feat(suit): extend O2 capacity and telemetry
-2026-08-24	fix(architect): bound healing retreats
-2026-08-24	fix(architect): breach enclosed targets
-2026-08-24	fix(architect): traverse frozen atmosphere reliably
-2026-08-24	fix(blocks): require an iron pickaxe for barometers
-2026-08-24	fix(hud): separate oxygen and drowning meters
-2026-08-24	fix(suit): prevent rebreather audio overlap
-2026-08-24	fix(suit): rebalance EVA puncture risk
-2026-08-24	fix(world): bound frozen atmosphere catch-up work
-2026-08-24	merge(homo-reliquus): integrate release smoke fixes
-2026-08-27	Merge pull request #77 from cjaron03/fix/homo-reliquus-release-polish
-2026-08-27	Merge pull request #78 from cjaron03/feat/homo-reliquus
-2026-08-27	docs(release): prepare The Long Silence launch notes
-2026-08-27	refactor(commands): organize debug tools and diagnostics
-2026-08-28	docs(audio): record release provenance audit
-2026-09-01	Merge pull request #79 from cjaron03/fix/release-audio-provenance
-2026-09-01	fix(audio): replace generated voices with local Piper assets
-2026-09-01	fix(audio): resolve remaining release provenance blockers
-2026-09-01	fix(audio): restore original authored sound assets
-2026-09-02	Merge pull request #80 from cjaron03/release/2.0.0-alpha
-2026-09-02	chore(release): prepare The Long Silence 2.0.0 alpha
+2026-02-23	2	5	Add proper pixel art textures and fix thermal heater light level
+2026-02-23	22	0	Add wind chill exhaustion in phase 5
+2026-02-23	39	34	Optimize TemperatureManager heat source scanning
+2026-02-23	79	0	Add sound muffling below -15C
+2026-02-23	94	31	Fix snow accumulation, add underground protection, phase 5 permanent night
+2026-02-23	95	0	Add README with installation, features, and configuration docs
+2026-02-23	98	20	Improve tree decay: gradual leaf death, phase 5 tree snapping, faster volume checks
+2026-02-23	133	10	Add cold effects: breath particles, shivering, temp-based frost overlay, crop freeze
+2026-02-23	599	80	Add weather effects, temperature HUD, wind ambience, and environmental enhancements
+2026-02-23	1026	54	Add 6 features: config presets, player agency, endgame loop, atmosphere, ORSA narrative, docs
+2026-02-23	2762	0	Initial commit: Frozen Dawn mod (NeoForge 1.21.1)
+2026-02-24	18	3	Update README with armor system, nether severance, guide book, and corrected counts
+2026-02-24	19	0	Reset client-side state on logout so new worlds start clean
+2026-02-24	27	6	Add phase 6 late surface sublimation: ice, snow, and water evaporate in vacuum
+2026-02-24	31	17	Add Phase 0 (normal Minecraft), visual sun scaling via mixin
+2026-02-24	61	13	Add phase-based fuel scaling and shelter-gated heater radius
+2026-02-24	69	19	Fix suffocation: sky-based detection, no knockback, escalating symptoms
+2026-02-24	97	47	Redesign temperature HUD and add hypothermia guide to Patchouli book
+2026-02-24	461	18	Add Patchouli guide, nether severance, world time sync, and code review fixes
+2026-02-24	488	36	Add 3-tier armor system, fix textures, armor-based freeze suppression, and nether portal advancement
+2026-02-24	638	92	Add Phase 6: Atmospheric Collapse — stars, suffocation, geothermal ambience, vacuum silence
+2026-02-24	698	153	Add ORSA Document item, 5-book lore system, armor heat trapping, and phase 0 temp HUD
+2026-02-24	813	2	Add food spoilage system, thermal container, and frost visuals
+2026-02-24	1100	41	Add tiered heaters, geothermal core upgrades, heat stacking, and hyperthermia system
+2026-02-25	2	0	Add mod logo and author metadata
+2026-02-25	3	3	Bump version to 0.9.1
+2026-02-25	7	31	Low-priority polish: consolidate shelter check, clean up dead code
+2026-02-25	39	199	Remove Tough As Nails integration
+2026-02-25	59	10	Cache heater shelter status, drop unmodifiable wrappers, deduplicate armor tier
+2026-02-25	156	41	Add shelter ambience: muffled wind, indoor snow suppression, creaking sounds
+2026-02-25	156	64	Performance and correctness fixes across core systems
+2026-02-25	158	9	Fix portal scan performance, add input validation, commit untracked data
+2026-02-25	279	261	Reuse flood-fill collections, split WorldTickHandler, fix exposed heater radius
+2026-02-26	1	1	Bump version to 0.10.0
+2026-02-26	21	1	Gate transponder on ENABLE_WIN_CONDITION and show win state in status command
+2026-02-26	43	6	Add Project Lighthouse lore foreshadowing and satellite log entry
+2026-02-26	122	0	Add EVA suit breathing ambience and suffocation sound in phase 6 vacuum
+2026-02-26	1949	10	Add Acheronite system: crystals, forge, tools, armor, and frostbite
+2026-02-26	3060	199	Add win condition, ORSA MultiTool, UI overhauls, and Patchouli reorganization
+2026-02-27	18	6	Update README install instructions with Patchouli requirement
+2026-02-27	329	11	Add JEI integration, fix shelter detection, and fix v0.15.0 bugs
+2026-02-27	581	30	v0.15.0 — Win condition, ORSA MultiTool, O2 system, transponder, EVA ambience
+2026-02-28	820	1	Add Frostbitten mob — first hostile entity for Phase 4+
+2026-02-28	1555	95	v0.16.0 — The Benadryl Update: sanity system, comfort items, shadow figures
+2026-03-01	1214	16	Add Hollow mob, Cryo Fuel, Frost Ward Torch, Thermal Capacitor, spawn eggs
+2026-03-02	1095	17	Add Returned Hunter mob, mob spawn multiplier, and spawner sky access checks
+2026-03-08	6499	20	Add Architect and Mimic mobs with D* Lite pathfinding and walk oscillation fix
+2026-03-09	2	0	Fix missing subtitle keys for Architect ambient and observe sounds
+2026-03-09	650	311	architect finally done
+2026-03-10	126	24	architect polish pass 2
+2026-03-10	177	19	architect polish pass 1
+2026-03-11	0	0	add architect soul rewards and progression polish
+2026-03-11	220	10	add architect soul rewards and progression polish
+2026-03-11	531	9	add surveyor lens thermal detection
+2026-03-11	622	184	add thermal visor upgrade path
+2026-03-12	178	6	refine thermal visor rendering
+2026-03-12	243	1	add thermal visor interface mode
+2026-03-12	339	167	fix thermal visor crystal suppression
+2026-03-12	742	164	polish thermal visor shutdown and shader stability
+2026-03-13	1	1	bump version to 0.17.0
+2026-03-13	16	0	update readme for hostile roster
+2026-03-13	161	1	add architect trophy head
+2026-03-13	1044	86	add frostmite swarm pressure
+2026-03-14	268	8	Polish menu snowfall and add handbook recovery
+2026-03-14	679	51	Refine Acheronite crystal burial and growth visuals
+2026-03-14	1720	54	Expand frozen world decay and snowfall systems
+2026-03-14	1742	2	Add Frozen Dawn UI theme and curated music
+2026-03-14	2130	26	Add lore collectibles and apocalypse gameplay hooks
+2026-03-15	1	1	Bump version to 0.18.0
+2026-03-15	384	17	Add forest biome ambience and theme advancements UI
+2026-03-15	562	48	Add first-load difficulty selection screen
+2026-03-17	1165	3	Add Blast Pit sanctuary and ORSA supply crate
+2026-03-20	3261	164	Add ORSA communication tower landmark chain
+2026-03-21	488	360	Refine tower terminal UI and unlock compass recovery
+2026-03-22	1647	1	Add ORSA field camp scattered structure (camp pass 1)
+2026-03-23	3	1	Ignore local assistant workspace files
+2026-03-23	22	9	fix orsa camp command
+2026-03-23	63	12	Fix server crash and add Spotless formatter
+2026-03-23	299	79	orsa camp pass 2
+2026-03-23	495	6	ORSA camp flag pass 1
+2026-03-24	16	7	fix monitoring station reload hang
+2026-03-24	428	19	monitoring station pass 2
+2026-03-24	2495	0	monitoring station pass 1
+2026-03-25	0	21	remove monitoring station calendar command
+2026-03-25	64	15	fix monitoring station prop placement
+2026-03-25	84	516	tower polish 1
+2026-03-25	176	11	final monitoring station pass
+2026-03-25	209	66	monitoring station pass 5
+2026-03-25	425	1	monitoring station pass 3
+2026-03-25	596	32	monitoring station pass 4
+2026-03-26	862	295	link monitoring station trail to tower archive
+2026-03-26	1100	0	cargo drop pod 1
+2026-03-27	112	21	cargo drop pod 2
+2026-03-27	126	5	final cargo pass
+2026-03-27	1318	9	evac vehicle pass 1
+2026-03-30	0	0	town pass 3
+2026-03-30	8	8	town pass 2
+2026-03-30	65	11	siren pass 2
+2026-03-30	212	48	evac vehicle pass 2
+2026-03-30	436	59	siren pass 3
+2026-03-30	901	74	town pass 1
+2026-03-30	1552	4	siren pass 1
+2026-04-01	11	7	town pass 6
+2026-04-01	64	1	town final pass 2
+2026-04-01	241	465	town pass 7
+2026-04-01	261	33	town pass 4
+2026-04-01	589	154	final pass 1
+2026-04-01	744	45	town optimization pass 5
+2026-04-02	6	4	fix(geothermal-core): gate guide penalty by core depth
+2026-04-02	6	5	fix(geothermal-core): relax main screen value layout
+2026-04-02	17	0	chore(dev): add client debug hotswap toggle
+2026-04-02	25	0	fix(geothermal-core): keep guide clear of JEI overlay
+2026-04-02	46	11	release 0.19.0
+2026-04-02	53	18	fix(patchouli): align handbook survival rules
+2026-04-02	56	31	fix(geothermal-core): simplify surface penalty screen layout
+2026-04-02	64	15	fix(geothermal-core): show surface-penalized warmth in screen
+2026-04-02	83	40	fix(config): align defaults and spawn suppression
+2026-04-02	89	58	fix(blast-pit): prevent frozen town overlap
+2026-04-02	120	61	fix(atmosphere): align EVA vacuum feedback and habitable checks
+2026-04-02	144	98	refactor(phase): clarify phase 6 presentation stages
+2026-04-02	152	80	fix(phase): centralize phase 6 thresholds
+2026-04-02	193	53	fix(atmosphere): add breathable zone authority pass 1
+2026-04-02	313	45	feat(hud): add EVA air status telemetry
+2026-04-03	0	0	Merge pull request #1 from cjaron03/codex/giant-screen-class-split
+2026-04-03	1	2	fix(blast-pit): reroute invalid target rerolls through planner
+2026-04-03	37	1	fix(camp): queue planned evac vehicles on load
+2026-04-03	530	401	refactor(orsa): split landmark planning from saved state
+2026-04-03	913	747	refactor(block): extract shared terminal session framework
+2026-04-03	2345	1693	refactor(client): split terminal screen responsibilities
+2026-04-06	0	0	Merge pull request #2 from cjaron03/codex/shared-terminal-session-framework
+2026-04-06	14	3	fix(architect): anchor observe movement
+2026-04-06	34	6	feat(architect): refine observe body language
+2026-04-06	60	6	fix(architect): smooth committed walk steering
+2026-04-06	85	4	feat(architect): add conditional approach sprinting
+2026-04-06	86	80	refactor(architect): extract combat state
+2026-04-06	115	50	refactor(architect): extract tactics controller
+2026-04-06	116	32	refactor(architect): simplify persistence helpers
+2026-04-06	129	4	feat(architect): add ambient helmet and soul death fx
+2026-04-06	147	83	refactor(architect): extract fx controller
+2026-04-06	219	107	refactor(architect): extract decision engine
+2026-04-06	251	180	refactor(architect): extract observation controller
+2026-04-06	254	169	refactor(architect): extract combat controller
+2026-04-06	272	282	refactor(architect): extract approach state
+2026-04-06	379	313	refactor(architect): extract approach controller
+2026-04-06	393	321	fix(architect): separate brain state from render sync
+2026-04-07	6	3	fix(approach): slightly increase safe fall limits
+2026-04-07	15	2	fix(renderer): restore walk gait during observe movement
+2026-04-07	23	3	fix(approach): reduce chase stalls during corridor replans
+2026-04-07	31	8	fix(approach): drive vertical ladder motion during climb steps
+2026-04-07	37	18	fix(approach): handle partial-block support in D* costs
+2026-04-07	41	7	fix(approach): stop slab spin and scaffold-up retry loops
+2026-04-07	41	16	fix(approach): escape water lockups without entity bloat
+2026-04-07	47	19	fix(approach): remove stall-on-idle and safer scaffold-up resolution
+2026-04-07	49	15	fix(approach): prefer D* build routes over ladder/direct chase
+2026-04-07	50	2	fix(approach): reduce slab jitter in committed walk corridors
+2026-04-07	57	22	fix(approach): stabilize slab traversal and rebalance architect mining
+2026-04-07	97	6	fix(approach): stabilize ladder traversal in tower pursuit
+2026-04-07	178	4	fix(observe): sample observe duration once per cycle
+2026-04-07	189	76	fix(approach): harden dynamic obstruction recovery and crystal breach policy
+2026-04-07	945	469	refactor(architect): extract walk/combat/environment helpers from entity
+2026-04-08	0	0	Merge pull request #3 from cjaron03/codex/starter-books-evac-notice-first-login
+2026-04-08	0	0	merge: integrate architect observe 10s hotfix
+2026-04-08	0	0	merge: integrate config accuracy README pass
+2026-04-08	0	12	fix(architect): remove periodic approach reseed churn
+2026-04-08	1	0	chore(git): ignore local codex environment directory
+2026-04-08	2	2	docs(event): align temperature tick-rate comments with runtime
+2026-04-08	2	2	fix(architect): restore production observe duration to 30-60 seconds
+2026-04-08	2	2	fix(architect): set observe duration to fixed 6 seconds for active testing
+2026-04-08	2	2	fix(architect): shorten observe duration to fixed 10 seconds
+2026-04-08	15	0	fix(event): clear PlayerTickHandler caches on logout
+2026-04-08	31	18	docs(config): sync README configuration table with active keys
+2026-04-08	34	6	fix(dstar): bound incremental reseed growth under block churn
+2026-04-08	44	39	fix(architect): reduce D* diagnostics and walk invalidation log noise
+2026-04-08	152	5	fix(architect): distance-gate D* planning during long-range approach
+2026-04-08	251	20	fix(architect): add D* overflow handoff diagnostics
+2026-04-08	985	592	refactor(architect): extract approach support helpers and slim core entity
+2026-04-08	1356	909	refactor(architect): split approach into focused planning and movement helpers
+2026-04-09	0	0	Merge pull request #4 from cjaron03/codex/decomposition-readability-pass
+2026-04-09	0	0	Merge pull request #5 from cjaron03/codex/sanity-disable-honor-fix
+2026-04-09	0	0	Merge pull request #6 from cjaron03/codex/runtime-cache-cleanup-and-wilson-ownership
+2026-04-09	0	0	Merge pull request #7 from cjaron03/codex/advancement-unreachable-grants
+2026-04-09	0	0	Merge pull request #8 from cjaron03/codex/acheronite-growth-density-cooldown
+2026-04-09	1	1	fix(release): bump version to 0.19.1 hotfix patch
+2026-04-09	2	1	docs(readme): note acheronite growth and config scope
+2026-04-09	3	3	docs(readme): clarify expanded lore sources
+2026-04-09	5	12	fix(station): remove forced roof snow and protect interior from burial
+2026-04-09	6	0	fix(sanity): restore creative and spectator stage bypass
+2026-04-09	18	0	fix(advancements): grant disassembled and returned_killed on kill
+2026-04-09	20	6	chore(acheronite): remove temporary growth debug logs
+2026-04-09	20	9	fix(sanity): force stage 0 when sanity is disabled
+2026-04-09	22	22	fix(snowshoes): soften snow boost and refresh hot wings art
+2026-04-09	34	39	fix(blizzard_goggles): filter whiteout weather rendering
+2026-04-09	39	38	fix(runtime): clean logout caches and bind Wilson drops to tosser
+2026-04-09	41	0	fix(frostbite): preserve exposure state across reconnects
+2026-04-09	48	9	feat(thermal_visor): surface blizzard plugin hint
+2026-04-09	88	0	fix(acheronite): throttle formation with density cap and chunk cooldown
+2026-04-09	89	3	feat(hot_wings): add frost-resistant blaze ration
+2026-04-09	226	0	feat(curios): add optional Curios integration scaffolding
+2026-04-09	263	1	feat(snowshoes): add Curios snowshoes accessory
+2026-04-09	328	15	feat(snowshoes): polish movement feel and Curios visuals
+2026-04-09	350	0	feat(ice_claws): add frozen wall climbing accessory
+2026-04-09	598	20	feat(blizzard_goggles): add Curios whiteout optics
+2026-04-09	1554	1251	refactor(decomp): split command, lens, cargo, and mimic responsibilities
+2026-04-10	0	6	fix(phase_barometer): remove header badge
+2026-04-10	0	160	fix(ice_claws): remove climb debug traces
+2026-04-10	2	3	fix(phase_barometer): simplify diagnostics header
+2026-04-10	21	6	feat(miteaway): polish guidebook manual presentation
+2026-04-10	21	18	fix(phase_barometer): anchor front overlay to block face
+2026-04-10	77	42	fix(phase_barometer): add pass 3 diagnostics tuning
+2026-04-10	333	278	feat(phase_barometer): add pass 2 device UI polish
+2026-04-10	640	87	fix(ice_claws): switch to anchored frozen wall climbing
+2026-04-10	807	0	feat(miteaway): add frostmite repellent burner
+2026-04-10	1089	71	feat(geothermal_vents): add pass 2 volcanic escalation
+2026-04-10	1146	1	feat(phase_barometer): add pass 1 forecast instrument
+2026-04-10	1360	12	feat(geothermal_vents): add pass 1 hydrothermal basin system
+2026-04-11	319	140	fix(geothermal_vents): stabilize rupture cone shaping
+2026-04-11	365	110	fix(geothermal_vents): checkpoint rupture vent flow iteration
+2026-04-12	451	119	fix(geothermal_vents): polish rupture vents and sulfur lava
+2026-04-13	0	0	Merge pull request #11 from cjaron03/feat/geothermal-vents
+2026-04-13	1	1	chore(release): bump version to 0.19.5
+2026-04-13	3	3	docs(geothermal_vents): seed sulfur lore and overload messaging
+2026-04-13	4	17	fix(geothermal_vents): stabilize vent sync and fallout
+2026-04-13	141	5	feat(endgame): rewire transponder ending into rocket unlock
+2026-04-13	245	1	feat(geothermal_vents): add vent docs and vacuum vibration cues
+2026-04-13	352	47	feat(geothermal_vents): add vacuum ash and rupture escalation
+2026-04-14	0	0	fix(ui): use transparent blue furnace flames
+2026-04-14	368	4	feat(endgame): add caldera sulfur refinement loop
+2026-04-15	43	16	fix(endgame): steady rocket viewport overlay
+2026-04-15	57	15	fix(endgame): polish rocket viewport framing
+2026-04-15	74	11	fix(endgame): keep launch view inside the cockpit
+2026-04-15	78	0	fix(endgame): add rocket viewport fuel gauge
+2026-04-15	112	22	fix(endgame): add rocket altitude telemetry
+2026-04-15	115	269	fix(endgame): show rocket recipes correctly in JEI
+2026-04-15	150	54	fix(endgame): stabilize rocket viewport rendering
+2026-04-15	323	23	fix(endgame): polish formed pad and parked rocket presentation
+2026-04-15	418	46	feat(endgame): refine rocket launch iteration flow
+2026-04-15	936	15	feat(endgame): add rocket assembly and martian command transmission
+2026-04-15	1341	1	feat(endgame): add fuel processing silo and cap rupture scar ring
+2026-04-15	1365	30	feat(endgame): add blast pit launch pad and rocket launch entity
+2026-04-16	0	137	chore(config): remove local run config from branch
+2026-04-16	3	23	fix(endgame): simplify rocket viewport telemetry
+2026-04-16	23	32	fix(jei): polish fuel silo recipe display
+2026-04-16	141	32	fix(endgame): surface rocket prompts in cockpit HUD
+2026-04-16	150	10	fix(silo): protect formed shell and heater drain feedback
+2026-04-16	172	0	feat(jei): add fuel silo recipe integration
+2026-04-16	938	13	feat(ending): add Mars credits sequence
+2026-04-17	145	72	feat(ending): add Mars cube approach art
+2026-04-17	268	27	feat(ending): polish Mars approach and truth compliance
+2026-04-20	0	0	Merge pull request #12 from cjaron03/feat/final-content-update
+2026-04-20	0	0	Merge pull request #13 from cjaron03/feat/phase-7-ending
+2026-04-20	0	0	Merge pull request #14 from cjaron03/feat/phase-8-narrative-polish
+2026-04-20	0	0	Merge pull request #15 from cjaron03/feat/phase-8-narrative-polish
+2026-04-20	1	1	docs(readme): use runtime title hero
+2026-04-20	38	10	docs(readme): refresh final content overview
+2026-04-20	225	23	feat(ending): polish credits audio and approach HUD
+2026-04-20	720	28	feat(ending): expand credits statistics
+2026-04-21	0	0	Merge pull request #16 from cjaron03/feat/phase-8-narrative-polish
+2026-04-21	0	0	Merge pull request #17 from cjaron03/feat/phase-8-narrative-polish
+2026-04-21	0	0	Merge pull request #18 from cjaron03/feat/phase-8-narrative-polish
+2026-04-21	0	0	Merge pull request #19 from cjaron03/feat/phase-8-narrative-polish
+2026-04-21	0	0	Merge pull request #20 from cjaron03/feat/phase-8-release-safety
+2026-04-21	0	0	Merge pull request #21 from cjaron03/feat/phase-8-ending-polish
+2026-04-21	0	0	docs(readme): update captured title hero
+2026-04-21	0	0	docs(readme): use ending credits title hero
+2026-04-21	1	0	fix(audio): boost forest ambience source gain
+2026-04-21	1	1	docs(license): use 2026 copyright notice
+2026-04-21	1	1	fix(audio): raise forest ambience volume
+2026-04-21	4	2	docs(license): correct LGPL metadata
+2026-04-21	7	0	fix(audio): suppress existing music during ending
+2026-04-21	7	5	docs(readme): require Curios in install docs
+2026-04-21	10	9	feat(lore): add ending polish breadcrumbs
+2026-04-21	54	79	fix(audio): remove unverified forest track
+2026-04-21	99	4	fix(audio): replace forest ambience with cc0 source
+2026-04-21	185	3	docs(readme): clarify license and feature overview
+2026-04-22	0	0	Merge pull request #22 from cjaron03/feat/blackglass-cipher-chain
+2026-04-22	0	0	Merge pull request #23 from cjaron03/feat/blackglass-tts
+2026-04-22	0	0	fix(blackglass): deepen Hollis recovered voice
+2026-04-22	0	0	fix(blackglass): slow Hollis recovered audio
+2026-04-22	1	1	fix(blackglass): label voiceprint masking state
+2026-04-22	1	1	fix(blackglass): rebalance recovered audio mix
+2026-04-22	8	1	fix(blackglass): disable hidden directory hit targets
+2026-04-22	24	0	fix(blackglass): suppress music during recovered audio
+2026-04-22	32	0	fix(blackglass): keep transcript sessions alive
+2026-04-22	46	166	feat(audio): add original phase music
+2026-04-22	232	14	feat(blackglass): add recovered transcript audio
+2026-04-22	780	53	feat(blackglass): add lockdown archive transcript UI
+2026-04-23	0	0	Merge pull request #24 from cjaron03/feat/blackglass-cipher-chain-progression
+2026-04-23	0	0	Merge pull request #25 from cjaron03/feat/blackglass-cipher-chain-progression
+2026-04-23	0	0	Merge pull request #26 from cjaron03/feat/orsa-continuity-polish
+2026-04-23	28	56	fix(orsa): polish continuity artifacts
+2026-04-23	47	2	feat(patchouli): add ORSA landing masthead
+2026-04-23	71	3	fix(polish): surface caldera retrofit guidance
+2026-04-23	261	2	feat(orsa): add martian command packet archive
+2026-04-23	483	1	feat(blackglass): add cipher-chain progression clues
+2026-04-24	0	0	Merge pull request #27 from cjaron03/feat/phase-9a-orsa-book-branding
+2026-04-24	0	0	feat(textures): refresh ORSA rocket components
+2026-04-24	0	0	feat(textures): refresh acheronite armor textures
+2026-04-24	0	0	feat(textures): refresh acheronite tool materials
+2026-04-24	0	0	feat(textures): refresh elemental drop icons
+2026-04-24	0	0	feat(textures): refresh frozen terrain materials
+2026-04-24	0	0	feat(textures): refresh insulated armor textures
+2026-04-24	0	0	feat(textures): refresh sulfur lava materials
+2026-04-24	0	0	feat(textures): refresh survey equipment icons
+2026-04-24	0	0	feat(textures): refresh survival gear icons
+2026-04-24	0	0	feat(textures): refresh thermal containment components
+2026-04-24	0	0	feat(textures): refresh thermal energy components
+2026-04-24	0	0	feat(textures): update ORSA document icon
+2026-04-24	0	0	fix(patchouli): remove page background rules
+2026-04-24	1	1	feat(textures): add Martian command packet icon
+2026-04-24	1	1	feat(textures): add ORSA board packet icon
+2026-04-24	2	2	feat(textures): add recovered log icons
+2026-04-24	2	2	feat(textures): refresh sulfur volcanic materials
+2026-04-24	4	1	feat(patchouli): add ORSA book texture
+2026-04-24	7	1	feat(patchouli): add ORSA guide item texture
+2026-04-24	25	5	feat(patchouli): expand ORSA board packet entry
+2026-04-24	96	0	feat(patchouli): document rocket launch path and silo fuel chain
+2026-04-25	0	0	Merge pull request #28 from cjaron03/feat/phase-9c-orsa-document-texture
+2026-04-25	0	0	feat(textures): refresh MiteAway block states
+2026-04-25	0	0	feat(textures): refresh remaining item icons
+2026-04-27	35	0	feat(textures): refresh fuel silo controller
+2026-04-27	78	8	feat(textures): refresh ORSA machine blocks
+2026-04-28	12	1	feat(textures): refresh forge and terminal blocks
+2026-04-29	0	0	Merge pull request #29 from cjaron03/feat/phase-9c-machines-mobs-entities
+2026-04-29	0	0	Merge pull request #30 from cjaron03/feat/phase-9d-first-awakening
+2026-04-29	0	0	Merge pull request #31 from cjaron03/release/alpha-1.0-release
+2026-04-29	0	0	Merge pull request #32 from cjaron03/docs/asset-provenance-notes
+2026-04-29	0	0	Merge pull request #33 from cjaron03/docs/license-notice-cleanup
+2026-04-29	0	0	Merge pull request #34 from cjaron03/chore/require-jei-dependency
+2026-04-29	0	0	feat(audio): refresh ORSA boot ident
+2026-04-29	1	1	chore(release): bump version to alpha 1.0-release
+2026-04-29	1	3	docs: clarify LGPL notice
+2026-04-29	10	7	chore: require JEI dependency
+2026-04-29	25	7	feat(textures): refresh late threat entities
+2026-04-29	65	4	docs: document asset provenance
+2026-04-29	116	48	feat(ui): render ORSA logos with custom renderer
+2026-04-29	512	4	feat(ui): add ORSA first awakening intro
+2026-04-30	1	1	fix: use loader-valid alpha version
+2026-04-30	4	4	fix: strengthen blizzard fog through glass
+2026-04-30	7	8	fix: suppress blizzard visuals indoors
+2026-04-30	12	6	fix: unblock acheronite refinement progression
+2026-04-30	29	12	fix: muffle wind ambience indoors
+2026-04-30	164	33	fix: show exterior blizzards through glass
+2026-05-01	3	0	fix: prevent tower terminal completion reopen (#36)
+2026-05-01	17	4	fix: continue scanning beyond storm windows
+2026-05-01	31	2	fix: detect exterior terrain beyond glass
+2026-05-01	140	12	fix: obscure blizzards through windows
+2026-05-01	151	329	fix: smooth blizzard shelter transitions (#35)
+2026-05-03	27	45	fix: restore phase progression during phase 5
+2026-05-05	5	2	fix: tune late storm pressure
+2026-05-05	16	11	fix: tune frostmite spawn pressure
+2026-05-05	22	66	Revert "fix: classify storm cover transitions"
+2026-05-05	66	22	fix: classify storm cover transitions
+2026-05-05	66	22	fix: restore storm cover classification
+2026-05-05	401	0	fix: restore storm-window snow particles
+2026-05-06	1	1	chore(release): bump alpha hotfix version
+2026-05-06	118	3	fix: tune brutal phase six variants
+2026-05-06	120	66	fix: make returned variant spawns terrain robust
+2026-05-07	1	1	chore(release): bump alpha hotfix version
+2026-05-07	1	1	fix: gate launch package behind packet recovery
+2026-05-07	3	16	fix: remove mimic light spawn requirement
+2026-05-07	18	9	fix: buffer mars command at transponder
+2026-05-07	19	3	fix: speed up comfort item sanity recovery
+2026-05-07	32	18	fix: loosen brutal mimic light checks
+2026-05-24	1111	0	feat(world): add chunk catch-up epoch processing
+2026-05-29	663	200	fix(world): stabilize chunk catch-up bursts
+2026-07-10	1	1	chore(release): bump version to alpha 1.1.0
+2026-07-10	1	1	chore(release): bump version to alpha 1.1.0
+2026-07-10	136	11	fix(world): reconcile snow after tree catch-up
+2026-07-11	376	2	feat(homo-reliquus): add offline Hearth maturation
+2026-07-11	633	9	feat(homo-reliquus): add Hearth-bound watcher AI
+2026-07-11	889	0	feat(homo-reliquus): add Hearth persistence foundation
+2026-07-11	922	24	feat(homo-reliquus): persist hive relationship memory
+2026-07-11	934	3	feat(homo-reliquus): reconcile Trace Hearth scenes
+2026-07-12	1042	12	feat(homo-reliquus): add Thaeven first-contact transmissions
+2026-07-12	1042	12	feat(homo-reliquus): add Thaeven first-contact transmissions
+2026-07-12	1097	3	feat(homo-reliquus): add Architect Hearth assessment
+2026-07-12	1432	136	feat(homo-reliquus): add formed Hearth settlements
+2026-07-12	1432	136	feat(homo-reliquus): add formed Hearth settlements
+2026-07-13	842	6	feat(homo-reliquus): add Hearth survey discovery
+2026-07-13	842	6	feat(homo-reliquus): add Hearth survey discovery
+2026-07-14	0	0	Merge pull request #53 from cjaron03/feat/homo-reliquus-master-weather
+2026-07-14	477	20	feat(homo-reliquus): add hostile Master Architect storm
+2026-07-14	710	4	feat(homo-reliquus): add Major Hearth Master Architect
+2026-07-14	913	30	feat(homo-reliquus): add intact Major Hearth settlement
+2026-07-14	913	30	feat(homo-reliquus): add intact Major Hearth settlement
+2026-07-14	1243	12	feat(homo-reliquus): populate intact Hearths
+2026-07-14	1243	12	feat(homo-reliquus): populate intact Hearths
+2026-07-15	0	0	Merge pull request #55 from cjaron03/feat/homo-reliquus-master-visuals
+2026-07-15	0	0	Merge pull request #56 from cjaron03/feat/homo-reliquus-hearth-boundary
+2026-07-15	0	0	feat(entities): refresh Returned and Frostbitten textures
+2026-07-15	615	47	feat(homo-reliquus): add Master Architect visual identity
+2026-07-15	1102	8	feat(homo-reliquus): complete Master Architect encounter identity
+2026-07-15	1135	71	feat(homo-reliquus): add Hearth conduct boundaries
+2026-07-15	1788	16	feat(homo-reliquus): add Master Architect combat suite
+2026-07-15	1788	16	feat(homo-reliquus): add Master Architect combat suite
+2026-07-18	0	0	Merge pull request #57 from cjaron03/feat/homo-reliquus-master-tether
+2026-07-18	0	0	Merge pull request #58 from cjaron03/feat/homo-reliquus-master-phases
+2026-07-18	328	0	feat(homo-reliquus): add Master Architect phase authority
+2026-07-18	2517	85	feat(homo-reliquus): add Master Architect tether phase
+2026-07-19	500	2	feat(homo-reliquus): add Master construction opening fort
+2026-07-21	1042	191	feat(homo-reliquus): complete Master construction war
+2026-07-24	6520	275	feat(homo-reliquus): add Master Architect finale
+2026-07-25	98	7	fix(homo-reliquus): let Hearth Architects assess ORSA gear
+2026-07-25	165	15	feat(homo-reliquus): polish Fold rupture and Sever warning
+2026-07-25	172	2	feat(survival): add emergency O2 cartridges
+2026-07-25	1347	33	feat(survival): add EVA suit puncture system
+2026-07-25	1948	49	feat(homo-reliquus): add Master Architect storm aura
+2026-07-26	2342	186	feat(homo-reliquus): add Master storm eye and aftermath
+2026-07-27	0	0	merge: integrate Master Architect construction and aftermath
+2026-07-27	216	53	fix(homo-reliquus): stabilize Hearth terrain reconciliation
+2026-07-27	1074	21	feat(homo-reliquus): add distant Master storm beacon
+2026-07-27	1076	122	feat(homo-reliquus): deepen Hearth encounters and harden reconciliation
+2026-07-28	0	0	Merge pull request #60 from cjaron03/feat/homo-reliquus-heart-formation
+2026-07-28	0	0	Merge pull request #61 from cjaron03/feat/homo-reliquus-cognitive-load
+2026-07-28	0	0	Merge pull request #62 from cjaron03/feat/homo-reliquus-heart-memory-nodes
+2026-07-28	1750	7	feat(homo-reliquus): form the Thae Iven Heart
+2026-07-28	1760	17	feat(homo-reliquus): awaken cognitive load
+2026-07-28	2269	114	feat(homo-reliquus): expose Heart memory nodes
+2026-07-29	238	39	feat(homo-reliquus): polish the Successor encounter
+2026-07-29	3293	24	feat(homo-reliquus): stage Heart collapse and Successor
+2026-07-30	1890	77	feat(homo-reliquus): complete Heart collapse and Maeve erasure
+2026-07-31	115	0	feat(homo-reliquus): add post-erasure world response
+2026-07-31	487	83	feat(homo-reliquus): stage Maeve erasure world event
+2026-08-03	0	0	Merge Bloom counter-loop
+2026-08-03	0	0	Merge Bloom foundation
+2026-08-03	0	0	Merge Bloom hardening
+2026-08-03	0	0	Merge Bloom presentation and ecology
+2026-08-03	0	0	Merge Bloom world growth
+2026-08-03	0	0	Merge pull request #63 from cjaron03/feat/homo-reliquus-heart-collapse
+2026-08-03	0	0	Merge pull request #64 from cjaron03/feat/homo-reliquus-post-maeve-world
+2026-08-03	23	7	feat(bloom): add lattice sealing loop
+2026-08-03	58	0	feat(bloom): activate loaded-chunk world growth
+2026-08-03	150	0	test(bloom): cover growth policy and persistence
+2026-08-03	213	9	feat(bloom): add growth ambience and ecology
+2026-08-03	1726	1	feat(bloom): establish deterministic growth authority
+2026-08-03	3324	60	feat(homo-reliquus): transform the post-Maeve world
+2026-08-04	870	72	feat(bloom): enrich post-Maeve growth
+2026-08-05	4602	177	feat(bloom): add Spore frontier relay
+2026-08-08	0	0	Merge pull request #70 from cjaron03/feat/homo-reliquus-post-maeve-moon
+2026-08-08	1359	10	feat(homo-reliquus): add post-Maeve damaged moon
+2026-08-09	0	0	Merge pull request #71 from cjaron03/feat/homo-reliquus-hearthrot
+2026-08-09	2896	12	feat(homo-reliquus): add Hearthrot player condition
+2026-08-09	3005	3	feat(homo-reliquus): add the Archivist
+2026-08-11	0	0	Merge pull request #72 from cjaron03/feat/homo-reliquus-archivist
+2026-08-11	0	0	Merge pull request #73 from cjaron03/feat/homo-reliquus-rimebound
+2026-08-11	2194	6	feat(homo-reliquus): add the Resonant
+2026-08-11	2968	4	feat(homo-reliquus): add the Rimebound
+2026-08-12	0	0	Merge pull request #74 from cjaron03/feat/homo-reliquus-remnant
+2026-08-12	4213	10	feat(homo-reliquus): add the Remnant
+2026-08-13	0	0	feat(homo-reliquus): merge Frostwrithe evolution
+2026-08-13	73	6	feat(homo-reliquus): scale evolved mobs by difficulty
+2026-08-13	3168	6	feat(homo-reliquus): add the Frostwrithe
+2026-08-14	960	70	feat(homo-reliquus): add first Aggregate visual pass
+2026-08-14	6354	15	feat(homo-reliquus): add the Aggregate
+2026-08-16	132	27	fix(homo-reliquus): clarify Aggregate convergence waves
+2026-08-16	144	7	feat(homo-reliquus): add Aggregate pressure and death signals
+2026-08-16	210	36	feat(homo-reliquus): stage Aggregate emergence
+2026-08-16	1957	44	feat(homo-reliquus): add Aggregate convergence and collapse
+2026-08-18	63	7	fix(homo-reliquus): throttle blocked Frostwrithe assembly
+2026-08-18	426	24	feat(homo-reliquus): limit Stillpoint relocations
+2026-08-18	1070	88	feat(homo-reliquus): coordinate post-Maeve encounters
+2026-08-18	1751	9	feat(homo-reliquus): add Stillpoint protective field
+2026-08-19	0	0	Merge pull request #75 from cjaron03/feat/homo-reliquus-aggregate
+2026-08-20	0	0	Merge pull request #76 from cjaron03/feat/homo-reliquus-hearth-lore
+2026-08-20	3184	3	feat(homo-reliquus): add Thaeven lore archive
+2026-08-21	162	13	fix(homo-reliquus): stabilize Master survivor scaling
+2026-08-23	0	0	merge(homo-reliquus): integrate release smoke fixes
+2026-08-23	6	0	fix(suit): prevent rebreather audio overlap
+2026-08-23	7	0	fix(blocks): require an iron pickaxe for barometers
+2026-08-23	41	9	fix(world): bound frozen atmosphere catch-up work
+2026-08-23	46	1	fix(hud): separate oxygen and drowning meters
+2026-08-23	58	16	fix(suit): rebalance EVA puncture risk
+2026-08-23	135	17	fix(architect): breach enclosed targets
+2026-08-23	144	7	fix(architect): bound healing retreats
+2026-08-23	252	21	fix(architect): traverse frozen atmosphere reliably
+2026-08-24	238	18	feat(suit): extend O2 capacity and telemetry
+2026-08-26	0	0	Merge pull request #77 from cjaron03/fix/homo-reliquus-release-polish
+2026-08-26	0	0	Merge pull request #78 from cjaron03/feat/homo-reliquus
+2026-08-26	276	15	docs(release): prepare The Long Silence launch notes
+2026-08-26	1128	489	refactor(commands): organize debug tools and diagnostics
+2026-08-27	182	13	docs(audio): record release provenance audit
+2026-09-01	0	0	Merge pull request #79 from cjaron03/fix/release-audio-provenance
+2026-09-01	0	0	Merge pull request #80 from cjaron03/release/2.0.0-alpha
+2026-09-01	4	4	chore(release): prepare The Long Silence 2.0.0 alpha
+2026-09-01	74	181	fix(audio): restore original authored sound assets
+2026-09-01	400	8	fix(audio): replace generated voices with local Piper assets
+2026-09-01	885	136	fix(audio): resolve remaining release provenance blockers
+2026-09-02	0	0	Merge remote-tracking branch 'origin/fix/2.0.1-hearth-reconciliation' into fix/2.0.1-alpha-stabilization
+2026-09-02	3	0	fix(client): restore blend state after the eye-wall pass
+2026-09-02	27	9	fix(client): copy depth before sampling it in screen-space renderers
+2026-09-02	70	0	test(data): extend restart coverage to encounter state and the long tail
+2026-09-02	140	19	fix(world): bound landmark planning by tick time
+2026-09-02	195	65	fix(world): resume chunk catch-up column scans
+2026-09-02	221	0	test(data): add restart-cycle coverage for persisted 2.0 subsystems
+2026-09-02	223	0	test(homo-reliquus): cover Hearth degraded-placement healing in game
+2026-09-02	382	1	fix(build): fail the game test gate when tests never run
+2026-09-02	423	10	fix(homo-reliquus): heal Hearth scenes degraded by obstructions
+2026-09-03	0	0	fix(textures): crop empty feet slot icon to 16x16
+2026-09-03	0	0	merge: fabulous depth and blend-state render fixes
+2026-09-03	2	2	chore(release): checkpoint development version 2.0.1-alpha
+2026-09-03	2	2	fix(client): interpolate camera shake with partial ticks
+2026-09-03	3	3	build(gradle): use property assignment for repository urls
+2026-09-03	4	0	chore(git): ignore bin/ and nested worktrees
+2026-09-03	60	12	fix(client): capture scene depth before the fabulous composite
+2026-09-03	132	9	fix(entity): stop Architect mining its own walk surface
+2026-09-04	29	0	fix(entity): enforce D* cell cap during search, not just on block change
+2026-09-04	74	9	fix(entity): reconnect Architect observation invalidation to block changes
+2026-09-10	2	1	fix(entity): exclude creative players from Hearth watcher assessment
+2026-09-10	15	0	build(runs): add client2 config for two-player Architect testing
+2026-09-10	20	3	docs(spec): correct retaliation path and presence source in commitment design
+2026-09-10	21	6	fix(homo): resolve transmission players through the level, not the PlayerList
+2026-09-10	39	0	test(gametest): fail fast when a real player is inside the Architect watch radius
+2026-09-10	42	12	fix(entity): exclude creative players from Architect assessment targeting
+2026-09-10	47	36	docs(entity): name the commitment's presence set for what it holds
+2026-09-10	62	0	feat(entity): log why the roaming Architect's commitment moves
+2026-09-10	131	0	fix(entity): commit roaming Architects to one target, weakest first
+2026-09-10	206	0	docs(entity): spec Banshee-style Architect target commitment
+2026-09-10	208	1	feat(client): add Architect hand-to-chin pose during pursuit pauses
+2026-09-10	373	81	fix(homo): stop both Hearth Architects assessing the same player
+2026-09-10	435	0	feat(entity): add Architect target commitment policy and state machine
+2026-09-10	459	37	fix(entity): commit Architect assessments to one player instead of re-picking each tick
+2026-09-10	1273	240	feat(entity): add Architect approach recovery, combat footing and decision journal
+2026-09-10	4135	35	test(architect): add Architect lab harness and headless verification gate
+2026-09-12	7	5	fix(entity): keep Architect pursuit moving until melee range
+2026-09-12	191	92	fix(entity): route Architect around fences and through gates
+2026-09-12	1192	0	feat(debug): add native-terrain Architect wilderness lab
+2026-09-13	1325	7	feat(debug): add Architect visual debugger and snapshot exports
+2026-09-14	57	27	feat(world): expose bounded production weather simulation
+2026-09-14	84	2	fix(debug): advance wilderness targets over snow-raised waypoints
+2026-09-14	152	7	fix(debug): keep wilderness targets clear of snow-step traps
+2026-09-14	189	2	fix(debug): recover wilderness targets from ineffective paths
+2026-09-14	345	24	feat(debug): add wilderness construction and weather scenarios
+2026-09-15	46	7	fix(debug): close wilderness circuit without a reversing spur
+2026-09-15	75	6	fix(debug): require wilderness detours to rejoin the target route
+2026-09-15	75	7	fix(debug): abandon stalled wilderness detours promptly
