@@ -109,7 +109,7 @@ __BODY__
   var nav = document.querySelector('.sb-nav');
   if (!nav) return;
 
-  var FADE = 22, down = false, moved = false, x0 = 0, s0 = 0;
+  var FADE = 22, down = false, moved = false, x0 = 0, s0 = 0, pid = -1;
 
   function room() { return nav.scrollWidth - nav.clientWidth; }
 
@@ -148,26 +148,34 @@ __BODY__
   /* touch already pans natively. this is for the mouse. */
   nav.addEventListener('pointerdown', function (e) {
     if (e.pointerType === 'touch' || e.button || room() <= 4) return;
-    down = true; moved = false; x0 = e.clientX; s0 = nav.scrollLeft;
-    try { nav.setPointerCapture(e.pointerId); } catch (err) {}
+    down = true; moved = false; x0 = e.clientX; s0 = nav.scrollLeft; pid = e.pointerId;
   });
 
-  nav.addEventListener('pointermove', function (e) {
-    if (!down) return;
+  /* the pointer is deliberately not captured on the way down. a captured
+     pointer sends its own pointerup to the bar instead of to whatever is
+     under it, which drags the click off the link you pressed and onto the
+     bar, and then the link never opens. the capture is taken on the first
+     real drag, which is the only moment it is needed for. */
+  window.addEventListener('pointermove', function (e) {
+    if (!down || e.pointerId !== pid) return;
     var dx = e.clientX - x0;
-    if (!moved && Math.abs(dx) > 3) { moved = true; nav.classList.add('drag'); }
+    if (!moved && Math.abs(dx) > 3) {
+      moved = true;
+      nav.classList.add('drag');
+      try { nav.setPointerCapture(pid); } catch (err) {}
+    }
     if (moved) nav.scrollLeft = s0 - dx;
   });
 
   function release(e) {
-    if (!down) return;
+    if (!down || e.pointerId !== pid) return;
     down = false;
     nav.classList.remove('drag');
-    try { nav.releasePointerCapture(e.pointerId); } catch (err) {}
+    try { nav.releasePointerCapture(pid); } catch (err) {}
     if (moved) setTimeout(function () { moved = false; }, 0);
   }
-  nav.addEventListener('pointerup', release);
-  nav.addEventListener('pointercancel', release);
+  window.addEventListener('pointerup', release);
+  window.addEventListener('pointercancel', release);
 
   /* a drag that ends on a link must not also follow it. */
   nav.addEventListener('click', function (e) {
