@@ -40,6 +40,12 @@
 .as-chip { font-size:11.5px; padding:5px 11px; border-radius:13px; background:#141920; border:1px solid #212831; color:#a9b3bb; }
 .as-chip.sel { background:#15202b; border-color:#1e3446; color:#7dd3fc; }
 .as-prel { font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#5d6b7a; padding:13px 0 0 18px; }
+
+@media (max-width:640px) {
+  /* a fixed 290px control column beside its output does not fit, and the
+     sheet was quietly clipping the output rather than showing it. */
+  .as-grid { grid-template-columns:1fr; }
+}
 </style>
 
 <div class="as">

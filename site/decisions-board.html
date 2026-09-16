@@ -18,6 +18,13 @@
 .db-src .c { color:#4e5964; }
 .db-src b { color:#ffb454; font-weight:600; }
 .db-cap { font-size:11.5px; color:#7f8a93; margin-top:8px; line-height:1.55; }
+
+@media (max-width:640px) {
+  /* the decision sat in whatever was left of the width after a 190px key
+     column, which on a phone was nothing. it goes under the key instead. */
+  .db-row { grid-template-columns:26px 1fr; row-gap:3px; padding:12px 15px; }
+  .db-v { grid-column:2; }
+}
 </style>
 
 <div class="db">

@@ -16,6 +16,7 @@
 .ch-dens { width:100%; background:#2c688a; }
 .ch-seg.quiet .ch-dens { background:#1e2932; }
 .ch-seg.peak .ch-dens { background:#7dd3fc; }
+.ch-axw { overflow-x:auto; }
 .ch-axis { display:flex; gap:2px; margin-top:7px; }
 .ch-ax { font-size:10px; color:#6f7a83; text-align:center; line-height:1.35; overflow:hidden; }
 .ch-ax b { display:block; color:#c3ccd2; font-weight:600; font-size:10.5px; white-space:nowrap; }
@@ -43,6 +44,17 @@
 .ch-foot { margin-top:15px; padding-top:13px; border-top:1px solid #1a2029; font-size:11.5px; line-height:1.65; color:#8d98a1; }
 .ch-foot b { color:#d4dade; font-weight:600; }
 .ch-foot code { font-family:var(--mono); font-size:10.5px; color:#9fb4c4; background:#151b22; padding:1px 5px; border-radius:3px; }
+
+@media (max-width:640px) {
+  /* one card per row. the first-appearance rows put the name and the path
+     under the date instead of beside it. */
+  .ch-cards { grid-template-columns:1fr; }
+  .ch-r { grid-template-columns:62px 1fr; row-gap:1px; }
+  .ch-r span { grid-column:2; }
+  /* the axis is drawn to scale, so the widths are the information. it keeps
+     them and swipes rather than crushing eight labels into a phone. */
+  .ch-axis { min-width:540px; }
+}
 </style>
 
 <div class="ch">
@@ -58,14 +70,14 @@
         <div class="ch-seg" style="flex:48"><b class="ch-dens" style="height:36%"></b></div>
         <div class="ch-seg" style="flex:6"><b class="ch-dens" style="height:21%"></b></div>
       </div>
-      <div class="ch-axis">
+      <div class="ch-axw fd-x"><div class="ch-axis">
         <div class="ch-ax" style="flex:13"><b>The Cold</b>46</div>
         <div class="ch-ax" style="flex:25"><b>Building a Mind</b>59</div>
         <div class="ch-ax" style="flex:37"><b>The Crunch</b>258</div>
         <div class="ch-ax" style="flex:63"><b>The Silence</b>4</div>
         <div class="ch-ax" style="flex:48"><b>Homo Reliquus</b>106</div>
         <div class="ch-ax" style="flex:6"><b>Now</b>7</div>
-      </div>
+      </div></div>
       <div class="ch-note">The longest chapter is the empty one. Nobody has to explain that to a visitor.</div>
     </div>
   </div>

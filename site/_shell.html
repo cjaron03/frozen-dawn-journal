@@ -61,7 +61,11 @@
   /* a wide table is the other thing that runs off the edge of a phone. it
      hides its native bar the same way and the rail rides the bottom, because
      the top edge of a table is its header row. */
-  .fd-xw { position:relative; margin-bottom:15px; }
+  .fd-xw { position:relative; }
+  /* the drawn rail hangs just below the box, so it needs a little room
+     under it. it only exists when the box actually scrolls, so the room
+     only appears then too, and nothing gains a gap at desk width. */
+  .fd-xw:has(.fd-rail.on) { margin-bottom:15px; }
   /* just below the table, not on its bottom border, where it would read as a
      rule rather than as something that moves. */
   .fd-rail.b { top:auto; bottom:-4px; }

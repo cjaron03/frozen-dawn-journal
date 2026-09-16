@@ -50,6 +50,13 @@
 .sf-c.key span { color:#e6ecef; }
 .sf-c.key time { color:#7dd3fc; }
 .sf-gapline { display:grid; grid-template-columns:76px 1fr; gap:12px; padding:7px 0; font-size:11px; color:#5b656e; font-style:italic; }
+
+@media (max-width:640px) {
+  /* same clipped two-up as the draft before it. stacked, and the option
+     names give back enough room for the bars to still read as bars. */
+  .sf-grid { grid-template-columns:1fr; }
+  .sf-row span:first-child { width:112px; }
+}
 </style>
 
 <div class="sf">

@@ -153,6 +153,14 @@
 .hv-replay { font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:#7dd3fc;
   background:none; border:1px solid #223744; border-radius:5px; padding:5px 11px; cursor:pointer; }
 
+
+@media (max-width:640px) {
+  /* the freeze sequence reads the same over two rows as over one. */
+  .hv-gzrow { grid-template-columns:repeat(3,1fr); }
+  /* the narrowing the real homepage ended up with, so the card stays on
+     screen when the dot it belongs to is near an edge. */
+  .tl-card { width:168px; }
+}
 </style>
 
 <div class="tl">

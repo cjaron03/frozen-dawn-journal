@@ -8,6 +8,7 @@
 .hm-sec:first-child { margin-top:0; }
 
 /* shared drift band */
+.hm-x { overflow-x:auto; }
 .dr { position:relative; aspect-ratio:1000/228; background:#0b0e12; border-radius:8px; overflow:hidden; }
 .dr-tintwrap { position:absolute; inset:0; }
 .dr-tint { position:absolute; inset:0; opacity:0; animation:drTint 26.0s linear infinite; }
@@ -107,6 +108,12 @@
 
 @media (max-width:640px) {
   .dr-lb b { font-size:10px; } .dr-lb u { font-size:9px; }
+  /* six labels pinned to fixed percentages collide with each other long
+     before the band reaches phone width, so the band keeps the geometry it
+     was drawn at and swipes. the scrub band is the exception: it carries no
+     pinned labels, and it is a drag target, so a sideways scroller wrapped
+     round it would eat the drag. it compresses instead. */
+  .dr:not(.sc) { min-width:560px; }
   .lh-s b { font-size:7.5px; } .lh-s u { display:none; }
 }
 </style>
@@ -145,7 +152,7 @@
     <!-- B -->
     <div class="card" data-choice="drift-b" onclick="toggleSelect(this)" style="padding:0;overflow:hidden">
       <div style="padding:14px">
-        <div class="dr">
+        <div class="hm-x fd-x"><div class="dr">
           <div class="dr-tintwrap">
       <span class="dr-tint" style="background:#d98c59;animation-delay:0.40s"></span>
       <span class="dr-tint" style="background:#999ea6;animation-delay:4.82s"></span>
@@ -179,7 +186,7 @@
       <span class="dr-tick" style="left:91.18%;top:53.816%;height:10.219%;animation-delay:22.75s"></span>
       <span class="dr-lb" style="left:91.18%;animation-delay:22.75s"><em>06</em><b>Atmospheric Collapse</b><u style="color:#000005">-273°C</u></span>
           <div class="dr-cap">Habitable zone &middot; left 22 June</div>
-        </div>
+        </div></div>
       </div>
       <div class="card-body"><h3>B &middot; The Drift band, under the timeline</h3><p>A second band below the commit line, drawn with the same grammar: one hairline that draws itself while Earth rides it out of orbit. The six stops are the six real phases, and the band tints to the actual sky colour of each one as Earth reaches it, so the strip goes from warm amber to pure black over 26 seconds. It is the only place on the site where the fiction gets to speak in its own voice, and the Sun is its single amber object. My recommendation.</p></div>
     </div>
