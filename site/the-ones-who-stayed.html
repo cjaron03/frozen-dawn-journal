@@ -239,6 +239,19 @@
                transition:color .4s linear, opacity .3s linear; }
 .me-sw.on .me-row > em { color:#c0c9d1; }
 .me-row > em.fade { opacity:0; }
+/* the same rows, reused as a plain ladder outside the switch. */
+.me-lad { border:1px solid #1c242e; border-radius:9px; overflow:hidden; margin:0 0 8px; }
+.me-lad .me-row { grid-template-columns:minmax(0,58px) minmax(0,1fr); }
+.me-lad .me-row > span { color:#6b7783; }
+.me-lad .me-row > em em { font-style:italic; color:#b9c4cc; }
+/* the mod will not take this as a click, so neither does the page. */
+.me-go { --hold:0; position:relative; overflow:hidden;
+         touch-action:none; -webkit-user-select:none; user-select:none; }
+.me-go:before { content:""; position:absolute; left:0; top:0; bottom:0; right:0;
+                background:#a98cd8; opacity:.17; transform:scaleX(var(--hold));
+                transform-origin:0 50%; }
+.me-go[disabled]:before { display:none; }
+.me-go b { position:relative; font-weight:400; }
 
 /* ================= the guardian: a scale pull ================= */
 /* the whole point of the Master Architect is that its health bar is not the
@@ -427,6 +440,7 @@
   .ap-dtab:active { transform:none !important; }
   .ap-src > summary, .ap-src > summary:before { transition:none !important; }
   .tv-ln > i { display:none !important; }
+  .me-row > em { transition:none !important; }
 }
 
 @media (max-width:640px){
@@ -441,6 +455,11 @@
   .tv-bot { padding:11px 12px 12px; }
   .tv-name { font-size:13px; }
   .tv-master { margin-left:0; }
+  /* 150px of label leaves nothing for the value on a phone. stack them. */
+  .me-row { grid-template-columns:minmax(0,1fr); gap:3px 0; }
+  .me-lad .me-row { grid-template-columns:minmax(0,42px) minmax(0,1fr); gap:0 12px; }
+  .me-top { padding:11px 13px; gap:9px; }
+  .me-go { padding:7px 11px; }
   .ap-dtab { font-size:9.5px; letter-spacing:.07em; padding:8px 10px 10px; }
   .ap-dtab i { margin-right:5px; }
   .ap-dsteps { gap:7px; }
@@ -921,7 +940,152 @@ Iven: vel-an.
 </section>
 
 <section class="ap-pane" role="tabpanel" data-p="5" aria-label="After">
-  <p class="ap-lede">Pane six.</p>
+  <p class="ap-lede">Everything else in this chapter can be retried. You can die to the Master and walk back in. You can leave a Hearth alone and return in forty days. This pane is about the four seconds that do not work like that.</p>
+
+  <p class="ap-p">The Heart collapses and leaves something behind. It never wakes up. It has no health bar, no AI and no attack, and it will sit under the ruined archive being dormant for the entire rest of the save if you let it. Walking away is a real ending. Almost nothing below this line ever has to happen.</p>
+
+  <p class="ap-p">Removing it is not a hit. It is a held look. You stand inside twelve blocks, keep it centred with nothing in the way, and do not break any part of that for eighty ticks.</p>
+
+  <div class="ap-figs">
+    <div><b>12</b><span>blocks, the furthest away the game will accept the choice from</span></div>
+    <div><b>80</b><span>ticks of unbroken sightline, which is four seconds</span></div>
+    <div><b>2</b><span>ticks of slack, and then the count restarts at one</span></div>
+  </div>
+
+  <p class="ap-p">Two ticks. A tenth of a second looking somewhere else and you are back at the beginning. I made that number deliberately unforgiving, because the outcome I was most afraid of was somebody doing this by accident and then finding out what they had done from a wiki.</p>
+
+  <details class="ap-src">
+    <summary>The gate, HeartMaeveErasureManager.java<em>Java</em></summary>
+    <div class="ap-code"><c>// every one of these has to be true, on every tick, for eighty of them.</c>
+<k>if</k> (hearth == <k>null</k> || !hearth.heartCollapseComplete()
+        || !hearth.heartMaeveExposed()
+        || hearth.heartMaeveErasureStartGameTime() &gt;= 0L
+        || hearth.heartMaeveErasureComplete()
+        || player.isSpectator()) {
+    <k>return</k> <v>false</v>;
+}
+
+<v>Vec3</v> maeve = <v>HeartLattice</v>.maevePosition(anchor);
+<v>Vec3</v> eye   = player.getEyePosition();
+<k>if</k> (eye.distanceToSqr(maeve) &gt; MAX_MAEVE_INTERACTION_DISTANCE * MAX_MAEVE_INTERACTION_DISTANCE
+        || !<v>HeartLattice</v>.raySelectsMaeve(eye, player.getViewVector(1.0F), maeve)) {
+    <k>return</k> <v>false</v>;
+}
+
+<c>// and nothing at all standing between your eye and it.</c>
+<v>HitResult</v> hit = level.clip(<k>new</k> <v>ClipContext</v>(
+        eye, maeve, <v>ClipContext</v>.<v>Block</v>.COLLIDER, <v>ClipContext</v>.<v>Fluid</v>.NONE, player));
+<k>return</k> hit.getType() == <v>HitResult</v>.<v>Type</v>.MISS;</div>
+  </details>
+
+  <p class="ap-p">Notice what is not in there. No item. No recipe. No key bound to anything special. There is no object in Frozen Dawn whose purpose is to do this, and there is no way to do it while holding the right thing and not meaning it. The entire requirement is made of attention.</p>
+
+  <div class="ap-h3">One boolean</div>
+
+  <p class="ap-p">At eighty, the server writes a single world-scoped flag and six systems read it forever afterwards. Nothing in the mod ever writes it back.</p>
+
+  <div class="me-sw" id="meSw">
+    <div class="me-top">
+      <span class="me-flag">maeveErased</span>
+      <span class="me-val" id="meVal">false</span>
+      <button type="button" class="me-go" id="meGo"><b>Hold to unmake</b></button>
+    </div>
+    <div class="me-rows">
+      <div class="me-row"><span>Cognitive Load</span><em data-a="Cleared for everyone, and it never accrues again. There is nothing in there left to read.">Reading the archive costs you, and it keeps costing while you stand in it.</em></div>
+      <div class="me-row"><span>Transmissions</span><em data-a="Reset. The band is empty. Nothing is calling anything.">The Hearths broadcast. You can find one by listening for it.</em></div>
+      <div class="me-row"><span>The Hearths</span><em data-a="Darkening begins. The buildings stay exactly where they are.">Lit, populated, and keeping score of what you have done to them.</em></div>
+      <div class="me-row"><span>The Bloom</span><em data-a="Released ten seconds after the warning, in loaded chunks only.">Held back. Growth is purged before it can establish.</em></div>
+      <div class="me-row"><span>Coordination</span><em data-a="Nothing does. The Undone are released the moment anybody walks away.">Something tells a Hunter that it is a Hunter.</em></div>
+      <div class="me-row"><span>The sky</span><em data-a="The first rise starts at the next dusk, and it ages from there.">Managed weather and storm authority. The disc sits below the horizon.</em></div>
+    </div>
+  </div>
+
+  <p class="ap-tcap">That is the real list, in the order the code runs it. Throwing it here changes a page. Throwing it there changes a save.</p>
+
+  <div class="ap-h3">The next fifty-five seconds</div>
+
+  <p class="ap-p">The erasure is two hundred and twenty ticks, split into an unmaking and a forging that begins on top of it before the unmaking has finished. Then the world spends another eight hundred and eighty-eight ticks doing things in a fixed order. It is the most tightly scripted stretch in the mod, and it existed as a list of tick numbers in a text file before any of it was code.</p>
+
+  <div class="me-rows me-lad">
+    <div class="me-row"><span>0</span><em>Unmaking begins. A hundred and twenty ticks of it coming apart.</em></div>
+    <div class="me-row"><span>120</span><em>Forging begins over the top of it. The archive is already building the replacement.</em></div>
+    <div class="me-row"><span>220</span><em><em>Maeve wails.</em> The impact lands, and The Last Witness takes form carrying three charges.</em></div>
+    <div class="me-row"><span>350</span><em>The collective dies. Every resident of the Hearth, at once, without a fight.</em></div>
+    <div class="me-row"><span>368</span><em><em>Something answers.</em> Three omens, forty ticks apart, from somewhere that is not here.</em></div>
+    <div class="me-row"><span>458</span><em>The death column, then eighteen ticks of sky burst, and then nothing for a while.</em></div>
+    <div class="me-row"><span>608</span><em>The world message. Twenty ticks later the collapse response starts, and runs for four hundred and eighty.</em></div>
+    <div class="me-row"><span>1108</span><em><em>Anomalous biological activity detected across all survey bands.</em> Your own suit tells you, forty-four seconds late.</em></div>
+  </div>
+
+  <p class="ap-tcap">Ticks from the moment the count completes. Twenty to a second.</p>
+
+  <p class="ap-p">The suit warning is the part I am proudest of. It is not a cutscene and it is not addressed to you. It is an instrument doing its job badly, on a delay, about something that has already finished happening.</p>
+
+  <div class="ap-h3">The Moon</div>
+
+  <p class="ap-p">At the next dusk, something rises that has not been in the sky for the whole game. The first rise takes twelve thousand ticks on its own, and then it ages on a ladder.</p>
+
+  <div class="ap-code"><k>enum</k> <v>PostMaeveMoonStage</v> {
+  <v>HIDDEN</v>, <v>FIRST_RISE</v>, <v>STRESSED</v>, <v>CALVING</v>, <v>RAGGED</v>, <v>RINGING</v>
+}</div>
+
+  <p class="ap-p">One in-game day of stress, four of calving, ten of going ragged, and at fifteen days it stops being a moon and becomes a ring, which then takes two more days to finish arriving. It is on a real orbit the entire time: thirty-seven degrees of inclination, an eccentricity of 0.52, and a ninety-six day period, solved with seven Newton iterations per sample because the cheap approximation juddered at the extremes and I could see it.</p>
+
+  <div class="ap-figs">
+    <div><b>1.75x</b><span>apparent size by day fifteen, and it does not grow after that</span></div>
+    <div><b>0.65</b><span>the floor under disc integrity, because a moon of nothing is not a shot</span></div>
+    <div><b>72</b><span>debris bodies at the ring stage, which is the cap</span></div>
+  </div>
+
+  <p class="ap-p">The orbit is also deliberately warped. Its angular velocity varies on three layered sine terms, so the Moon drifts and surges instead of sweeping, but the derivative stays positive, which means it never visibly reverses. It is wrong in a way you feel before you can name.</p>
+
+  <p class="ap-p">One rule about it, which I wrote into the changelog specifically so that I could not quietly break it later:</p>
+
+  <div class="ap-note"><b>The Moon&rsquo;s orbital decay is not presented as an effect caused by Maeve.</b> It becomes visible after the erasure, and that is the whole of what the mod says. No record claims a connection, no subtitle draws one, and nothing in the code ties the Moon&rsquo;s timeline to anything except the tick it started counting from. Readers will connect them anyway. That is a different thing from the mod asserting it.</div>
+
+  <div class="ap-h3">The Bloom</div>
+
+  <p class="ap-p">Ten seconds after the suit finishes that warning, growth that had been purged all game is released. The Bloom is terrain rather than a creature. It has an origin root, it spreads in density bands, and it rewrites ground.</p>
+
+  <p class="ap-p">It is also the system I was most nervous about shipping, because terrain work that runs forever is how you turn somebody&rsquo;s save into a slideshow. Three rules keep it honest. It only grows in chunks that are already loaded. It is capped at ninety-six block edits or one and a half milliseconds per tick, whichever runs out first. And it stands down completely while the server is catching up on chunk loading.</p>
+
+  <p class="ap-p">No late-game system in Frozen Dawn force-loads a distant chunk. If you are not there, it is not happening, and it reconciles when you come back.</p>
+
+  <div class="ap-h3">Hearthrot</div>
+
+  <p class="ap-p">This one is not a boss and not an event. It is a condition, and you get it by being careless twice, in the right order, with as long as you like in between.</p>
+
+  <p class="ap-p">Step one is letting the outside of your suit get colonised, which is survivable and quiet and does nothing on its own. Step two is taking a pressure breach later, while that colonisation is still on you. Neither half is a punishment. The interaction is.</p>
+
+  <p class="ap-p">After that, your own suit microphone starts reporting on you. A cough catches. A wheeze strains. Breathing catches. <em>A heart crystallizes and breaks.</em> You cannot sleep, because <em>the growth will not let your body settle</em>, and there is one line that the condition puts on your screen:</p>
+
+  <p class="ap-pull">We are your salvation</p>
+
+  <p class="ap-tcap">Permanent and manageable, which are not in tension. You keep it for the rest of the save and you can still finish the game carrying it.</p>
+
+  <div class="ap-h3">What the lens says now</div>
+
+  <p class="ap-p">The ORSA Surveyor Lens is the oldest instrument in this journal and it has one job: name the thing you are pointing it at. Aimed at a Hearth before any of this, it manages about that much.</p>
+
+  <div class="ap-orsa">
+    <em>ORSA // Surveyor Lens</em>
+    <p>[ORSA SURVEY] Unclassified low-band interference. <b>Bearing unresolved.</b></p>
+  </div>
+
+  <p class="ap-p">Afterwards it does worse. There is a return, it matches nothing ORSA ever wrote down, and the instrument cannot hold a direction on it.</p>
+
+  <div class="ap-orsa">
+    <em>ORSA // Surveyor Lens, post-erasure</em>
+    <p><b>UNCLASSIFIED RETURN</b> // weak bearing</p>
+  </div>
+
+  <p class="ap-p">ORSA built that lens to inventory a planet it fully intended to keep. It still powers on. It is still trying. It is just that nothing left down here is on the list.</p>
+
+  <div class="ap-cmts">
+    <div class="ap-cmt"><b>maeve erasure channel and world flag</b><span>The eighty ticks, the two ticks of slack, and the one boolean nothing writes back.</span></div>
+    <div class="ap-cmt"><b>post maeve moon timeline and ring band</b><span>The stage ladder, the warped orbit, and the debris cap.</span></div>
+    <div class="ap-cmt"><b>bloom growth budget and loaded chunk rule</b><span>Ninety-six edits, one and a half milliseconds, and never a forced chunk.</span></div>
+  </div>
 </section>
 
 <section class="ap-pane" role="tabpanel" data-p="6" aria-label="What the cold made of them">
@@ -1888,6 +2052,80 @@ Iven: vel-an.
   small.addEventListener('change', function () { dp = 0; paint(); });
 
   pick(0);
+})();
+</script>
+
+<script>
+/* the one way switch. the mod will not accept this as a click, so neither does
+   the page: hold it for four seconds and any break at all starts you over. */
+(function(){
+  var sw = document.getElementById('meSw');
+  if (!sw) return;
+  var go   = document.getElementById('meGo'),
+      val  = document.getElementById('meVal'),
+      ems  = sw.querySelectorAll('.me-rows .me-row > em'),
+      HOLD = 4000,
+      still = window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      t0 = 0, raf = 0, done = false;
+
+  function paint(v){ go.style.setProperty('--hold', v); }
+
+  function stop(){
+    if (raf) cancelAnimationFrame(raf);
+    raf = 0; t0 = 0;
+    if (!done) paint(0);
+  }
+
+  function step(now){
+    if (!t0) t0 = now;
+    var p = (now - t0) / HOLD;
+    if (p >= 1) { commit(); return; }
+    paint(p);
+    raf = requestAnimationFrame(step);
+  }
+
+  function start(e){
+    if (done || raf) return;
+    if (e && e.button) return;
+    raf = requestAnimationFrame(step);
+  }
+
+  function swap(em, i){
+    var after = em.getAttribute('data-a');
+    if (!after) return;
+    if (still) { em.textContent = after; return; }
+    setTimeout(function(){
+      em.classList.add('fade');
+      setTimeout(function(){
+        em.textContent = after;
+        em.classList.remove('fade');
+      }, 300);
+    }, i * 90);
+  }
+
+  function commit(){
+    done = true;
+    stop();
+    paint(0);
+    sw.classList.add('on');
+    val.textContent = 'true';
+    go.disabled = true;
+    go.querySelector('b').textContent = 'Unmade';
+    for (var i = 0; i < ems.length; i++) swap(ems[i], i);
+  }
+
+  go.addEventListener('pointerdown', start);
+  go.addEventListener('pointerup', stop);
+  go.addEventListener('pointerleave', stop);
+  go.addEventListener('pointercancel', stop);
+  go.addEventListener('keydown', function(e){
+    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); start(); }
+  });
+  go.addEventListener('keyup', function(e){
+    if (e.key === ' ' || e.key === 'Enter') stop();
+  });
+  /* a button still fires click on release, and it must not do anything. */
+  go.addEventListener('click', function(e){ e.preventDefault(); });
 })();
 </script>
 

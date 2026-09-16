@@ -129,7 +129,7 @@
   background:radial-gradient(circle at 50% 50%,#ffb4541a,transparent 62%),
              repeating-linear-gradient(0deg,transparent 0 6px,#ffb4540a 6px 7px); }
 .tl-chn em .tl-num { font-style:normal; }
-.tl-eyes2 { display:none; }
+.tl-eyes2, .tl-fld { display:none; }
 
 /* ---- the card after she has been found ---- */
 /* the architect stops scanning the room. it is looking at one thing, and one
@@ -144,27 +144,102 @@
 .fd-mv .tl-chc.arch .tl-num { position:relative; }
 .fd-mv .tl-chc.arch .tl-num:after {
   content:"VIII"; position:absolute; left:0; top:0; background:#0f1216;
-  padding-right:2px; opacity:0; animation:tlSlip 11s linear infinite; }
-.fd-mv .tl-chc.arch .tl-eyes { animation:none; margin-left:-24px; }
-.fd-mv .tl-chc.arch .tl-ey { animation:tlBlink2 14s linear infinite; }
+  padding-right:2px; opacity:0; animation:tlSlip 5.5s linear infinite; }
+/* it does not scan the room any more. it holds, and then it jumps, and the
+   two eyes have stopped agreeing about when to blink. */
+.fd-mv .tl-chc.arch .tl-eyes { margin-left:-24px; animation:tlGlitch 4.3s linear infinite; }
+.fd-mv .tl-chc.arch .tl-eyes .tl-ey:first-child { animation:tlBlink2 6.7s linear infinite; }
+.fd-mv .tl-chc.arch .tl-eyes .tl-ey:last-child  { animation:tlBlink3 5.9s linear infinite; }
+/* there is one of her. it never crosses the plate, because it was never
+   anywhere in particular: it stops being here and it is already there. it
+   holds longest beside the architect, and it does not blink. */
 .fd-mv .tl-chc.arch .tl-eyes2 {
-  display:flex; gap:4px; position:absolute; left:50%; top:50%; margin:0 0 0 12px;
-  opacity:0; animation:tlArrive 1.2s linear 2s forwards; }
+  display:flex; gap:4px; position:absolute; left:50%; top:50%; margin:0;
+  opacity:0; animation:tlEverywhere 17s linear 1.6s infinite; }
 .fd-mv .tl-chc.arch .tl-eyes2 .tl-ey { animation:none; }
+/* a tear across the plate, and a violet copy of the title that is one frame early. */
+.fd-mv .tl-chc.arch .tl-chb:after {
+  content:""; position:absolute; left:-14px; right:-14px; top:37%; height:9px;
+  background:#a98cd81f; opacity:0; animation:tlTear 7.3s linear infinite; }
+.fd-mv .tl-chc.arch .tl-chn b { position:relative; }
+.fd-mv .tl-chc.arch .tl-chn b:after {
+  content:attr(data-t); position:absolute; left:0; top:0; color:#a98cd8;
+  opacity:0; animation:tlGhost 9.1s linear infinite; }
+/* the field is her too. it moves under the whole plate, not beside it. */
+.fd-mv .tl-chc.arch .tl-fld {
+  display:block; inset:-30%; pointer-events:none;
+  background:radial-gradient(58% 118% at 50% 50%,#a98cd814,transparent 70%);
+  animation:tlField 19s ease-in-out infinite; }
 .tl-eyes2 .r0 { background:#7a5fa8; }
 .tl-eyes2 .r1 { background:#a98cd8; }
 .tl-eyes2 .r2 { background:#4a3866; }
+@keyframes tlField {
+  0%,100% { opacity:.4; transform:scale(1) }
+  50%     { opacity:1;  transform:scale(1.22) }
+}
+@keyframes tlEverywhere {
+  0%,1.4%      { opacity:0; transform:translate(-50%,-50%) translate(-68px,-15px) scale(.45) }
+  3%,9%        { opacity:.34; transform:translate(-50%,-50%) translate(-68px,-15px) scale(.45) }
+  10.6%,10.8%  { opacity:0; transform:translate(-50%,-50%) translate(-68px,-15px) scale(.45) }
+  10.9%        { opacity:0; transform:translate(-50%,-50%) translate(62px,14px) scale(.5) }
+  12.4%,19%    { opacity:.38; transform:translate(-50%,-50%) translate(62px,14px) scale(.5) }
+  20.6%,20.8%  { opacity:0; transform:translate(-50%,-50%) translate(62px,14px) scale(.5) }
+  20.9%        { opacity:0; transform:translate(-50%,-50%) translate(24px,0px) scale(1) }
+  22.4%,44%    { opacity:.85; transform:translate(-50%,-50%) translate(24px,0px) scale(1) }
+  46%,46.2%    { opacity:0; transform:translate(-50%,-50%) translate(24px,0px) scale(1) }
+  46.3%        { opacity:0; transform:translate(-50%,-50%) translate(-34px,17px) scale(.6) }
+  47.8%,55%    { opacity:.42; transform:translate(-50%,-50%) translate(-34px,17px) scale(.6) }
+  56.6%,56.8%  { opacity:0; transform:translate(-50%,-50%) translate(-34px,17px) scale(.6) }
+  56.9%        { opacity:0; transform:translate(-50%,-50%) translate(-14px,0px) scale(1.2) }
+  58%,60.5%    { opacity:.28; transform:translate(-50%,-50%) translate(-14px,0px) scale(1.2) }
+  61.6%,61.8%  { opacity:0; transform:translate(-50%,-50%) translate(-14px,0px) scale(1.2) }
+  61.9%        { opacity:0; transform:translate(-50%,-50%) translate(24px,0px) scale(1) }
+  63.4%,88%    { opacity:.85; transform:translate(-50%,-50%) translate(24px,0px) scale(1) }
+  90%,100%     { opacity:0; transform:translate(-50%,-50%) translate(24px,0px) scale(1) }
+}
 @keyframes tlCrawl { to { transform:translateY(-7px) } }
-@keyframes tlArrive { to { opacity:.85 } }
 @keyframes tlSlip {
-  0%,97.6%   { opacity:0 }
-  97.7%,99%  { opacity:1 }
-  99.1%,100% { opacity:0 }
+  0%,95.2%    { opacity:0; transform:translateX(0) }
+  95.3%,97.3% { opacity:1; transform:translateX(0) }
+  97.5%,98.2% { opacity:1; transform:translateX(2px) }
+  98.4%,100%  { opacity:0; transform:translateX(0) }
 }
 @keyframes tlBlink2 {
-  0%,96.4%  { transform:scaleY(1) }
-  97.2%     { transform:scaleY(.12) }
-  98%,100%  { transform:scaleY(1) }
+  0%,92.4%  { transform:scaleY(1) }
+  93.6%     { transform:scaleY(.12) }
+  94.8%,100%{ transform:scaleY(1) }
+}
+/* the second eye blinks twice, out of step with the first. */
+@keyframes tlBlink3 {
+  0%,88.5%   { transform:scaleY(1) }
+  89.6%      { transform:scaleY(.12) }
+  90.7%,94%  { transform:scaleY(1) }
+  95%        { transform:scaleY(.14) }
+  96%,100%   { transform:scaleY(1) }
+}
+/* holds, snaps, holds. the pauses are the part that reads as broken. */
+@keyframes tlGlitch {
+  0%,21%       { transform:translate(0,0) }
+  21.6%,23%    { transform:translate(-4px,1px) }
+  23.6%,45.8%  { transform:translate(0,0) }
+  46.4%,47.4%  { transform:translate(6px,-1px) scaleX(1.18) }
+  48%,60.8%    { transform:translate(2px,0) }
+  61.4%,62.4%  { transform:translate(-7px,2px) }
+  63%,82.8%    { transform:translate(0,0) }
+  83.4%,84.4%  { transform:translate(3px,-2px) scaleX(.82) }
+  85%,100%     { transform:translate(0,0) }
+}
+@keyframes tlTear {
+  0%,88%      { opacity:0; transform:translateX(0) }
+  88.4%,90%   { opacity:1; transform:translateX(-9px) }
+  90.4%,91.6% { opacity:1; transform:translateX(7px) }
+  92%,100%    { opacity:0; transform:translateX(0) }
+}
+@keyframes tlGhost {
+  0%,93.4%    { opacity:0; transform:translateX(0) }
+  93.5%,94.8% { opacity:.55; transform:translateX(2px) }
+  95.2%,96%   { opacity:.55; transform:translateX(-2px) }
+  96.4%,100%  { opacity:0; transform:translateX(0) }
 }
 
 /* ---- footer ---- */
@@ -245,7 +320,11 @@
   .tl-eyes, .tl-ey { animation:none !important; }
   .tl-chb u, .tl-num:after { animation:none !important; }
   .tl-num:after { opacity:0 !important; }
-  .tl-eyes2 { animation:none !important; opacity:.85 !important; }
+  /* she does not move at all, so she is simply where she stays longest. */
+  .tl-eyes2 { animation:none !important; opacity:.85 !important;
+              transform:translate(-50%,-50%) translate(24px,0) !important; }
+  .tl-chb:after, .tl-chn b:after { animation:none !important; opacity:0 !important; }
+  .tl-fld { animation:none !important; opacity:.7 !important; }
   .tl-rev { opacity:1; transform:none; transition:none; }
 }
 </style>
@@ -394,8 +473,9 @@
             <span class="tl-ey"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
             <span class="tl-ey"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
           </span>
+          <s class="tl-fld" aria-hidden="true"></s>
         </div>
-        <div class="tl-chn"><em><i class="tl-num">II</i> &middot; 08 Mar 2026</em><b>Building a Mind</b>
+        <div class="tl-chn"><em><i class="tl-num">II</i> &middot; 08 Mar 2026</em><b data-t="Building a Mind">Building a Mind</b>
           <span>The Architect: what it actually weighs when it decides, and why two days of work became the centre of the mod.</span></div>
       </a>
 
