@@ -534,9 +534,9 @@
   <div class="ap-cmts">
     <div class="ap-cmt"><u>62191a3</u><b>Initial commit: Frozen Dawn mod (NeoForge 1.21.1)</b><s>23 Feb &middot; +2,762 / 91 files</s>
       <p>Phases 1 through 5 shipped in the first commit. The bones of the whole thing were there on day one.</p></div>
-    <div class="ap-cmt"><u>ad26cfc</u><b>Add Phase 6: Atmospheric Collapse</b><s>25 Feb &middot; +638 / &minus;92 &middot; 19 files</s>
+    <div class="ap-cmt"><u>ad26cfc</u><b>Add Phase 6: Atmospheric Collapse</b><s>24 Feb &middot; +638 / &minus;92 &middot; 19 files</s>
       <p>Stars, suffocation, geothermal ambience, vacuum silence. The ending arrived two days after the beginning.</p></div>
-    <div class="ap-cmt"><u>50d3943</u><b>Add Phase 0, visual sun scaling via mixin</b><s>25 Feb &middot; +31 / &minus;17 &middot; 3 files</s>
+    <div class="ap-cmt"><u>50d3943</u><b>Add Phase 0, visual sun scaling via mixin</b><s>24 Feb &middot; +31 / &minus;17 &middot; 3 files</s>
       <p>The famous shrinking sun is a single <code>@ModifyConstant</code> on vanilla's 30.0F sun quad. Twelve lines. It is the most recognisable thing in the mod and the cheapest thing in it.</p></div>
   </div>
   <p class="ap-p">Three days from empty repository to a world that can end. Everything after that was not building the collapse. It was making the rest of Minecraft agree with it.</p>
@@ -707,15 +707,15 @@
 
   <div class="ap-h3">What it actually cost</div>
   <div class="ap-cmts">
-    <div class="ap-cmt"><u>7192e4e</u><b>feat(world): add chunk catch-up epoch processing</b><s>25 May &middot; +1,111 / 5 files</s>
+    <div class="ap-cmt"><u>7192e4e</u><b>feat(world): add chunk catch-up epoch processing</b><s>24 May &middot; +1,111 / 5 files</s>
       <p>899 lines of manager and a 199 line saved-data class, in one commit. It worked.</p></div>
-    <div class="ap-cmt"><u>477cf36</u><b>fix(world): stabilize chunk catch-up bursts</b><s>30 May &middot; +663 / &minus;200 &middot; 3 files</s>
+    <div class="ap-cmt"><u>477cf36</u><b>fix(world): stabilize chunk catch-up bursts</b><s>29 May &middot; +663 / &minus;200 &middot; 3 files</s>
       <p>Five days later I rewrote roughly two thirds of it. This is where the three budget modes and the resumable cursors came from, because the first version would happily blow a 200 millisecond tick when you flew somewhere.</p></div>
-    <div class="ap-cmt mark"><u>&middot;&middot;&middot;</u><b>41 days, no commits</b><s>30 May to 10 July</s>
+    <div class="ap-cmt mark"><u>&middot;&middot;&middot;</u><b>42 days, no commits</b><s>29 May to 10 July</s>
       <p>The longest gap in the entire project sits immediately after this file, and it is the only stretch of the repository with nothing in it at all.</p></div>
     <div class="ap-cmt"><u>df81cc4</u><b>fix(world): reconcile snow after tree catch-up</b><s>10 July &middot; +136 / &minus;11 &middot; 1 file</s>
       <p>The first commit back, after six weeks away, is this file again. Floating snow where a tree used to be.</p></div>
-    <div class="ap-cmt"><u>260fdf4</u><b>fix(world): bound frozen atmosphere catch-up work</b><s>24 Aug &middot; +41 / &minus;9 &middot; 2 files</s>
+    <div class="ap-cmt"><u>260fdf4</u><b>fix(world): bound frozen atmosphere catch-up work</b><s>23 Aug &middot; +41 / &minus;9 &middot; 2 files</s>
       <p>The last pass in the list turned out to need a bound of its own. Eight commits total, spread across three months.</p></div>
   </div>
 </section>
@@ -728,14 +728,14 @@
   <div class="ap-figs">
     <div><b>3</b><span>days to a world that can end</span></div>
     <div><b>46</b><span>commits in chapter one</span></div>
-    <div><b>480</b><span>commits in the project so far</span></div>
+    <div><b>535</b><span>commits in the project so far</span></div>
   </div>
 
   <div class="ap-h3">One constant, twenty-four files</div>
   <div class="ap-cmts">
-    <div class="ap-cmt"><u>7a3248e</u><b>fix(phase): centralize phase 6 thresholds</b><s>3 Apr &middot; +152 / &minus;80 &middot; 24 files</s>
+    <div class="ap-cmt"><u>7a3248e</u><b>fix(phase): centralize phase 6 thresholds</b><s>2 Apr &middot; +152 / &minus;80 &middot; 24 files</s>
       <p>The number 0.72 had been typed out by hand in the sky renderer, the wind ambience, the flag physics, the frost overlay, the oxygen HUD, the music controller, the suit ambience and seventeen other places. Changing what "mid phase 6" meant required finding all of them. This commit made it one constant and touched twenty-four files to do it.</p></div>
-    <div class="ap-cmt"><u>22e69af</u><b>refactor(phase): clarify phase 6 presentation stages</b><s>3 Apr &middot; +144 / &minus;98 &middot; 8 files</s>
+    <div class="ap-cmt"><u>22e69af</u><b>refactor(phase): clarify phase 6 presentation stages</b><s>2 Apr &middot; +144 / &minus;98 &middot; 8 files</s>
       <p>Same afternoon. This is the one that introduced <code>Phase6Stage</code>, so the question stopped being "is progress above 0.72" and started being "which stage are we in". Twenty-four lines added to PhaseManager, and they paid for themselves within a week.</p></div>
   </div>
   <p class="ap-p">Two commits, one day, no new behaviour at all. If you played the mod before and after, nothing changed. It is still the most useful thing I did to this system after the first week, and it is the kind of work that leaves no trace in a changelog.</p>
