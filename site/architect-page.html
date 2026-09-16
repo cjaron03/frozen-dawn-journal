@@ -142,11 +142,19 @@
 .ap-why { padding:0 16px 15px; font-size:12.5px; line-height:1.6; color:#8d98a1; }
 .ap-why b { color:#ffb454; font-weight:600; font-family:var(--mono); font-size:11px; }
 
-/* replay */
-.ap-replay { position:absolute; right:12px; bottom:12px; z-index:70; font-family:var(--mono);
-             font-size:10px; letter-spacing:.1em; padding:6px 12px; border-radius:5px;
-             background:#141a21d9; border:1px solid #252e38; color:#8d98a1; cursor:pointer; }
+/* corner controls */
+.ap-tools { position:absolute; right:12px; bottom:12px; z-index:70;
+            display:flex; align-items:center; gap:8px; }
+.ap-replay, .ap-swap { font-family:var(--mono); font-size:10px; letter-spacing:.1em;
+             padding:6px 12px; border-radius:5px; background:#141a21d9;
+             border:1px solid #252e38; color:#8d98a1; cursor:pointer;
+             text-decoration:none; white-space:nowrap; }
 .ap-replay:hover { color:#7dd3fc; border-color:#2c688a; }
+
+/* the way across, and it only exists for someone who has already been across. */
+.ap-swap { display:none; }
+.fd-mv .ap-swap { display:inline-block; color:#a98cd8; border-color:#3f3357; }
+.fd-mv .ap-swap:hover { color:#cbb6ee; border-color:#574870; }
 
 /* running arena */
 .ap-arena { position:relative; background:#0a0d11; border-bottom:1px solid #1c242e; }
@@ -459,12 +467,13 @@
   .ap-row > span:first-child { width:72px; font-size:10px; }
   .ap-num { width:34px; }
   .ap-why { padding:0 12px 14px; font-size:12px; }
-  .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
+  .ap-tools { right:8px; bottom:8px; gap:6px; }
+  .ap-replay, .ap-swap { font-size:9px; padding:6px 10px; }
 }
 
 /* ---------- the second time ---------- */
 .ap-frame.mv .ap-black { animation:none; opacity:1; }
-.ap-frame.mv .ap-replay { display:none; }
+.ap-frame.mv .ap-tools { display:none; }
 .ap-frame.mv .ap-eyes { animation: mvFade 4.4s linear forwards; }
 .ap-frame.mv .ap-eye .r0 { animation: mvR0 4.4s linear forwards; }
 .ap-frame.mv .ap-eye .r1 { animation: mvR1 4.4s linear forwards; }
@@ -884,7 +893,10 @@
       </div>
     </div>
 
-    <button class="ap-replay" id="apReplay">REPLAY INTRO</button>
+    <div class="ap-tools">
+      <a class="ap-swap" href="director.html">MAEVE</a>
+      <button class="ap-replay" id="apReplay">REPLAY INTRO</button>
+    </div>
   </div>
 </div>
 
@@ -893,11 +905,15 @@
   function MaeveDirector(){
     try {
       var s = window.localStorage;
-      return s.getItem('fd.ok') === '1'
-          && s.getItem('fd.idx') === '1'
-          && s.getItem('fd.mv') !== '1';
+      if (s.getItem('fd.mv') === '1')
+        return /(?:^|[?&])arrive=1(?:&|$)/.test(window.location.search);
+      return s.getItem('fd.ok') === '1' && s.getItem('fd.idx') === '1';
     } catch (e) { return false; }
   }
+  try {
+    if (window.localStorage.getItem('fd.mv') === '1')
+      document.documentElement.classList.add('fd-mv');
+  } catch (e) {}
   var f = document.getElementById('apFrame');
   if (f && MaeveDirector()) f.classList.add('mv');
 })();

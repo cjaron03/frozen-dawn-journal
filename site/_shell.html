@@ -29,8 +29,20 @@
     color:#7dd3fc; text-decoration:none; white-space:nowrap; flex-shrink:0;
   }
   .sb-brand span { color:#5a6672; }
-  .sb-nav { display:flex; align-items:center; gap:18px; overflow-x:auto; min-width:0; }
+  .sb-nav {
+    --f0:0px; --f1:0px;
+    display:flex; align-items:center; gap:18px;
+    overflow-x:auto; overscroll-behavior-x:contain; min-width:0;
+    scrollbar-width:none; -ms-overflow-style:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--f0),
+                       #000 calc(100% - var(--f1)),transparent 100%);
+            mask-image:linear-gradient(90deg,transparent 0,#000 var(--f0),
+                       #000 calc(100% - var(--f1)),transparent 100%);
+  }
   .sb-nav::-webkit-scrollbar { display:none; }
+  .sb-nav.can { cursor:grab; }
+  .sb-nav.can.drag { cursor:grabbing; }
+  .sb-nav.drag a { pointer-events:none; }
   .sb-nav a {
     font-size:12px; color:#96a1aa; text-decoration:none; white-space:nowrap;
     padding:3px 0; border-bottom:1px solid transparent; transition:color .15s linear;
@@ -52,9 +64,12 @@
   body.home .sb { display:none; }
 
   @media (max-width:640px) {
-    .sb { gap:14px; padding:0 14px; }
+    .sb { gap:12px; padding:0 12px; }
+    .sb-nav { gap:15px; }
     .sb-page { padding:1rem; }
+    .sb-brand { font-size:10px; letter-spacing:.1em; }
     .sb-brand span { display:none; }
+    .sb-wb a { font-size:9px; letter-spacing:.1em; }
   }
 </style>
 </head>
@@ -67,5 +82,77 @@
 <div class="sb-page">
 __BODY__
 </div>
+
+<script>
+/* the chapter bar runs wider than the window on most screens. drag it with
+   the mouse, or roll a wheel over it, or swipe it on a phone. */
+(function () {
+  var nav = document.querySelector('.sb-nav');
+  if (!nav) return;
+
+  var FADE = 22, down = false, moved = false, x0 = 0, s0 = 0;
+
+  function room() { return nav.scrollWidth - nav.clientWidth; }
+
+  function edges() {
+    var max = room();
+    nav.classList.toggle('can', max > 4);
+    nav.style.setProperty('--f0', (nav.scrollLeft > 4 ? FADE : 0) + 'px');
+    nav.style.setProperty('--f1', (nav.scrollLeft < max - 4 ? FADE : 0) + 'px');
+  }
+
+  nav.addEventListener('scroll', edges, { passive: true });
+  window.addEventListener('resize', edges);
+
+  nav.addEventListener('wheel', function (e) {
+    var max = room();
+    if (max <= 4) return;
+    var d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+    if (!d) return;
+    /* hand the page back its scroll once the bar has nowhere left to go. */
+    if ((d < 0 && nav.scrollLeft <= 0) || (d > 0 && nav.scrollLeft >= max)) return;
+    e.preventDefault();
+    nav.scrollLeft += d;
+  }, { passive: false });
+
+  /* touch already pans natively. this is for the mouse. */
+  nav.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'touch' || e.button || room() <= 4) return;
+    down = true; moved = false; x0 = e.clientX; s0 = nav.scrollLeft;
+    try { nav.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+
+  nav.addEventListener('pointermove', function (e) {
+    if (!down) return;
+    var dx = e.clientX - x0;
+    if (!moved && Math.abs(dx) > 3) { moved = true; nav.classList.add('drag'); }
+    if (moved) nav.scrollLeft = s0 - dx;
+  });
+
+  function release(e) {
+    if (!down) return;
+    down = false;
+    nav.classList.remove('drag');
+    try { nav.releasePointerCapture(e.pointerId); } catch (err) {}
+    if (moved) setTimeout(function () { moved = false; }, 0);
+  }
+  nav.addEventListener('pointerup', release);
+  nav.addEventListener('pointercancel', release);
+
+  /* a drag that ends on a link must not also follow it. */
+  nav.addEventListener('click', function (e) {
+    if (moved) { e.preventDefault(); e.stopPropagation(); }
+  }, true);
+
+  /* open on the chapter you are actually reading. measured off rects, because
+     the bar is sticky and every link's offsetParent is the bar, not the strip. */
+  var on = nav.querySelector('a.on');
+  if (on) {
+    var nr = nav.getBoundingClientRect(), r = on.getBoundingClientRect();
+    nav.scrollLeft += (r.left - nr.left) - (nr.width - r.width) / 2;
+  }
+  edges();
+})();
+</script>
 </body>
 </html>

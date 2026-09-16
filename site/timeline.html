@@ -1,6 +1,17 @@
 <h2>The homepage</h2>
 <p class="subtitle">The line is commits per day across 192 days, so drawing it in draws the real shape of the project. Hover any dot. The amber dot is the Architect. Every number here is read from the repository at build time.</p>
 
+<script>
+/* once she has been found, the index knows it. everything this switches on
+   is in the chapter two card and nowhere else. */
+(function(){
+  try {
+    if (window.localStorage.getItem('fd.mv') === '1')
+      document.documentElement.classList.add('fd-mv');
+  } catch (e) {}
+})();
+</script>
+
 <style>
 .tl { --mono: ui-monospace,"SF Mono",Menlo,monospace; --ice:#7dd3fc; --amb:#ffb454; }
 .tl-frame { position:relative; background:#0f1216; overflow:hidden;
@@ -114,6 +125,47 @@
   90%        { transform:scaleY(.12) }
   92.5%,100% { transform:scaleY(1) }
 }
+.tl-chc.arch .tl-chb u {
+  background:radial-gradient(circle at 50% 50%,#ffb4541a,transparent 62%),
+             repeating-linear-gradient(0deg,transparent 0 6px,#ffb4540a 6px 7px); }
+.tl-chn em .tl-num { font-style:normal; }
+.tl-eyes2 { display:none; }
+
+/* ---- the card after she has been found ---- */
+/* the architect stops scanning the room. it is looking at one thing, and one
+   thing is looking back. the slot holds two chapters now and the card leaks it. */
+.fd-mv .tl-chc.arch .tl-chb u {
+  inset:-8px 0;
+  background:radial-gradient(circle at 50% 50%,#a98cd81a,transparent 62%),
+             repeating-linear-gradient(0deg,transparent 0 6px,#a98cd80a 6px 7px);
+  animation:tlCrawl 6s linear infinite; }
+.fd-mv .tl-chc.arch:hover { border-color:#463a63; }
+.fd-mv .tl-chc.arch:hover .tl-chn b { color:#c7aee8; }
+.fd-mv .tl-chc.arch .tl-num { position:relative; }
+.fd-mv .tl-chc.arch .tl-num:after {
+  content:"VIII"; position:absolute; left:0; top:0; background:#0f1216;
+  padding-right:2px; opacity:0; animation:tlSlip 11s linear infinite; }
+.fd-mv .tl-chc.arch .tl-eyes { animation:none; margin-left:-24px; }
+.fd-mv .tl-chc.arch .tl-ey { animation:tlBlink2 14s linear infinite; }
+.fd-mv .tl-chc.arch .tl-eyes2 {
+  display:flex; gap:4px; position:absolute; left:50%; top:50%; margin:0 0 0 12px;
+  opacity:0; animation:tlArrive 1.2s linear 2s forwards; }
+.fd-mv .tl-chc.arch .tl-eyes2 .tl-ey { animation:none; }
+.tl-eyes2 .r0 { background:#7a5fa8; }
+.tl-eyes2 .r1 { background:#a98cd8; }
+.tl-eyes2 .r2 { background:#4a3866; }
+@keyframes tlCrawl { to { transform:translateY(-7px) } }
+@keyframes tlArrive { to { opacity:.85 } }
+@keyframes tlSlip {
+  0%,97.6%   { opacity:0 }
+  97.7%,99%  { opacity:1 }
+  99.1%,100% { opacity:0 }
+}
+@keyframes tlBlink2 {
+  0%,96.4%  { transform:scaleY(1) }
+  97.2%     { transform:scaleY(.12) }
+  98%,100%  { transform:scaleY(1) }
+}
 
 /* ---- footer ---- */
 .tl-foot { margin-top:34px; padding:18px 0 4px; border-top:1px solid #1b212a;
@@ -191,6 +243,9 @@
   .tl-d, .tl-bands div, .tl-sil { animation:none !important; opacity:1 !important; transform:none !important; }
   .tl-stats div b { animation:none !important; }
   .tl-eyes, .tl-ey { animation:none !important; }
+  .tl-chb u, .tl-num:after { animation:none !important; }
+  .tl-num:after { opacity:0 !important; }
+  .tl-eyes2 { animation:none !important; opacity:.85 !important; }
   .tl-rev { opacity:1; transform:none; transition:none; }
 }
 </style>
@@ -330,13 +385,17 @@
 
       <a class="tl-chc arch" href="architect.html">
         <div class="tl-chb" style="background:#0a0d11">
-          <u style="background:radial-gradient(circle at 50% 50%,#ffb4541a,transparent 62%),repeating-linear-gradient(0deg,transparent 0 6px,#ffb4540a 6px 7px)"></u>
+          <u></u>
           <span class="tl-eyes">
             <span class="tl-ey"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
             <span class="tl-ey"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
           </span>
+          <span class="tl-eyes2" aria-hidden="true">
+            <span class="tl-ey"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
+            <span class="tl-ey"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
+          </span>
         </div>
-        <div class="tl-chn"><em>II &middot; 08 Mar 2026</em><b>Building a Mind</b>
+        <div class="tl-chn"><em><i class="tl-num">II</i> &middot; 08 Mar 2026</em><b>Building a Mind</b>
           <span>The Architect: what it actually weighs when it decides, and why two days of work became the centre of the mod.</span></div>
       </a>
 
