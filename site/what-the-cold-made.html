@@ -11,6 +11,39 @@
 .ap-frame.play .ap-black { animation: apBlack 1s linear forwards; }
 @keyframes apBlack { 0%,22% { opacity:1 } 72% { opacity:0 } 100% { opacity:0 } }
 
+/* the black clears onto four corners that are already growing inward. the
+   cold got here first, and it is the thing doing the making. */
+.wc-fr { position:absolute; width:42%; height:48%; z-index:49;
+         pointer-events:none; opacity:0; transform:scale(.24); }
+.wc-fr.a { left:0;  top:0;    transform-origin:0 0;
+  background:repeating-conic-gradient(from 0deg at 0 0, #bfe6fb00 0deg 2.4deg, #bfe6fb1f 2.4deg 3deg);
+  -webkit-mask-image:radial-gradient(circle at 0 0, #000 18%, transparent 94%);
+          mask-image:radial-gradient(circle at 0 0, #000 18%, transparent 94%); }
+.wc-fr.b { right:0; top:0;    transform-origin:100% 0;
+  background:repeating-conic-gradient(from 0deg at 100% 0, #bfe6fb00 0deg 2.4deg, #bfe6fb1f 2.4deg 3deg);
+  -webkit-mask-image:radial-gradient(circle at 100% 0, #000 18%, transparent 94%);
+          mask-image:radial-gradient(circle at 100% 0, #000 18%, transparent 94%); }
+.wc-fr.c { left:0;  bottom:0; transform-origin:0 100%;
+  background:repeating-conic-gradient(from 0deg at 0 100%, #bfe6fb00 0deg 2.4deg, #bfe6fb1f 2.4deg 3deg);
+  -webkit-mask-image:radial-gradient(circle at 0 100%, #000 18%, transparent 94%);
+          mask-image:radial-gradient(circle at 0 100%, #000 18%, transparent 94%); }
+.wc-fr.d { right:0; bottom:0; transform-origin:100% 100%;
+  background:repeating-conic-gradient(from 0deg at 100% 100%, #bfe6fb00 0deg 2.4deg, #bfe6fb1f 2.4deg 3deg);
+  -webkit-mask-image:radial-gradient(circle at 100% 100%, #000 18%, transparent 94%);
+          mask-image:radial-gradient(circle at 100% 100%, #000 18%, transparent 94%); }
+.ap-frame.play .wc-fr { animation: wcFrost 2.3s cubic-bezier(.16,.8,.3,1) .42s forwards; }
+/* they do not arrive together. the delays outrank the shorthand above. */
+.ap-frame.play .wc-fr.b { animation-delay:.58s }
+.ap-frame.play .wc-fr.c { animation-delay:.50s }
+.ap-frame.play .wc-fr.d { animation-delay:.66s }
+@keyframes wcFrost {
+  0%       { opacity:0;   transform:scale(.24) }
+  12%      { opacity:.85; transform:scale(.52) }
+  46%,62%  { opacity:.9;  transform:scale(1) }
+  100%     { opacity:0;   transform:scale(1) }
+}
+.ap-frame.done .wc-fr { display:none; }
+
 /* ---------- landed state: no animation survives the intro ---------- */
 .ap-frame.done .ap-black { display:none; }
 .ap-frame.done .ap-kick,
@@ -241,6 +274,7 @@
   .ap-dtab { transition:none !important; }
   .ap-dtab:active { transform:none !important; }
   .ap-src > summary, .ap-src > summary:before { transition:none !important; }
+  .wc-fr { display:none !important; }
   .wc-cv { transition:none !important; }
 }
 </style>
@@ -333,6 +367,7 @@
   .ap-frame { height:calc(100vh - 78px); height:calc(100dvh - 78px); min-height:420px; }
   .ap-inner { padding:36px 17px 64px; }
   .ap-title { font-size:24px; }
+  .wc-fr { width:54%; height:33%; }
   .ap-lede { font-size:17.5px; }
   .ap-stand { font-size:15px; }
   .ap-p { font-size:14px; }
@@ -353,6 +388,10 @@
 <div class="ap">
   <div class="ap-frame play" id="apFrame">
     <div class="ap-black"></div>
+    <span class="wc-fr a" aria-hidden="true"></span>
+    <span class="wc-fr b" aria-hidden="true"></span>
+    <span class="wc-fr c" aria-hidden="true"></span>
+    <span class="wc-fr d" aria-hidden="true"></span>
 
     <div class="ap-doc">
       <div class="ap-inner">

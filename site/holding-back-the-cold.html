@@ -11,6 +11,18 @@
 .ap-frame.play .ap-black { animation: apBlack 1s linear forwards; }
 @keyframes apBlack { 0%,22% { opacity:1 } 72% { opacity:0 } 100% { opacity:0 } }
 
+/* the dark does not leave all at once. it is pushed back from one point by
+   something warm, and it never quite reaches the corners, which is the
+   argument the rest of the chapter spends four heater tiers making. */
+.hb-warm, .hb-vig { position:absolute; inset:0; z-index:49; pointer-events:none; opacity:0; }
+.hb-warm { background:radial-gradient(circle at 50% 44%, #ffb45426, #ffb45400 54%); }
+.hb-vig  { background:radial-gradient(circle at 50% 44%, transparent 24%, #000 84%); }
+.ap-frame.play .hb-warm { animation: hbWarm 1.8s ease-out .34s forwards; }
+.ap-frame.play .hb-vig  { animation: hbVig  1.5s ease-out .38s forwards; }
+@keyframes hbWarm { 0% { opacity:0 } 16% { opacity:1 } 100% { opacity:0 } }
+@keyframes hbVig  { 0% { opacity:1 } 44% { opacity:.88 } 100% { opacity:0 } }
+.ap-frame.done .hb-warm, .ap-frame.done .hb-vig { display:none; }
+
 /* ---------- landed state: no animation survives the intro ---------- */
 .ap-frame.done .ap-black { display:none; }
 .ap-frame.done .ap-kick,
@@ -249,6 +261,7 @@
   .ap-dtab { transition:none !important; }
   .ap-dtab:active { transform:none !important; }
   .ap-src > summary, .ap-src > summary:before { transition:none !important; }
+  .hb-warm, .hb-vig { display:none !important; }
 }
 
 
@@ -369,6 +382,8 @@
 <div class="ap">
   <div class="ap-frame play" id="apFrame">
     <div class="ap-black"></div>
+    <span class="hb-warm" aria-hidden="true"></span>
+    <span class="hb-vig" aria-hidden="true"></span>
 
     <div class="ap-doc">
       <div class="ap-inner">

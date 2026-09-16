@@ -8,8 +8,19 @@
 
 /* ---------- the black ---------- */
 .ap-black { position:absolute; inset:0; background:#000; z-index:50; pointer-events:none; }
-.ap-frame.play .ap-black { animation: apBlack 1s linear forwards; }
-@keyframes apBlack { 0%,22% { opacity:1 } 72% { opacity:0 } 100% { opacity:0 } }
+/* no dissolve. the agency does not dissolve, it releases. */
+.ap-frame.play .ap-black { animation: oaCut .5s linear forwards; }
+@keyframes oaCut { 0%,97% { opacity:1 } 100% { opacity:0 } }
+
+/* the only ceremony this page gets is a clearance line. it is on the record
+   for under two seconds, and then it is not part of the record. */
+.oa-rel { position:absolute; z-index:40; top:22px; left:50%; transform:translateX(-50%);
+          width:100%; max-width:660px; padding:0 30px;
+          font-family:var(--mono); font-size:9.5px; letter-spacing:.2em;
+          text-transform:uppercase; color:#ffb454; opacity:0; pointer-events:none; }
+.ap-frame.play .oa-rel { animation: oaRel 1.7s linear .54s forwards; }
+@keyframes oaRel { 0% { opacity:0 } 7%,55% { opacity:.7 } 76%,100% { opacity:0 } }
+.ap-frame.done .oa-rel { display:none; }
 
 /* ---------- landed state: no animation survives the intro ---------- */
 .ap-frame.done .ap-black { display:none; }
@@ -472,6 +483,7 @@
   .ap-dtab { transition:none !important; }
   .ap-dtab:active { transform:none !important; }
   .ap-src > summary, .ap-src > summary:before { transition:none !important; }
+  .oa-rel { display:none !important; }
   .ap-pane.on .ap-gtrack > b { animation:none !important; }
   .oa-poster { transition:none !important; }
   .pw-shot { transition:none !important; }
@@ -485,6 +497,7 @@
   .ap-frame { height:calc(100vh - 78px); height:calc(100dvh - 78px); min-height:420px; }
   .ap-inner { padding:36px 17px 64px; }
   .ap-title { font-size:24px; }
+  .oa-rel { top:15px; padding:0 17px; font-size:8.5px; letter-spacing:.15em; }
   .ap-lede { font-size:17.5px; }
   .ap-stand { font-size:15px; }
   .ap-p { font-size:14px; }
@@ -536,8 +549,8 @@
   <div class="ap-frame play" id="apFrame">
     <div class="ap-black"></div>
 
-
     <div class="ap-doc">
+      <div class="oa-rel" aria-hidden="true">Document 7-C // Cleared for public release</div>
       <div class="ap-inner">
 
         <div class="ap-kick">Chapter Three &middot; April 2026</div>
