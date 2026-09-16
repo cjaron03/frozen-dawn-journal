@@ -39,6 +39,10 @@
 .tl-d { position:absolute; width:26px; height:26px; margin:-13px 0 0 -13px; display:grid; place-items:center; cursor:pointer; opacity:0; transform:scale(.2); animation:tlpop .5s cubic-bezier(.2,1.5,.4,1) forwards; text-decoration:none; }
 @keyframes tlpop { to { opacity:1; transform:scale(1) } }
 .tl-d i { width:7px; height:7px; border-radius:50%; background:#7dd3fc; transition:transform .18s, box-shadow .18s; }
+/* a dot that had to move off the line to stay visible keeps a tether down to
+   where it actually belongs. */
+.tl-d u { position:absolute; top:50%; left:50%; width:1px; margin-left:-.5px;
+          background:linear-gradient(#2c688a,#2c688a00); pointer-events:none; }
 .tl-d.major i { width:10px; height:10px; box-shadow:0 0 0 3px #0f1216, 0 0 0 4px #7dd3fc4d; }
 .tl-d.arch2 i { width:10px; height:10px; box-shadow:0 0 0 3px #0f1216, 0 0 0 4px #7dd3fc4d; }
 .tl-d.arch i { width:12px; height:12px; background:#ffb454; box-shadow:0 0 0 3px #0f1216, 0 0 0 5px #ffb4543d, 0 0 16px #ffb45480; }
@@ -511,7 +515,6 @@
       <a class="tl-d minor" href="chapter-1.html" style="left:0.49%;top:49.28%;animation-delay:0.20s"><i></i><span class="tl-card below edgeL"><em>24 Feb</em><b>The phase system</b><code>Add ORSA Document item, 5-book lore system, armor heat trapping, and phase 0 temp HUD</code></span></a>
       <a class="tl-d minor" href="chapter-6.html" style="left:3.43%;top:55.80%;animation-delay:0.33s"><i></i><span class="tl-card above edgeL"><em>02 Mar</em><b>Returned Hunter</b><code>Add Returned Hunter mob, mob spawn multiplier, and spawner sky access checks</code></span></a>
       <a class="tl-d arch" href="architect.html" style="left:6.37%;top:61.39%;animation-delay:0.51s"><i></i><span class="tl-card above edgeL"><em>08 Mar</em><b>The Architect arrives</b><code>Add Architect and Mimic mobs with D* Lite pathfinding and walk oscillation fix</code></span></a>
-      <a class="tl-d minor" href="architect.html" style="left:6.86%;top:61.96%;animation-delay:0.52s"><i></i><span class="tl-card above edgeL"><em>09 Mar</em><b>Two days later</b><code>architect finally done</code></span></a>
       <a class="tl-d minor" href="chapter-5.html" style="left:8.82%;top:62.25%;animation-delay:0.55s"><i></i><span class="tl-card below edgeL"><em>13 Mar</em><b>Swarm pressure</b><code>add frostmite swarm pressure</code></span></a>
       <a class="tl-d minor" href="chapter-3.html" style="left:12.75%;top:71.36%;animation-delay:0.76s"><i></i><span class="tl-card above"><em>21 Mar</em><b>Tower terminal</b><code>Refine tower terminal UI and unlock compass recovery</code></span></a>
       <a class="tl-d major" href="chapter-1.html" style="left:18.63%;top:63.14%;animation-delay:0.95s"><i></i><span class="tl-card above"><em>02 Apr</em><b>Everything changes</b><code>fix(atmosphere): add breathable zone authority pass 1</code></span></a>

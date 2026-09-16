@@ -19,6 +19,9 @@ T0, DRAW = 0.15, 3.6       # when the line starts, how long it takes
 TRAV     = 72.0            # seconds for Earth to cross the header
 SPIN     = 7.0             # seconds per rotation
 ARC      = "M 34 46 C 250 14, 640 11, 1078 40"
+STAGE_H  = 238.0           # .tl-stage height in px, for the lifted dot stems
+RANK     = {"arch": 0, "arch2": 1, "major": 1, "minor": 2}
+NEAR_X, NEAR_Y, LIFT = 24.0, 17.0, 24.0   # collision box and lift, in stage units
 LAND = ('<path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/>'
         '<path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/>'
         '<path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/>'
@@ -117,7 +120,7 @@ def main():
     sil_w = (x_of(gap_to) - x_of(gap_from)) / W * 100.0
 
     # ---- milestone dots, placed on the curve at their real dates ----
-    dots = []
+    marks = []
     for m in json.loads((ROOT / "data" / "milestones.json").read_text(encoding="utf-8")):
         hits = sorted(set((d, s) for d, _a, _r, s in rows if s.startswith(m["match"])
                           and (not m.get("date") or str(d) == m["date"])))
@@ -128,15 +131,38 @@ def main():
         d, subject = hits[0]
         x = x_of(d)
         y, frac = at_x(pts, cum, x)
-        edge = " edgeL" if x / W * 100 < 12 else (" edgeR" if x / W * 100 > 88 else "")
         if not m.get("go"):
             sys.exit("milestone %r has no \"go\"; every dot has to lead somewhere"
                      % m["match"])
+        marks.append({"x": x, "y": y, "frac": frac, "m": m, "d": d,
+                      "subject": subject, "lift": 0.0})
+    marks.sort(key=lambda k: k["x"])
+
+    # Milestones a couple of days apart land on top of each other, and a 7px
+    # dot simply disappears inside the Architect's 22px halo. Where two collide
+    # the quieter one is lifted clear and keeps a stem down to where it really
+    # sits, so nothing moves in time, only out of the way.
+    for a, b in zip(marks, marks[1:]):
+        # measured where the dots have ended up, not where they started, so a
+        # dot already moved out of the way does not drag its neighbour up too.
+        if b["x"] - a["x"] >= NEAR_X:
+            continue
+        if abs((b["y"] - b["lift"]) - (a["y"] - a["lift"])) >= NEAR_Y:
+            continue
+        lo = a if RANK[a["m"]["kind"]] > RANK[b["m"]["kind"]] else b
+        if not lo["lift"]:
+            lo["lift"] = LIFT
+
+    dots = []
+    for k in marks:
+        m, x, y = k["m"], k["x"], k["y"]
+        edge = " edgeL" if x / W * 100 < 12 else (" edgeR" if x / W * 100 > 88 else "")
+        stem = ('<u style="height:%.1fpx"></u>' % (k["lift"] / H * STAGE_H)) if k["lift"] else ""
         dots.append((x, '<a class="tl-d %s" href="%s" style="left:%.2f%%;top:%.2f%%;animation-delay:%.2fs">'
-                        '<i></i><span class="tl-card %s%s"><em>%s</em><b>%s</b><code>%s</code></span></a>'
-                        % (m["kind"], m["go"], x / W * 100, y / H * 100, delay(frac), m["place"], edge,
-                           short(d), m["title"], subject)))
-    dots.sort()
+                        '<i></i>%s<span class="tl-card %s%s"><em>%s</em><b>%s</b><code>%s</code></span></a>'
+                        % (m["kind"], m["go"], x / W * 100, (y - k["lift"]) / H * 100,
+                           delay(k["frac"]), stem, m["place"], edge,
+                           short(k["d"]), m["title"], k["subject"])))
 
     # ---- chapter bands, counts and widths both derived ----
     chapters = json.loads((ROOT / "data" / "chapters.json").read_text(encoding="utf-8"))
