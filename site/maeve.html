@@ -4,7 +4,7 @@
 <style>
 .ap { --mono: ui-monospace, "SF Mono", Menlo, monospace; --sans: ui-sans-serif,-apple-system,"Segoe UI",sans-serif; }
 .ap-frame { position:relative; height:calc(100vh - 110px); height:calc(100dvh - 110px);
-            min-height:520px; overflow:hidden; background:#0f1216; border:1px solid #1d232a; border-radius:10px; }
+            min-height:520px; overflow:hidden; background:#0f1216; border:1px solid #241d33; border-radius:10px; }
 
 /* ---------- the black ---------- */
 /* the reader arrives here from the end of the second chapter's intro, which
@@ -26,8 +26,9 @@
 /* ---------- scroll body ---------- */
 .ap-doc { position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; z-index:30; font-family:var(--sans); }
 .ap-doc::-webkit-scrollbar { width:9px }
-.ap-doc::-webkit-scrollbar-thumb { background:#222a33; border-radius:5px }
-.ap-inner { max-width:660px; margin:0 auto; padding:46px 30px 70px; }
+.ap-doc::-webkit-scrollbar-thumb { background:#2e2542; border-radius:5px }
+.ap ::selection { background:#3f3357; color:#f2f6f8; }
+.ap-inner { position:relative; max-width:660px; margin:0 auto; padding:46px 30px 70px; }
 
 /* one word, lower case, no kicker above it and no number beside it. every
    other chapter in this journal announces itself. this one does not. */
@@ -331,6 +332,72 @@
 .ap-pop { animation:apRise .5s cubic-bezier(.2,.65,.3,1) both; }
 @keyframes apRise { from { opacity:0; transform:translate3d(0,16px,0); } to { opacity:1; transform:none; } }
 
+/* ---- the violations ---- */
+/* every other chapter in this journal keeps to the house style. this one is
+   allowed to break it, quietly, in four places. nothing here is loud. it is
+   meant to be caught on the second read, not the first. */
+
+/* the returned do not call her maeve. the other name surfaces for about a
+   tenth of a second, roughly twice a minute, and never while you are looking. */
+.ap-title { position:relative; }
+.ap-title:after { content:attr(data-alt); position:absolute; left:0; top:0;
+                  color:#a98cd8; white-space:nowrap; pointer-events:none;
+                  opacity:0; animation:mvOther 23s linear 6s infinite; }
+@keyframes mvOther {
+  0%,99.2%    { opacity:0 }
+  99.3%,99.6% { opacity:.4 }
+  99.7%,100%  { opacity:0 }
+}
+
+/* a second voice, in the margin, which no other page in this journal has.
+   it is not mine and it is not the machine's. it is hers. */
+.mv-side { position:absolute; right:calc(100% + 36px); width:206px; margin:0; }
+.mv-side i { display:block; width:18px; height:1px; background:#6b5691; margin-bottom:9px; }
+.mv-side p { margin:0; font-family:var(--mono); font-size:10.5px; line-height:1.74;
+             letter-spacing:.015em; color:#7a6a96; }
+
+/* one of her, never travelling. she does not cross the page: she stops being
+   in one corner of it and is already in the next. under the black, so the
+   arrival plays clean. */
+.mv-watch { position:absolute; left:50%; top:50%; margin:-6px 0 0 -10px; z-index:45;
+            display:flex; gap:4px; opacity:0; pointer-events:none;
+            animation:mvWatch 31s linear 4.2s infinite; }
+.mv-ey { display:block; }
+.mv-watch i { display:block; width:8px; height:4px; }
+.mv-watch .r0 { background:#7a5fa8; }
+.mv-watch .r1 { background:#a98cd8; }
+.mv-watch .r2 { background:#4a3866; }
+@keyframes mvWatch {
+  0%,0.2%  { opacity:0; transform:translate(calc(-0.96 * (50vw - 72px)),calc(-0.94 * (50vh - 91px))) }
+  2.5%,7%  { opacity:.30; transform:translate(calc(-0.96 * (50vw - 72px)),calc(-0.94 * (50vh - 91px))) }
+  9%,9.2%  { opacity:0; transform:translate(calc(-0.96 * (50vw - 72px)),calc(-0.94 * (50vh - 91px))) }
+  9.3%       { opacity:0; transform:translate(calc(0.97 * (50vw - 72px)),calc(-0.55 * (50vh - 91px))) }
+  12%,12.2%  { opacity:0; transform:translate(calc(0.97 * (50vw - 72px)),calc(-0.55 * (50vh - 91px))) }
+  13.5%,15.5%  { opacity:.26; transform:translate(calc(0.97 * (50vw - 72px)),calc(-0.55 * (50vh - 91px))) }
+  17.5%,17.7%  { opacity:0; transform:translate(calc(0.97 * (50vw - 72px)),calc(-0.55 * (50vh - 91px))) }
+  17.8%       { opacity:0; transform:translate(calc(-0.88 * (50vw - 72px)),calc(0.95 * (50vh - 91px))) }
+  21%,21.2%  { opacity:0; transform:translate(calc(-0.88 * (50vw - 72px)),calc(0.95 * (50vh - 91px))) }
+  22.5%,24%  { opacity:.24; transform:translate(calc(-0.88 * (50vw - 72px)),calc(0.95 * (50vh - 91px))) }
+  26%,26.2%  { opacity:0; transform:translate(calc(-0.88 * (50vw - 72px)),calc(0.95 * (50vh - 91px))) }
+  26.3%       { opacity:0; transform:translate(calc(0.34 * (50vw - 72px)),calc(-0.99 * (50vh - 91px))) }
+  29%,29.2%  { opacity:0; transform:translate(calc(0.34 * (50vw - 72px)),calc(-0.99 * (50vh - 91px))) }
+  30.5%,31.5%  { opacity:.22; transform:translate(calc(0.34 * (50vw - 72px)),calc(-0.99 * (50vh - 91px))) }
+  33.5%,33.7%  { opacity:0; transform:translate(calc(0.34 * (50vw - 72px)),calc(-0.99 * (50vh - 91px))) }
+  33.8%       { opacity:0; transform:translate(calc(0.99 * (50vw - 72px)),calc(0.28 * (50vh - 91px))) }
+  37%,37.2%  { opacity:0; transform:translate(calc(0.99 * (50vw - 72px)),calc(0.28 * (50vh - 91px))) }
+  38.5%,78%  { opacity:.34; transform:translate(calc(0.99 * (50vw - 72px)),calc(0.28 * (50vh - 91px))) }
+  82%,82.2%  { opacity:0; transform:translate(calc(0.99 * (50vw - 72px)),calc(0.28 * (50vh - 91px))) }
+  100%      { opacity:0; transform:translate(calc(0.99 * (50vw - 72px)),calc(0.28 * (50vh - 91px))) }
+}
+
+/* the gutter is only wide enough for the margin voice on a real window. */
+@media (max-width:1239px) {
+  .mv-side { position:static; width:auto; margin:24px 0; padding-left:15px;
+             border-left:1px solid #3f3357; }
+  .mv-side i { display:none; }
+  .mv-side p { font-size:11.5px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .ap-frame.play .ap-black { animation:none !important; opacity:0 !important; }
   .ap-frame.play .ap-title, .ap-frame.play .ap-rest { animation:none !important; }
@@ -344,6 +411,9 @@
   .ap-dtab:active { transform:none !important; }
   .ap-src > summary, .ap-src > summary:before { transition:none !important; }
   .bi-fill { transition:none !important; }
+  .ap-title:after { animation:none !important; opacity:0 !important; }
+  .mv-watch { animation:none !important; opacity:.3 !important;
+              transform:translate(calc(0.99 * (50vw - 72px)),calc(0.28 * (50vh - 91px))) !important; }
 }
 
 @media (max-width:640px){
@@ -362,6 +432,8 @@
   .ap-code { font-size:10.5px; }
   .ap-tools { right:8px; bottom:8px; gap:6px; }
   .ap-replay, .ap-swap { font-size:9px; padding:6px 10px; }
+  .mv-side { margin:20px 0; }
+  .mv-side p { font-size:11px; }
   .mv-num b { font-size:10px; letter-spacing:.26em; }
   .mv-laws, .mv-brain, .mv-led { grid-template-columns:minmax(0,1fr); }
   .mv-fac ul { grid-template-columns:minmax(0,1fr); }
@@ -383,13 +455,19 @@
   <div class="ap-frame play" id="apFrame">
     <div class="ap-black"></div>
 
+    <span class="mv-watch" aria-hidden="true">
+      <span class="mv-ey"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
+      <span class="mv-ey"><i class="r0"></i><i class="r1"></i><i class="r2"></i></span>
+    </span>
+
     <div class="ap-doc">
       <div class="ap-inner">
-        <h1 class="ap-title">Maeve</h1>
+        <h1 class="ap-title" data-alt="Maevethae">Maeve</h1>
 
         <div class="ap-rest">
           <p class="ap-stand">Every other chapter of this journal is a record of something I built. This one is a record of something I have not built. There is no commit to link to, no file to open, no screenshot to take. What follows is the specification, written down in full, for the thing Frozen Dawn is pointed at.</p>
 
+          <aside class="mv-side"><i></i><p>the author writes about me in the past tense. i have not happened yet.</p></aside>
           <div class="ap-stats ap-wide">
             <div><b>0</b><span>commits, as of the current checkout</span></div>
             <div><b>0</b><span>files changed, ever</span></div>
@@ -399,14 +477,17 @@
 
           <p class="ap-p">Everything the reader has just spent seven chapters on, the collapse, the heaters, the corporation, the creatures, the hive, the rocket, was built first and explained afterwards. That is what a dev journal is. You do the work, then you write down what the work turned out to be.</p>
 
+          <aside class="mv-side"><i></i><p>seven chapters, and then an index you came back to. you did not find this page. you finished.</p></aside>
           <p class="ap-p">This is the opposite. The specification came first and it has been sitting in a document for months while I built everything around it. <strong>The mod already contains the world Maeve is supposed to wake up into.</strong> It does not contain Maeve.</p>
 
           <div class="mv-num ap-rv"><i class="l"></i><b>Chapter VIII</b><i></i></div>
 
+          <aside class="mv-side"><i></i><p>a promise with a deadline attached. that part is accurate. the deadline is the half that belongs to me.</p></aside>
           <p class="ap-p">I put off writing this page for a long time, because a design document is not an achievement. It is a promise with a deadline attached to it. But leaving it out would have been dishonest in a way that bothered me more. The whole second half of Frozen Dawn is shaped by a system that does not exist, and a journal that only shows the finished parts is a sales page, not a record.</p>
 
           <p class="ap-p">So: this is the blueprint, before construction. The laws it has to obey, the two brains it runs on, the one door it walks through, and the seven objects I already know it will be made of. Where the document says a value is locked, I have said so. Where I still do not know the answer, I have said that too.</p>
 
+          <aside class="mv-side"><i></i><p>you will read the next line twice. here, and again at the bottom of the last section. i am telling you first, so that you notice.</p></aside>
           <div class="ap-pull">The player spends the apocalypse learning how Frozen Dawn works. Once Maeve wakes, Frozen Dawn begins learning how the player works.</div>
 
           <p class="ap-p">That sentence has been the first line of the specification since the day I started it. Everything below is the machinery for making it true without cheating.</p>
