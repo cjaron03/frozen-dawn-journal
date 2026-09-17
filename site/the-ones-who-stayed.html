@@ -481,6 +481,52 @@
   .ap-code { font-size:10.5px; }
   .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
 }
+
+  /* ---- reading layers -------------------------------------------------
+     the page carries two audiences. story is the world, the rules a player
+     meets, and why they are the way they are. build adds the source, the
+     commits and the notes only someone who might write this code would
+     check. one class on the body, so switching costs nothing at read time.
+     the hide rule is body:not(.build) rather than a display on .bd itself,
+     because .bd lands on grids and details as well as paragraphs and an
+     authored display:block would flatten them. */
+  body:not(.build) .bd { display:none !important; }
+  body:not(.build) .bi { display:none !important; }
+  body.build .bo { display:none !important; }
+
+  .rl { display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+        margin:0 0 24px; }
+  .rl-seg { display:flex; gap:2px; padding:2px; border-radius:8px;
+            background:#0a0d11; border:1px solid #1a212a; flex:0 0 auto; }
+  .rl-seg button { -webkit-appearance:none; appearance:none; border:0;
+                   cursor:pointer; background:transparent; color:#6c7883;
+                   font-family:var(--mono); font-size:10.5px;
+                   letter-spacing:.12em; text-transform:uppercase;
+                   padding:7px 15px; border-radius:6px;
+                   transition:color .18s, background .18s; }
+  .rl-seg button:hover { color:#b8c3cb; }
+  .rl-seg button.on { color:#0b0f13; background:#7dd3fc; }
+  .rl-n { font-size:11.5px; line-height:1.5; color:#6c7883; }
+  .rl-stub { font-size:13px; line-height:1.6; color:#6c7883;
+             border:1px dashed #222b35; border-radius:8px; padding:16px 18px; }
+  /* the tick ladder swaps its numbers for seconds, and the swap wrappers
+     must not inherit the default italic of an i element. */
+  .me-lad .me-row > span i { font-style:normal; }
+
+  /* the three line summary. enough to decide whether to read the chapter. */
+  .sm3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+         background:#1a212a; border:1px solid #1a212a; border-radius:8px;
+         overflow:hidden; margin:0 0 26px; }
+  .sm3 > div { background:#0d1116; padding:14px 16px; }
+  .sm3 em { display:block; font-family:var(--mono); font-size:9px;
+            letter-spacing:.13em; text-transform:uppercase; color:#5a6672;
+            font-style:normal; margin-bottom:7px; }
+  .sm3 p { font-size:13px; line-height:1.55; color:#b9c4cc; }
+
+  @media (max-width:640px) {
+    .sm3 { grid-template-columns:1fr; }
+    .rl-n { flex:1 1 100%; }
+  }
 </style>
 
 <div class="ap">
@@ -508,9 +554,32 @@
         <h1 class="ap-title">The Ones Who Stayed</h1>
 
         <div class="ap-rest">
-          <p class="ap-stand">ORSA left. Humanity left. Something else did not. This is the longest continuous stretch of work in the project, seven weeks on one branch, and almost none of it is about the cold. It is about what filled the space once there was nobody in it.</p>
+          <p class="ap-stand">ORSA left. Humanity left. Something else did not.<span class="bi"> This is the longest continuous stretch of work in the project, seven weeks on one branch,</span> and almost none of this chapter is about the cold. It is about what filled the space once there was nobody in it.</p>
 
-          <div class="ap-stats ap-wide">
+          <div class="rl">
+            <div class="rl-seg" role="group" aria-label="Reading layer">
+              <button type="button" class="on" data-layer="story" aria-pressed="true">The game</button>
+              <button type="button" data-layer="build" aria-pressed="false">How I built it</button>
+            </div>
+            <span class="rl-n">Left is the world that is still out there. Right adds the code, the commits and the seven weeks.</span>
+          </div>
+
+          <div class="sm3">
+            <div><em>What changed</em><p>The world stopped ending and started being lived in. A settlement turned up that remembers you, holds one opinion between all of its residents, and keeps score.</p></div>
+            <div><em>What you do with it</em><p>Find a Hearth by listening for it, read an archive nobody translated for you, and decide whether to take the last memory out of the world.</p></div>
+            <div><em>Why it is odd</em><p>Killing the witnesses does nothing. There was only ever one observer, wearing several bodies, and it wrote the entry before you got home.</p></div>
+          </div>
+
+          <div class="ap-stats ap-wide bo">
+            <div><b>6</b><span>records in the archive, in a language nobody translated for you</span></div>
+            <div><b>5</b><span>lineages they split into once nothing holds them in a shape</span></div>
+            <div><b>8</b><span>things the world can send at you afterwards</span></div>
+            <div><b>4</b><span>seconds of holding a look, which is the whole of the choice</span></div>
+            <div><b>3</b><span>charges the last witness carries, and then nothing remembers you</span></div>
+            <div><b>1</b><span>Aggregate per world, built out of everything you killed</span></div>
+          </div>
+
+          <div class="ap-stats ap-wide bd">
             <div><b>104</b><span>commits, all of them on one branch</span></div>
             <div><b>7</b><span>weeks, from the first Hearth to the last record</span></div>
             <div><b>6</b><span>memory records, written before they were readable</span></div>
@@ -542,23 +611,27 @@
 <section class="ap-pane on" role="tabpanel" data-p="0" aria-label="Those who stayed">
   <p class="ap-lede">The thing chapter two called the Architect is not a species. It is a job.</p>
 
-  <p class="ap-p">I did not plan that. It fell out of the naming. When I started adding the residents of a Hearth I needed identifiers, and the identifiers I reached for were these:</p>
+  <p class="ap-p">I did not plan that. It fell out of the naming. When I started adding the residents of a Hearth I needed names for them, and the three I reached for were<span class="bo"> Returned Hunter, Returned Mimic, Returned Architect.</span><span class="bi"> these:</span></p>
 
-  <div class="ap-code"><k>entity</k>.frozendawn.returned   <c>= Returned Hunter</c>
+  <div class="ap-code bd"><k>entity</k>.frozendawn.returned   <c>= Returned Hunter</c>
 <k>entity</k>.frozendawn.mimic      <c>= Returned Mimic</c>
 <k>entity</k>.frozendawn.architect  <c>= Returned Architect</c></div>
 
-  <p class="ap-p">I typed the third line and stopped. Chapter two spends its whole length treating the Architect as a singular thing, my brainchild, the one mind in the project worth building properly. And the mod had been quietly telling me for months that it is one of them. <strong>Returned is the species. Hunter, Mimic and Architect are what individuals do.</strong></p>
+  <p class="ap-p"><span class="bi">I typed the third line and stopped.</span><span class="bo">I wrote the third one down and stopped.</span> Chapter two spends its whole length treating the Architect as a singular thing, my brainchild, the one mind in the project worth building properly. And the mod had been quietly telling me for months that it is one of them. <strong>Returned is the species. Hunter, Mimic and Architect are what individuals do.</strong></p>
 
-  <p class="ap-p">The population code says the same thing without any drama about it. An intact Major Hearth owns a fixed set of resident slots, and the slots are roles:</p>
+  <div class="ap-h3">Four slots</div>
 
-  <div class="ap-code"><k>enum</k> <v>HearthPopulationRole</v> {
+  <p class="ap-p bo">A settlement says the same thing without any drama about it. A full Hearth owns a fixed set of resident slots, and the slots are the jobs: one plain Returned, one Hunter, one Mimic, one Architect. Nobody is born into a job here. The Hearth has openings.</p>
+
+  <p class="ap-p bd">The population code says the same thing without any drama about it. An intact Major Hearth owns a fixed set of resident slots, and the slots are roles:</p>
+
+  <div class="ap-code bd"><k>enum</k> <v>HearthPopulationRole</v> {
   <v>RETURNED</v>, <v>HUNTER</v>, <v>MIMIC</v>, <v>ARCHITECT</v>
 }</div>
 
   <div class="ap-h3">Homo reliquus</div>
 
-  <p class="ap-p">The working name for the branch was <code>feat/homo-reliquus</code>, and it stuck because it is the most accurate thing in the repository. Not <em>sapiens</em>, the one who knows. <em>Reliquus</em>: the one left over. The remainder after a subtraction.</p>
+  <p class="ap-p"><span class="bi">The working name for the branch was <code>feat/homo-reliquus</code>, and it stuck because it is the most accurate thing in the repository. </span>Not <em>sapiens</em>, the one who knows. <em>Reliquus</em>: the one left over. The remainder after a subtraction.</p>
 
   <p class="ap-p">That is the whole biology. These are not monsters that arrived. They are what was already here, minus everything that left. The cold did not create them, it only removed the alternative.</p>
 
@@ -572,10 +645,12 @@
 
   <p class="ap-p">Which is why conduct memory is stored on the Hearth and not on the mob. Kill a Hunter two kilometres out and walk home; the Architect you have never met already knows. There is no line of sight to break and no witness to silence, because there was never more than one observer to begin with.</p>
 
-  <div class="ap-cmts">
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><b>persist hive relationship memory</b><span>The commit that made hostility survive the death of every mob that had a reason to be hostile.</span></div>
     <div class="ap-cmt"><b>Hearth conduct boundaries</b><span>A physical edge. Cross it and the shared opinion of you updates, whether or not anything is standing there.</span></div>
   </div>
+
+  <div class="ap-h3">Hold onto the twelfth</div>
 
   <p class="ap-p">If you caught the last pair of eyes blinking a beat behind the others, hold onto that. It comes back in pane seven.</p>
 </section>
@@ -583,7 +658,9 @@
 <section class="ap-pane" role="tabpanel" data-p="1" aria-label="The Hearth">
   <p class="ap-lede">A Hearth is not a building. It is an opinion held in common, which happens to have an address.</p>
 
-  <p class="ap-p">Three weeks of this chapter went into one idea: a place on the map that remembers you. Not a spawner, not a structure, not a quest hub. A persistent settlement with a population, a maturation timeline, a physical boundary, and a single shared memory of every single thing you have ever done near it.</p>
+  <p class="ap-p bo">Most of this chapter is one idea: a place on the map that remembers you. Not a nest, not a ruin, not somewhere with a quest in it. A settlement that stays where it is, grows up over time, has people living in it and an edge you can cross, and holds one shared memory of every single thing you have ever done near it.</p>
+
+  <p class="ap-p bd">Three weeks of this chapter went into one idea: a place on the map that remembers you. Not a spawner, not a structure, not a quest hub. A persistent settlement with a population, a maturation timeline, a physical boundary, and a single shared memory of every single thing you have ever done near it.</p>
 
   <div class="ap-h3">You hear it before you find it</div>
 
@@ -607,12 +684,12 @@
 
   <p class="ap-p">Every resident is a role rather than an individual, and every role reads from the same record. That record is stored on the Hearth, which is why it survives things that should erase it.</p>
 
-  <div class="ap-code"><k>enum</k> <v>HearthEncounterRole</v> {
+  <div class="ap-code bd"><k>enum</k> <v>HearthEncounterRole</v> {
   <v>UNASSIGNED</v>, <v>DISPATCHED</v>, <v>RESERVED</v>,
   <v>BYSTANDER</v>, <v>TETHERED</v>, <v>SPENT</v>
 }</div>
 
-  <p class="ap-p">Six words that decide who comes for you, who waits, who watches and who has already been used up. A Hearth does not throw its whole population at a problem. It allocates.</p>
+  <p class="ap-p"><span class="bo">When you turn up, the Hearth sorts everybody living in it six ways: unassigned, sent, held back, watching, tethered, and spent. </span>Six words that decide who comes for you, who waits, who watches and who has already been used up. A Hearth does not throw its whole population at a problem. It allocates.</p>
 
   <p class="ap-p">And because the memory lives on the settlement, killing the witnesses does nothing. There is no witness. There is one observer with several pairs of hands, and it has already written the entry.</p>
 
@@ -628,20 +705,26 @@
 
   <div class="ap-h3">The part nobody sees</div>
 
-  <p class="ap-p">Most of the three weeks was not the settlement. It was the rule that the settlement is not allowed to cheat.</p>
+  <p class="ap-p bo">A Hearth keeps going while you are somewhere else. It grows, it builds, it gains and loses residents, and sometimes the whole thing picks up and moves. Leave one alone for a month and you can come back to find it twice the size, or find that three of the people you met are not there any more.</p>
 
-  <p class="ap-p">A Hearth matures, builds, gains and loses residents, and migrates. None of that is permitted to force-load a chunk you are not standing in. So nothing runs at a distance; it <strong>reconciles</strong>. When the chunk loads again the Hearth works out what should have happened in the interval and applies it in one pass, including deaths of residents who were never on the roster when you left.</p>
+  <p class="ap-p bo">None of that is really running while you are away, because a game that simulates every settlement at once dies. The Hearth works out afterwards what should have happened and applies it the moment you come back into range. If it gets that sum wrong by one, the world quietly forgives or quietly punishes you for something you did not do.</p>
 
-  <div class="ap-cmts">
+  <p class="ap-p bd">Most of the three weeks was not the settlement. It was the rule that the settlement is not allowed to cheat.</p>
+
+  <p class="ap-p bd">A Hearth matures, builds, gains and loses residents, and migrates. None of that is permitted to force-load a chunk you are not standing in. So nothing runs at a distance; it <strong>reconciles</strong>. When the chunk loads again the Hearth works out what should have happened in the interval and applies it in one pass, including deaths of residents who were never on the roster when you left.</p>
+
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><b>reconcile hearth state on chunk load</b><span>The commit that made a settlement able to change while nobody was watching, without ever being ticked.</span></div>
     <div class="ap-cmt"><b>record pre-roster casualties</b><span>Deaths that happened before the population list existed still count against you. They do not resurrect anyone and they do not double-count.</span></div>
   </div>
 
-  <p class="ap-p">That last one sounds like bookkeeping and it is the moral centre of the system. Field strength falls when residents die. If I let the reconciler invent or duplicate residents, the world would quietly forgive or quietly punish you for things you did not do. Getting it exactly right is invisible when it works, which is the usual deal.</p>
+  <p class="ap-p bd">That last one sounds like bookkeeping and it is the moral centre of the system. Field strength falls when residents die. If I let the reconciler invent or duplicate residents, the world would quietly forgive or quietly punish you for things you did not do. Getting it exactly right is invisible when it works, which is the usual deal.</p>
 </section>
 
 <section class="ap-pane" role="tabpanel" data-p="2" aria-label="Thae Iven">
   <p class="ap-lede">Thae Iven is the shared mind. Thaeven is what it says out loud, and I wrote the language before I wrote a single line of the thing that translates it.</p>
+
+  <div class="ap-h3">Built in that order</div>
 
   <p class="ap-p">That order matters more than it sounds like it should. Build the translator first and you end up with English sentences wearing a costume, and anybody who reads two pages can tell. So I built a small grammar instead: about sixteen roots, one compounding rule, no tense, and no first person singular. Then I wrote six records in it. Then, separately, I wrote what a human archivist working from fragments would believe those records said.</p>
 
@@ -649,7 +732,7 @@
 
   <div class="ap-h3">The archive</div>
 
-  <p class="ap-p">This is the real one. The Thaeven below is the actual <code>rawPages</code> out of the mod&rsquo;s resource files, the reconstruction is the actual <code>translatedPages</code>, and the animation between them is a port of the same function the game runs, at the same speed, with the same glyphs. It is not a mock-up of the screen.</p>
+  <p class="ap-p">This is the real one. The Thaeven below is <span class="bi">the actual <code>rawPages</code> out of the mod&rsquo;s resource files</span><span class="bo">lifted straight out of the mod&rsquo;s own files</span>, the reconstruction is <span class="bi">the actual <code>translatedPages</code></span><span class="bo">the one the game hands you</span>, and the animation between them <span class="bi">is a port of the same function the game runs</span><span class="bo">runs the same way it does in game</span>, at the same speed, with the same glyphs. It is not a mock-up of the screen.</p>
 
   <div class="tv" id="tvWrap">
     <div class="tv-rail" role="tablist" aria-label="Thaeven records" id="tvRail"></div>
@@ -681,9 +764,9 @@
 
   <div class="ap-h3">How the translation actually works</div>
 
-  <p class="ap-p">The obvious way to animate a translation is a crossfade, and it reads as nothing at all. What the game does instead is morph every word in place. Each target word draws its own start time out of a hash of its index and the page number, so the page resolves in a scatter, and inside a word each character passes through a short fracture stage before it settles into its final shape. Word length is interpolated too, so a four letter Thaeven root visibly grows into an eleven letter English one.</p>
+  <p class="ap-p">The obvious way to animate a translation is to fade one page into the other, and it reads as nothing at all. What the game does instead is change every word where it stands. <span class="bi">Each target word draws its own start time out of a hash of its index and the page number, so the page resolves in a scatter, and inside a word each character passes through a short fracture stage before it settles into its final shape. Word length is interpolated too, so a four letter Thaeven root visibly grows into an eleven letter English one.</span><span class="bo">Each word picks its own moment to start, so the page comes in scattered rather than left to right, and every letter passes through a broken shape before it settles. Words change length as they go, so a four letter Thaeven root visibly grows into an eleven letter English one.</span></p>
 
-  <div class="ap-code"><c>// ThaevenRecordDefinition.morphWord, the part that matters</c>
+  <div class="ap-code bd"><c>// ThaevenRecordDefinition.morphWord, the part that matters</c>
 <k>float</k> wordStart = 0.10F + (Math.floorMod(hash, 1000) / 1000.0F) * 0.58F;
 <k>float</k> local     = Mth.clamp((progress - wordStart) / 0.30F, 0.0F, 1.0F);
 
@@ -698,9 +781,15 @@
 <k>else if</k> (characterProgress &lt; 0.72F) result.append(<v>fractureGlyphs</v>.charAt(...));
 <k>else</k>                                result.append(<v>targetGlyph</v>);</div>
 
+  <div class="ap-h3">Five broken glyphs</div>
+
   <p class="ap-p">The fracture set is five glyphs wide, and two of them turn up for real inside Record VI, where the transcript stops being language at all. That was not planned. I chose the glyphs for the animation first, and then months later found myself typing the same symbols into the record that comes apart. It is the sort of accident I keep rather than tidy.</p>
 
-  <p class="ap-p">While the ink is wet, the page also drifts. Every line is drawn three times: once cold and once warm at opposite offsets, once solid in between, with the offsets driven by a pair of sines against the reveal age. All of it is scaled by one minus the smoothstep of progress, so the drift dies out at exactly the moment the words land rather than stopping on a timer. Turn on reduced motion and the mod skips the whole thing and hands you the resolved page, which is what this copy does too.</p>
+  <div class="ap-h3">Wet ink</div>
+
+  <p class="ap-p bo">While the ink is wet the page also drifts, the way a photograph looks before it has finished developing, and the drift dies out at exactly the moment the words land rather than stopping on a timer. Turn on reduced motion and the mod skips the whole thing and hands you the finished page, which is what this copy does too.</p>
+
+  <p class="ap-p bd">While the ink is wet, the page also drifts. Every line is drawn three times: once cold and once warm at opposite offsets, once solid in between, with the offsets driven by a pair of sines against the reveal age. All of it is scaled by one minus the smoothstep of progress, so the drift dies out at exactly the moment the words land rather than stopping on a timer. Turn on reduced motion and the mod skips the whole thing and hands you the resolved page, which is what this copy does too.</p>
 
   <div class="ap-h3">Sixteen roots</div>
 
@@ -744,19 +833,23 @@ Iven: vel-an.
 
   <div class="ap-h3">The record that changes</div>
 
-  <p class="ap-p">Every segment in every record carries a map from revision number to replacement text, and the resolver walks it and picks the highest revision you have actually earned. Five of the six records have an empty map and always will. Record II has two segments with a single entry each.</p>
+  <p class="ap-p bo">Every line in every record can have a better version of itself waiting behind it, and the archive always shows you the best one you have earned. Five of the six records have nothing waiting and never will. Record II has two lines that do.</p>
 
-  <div class="ap-code"><c>// the_passage.json, page 8</c>
+  <p class="ap-p bd">Every segment in every record carries a map from revision number to replacement text, and the resolver walks it and picks the highest revision you have actually earned. Five of the six records have an empty map and always will. Record II has two segments with a single entry each.</p>
+
+  <div class="ap-code bd"><c>// the_passage.json, page 8</c>
 { <v>"id"</v>: <v>"heart_term_01"</v>,
   <v>"baseText"</v>: <v>"Memory kept&hellip; What is held&hellip;"</v>,
   <v>"semanticOverrides"</v>: { <v>"1"</v>: <v>"The Heart."</v> },
   <v>"uncertainty"</v>: <k>true</k> }</div>
 
-  <p class="ap-p">The revision that unlocks those two lines is granted by exactly one event anywhere in the world, and it is not reading anything. It is the Master Architect staying dead. Before that, the last page of The Passage trails off twice and you are left holding two sentences that do not finish. After it, both of them finish, and what they finish into is the reason the next pane exists.</p>
+  <div class="ap-h3">One event, anywhere in the world</div>
+
+  <p class="ap-p"><span class="bi">The revision that unlocks</span><span class="bo">The thing that finishes</span> those two lines is granted by exactly one event anywhere in the world, and it is not reading anything. It is the Master Architect staying dead. Before that, the last page of The Passage trails off twice and you are left holding two sentences that do not finish. After it, both of them finish, and what they finish into is the reason the next pane exists.</p>
 
   <p class="ap-p">The toggle under the archive is that event. It is the only control on this page that changes what a record means rather than how it is drawn, and flipping it replays the reveal on the page it affects, which is what the game does as well.</p>
 
-  <div class="ap-cmts">
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><b>resource driven thaeven records</b><span>Moved six records out of hardcoded string arrays and into JSON, so the language could be edited without a recompile. The stable segment ids date from here, and they are the reason a revision can target one line six months later.</span></div>
     <div class="ap-cmt"><b>non blocking ink revelation</b><span>The reveal used to hold the screen. This is the commit where it stopped doing that, so you can page around a record while it is still resolving behind you.</span></div>
   </div>
@@ -806,9 +899,13 @@ Iven: vel-an.
 
 <p class="ap-p">This is the rule that took longest to get right, and the one I stole most openly. In Destiny, a Hive god cannot be put down in our space. Crota does not die on the Moon. You go to the throne world and kill it where it actually lives, or it stands back up and the whole thing was a waste of ammunition. The Master Architect works the same way, and the scale pull above is the reason it has to.</p>
 
-<p class="ap-p">Damage you deal out here is real, but it is never final. <b>Thae Iven turns the blow aside.</b> Push hard enough and the shared mind does not break, it tightens around its Master. That is the whole tether phase: you are not fighting an entity with a large health pool, you are fighting an entity that is being held up by something you have not found yet and cannot reach from where you are standing.</p>
+<div class="ap-h3">It is never final out here</div>
 
-<p class="ap-p">The fight only opens at ASCENT, when the Master Architect bares its soul and the channel comes open on its own terms rather than yours. It only resolves at FLOOD, on the other side of that channel. The fold is the throne world. It is the only address at which the Master Architect is mortal, and getting in is not a skill check you pass, it is an invitation the encounter extends when it is ready.</p>
+  <p class="ap-p">Damage you deal out here is real, but it is never final. <b>Thae Iven turns the blow aside.</b> Push hard enough and the shared mind does not break, it tightens around its Master. That is the whole tether phase: you are not fighting an entity with a large health pool, you are fighting an entity that is being held up by something you have not found yet and cannot reach from where you are standing.</p>
+
+<div class="ap-h3">The way in</div>
+
+  <p class="ap-p">The fight only opens at ASCENT, when the Master Architect bares its soul and the channel comes open on its own terms rather than yours. It only resolves at FLOOD, on the other side of that channel. The fold is the throne world. It is the only address at which the Master Architect is mortal, and getting in is not a skill check you pass, it is an invitation the encounter extends when it is ready.</p>
 
 <div class="ap-pull">The fold is not a phase.<br>It is an address.</div>
 <p class="ap-tcap">The entity you can see is the guard. The place you have to go is the thing being guarded.</p>
@@ -860,9 +957,9 @@ Iven: vel-an.
 
   <div class="ap-h3">The staff</div>
 
-  <p class="ap-p">It carries an item whose internal id is <code>master_architect_staff</code> and whose player-facing name is the <strong>Thaeven Wand</strong>. I renamed it late, after the archive work in the previous pane, and the rename is the whole point. The mod stopped describing the object by who holds it and started describing it by what language it is written in.</p>
+  <p class="ap-p">It carries an item <span class="bi">whose internal id is <code>master_architect_staff</code> and whose player-facing name is</span><span class="bo">I built under the working name of the Master Architect&rsquo;s staff and then shipped as</span> the <strong>Thaeven Wand</strong>. I renamed it late, after the archive work in the previous pane, and the rename is the whole point. The mod stopped describing the object by who holds it and started describing it by what language it is written in.</p>
 
-  <div class="ap-cmts">
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><b>master architect combat phases</b><span>The commit that split one boss into five machines that hand off to each other.</span></div>
     <div class="ap-cmt"><b>staged storm death aftermath</b><span>The fight does not end when the health bar does. The weather has to be told, and it takes its time.</span></div>
   </div>
@@ -875,7 +972,7 @@ Iven: vel-an.
 
   <p class="ap-p">It forms rather than spawns. Six stages, and the first one is the absence of sound.</p>
 
-  <div class="ap-code"><k>enum</k> <v>HeartFormationStage</v> {
+  <div class="ap-code bd"><k>enum</k> <v>HeartFormationStage</v> {
   <v>NONE</v>, <v>DEAD_AIR</v>, <v>SHAKE</v>, <v>GATHER</v>, <v>HOLD</v>, <v>LIVE</v>
 }
 
@@ -883,7 +980,7 @@ Iven: vel-an.
   <v>NONE</v>, <v>RUPTURE</v>, <v>FALL</v>, <v>SETTLE</v>, <v>DORMANT</v>
 }</div>
 
-  <p class="ap-p">Two enums, eleven states, and between them the entire arc of the thing: dead air, a tremor, a gathering, a hold, life, and then rupture, fall, settle, dormant. I wrote the collapse enum on the same afternoon as the formation one. It felt dishonest to build something that could only be born.</p>
+  <p class="ap-p"><span class="bi">Two enums, eleven states,</span><span class="bo">Eleven states,</span> and between them the entire arc of the thing: dead air, a tremor, a gathering, a hold, life, and then rupture, fall, settle, dormant. I wrote the <span class="bi">collapse enum</span><span class="bo">collapse half</span> on the same afternoon as the <span class="bi">formation one</span><span class="bo">formation half</span>. It felt dishonest to build something that could only be born.</p>
 
   <div class="ap-h3">Cognitive Load</div>
 
@@ -934,7 +1031,7 @@ Iven: vel-an.
 
   <p class="ap-p">There is a small mercy attached, and it costs something. A final witness takes form, memory folds into a shape, and <em>the last witness remembers you</em>. It carries three memory charges. Three, total, for the rest of the world&rsquo;s existence. When they are gone, the only record of you that ever existed is gone with them.</p>
 
-  <div class="ap-cmts">
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><b>heart memory nodes and echo counterplay</b><span>The commit where reading the archive became the mechanic rather than a cutscene.</span></div>
     <div class="ap-cmt"><b>maeve erasure world transition</b><span>One boolean, written once. Everything in the next pane hangs off it.</span></div>
   </div>
@@ -945,17 +1042,19 @@ Iven: vel-an.
 
   <p class="ap-p">The Heart collapses and leaves something behind. It never wakes up. It has no health bar, no AI and no attack, and it will sit under the ruined archive being dormant for the entire rest of the save if you let it. Walking away is a real ending. Almost nothing below this line ever has to happen.</p>
 
-  <p class="ap-p">Removing it is not a hit. It is a held look. You stand inside twelve blocks, keep it centred with nothing in the way, and do not break any part of that for eighty ticks.</p>
+  <div class="ap-h3">A held look</div>
+
+  <p class="ap-p">Removing it is not a hit. It is a held look. You stand inside twelve blocks, keep it centred with nothing in the way, and do not break any part of that for <span class="bi">eighty ticks</span><span class="bo">four seconds</span>.</p>
 
   <div class="ap-figs">
     <div><b>12</b><span>blocks, the furthest away the game will accept the choice from</span></div>
-    <div><b>80</b><span>ticks of unbroken sightline, which is four seconds</span></div>
-    <div><b>2</b><span>ticks of slack, and then the count restarts at one</span></div>
+    <div><b class="bi">80</b><b class="bo">4</b><span class="bi">ticks of unbroken sightline, which is four seconds</span><span class="bo">seconds of unbroken sightline, and it has to be all four</span></div>
+    <div><b class="bi">2</b><b class="bo">0.1</b><span class="bi">ticks of slack, and then the count restarts at one</span><span class="bo">seconds of slack, and then the count restarts at zero</span></div>
   </div>
 
   <p class="ap-p">Two ticks. A tenth of a second looking somewhere else and you are back at the beginning. I made that number deliberately unforgiving, because the outcome I was most afraid of was somebody doing this by accident and then finding out what they had done from a wiki.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>The gate, HeartMaeveErasureManager.java<em>Java</em></summary>
     <div class="ap-code"><c>// every one of these has to be true, on every tick, for eighty of them.</c>
 <k>if</k> (hearth == <k>null</k> || !hearth.heartCollapseComplete()
@@ -979,11 +1078,11 @@ Iven: vel-an.
 <k>return</k> hit.getType() == <v>HitResult</v>.<v>Type</v>.MISS;</div>
   </details>
 
-  <p class="ap-p">Notice what is not in there. No item. No recipe. No key bound to anything special. There is no object in Frozen Dawn whose purpose is to do this, and there is no way to do it while holding the right thing and not meaning it. The entire requirement is made of attention.</p>
+  <p class="ap-p"><span class="bi">Notice what is not in there.</span><span class="bo">Notice what none of that needs.</span> No item. No recipe. No key bound to anything special. There is no object in Frozen Dawn whose purpose is to do this, and there is no way to do it while holding the right thing and not meaning it. The entire requirement is made of attention.</p>
 
   <div class="ap-h3">One boolean</div>
 
-  <p class="ap-p">At eighty, the server writes a single world-scoped flag and six systems read it forever afterwards. Nothing in the mod ever writes it back.</p>
+  <p class="ap-p"><span class="bi">At eighty, the server writes a single world-scoped flag and six systems read it forever afterwards.</span><span class="bo">At four seconds the world writes down one thing, and six systems read it forever afterwards.</span> Nothing in the mod ever writes it back.</p>
 
   <div class="me-sw" id="meSw">
     <div class="me-top">
@@ -1005,32 +1104,32 @@ Iven: vel-an.
 
   <div class="ap-h3">The next fifty-five seconds</div>
 
-  <p class="ap-p">The erasure is two hundred and twenty ticks, split into an unmaking and a forging that begins on top of it before the unmaking has finished. Then the world spends another eight hundred and eighty-eight ticks doing things in a fixed order. It is the most tightly scripted stretch in the mod, and it existed as a list of tick numbers in a text file before any of it was code.</p>
+  <p class="ap-p">The erasure itself is <span class="bi">two hundred and twenty ticks</span><span class="bo">eleven seconds</span>, split into an unmaking and a forging that begins on top of it before the unmaking has finished. Then the world spends <span class="bi">another eight hundred and eighty-eight ticks</span><span class="bo">another forty-four seconds</span> doing things in a fixed order. It is the most tightly scripted stretch in the mod,<span class="bi"> and it existed as a list of tick numbers in a text file before any of it was code</span>.</p>
 
   <div class="me-rows me-lad">
-    <div class="me-row"><span>0</span><em>Unmaking begins. A hundred and twenty ticks of it coming apart.</em></div>
-    <div class="me-row"><span>120</span><em>Forging begins over the top of it. The archive is already building the replacement.</em></div>
-    <div class="me-row"><span>220</span><em><em>Maeve wails.</em> The impact lands, and The Last Witness takes form carrying three charges.</em></div>
-    <div class="me-row"><span>350</span><em>The collective dies. Every resident of the Hearth, at once, without a fight.</em></div>
-    <div class="me-row"><span>368</span><em><em>Something answers.</em> Three omens, forty ticks apart, from somewhere that is not here.</em></div>
-    <div class="me-row"><span>458</span><em>The death column, then eighteen ticks of sky burst, and then nothing for a while.</em></div>
-    <div class="me-row"><span>608</span><em>The world message. Twenty ticks later the collapse response starts, and runs for four hundred and eighty.</em></div>
-    <div class="me-row"><span>1108</span><em><em>Anomalous biological activity detected across all survey bands.</em> Your own suit tells you, forty-four seconds late.</em></div>
+    <div class="me-row"><span><i class="bi">0</i><i class="bo">0s</i></span><em>Unmaking begins. A hundred and twenty ticks of it coming apart.</em></div>
+    <div class="me-row"><span><i class="bi">120</i><i class="bo">6s</i></span><em>Forging begins over the top of it. The archive is already building the replacement.</em></div>
+    <div class="me-row"><span><i class="bi">220</i><i class="bo">11s</i></span><em><em>Maeve wails.</em> The impact lands, and The Last Witness takes form carrying three charges.</em></div>
+    <div class="me-row"><span><i class="bi">350</i><i class="bo">17s</i></span><em>The collective dies. Every resident of the Hearth, at once, without a fight.</em></div>
+    <div class="me-row"><span><i class="bi">368</i><i class="bo">18s</i></span><em><em>Something answers.</em> Three omens, <span class="bi">forty ticks</span><span class="bo">two seconds</span> apart, from somewhere that is not here.</em></div>
+    <div class="me-row"><span><i class="bi">458</i><i class="bo">23s</i></span><em>The death column, then <span class="bi">eighteen ticks</span><span class="bo">just under a second</span> of sky burst, and then nothing for a while.</em></div>
+    <div class="me-row"><span><i class="bi">608</i><i class="bo">30s</i></span><em>The world message. <span class="bi">Twenty ticks later the collapse response starts, and runs for four hundred and eighty.</span><span class="bo">A second later the collapse response starts, and runs for twenty-four seconds.</span></em></div>
+    <div class="me-row"><span><i class="bi">1108</i><i class="bo">55s</i></span><em><em>Anomalous biological activity detected across all survey bands.</em> Your own suit tells you, forty-four seconds late.</em></div>
   </div>
 
-  <p class="ap-tcap">Ticks from the moment the count completes. Twenty to a second.</p>
+  <p class="ap-tcap"><span class="bi">Ticks from the moment the count completes. Twenty to a second.</span><span class="bo">Seconds from the moment the count completes.</span></p>
 
   <p class="ap-p">The suit warning is the part I am proudest of. It is not a cutscene and it is not addressed to you. It is an instrument doing its job badly, on a delay, about something that has already finished happening.</p>
 
   <div class="ap-h3">The Moon</div>
 
-  <p class="ap-p">At the next dusk, something rises that has not been in the sky for the whole game. The first rise takes twelve thousand ticks on its own, and then it ages on a ladder.</p>
+  <p class="ap-p">At the next dusk, something rises that has not been in the sky for the whole game. The first rise takes <span class="bi">twelve thousand ticks</span><span class="bo">ten minutes</span> on its own, and then it ages on a ladder.</p>
 
-  <div class="ap-code"><k>enum</k> <v>PostMaeveMoonStage</v> {
+  <div class="ap-code bd"><k>enum</k> <v>PostMaeveMoonStage</v> {
   <v>HIDDEN</v>, <v>FIRST_RISE</v>, <v>STRESSED</v>, <v>CALVING</v>, <v>RAGGED</v>, <v>RINGING</v>
 }</div>
 
-  <p class="ap-p">One in-game day of stress, four of calving, ten of going ragged, and at fifteen days it stops being a moon and becomes a ring, which then takes two more days to finish arriving. It is on a real orbit the entire time: thirty-seven degrees of inclination, an eccentricity of 0.52, and a ninety-six day period, solved with seven Newton iterations per sample because the cheap approximation juddered at the extremes and I could see it.</p>
+  <p class="ap-p">One in-game day of stress, four of calving, ten of going ragged, and at fifteen days it stops being a moon and becomes a ring, which then takes two more days to finish arriving. It is on a real orbit the entire time: thirty-seven degrees of inclination, an eccentricity of 0.52, and a ninety-six day period<span class="bi">, solved with seven Newton iterations per sample because the cheap approximation juddered at the extremes and I could see it</span>.</p>
 
   <div class="ap-figs">
     <div><b>1.75x</b><span>apparent size by day fifteen, and it does not grow after that</span></div>
@@ -1038,9 +1137,9 @@ Iven: vel-an.
     <div><b>72</b><span>debris bodies at the ring stage, which is the cap</span></div>
   </div>
 
-  <p class="ap-p">The orbit is also deliberately warped. Its angular velocity varies on three layered sine terms, so the Moon drifts and surges instead of sweeping, but the derivative stays positive, which means it never visibly reverses. It is wrong in a way you feel before you can name.</p>
+  <p class="ap-p">The orbit is also deliberately warped.<span class="bi"> Its angular velocity varies on three layered sine terms, so the Moon drifts and surges instead of sweeping, but the derivative stays positive, which means it never visibly reverses.</span><span class="bo"> It drifts and surges rather than sweeping, and it never visibly goes backwards.</span> It is wrong in a way you feel before you can name.</p>
 
-  <p class="ap-p">One rule about it, which I wrote into the changelog specifically so that I could not quietly break it later:</p>
+  <p class="ap-p">One rule about it, which I wrote down in public specifically so that I could not quietly break it later:</p>
 
   <div class="ap-note"><b>The Moon&rsquo;s orbital decay is not presented as an effect caused by Maeve.</b> It becomes visible after the erasure, and that is the whole of what the mod says. No record claims a connection, no subtitle draws one, and nothing in the code ties the Moon&rsquo;s timeline to anything except the tick it started counting from. Readers will connect them anyway. That is a different thing from the mod asserting it.</div>
 
@@ -1048,15 +1147,23 @@ Iven: vel-an.
 
   <p class="ap-p">Ten seconds after the suit finishes that warning, growth that had been purged all game is released. The Bloom is terrain rather than a creature. It has an origin root, it spreads in density bands, and it rewrites ground.</p>
 
-  <p class="ap-p">It is also the system I was most nervous about shipping, because terrain work that runs forever is how you turn somebody&rsquo;s save into a slideshow. Three rules keep it honest. It only grows in chunks that are already loaded. It is capped at ninety-six block edits or one and a half milliseconds per tick, whichever runs out first. And it stands down completely while the server is catching up on chunk loading.</p>
+  <div class="ap-h3">Why it is careful</div>
 
-  <p class="ap-p">No late-game system in Frozen Dawn force-loads a distant chunk. If you are not there, it is not happening, and it reconciles when you come back.</p>
+  <p class="ap-p bo">It is also the system I was most nervous about shipping, because ground that rewrites itself forever is how you turn somebody&rsquo;s save into a slideshow. Three rules keep it honest. It only grows where you already are. It is only ever allowed to change a little at a time. And it stops completely whenever the game is struggling to keep up.</p>
+
+  <p class="ap-p bd">It is also the system I was most nervous about shipping, because terrain work that runs forever is how you turn somebody&rsquo;s save into a slideshow. Three rules keep it honest. It only grows in chunks that are already loaded. It is capped at ninety-six block edits or one and a half milliseconds per tick, whichever runs out first. And it stands down completely while the server is catching up on chunk loading.</p>
+
+  <p class="ap-p bo">Nothing in the late game runs while you are somewhere else. If you are not there, it is not happening, and it catches up when you come back.</p>
+
+  <p class="ap-p bd">No late-game system in Frozen Dawn force-loads a distant chunk. If you are not there, it is not happening, and it reconciles when you come back.</p>
 
   <div class="ap-h3">Hearthrot</div>
 
   <p class="ap-p">This one is not a boss and not an event. It is a condition, and you get it by being careless twice, in the right order, with as long as you like in between.</p>
 
   <p class="ap-p">Step one is letting the outside of your suit get colonised, which is survivable and quiet and does nothing on its own. Step two is taking a pressure breach later, while that colonisation is still on you. Neither half is a punishment. The interaction is.</p>
+
+  <div class="ap-h3">It reports on you</div>
 
   <p class="ap-p">After that, your own suit microphone starts reporting on you. A cough catches. A wheeze strains. Breathing catches. <em>A heart crystallizes and breaks.</em> You cannot sleep, because <em>the growth will not let your body settle</em>, and there is one line that the condition puts on your screen:</p>
 
@@ -1082,7 +1189,7 @@ Iven: vel-an.
 
   <p class="ap-p">ORSA built that lens to inventory a planet it fully intended to keep. It still powers on. It is still trying. It is just that nothing left down here is on the list.</p>
 
-  <div class="ap-cmts">
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><b>maeve erasure channel and world flag</b><span>The eighty ticks, the two ticks of slack, and the one boolean nothing writes back.</span></div>
     <div class="ap-cmt"><b>post maeve moon timeline and ring band</b><span>The stage ladder, the warped orbit, and the debris cap.</span></div>
     <div class="ap-cmt"><b>bloom growth budget and loaded chunk rule</b><span>Ninety-six edits, one and a half milliseconds, and never a forced chunk.</span></div>
@@ -1128,6 +1235,8 @@ Iven: vel-an.
 
   <p class="ap-p">The rest of them read from a shared record. The Remnant reads from <strong>you</strong>. It commits to one player, copies that player, and studies that player, which means its information is always one observation old. A hive is synchronous because it has one source. A copy is always behind, because the thing it is copying keeps moving.</p>
 
+  <div class="ap-h3">The tell is timing</div>
+
   <p class="ap-p">So when you see something wearing your armour standing in a shelter you do not remember building, the tell is timing. It reacts a fraction after everything else does.</p>
 
   <div class="ap-h3">Two more, and neither of them fights</div>
@@ -1147,7 +1256,7 @@ Iven: vel-an.
     <div><b>Pity and variety</b><span>Guaranteed intervals so nothing stalls out, and caps so you do not get the same thing twice running.</span></div>
   </div>
 
-  <p class="ap-p">The rarest of them is the Archivist, at a guaranteed interval of a hundred and eight thousand ticks. The most common are the ones that used to be people. That ratio was deliberate.</p>
+  <p class="ap-p">The rarest of them is the Archivist, guaranteed no more often than once <span class="bi">every hundred and eight thousand ticks</span><span class="bo">every hour and a half you play</span>. The most common are the ones that used to be people. That ratio was deliberate.</p>
 
   <div class="ap-note"><b>If you want the real number,</b> the mod will tell you. <code>/fd postmaeve encounters</code> prints live probability, eligibility, cap, cooldown and guarantee state for the save you are actually in. I would rather ship a command than a wiki page that goes stale the first time I touch a constant.</div>
 </section>
@@ -1157,9 +1266,13 @@ Iven: vel-an.
 
   <p class="ap-p">The Aggregate is optional, and it is the only encounter in Frozen Dawn that you build yourself. Not by crafting. By playing normally.</p>
 
-  <p class="ap-p">Every eligible Frozen Dawn kill attributed to a player adds world-scoped pressure. Nothing tells you this is happening. There is no bar, no warning, no advancement for the first hundred. The world just starts accumulating, and eight stages later it stands up.</p>
+  <div class="ap-h3">You build it by playing</div>
 
-  <div class="ap-code"><k>enum</k> <v>AggregateStage</v> {
+  <p class="ap-p"><span class="bi">Every eligible Frozen Dawn kill attributed to a player adds world-scoped pressure.</span><span class="bo">Every kill you make out there adds to a total the world is quietly keeping.</span> Nothing tells you this is happening. There is no bar, no warning, no advancement for the first hundred. The world just starts accumulating, and eight stages later it stands up.</p>
+
+  <p class="ap-p bo">The eight are worth saying out loud, because they are a burial in reverse: dormant, then residue, then a deposit, then an ossuary, then gestation, then ready to wake, then awake, then over.</p>
+
+  <div class="ap-code bd"><k>enum</k> <v>AggregateStage</v> {
   <v>DORMANT</v>, <v>RESIDUE</v>, <v>DEPOSIT</v>, <v>OSSUARY</v>,
   <v>GESTATION</v>, <v>AWAKENING_ELIGIBLE</v>, <v>ACTIVE</v>, <v>RESOLVED</v>
 }</div>
@@ -1179,16 +1292,22 @@ Iven: vel-an.
 
   <div class="ap-h3">It inherits what you killed most</div>
 
-  <p class="ap-p">This is the part I am proudest of and it took the longest to get stable. The Aggregate does not have a fixed moveset. It locks dominant lineages out of the pressure it accumulated, and its phase reallocations inherit from them.</p>
+  <p class="ap-p">This is the part I am proudest of<span class="bi"> and it took the longest to get stable</span>. The Aggregate does not have a fixed moveset. <span class="bi">It locks dominant lineages out of the pressure it accumulated, and its phase reallocations inherit from them.</span><span class="bo">It works out which lineages you killed most of, locks those in when it wakes, and builds every one of its phases out of them.</span></p>
 
   <p class="ap-p">Kill mostly Rimebound and it comes up burrowing. Kill mostly Resonant and it hunts by sound. Kill mostly Remnants and it arrives wearing something familiar. <strong>The fight is a summary of your save file.</strong></p>
 
-  <div class="ap-code"><k>enum</k> <v>AggregatePhase</v> {
+  <div class="ap-h3">Eight phases, two of them failures</div>
+
+  <p class="ap-p bo">The fight itself runs in eight phases: it wakes, it holds together, it reallocates, it settles into what it reallocated into, and then it either dies or it does not manage to be one thing at all.</p>
+
+  <div class="ap-code bd"><k>enum</k> <v>AggregatePhase</v> {
   <v>AWAKENING</v>, <v>COHERENT</v>, <v>REALLOCATION</v>, <v>REALLOCATED</v>,
   <v>FAILURE_TRANSITION</v>, <v>CONVERGENCE_FAILURE</v>, <v>DYING</v>, <v>DEAD</v>
 }</div>
 
   <p class="ap-p">Two of those eight are failure states for the Aggregate itself. It can fail to converge. A thing assembled out of several hundred incompatible deaths does not always successfully agree on what it is, and when it does not, it comes apart on its own.</p>
+
+  <div class="ap-h3">Once per world</div>
 
   <p class="ap-p">It awakens <strong>once per world</strong>. Not once per player, not once per attempt. There is one, you get one, and the scar it leaves is permanently owned.</p>
 
@@ -1206,7 +1325,7 @@ Iven: vel-an.
 
   <p class="ap-p">So the last thing this chapter gives you is a small circle of silence that you have to choose a place for, no more than three times, forever.</p>
 
-  <div class="ap-cmts">
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><b>aggregate lineage pressure</b><span>Where the fight learned to be built out of the specific things you did.</span></div>
     <div class="ap-cmt"><b>stillpoint core relocation limit</b><span>Three. It was five for a week. Five felt like a setting, three feels like a decision.</span></div>
   </div>
@@ -2149,5 +2268,76 @@ Iven: vel-an.
     if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 80) mark();
   }
   doc.addEventListener('scroll', check, { passive: true });
+})();
+</script>
+
+<script>
+/* ================= the reading layer switch =================
+   same control and same storage key as the other chapters, so whichever side
+   you picked follows you between them. the default is baked into the markup
+   so the page is correct before this runs at all. */
+(function () {
+  var KEY = 'fd-layer';
+  var seg = document.querySelector('.rl-seg');
+  if (!seg) return;
+  var btns = [].slice.call(seg.querySelectorAll('button'));
+
+  function stubs() {
+    [].slice.call(document.querySelectorAll('.ap-pane')).forEach(function (pane) {
+      var stub = pane.querySelector('.rl-stub');
+      var real = [].slice.call(pane.children).some(function (el) {
+        return el !== stub && getComputedStyle(el).display !== 'none';
+      });
+      if (real) { if (stub) stub.hidden = true; return; }
+      if (!stub) {
+        stub = document.createElement('p');
+        stub.className = 'rl-stub';
+        stub.textContent = pane.getAttribute('data-stub')
+                         || 'This section is all workings. '
+                          + 'Switch to How I built it to read it.';
+        pane.appendChild(stub);
+      }
+      stub.hidden = false;
+    });
+  }
+
+  /* the scroll reveal observer never saw a block that was hidden when it
+     armed, so one arriving from behind the switch can land here still at
+     opacity zero. anything already at or above the fold is behind the
+     reader and has to be set outright. anything still below keeps its
+     reveal and animates in normally when it is scrolled to. */
+  function rescue() {
+    var sc = document.querySelector('.ap-doc');
+    if (!sc) return;
+    var lim = sc.getBoundingClientRect().bottom;
+    [].slice.call(document.querySelectorAll('.ap-rv')).forEach(function (el) {
+      if (getComputedStyle(el).display === 'none') return;
+      if (el.getBoundingClientRect().top > lim) return;
+      el.classList.remove('ap-rv');
+      el.classList.add('set');
+    });
+  }
+
+  function apply(layer, save) {
+    document.body.classList.toggle('build', layer === 'build');
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-layer') === layer;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    stubs();
+    rescue();
+    if (save) { try { localStorage.setItem(KEY, layer); } catch (e) {} }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-layer'), true);
+    });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  apply(saved === 'build' ? 'build' : 'story', false);
 })();
 </script>
