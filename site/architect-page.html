@@ -558,6 +558,53 @@
 @media (max-width:640px) {
   .mv-line { font-size:12.5px; top:calc(43% + 94px); }
 }
+  /* ---- reading layers -------------------------------------------------
+     this page carries two audiences harder than any other. story is the
+     creature: what it does in the snow, what it refuses, how it picks one
+     of you. build adds the source, the commits, the two labs and the
+     debugger, which is most of what is on the workbench. one class on the
+     body, so switching costs nothing at read time. the hide rule is
+     body:not(.build) rather than a display on .bd itself, because .bd
+     lands on grids and on the workbench fence, which carry their own
+     display and an authored display:block would flatten them. */
+  body:not(.build) .bd { display:none !important; }
+  body:not(.build) .bi { display:none !important; }
+  body.build .bo { display:none !important; }
+
+  .rl { display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+        margin:0 0 24px; }
+  .rl-seg { display:flex; gap:2px; padding:2px; border-radius:8px;
+            background:#0a0d11; border:1px solid #1a212a; flex:0 0 auto; }
+  .rl-seg button { -webkit-appearance:none; appearance:none; border:0;
+                   cursor:pointer; background:transparent; color:#6c7883;
+                   font-family:var(--mono); font-size:10.5px;
+                   letter-spacing:.12em; text-transform:uppercase;
+                   padding:7px 15px; border-radius:6px;
+                   transition:color .18s, background .18s; }
+  .rl-seg button:hover { color:#b8c3cb; }
+  .rl-seg button.on { color:#0b0f13; background:#7dd3fc; }
+  .rl-n { font-size:11.5px; line-height:1.5; color:#6c7883; }
+  /* four of the nine sections are workbench only. the stub says what is
+     behind the switch rather than only that something is, because a
+     reader who never presses it should still know what exists. */
+  .rl-stub { font-size:13px; line-height:1.6; color:#6c7883;
+             border:1px dashed #222b35; border-radius:8px; padding:16px 18px;
+             margin-top:22px; }
+
+  /* the three line summary. enough to decide whether to read the page. */
+  .sm3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+         background:#1a212a; border:1px solid #1a212a; border-radius:8px;
+         overflow:hidden; margin:0 0 26px; }
+  .sm3 > div { background:#0d1116; padding:14px 16px; }
+  .sm3 em { display:block; font-family:var(--mono); font-size:9px;
+            letter-spacing:.13em; text-transform:uppercase; color:#5a6672;
+            font-style:normal; margin-bottom:7px; }
+  .sm3 p { font-size:13px; line-height:1.55; color:#b9c4cc; }
+
+  @media (max-width:640px) {
+    .sm3 { grid-template-columns:1fr; }
+    .rl-n { flex:1 1 100%; }
+  }
 </style>
 
 <div class="ap">
@@ -579,15 +626,38 @@
         <h1 class="ap-title">Building a Mind</h1>
 
         <div class="ap-rest">
-          <p class="ap-stand">It took two days to build. It has been the thing I think about ever since.</p>
+          <p class="ap-stand">It took two days to build. It has been the thing I think about ever since.<span class="bi"> Fifty five commits on one file, and six months later it is still learning to walk.</span></p>
 
-          <div class="ap-stats ap-wide">
+          <div class="rl">
+            <div class="rl-seg" role="group" aria-label="Reading layer">
+              <button type="button" class="on" data-layer="story" aria-pressed="true">The game</button>
+              <button type="button" data-layer="build" aria-pressed="false">How I built it</button>
+            </div>
+            <span class="rl-n">Left is the creature you meet in the snow. Right adds the source, the commits, the two labs and the debugger.</span>
+          </div>
+
+          <div class="sm3">
+            <div><em>What it is</em><p>A mob that does not chase you. Twice a second it scores seven possible things to do and picks whichever wins, and it will flatly refuse two or three of them.</p></div>
+            <div><em>What you do with it</em><p>Drag the marker in the simulator below and watch it change its mind in real time. Then read the seven ways it has embarrassed itself.</p></div>
+            <div><em>Why it is odd</em><p>It commits to one of you and holds on. The one it holds is whoever is wearing the least armour, so putting a coat on hands its attention to your friend.</p></div>
+          </div>
+
+          <div class="ap-stats ap-wide bo">
             <div><b>7</b><span>actions it can pick</span></div>
             <div><b>19</b><span>things it checks first</span></div>
             <div><b>2&times;</b><span>decisions per second</span></div>
-            <div><b>6,499</b><span>lines on day one</span></div>
-            <div><b>55</b><span>commits on one file</span></div>
+            <div><b>16</b><span>blocks, the closest it will watch from</span></div>
+            <div><b>3</b><span>seconds of holding still to pick one of you</span></div>
             <div><b>12</b><span>pixels of light</span></div>
+          </div>
+
+          <div class="ap-stats ap-wide bd">
+            <div><b>6,499</b><span>lines on day one</span></div>
+            <div><b>41</b><span>files in the first commit</span></div>
+            <div><b>55</b><span>commits on one file</span></div>
+            <div><b>10</b><span>reasons it records for breaking a block</span></div>
+            <div><b>60</b><span>named scenarios in the lab</span></div>
+            <div><b>37</b><span>GameTests in the gate</span></div>
           </div>
 
           <div class="ap-h3">What it actually is</div>
@@ -627,7 +697,7 @@
             <div class="ap-act"><b>TRAP</b><span>Seal the way you came in.</span></div>
             <div class="ap-act wide"><b>PEEK</b><span>Lean around a corner it is already holding.</span></div>
           </div>
-          <p class="ap-p" style="font-size:12.5px;color:#6c7883">Those seven names are the real ones, straight out of the enum.</p>
+          <p class="ap-p bd" style="font-size:12.5px;color:#6c7883">Those seven names are the real ones, straight out of the enum.</p>
 
           <div class="ap-h3">Why it feels alive</div>
           <p class="ap-p">The scores themselves are boring arithmetic. The part that gives it a personality is the <strong>refusals</strong>.</p>
@@ -636,7 +706,7 @@
 
           <div class="ap-h3">What it looks like</div>
           <p class="ap-p">Sixty four pixels square. Nine colours, seven of which are barely distinguishable shades of black. Twelve pixels glow, and they are the only reason you ever see it coming.</p>
-          <p class="ap-p">This is the real texture out of the repo, rebuilt into the model the game actually draws. Drag it.</p>
+          <p class="ap-p">This is the real texture<span class="bi"> out of the repo</span>, rebuilt into the model the game actually draws. Drag it.</p>
 
           <div class="ap-model ap-wide">
             <canvas id="apModel"></canvas>
@@ -651,7 +721,7 @@
             <div class="ap-anatl">
               <div><b>6 boxes</b><span>Head, body, two arms, two legs. Thirty six flat faces, one sheet of pixels wrapped around all of them.</span></div>
               <div><b>9 colours</b><span>The body is almost pure black. Against snow it reads as a hole rather than a shape.</span></div>
-              <div><b>12 pixels</b><span>Everything it emits. There is a second texture, architect_blink.png, identical except four of those twelve go dark. That is the whole blink.</span></div>
+              <div><b>12 pixels</b><span>Everything it emits. There is a second <span class="bi">texture, architect_blink.png, identical</span><span class="bo">version of it, identical</span> except four of those twelve go dark. That is the whole blink.</span></div>
             </div>
           </div>
 
@@ -673,7 +743,7 @@
             </div>
 
             <div class="ap-dstage">
-              <div class="ap-dfence">
+              <div class="ap-dfence bd">
               <div class="ap-wbtop">
                 <h2>On the workbench</h2>
                 <span class="ap-wbflag">Merged 16 Sep</span>
@@ -687,7 +757,7 @@
               <div class="ap-dpanes">
                 <section class="ap-pane on" role="tabpanel" data-p="0">
             <div class="ap-h3">Watch it decide</div>
-            <p class="ap-p">This is the real scoring code, running in your browser. Drag the blue marker anywhere in the box. Twice a second it rebuilds its picture of the situation, scores all seven actions, and does whichever one wins. Nothing here is on rails.</p>
+            <p class="ap-p">This is the real scoring<span class="bi"> code</span>, running in your browser. Drag the blue marker anywhere in the box. Twice a second it rebuilds its picture of the situation, scores all seven actions, and does whichever one wins. Nothing here is on rails.</p>
 
             <div class="ap-sim ap-wide">
               <div class="ap-arena">
@@ -706,7 +776,8 @@
             </div>
                 </section>
 
-                <section class="ap-pane" role="tabpanel" data-p="1">
+                <section class="ap-pane" role="tabpanel" data-p="1" data-stub="This one is the commit history: six months of getting it wrong in public, from the day it arrived already thinking to the day I finally stopped it healing forever. Switch to How I built it to read it.">
+            <div class="bd">
             <div class="ap-h3">How it learned to think</div>
             <p class="ap-p">None of the above existed in one piece. This is the real commit history of the thing you were just playing with.</p>
 
@@ -749,6 +820,7 @@
               </div>
 
             </div>
+            </div>
                 </section>
 
                 <section class="ap-pane" role="tabpanel" data-p="2">
@@ -771,27 +843,28 @@
       <div class="ap-bug on">
                   <b>It paced</b>
                   <p>It would take a step toward you, notice it had just reversed direction, and stop dead. Then do it again. The fix was to let it commit to a walk it had already started, or look past the oscillation zone entirely, rather than re-deciding every single step.</p>
-                  <span>Fixed in the commit that created it &middot; 14ab9eb9</span>
+                  <span class="bd">Fixed in the commit that created it &middot; 14ab9eb9</span>
+                  <span class="bo">Fixed the same day it was born.</span>
                 </div>
       <div class="ap-bug">
                   <b>It span on half blocks</b>
                   <p>Slabs and snow layers read as walkable and not walkable at the same time depending on who was asking. So it would rotate in place on top of one, or decide to scaffold upward and retry forever.</p>
-                  <span>fix(approach): stop slab spin and scaffold-up retry loops &middot; cbb76e1f</span>
+                  <span class="bd">fix(approach): stop slab spin and scaffold-up retry loops &middot; cbb76e1f</span>
                 </div>
       <div class="ap-bug">
                   <b>It drowned</b>
                   <p>Submerged, its committed walk kept churning against a plan made for dry land and it never surfaced. It needed a separate fallback chase mode and a bounded shove upward before it could get out of its own way.</p>
-                  <span>fix(approach): escape water lockups without entity bloat &middot; 47694759</span>
+                  <span class="bd">fix(approach): escape water lockups without entity bloat &middot; 47694759</span>
                 </div>
       <div class="ap-bug">
                   <b>It healed forever</b>
                   <p>Retreating to heal had no ceiling on it. A hurt Architect could simply keep backing away and topping itself up, which is the correct decision and an awful fight. This one survived five months in the wild before I bounded it.</p>
-                  <span>fix(architect): bound healing retreats &middot; 14c9987b</span>
+                  <span class="bd">fix(architect): bound healing retreats &middot; 14c9987b</span>
                 </div>
       <div class="ap-bug">
                   <b>It could not get in</b>
                   <p>Seal yourself in a room with no opening and it had no answer. It understood breaching a wall it could see a way past, not committing to one it could not.</p>
-                  <span>fix(architect): breach enclosed targets &middot; 36af50fe</span>
+                  <span class="bd">fix(architect): breach enclosed targets &middot; 36af50fe</span>
                 </div>
       <div class="ap-bug">
           <b>It mined the floor out from under itself</b>
@@ -800,7 +873,7 @@
              always solid, and it won every time the real obstruction turned out to be air. A stall
              with a perfectly clear path ahead would send the Architect digging into the ground at
              its own feet, dropping in, and going one block deeper on the next try.</p>
-          <span>fix(entity): stop Architect mining its own walk surface &middot; 95407a2d</span>
+          <span class="bd">fix(entity): stop Architect mining its own walk surface &middot; 95407a2d</span>
         </div>
       <div class="ap-bug">
                   <b>And one I only found building this page</b>
@@ -813,7 +886,7 @@
                 <section class="ap-pane wb" role="tabpanel" data-p="3">
             <div class="ap-h3">It stops to think</div>
             <p class="ap-p">When a chase stalls, it goes still. Not paused: the planner underneath is running at full speed the entire time, searching for a route it cannot find yet. The stillness is the only part of that you can see, so I gave it something to do with the stillness.</p>
-            <p class="ap-p">Six ticks of not moving and the head tilts. Thirty two ticks and it <em>might</em> bring a hand up to its chin. Might, because the roll is one in three, and if it plays it will not play again for twelve seconds. A tell you see every time is an idle animation. A tell you see occasionally is a habit.</p>
+            <p class="ap-p"><span class="bi">Six ticks</span><span class="bo">A third of a second</span> of not moving and the head tilts. <span class="bi">Thirty two ticks</span><span class="bo">A second and a half</span> and it <em>might</em> bring a hand up to its chin. Might, because the roll is one in three, and if it plays it will not play again for twelve seconds. A tell you see every time is an idle animation. A tell you see occasionally is a habit.</p>
 
             <div class="ap-pose ap-wide">
               <div class="ap-model"><canvas id="apPose"></canvas></div>
@@ -832,17 +905,33 @@
               </div>
             </div>
 
-            <p class="ap-p">Vanilla Minecraft arms are a single rigid cube. There is no elbow in there to bend. Getting a hand anywhere near a face meant replacing the left arm with a two segment rig, an upper arm and a forearm on their own model layer, and reusing the right arm's existing texture rather than shipping new pixels for a gesture. The pose is suppressed entirely if it is holding something in the off hand or wearing a chestplate, because the armour layer copies shoulder rotation and you end up with a sleeve floating in the air next to the model.</p>
-            <p class="ap-p">The roll is not random in the usual sense. It hashes the entity's own id against the current tick, so it is deterministic per Architect and never touches the shared random stream the rest of the AI is drawing from. And the whole thing is cosmetic: the pose state rides over the network on one byte, and nothing in it is allowed to delay a decision by a single tick.</p>
-            <span class="ap-wbmeta" style="display:block;margin-top:-4px">feat(client): add Architect hand-to-chin pose during pursuit pauses &middot; 2c3c365c</span>
+            <div class="ap-h3 bd">Giving it an elbow</div>
+            <p class="ap-p bd">Vanilla Minecraft arms are a single rigid cube. There is no elbow in there to bend. Getting a hand anywhere near a face meant replacing the left arm with a two segment rig, an upper arm and a forearm on their own model layer, and reusing the right arm's existing texture rather than shipping new pixels for a gesture. The pose is suppressed entirely if it is holding something in the off hand or wearing a chestplate, because the armour layer copies shoulder rotation and you end up with a sleeve floating in the air next to the model.</p>
+            <p class="ap-p bo">The roll is tied to the individual Architect rather than to the clock, so two of them standing in the same room never bring a hand up on the same beat. And none of it touches the thinking. The pose is decoration laid over a mind that has not paused for a single instant.</p>
+            <div class="ap-h3 bd">Why it never falls into step</div>
+            <p class="ap-p bd">The roll is not random in the usual sense. It hashes the entity's own id against the current tick, so it is deterministic per Architect and never touches the shared random stream the rest of the AI is drawing from. And the whole thing is cosmetic: the pose state rides over the network on one byte, and nothing in it is allowed to delay a decision by a single tick.</p>
+            <span class="ap-wbmeta bd" style="display:block;margin-top:-4px">feat(client): add Architect hand-to-chin pose during pursuit pauses &middot; 2c3c365c</span>
                 </section>
 
                 <section class="ap-pane wb" role="tabpanel" data-p="4">
             <div class="ap-h3">Why it breaks a block</div>
-            <p class="ap-p">It has always been able to mine. What it never had was a record of <em>why</em>. A trace could tell me it broke the ceiling above its own head, which was useless, because there are four completely different reasons it might do that and they fail in four different ways.</p>
-            <p class="ap-p">Now every block it considers carries an intent from the moment it is proposed, and keeps that intent until the attempt ends. There are ten.</p>
+            <p class="ap-p">It has always been able to mine. What it never had was a record of <em>why</em>.<span class="bi"> A trace could tell me it broke the ceiling above its own head, which was useless, because there</span><span class="bo"> Watch it break the ceiling above its own head and you learn nothing, because there</span> are four completely different reasons it might do that and they fail in four different ways.</p>
+            <p class="ap-p"><span class="bi">Now every block it considers carries an intent from the moment it is proposed, and keeps that intent until the attempt ends.</span><span class="bo">Every block it thinks about breaking now comes with a reason attached from the moment it is proposed, and it keeps that reason until the attempt is over.</span> There are ten.</p>
 
-            <div class="ap-rsn ap-wide">
+            <div class="ap-rsn ap-wide bo">
+              <div><b>The ceiling over its head</b><span>The block directly above it. The ordinary one.</span></div>
+              <div><b>Room to climb</b><span>The block above its head when the next step is upward. A jump needs two clear cells, not one.</span></div>
+              <div><b>Room to drop</b><span>Headroom out in front, on the way down off a ledge.</span></div>
+              <div><b>On the route</b><span>A block standing on a path it has already worked out.</span></div>
+              <div><b>Simply in the way</b><span>Something directly in front of it, with no longer story than that.</span></div>
+              <div><b>The last wall</b><span>It has reached you, and there is still a wall in between.</span></div>
+              <div><b>Its own scaffolding</b><span>A block it placed itself to climb, being taken back down.</span></div>
+              <div><b>Straight down</b><span>Through the floor.</span></div>
+              <div><b>Only if nothing else works</b><span>Allowed, but held back until everything else on the list has failed.</span></div>
+              <div><b>No reason given</b><span>If this ever turns up, something skipped the planner. It is there to catch me out.</span></div>
+            </div>
+
+            <div class="ap-rsn ap-wide bd">
               <div><b>HEAD_CLEARANCE</b><span>The block directly above its own head. The ordinary one.</span></div>
               <div><b>STEP_UP_CEILING</b><span>The block above its head when the next step is a climb. A jump needs two clear cells, not one.</span></div>
               <div><b>STEP_DOWN_CLEARANCE</b><span>Headroom out in front, on the way down a drop.</span></div>
@@ -855,9 +944,9 @@
               <div><b>UNSPECIFIED</b><span>No intent recorded. If this ever appears in a trace, something skipped the planner.</span></div>
             </div>
 
-            <p class="ap-p">The useful part is not the list, it is that the selection now writes down what happened to every single candidate, including the ones it never got to.</p>
+            <p class="ap-p bd">The useful part is not the list, it is that the selection now writes down what happened to every single candidate, including the ones it never got to.</p>
 
-            <div class="ap-trace ap-wide">
+            <div class="ap-trace ap-wide bd">
               <div class="ap-tscroll">
               <table class="ap-ttab">
                 <tr><th>Candidate</th><th>Intent</th><th>Outcome</th></tr>
@@ -872,7 +961,8 @@
             </div>
                 </section>
 
-                <section class="ap-pane wb" role="tabpanel" data-p="5">
+                <section class="ap-pane wb" role="tabpanel" data-p="5" data-stub="This one is about testing it indoors: a purpose-built lab dimension where the Architect is dropped into the same awkward room sixty different ways until something breaks. Switch to How I built it to read it.">
+            <div class="bd">
             <div class="ap-h3">How do you test a mind</div>
             <p class="ap-p">You cannot really unit test a decision. You can assert that a function returns 0.71, but the thing I actually want to know is whether it gets stuck, and there is no assertion for stuck. So the only honest option was to build somewhere awkward and put it there over and over.</p>
             <p class="ap-p">There is a lab now. Its own dimension, a 21 by 16 by 21 arena that rebuilds itself around a saved origin, and a scenario loader. Setup freezes the entire server. Recording starts before the Architect is allowed to move or mine a single block, so nothing happens off camera.</p>
@@ -896,12 +986,16 @@
 
             <p class="ap-p">The rule the whole suite runs on is the part I am most pleased with, and it is not technical. <strong>A failed case stays a failure with its trace attached.</strong> It does not get skipped, quietly relabelled, or handed a larger tick budget until it passes. The last run written down in the notes covers 396 of these cases: 378 passed, 18 failed, nothing missing. Those eighteen are still sitting there failing, which is the entire reason for having built the thing.</p>
             <span class="ap-wbmeta" style="display:block;margin-top:-4px">test(architect): add Architect lab harness and headless verification gate &middot; 47b09de4</span>
+            </div>
                 </section>
 
-                <section class="ap-pane wb" role="tabpanel" data-p="6">
+                <section class="ap-pane wb" role="tabpanel" data-p="6" data-stub="This one is about testing it outdoors, on terrain nobody designed, chasing a villager that has to walk there on its own legs. It goes badly, in useful ways. Switch to How I built it to read it.">
+            <div class="bd">
             <div class="ap-h3">Out of the box</div>
             <p class="ap-p">The arena in the last tab is a room. A fair room, rotated four ways and reseeded eight, but still a room I specified: flat floor, square walls, ceiling exactly where I said to put it. After a few hundred passes I stopped believing it. Nothing in Minecraft is that shape, and a mind that only works in a room I built for it is a mind that works in one room.</p>
+            <div class="ap-h3">A room I built for it</div>
             <p class="ap-p">So the second lab builds nothing. It takes a 128 by 128 region in a dimension of its own, lets vanilla generate it the way it would generate any other patch of Overworld, and then lets Frozen Dawn do what Frozen Dawn does to a landscape: deep snow over the trails, Acheronite pushing up through the rock, frozen atmosphere settling into the low ground. A cave. A fenced passage. A shelter with doors. A ravine with one crossing over it. Preparation saves the sixty four native chunks before it touches them, puts them back afterwards, and fingerprints the result, so a run that fails can never be blamed on terrain that quietly drifted between attempts.</p>
+            <div class="ap-h3">Chasing something with legs</div>
             <p class="ap-p">What it chases out there is not a marker or a moving point. It is a villager with a hundred hit points, walking on its own legs, with normal collision, normal gravity, normal jumping, normal pathfinding and normal damage. The harness only chooses where that villager should go. It never teleports it, never replaces it, never lifts it out of a hole it walked into. If the villager cannot get somewhere, that is the finding, not a bug in the test.</p>
 
             <div class="ap-trace ap-wide">
@@ -954,9 +1048,11 @@
 
             <p class="ap-p">The notes for this branch end with a line I am leaving exactly where it is, because it is most of what separates a journal from a sales page: <em>this addition has received compilation and resource checks only. No simulations or visual runs were executed during implementation.</em></p>
             <span class="ap-wbmeta" style="display:block;margin-top:-4px">feat(debug): add native-terrain Architect wilderness lab &middot; fb56dda3</span>
+            </div>
                 </section>
 
-                <section class="ap-pane wb" role="tabpanel" data-p="7">
+                <section class="ap-pane wb" role="tabpanel" data-p="7" data-stub="This one is about an overlay that draws the Architect's own working state into the world while it happens, and everything it deliberately refuses to draw. Switch to How I built it to read it.">
+            <div class="bd">
             <div class="ap-h3">Watching it think</div>
             <p class="ap-p">Everything up to here is me reading numbers after the fact. A trace tells you what it chose. It does not tell you what it was looking at while it chose, and by the time the file exists the moment is long gone and I am guessing at it.</p>
             <p class="ap-p">So the newest thing on the bench draws the server's own working state into the world in front of you, while it is happening. Not a replay, and not an artist's impression of intent: the corridor it has actually committed to, the candidates it actually scored, the boxes it actually believes are solid.</p>
@@ -995,18 +1091,23 @@
             <p class="ap-p">The bundle is the real point of it: a snapshot, a frame by frame history, an event table, the camera view it was all drawn from, and a summary carrying a SHA-256 for every attachment, so a recording can be checked against itself later instead of trusted.</p>
 
             <div class="ap-h3" style="margin-top:30px">What it refuses to pretend</div>
-            <p class="ap-p">Every honest thing in that overlay was a decision to draw less. Observing never forces a target, never resets the AI, never reseeds anything, because the moment a debugger changes the run it is no longer debugging it. Historical mode says outright that it is painting saved observations over the terrain as it is now, not replaying the terrain as it was. When the melee commitment check was not sampled on a frame it draws <code>COMMIT_NOT_SAMPLED</code>, rather than an empty space that would look like a decision. Options it never reached are labelled <code>NOT_EVALUATED_AFTER_SELECTION</code> instead of quietly sharing a colour with the ones it rejected. The range sphere uses the same 2.8 blocks as the real hit check, and the documentation states in plain words that being inside it does not prove the hit landed.</p>
+            <p class="ap-p">Every honest thing in that overlay was a decision to draw less. Observing never forces a target, never resets the AI, never reseeds anything, because the moment a debugger changes the run it is no longer debugging it. Historical mode says outright that it is painting saved observations over the terrain as it is now, not replaying the terrain as it was.</p>
+            <p class="ap-p">Where it has no answer it says so rather than filling the gap. When the melee commitment check was not sampled on a frame it draws <code>COMMIT_NOT_SAMPLED</code>, rather than an empty space that would look like a decision. Options it never reached are labelled <code>NOT_EVALUATED_AFTER_SELECTION</code> instead of quietly sharing a colour with the ones it rejected. The range sphere uses the same 2.8 blocks as the real hit check, and the documentation states in plain words that being inside it does not prove the hit landed.</p>
 
+            <div class="ap-h3">Nothing to subscribe to</div>
             <p class="ap-p">Drawing any of it was harder than it had any right to be. The shipping runtime's <code>DebugPackets.sendPathFindingPacket</code> is an empty method, and <code>Path.writeToStream</code> expects optional debug data that an ordinary navigation path does not carry, so there is nothing to subscribe to. The overlay rebuilds the route from the server's own committed corridor and hands it to Minecraft's real <code>PathfindingRenderer</code> through a render hook, which means the lines on your screen are drawn by the same code Mojang draws its own debug paths with, without a line of Mojang source being copied into this mod.</p>
 
+            <div class="ap-h3">The one part I have not seen</div>
             <p class="ap-p">On 13 September the build passed, the unit tests passed, and the required gate passed all thirty seven GameTests, including the thirty two named Architect cases. The live overlay is still unverified, because the client would not start: <code>Failed to locate a primary monitor</code>. The one part of this I built specifically so that I could see it with my own eyes is the one part I have not seen yet.</p>
             <span class="ap-wbmeta" style="display:block;margin-top:-4px">feat(debug): add Architect visual debugger and snapshot exports &middot; 73e1fc60</span>
+            </div>
                 </section>
 
                 <section class="ap-pane wb" role="tabpanel" data-p="8">
             <div class="ap-h3">How it picks one of you</div>
-            <p class="ap-p">Stand near a Hearth with a friend and the Architect assessing you never finishes. Not slowly. Never. Both of the controllers that run that scene re-picked the nearest player every single tick and reset the counter whenever the pick changed, and the counter needs sixty <em>consecutive</em> ticks to complete. Three seconds. It could not get three uninterrupted seconds with two people in the room, because the two of you only had to keep trading which one was marginally closer.</p>
-            <p class="ap-p">You can watch it happen, which is the part that gave it away. The head snaps back and forth between you. It starts walking toward whoever is momentarily nearer, then turns around. Three symptoms, one cause, and the cause is six lines of code that reset a counter.</p>
+            <p class="ap-p">Stand near a Hearth with a friend and the Architect assessing you never finishes. Not slowly. Never. <span class="bi">Both of the controllers that run that scene re-picked the nearest player every single tick and reset the counter whenever the pick changed, and the counter needs sixty <em>consecutive</em> ticks to complete. Three seconds.</span><span class="bo">It works out who is nearest twenty times a second, fresh each time, and its three second count starts over the instant that answer changes.</span> It could not get three uninterrupted seconds with two people in the room, because the two of you only had to keep trading which one was marginally closer.</p>
+            <div class="ap-h3">Three symptoms, one counter</div>
+            <p class="ap-p">You can watch it happen, which is the part that gave it away. The head snaps back and forth between you. It starts walking toward whoever is momentarily nearer, then turns around. Three symptoms, one cause, and the cause is <span class="bi">six lines of code that reset a counter</span><span class="bo">one count being started over when it should have been left alone</span>.</p>
 
             <p class="ap-pull">The fix is borrowed from Phasmophobia. The Banshee chooses one person at the start of a contract and keeps them for the whole thing. It lets go on events, when you die or when you leave, and never because somebody else wandered closer.</p>
 
@@ -1041,16 +1142,21 @@
               <div><b>5 &middot; PICK</b><span>Nobody is committed. Take the most vulnerable person in range. If the range is empty, take nobody and patrol.</span></div>
             </div>
 
-            <p class="ap-p">Step one and step four are the same situation to a naive implementation and they are the entire reason the stall closes. A player id that is still on the server but out of range gets bookmarked. One that is gone gets forgotten. Without that split, a committed target who logs out locks the Architect onto an id that is never coming back, while somebody stands directly in front of it being ignored.</p>
+            <div class="ap-h3">Leaving and being gone</div>
+            <p class="ap-p bo">Forgetting somebody and bookmarking them look like the same thing and are not, and keeping them apart is the whole reason the stall closes. Someone who logs out is forgotten. Someone who merely walked off is kept. Get that backwards and the Architect holds on to a person who is never coming back, while you stand directly in front of it being ignored.</p>
+            <p class="ap-p bd">Step one and step four are the same situation to a naive implementation and they are the entire reason the stall closes. A player id that is still on the server but out of range gets bookmarked. One that is gone gets forgotten. Without that split, a committed target who logs out locks the Architect onto an id that is never coming back, while somebody stands directly in front of it being ignored.</p>
+            <div class="ap-h3">Being the bookmark</div>
             <p class="ap-p">While you are the bookmark, nothing about the Architect looks any different. It assesses whoever else is there, properly, to completion, and patrols when nobody is. The bookmark has no behaviour of its own and there is no way to see it from outside. It matters for exactly one instant: the moment you walk back into range, when you take the commitment back and whoever it had picked up in your absence is dropped mid scan. Resuming restarts the three seconds rather than banking what it already had, and only one bookmark is ever kept, because the alternative is an unbounded queue of people who might come back.</p>
 
             <div class="ap-h3" style="margin-top:30px">And if you hit it</div>
-            <p class="ap-p">An Architect being hit should fight, not scan. Both controllers now bail out the moment something has hurt them and hand the tick to the combat brain. That alone was not enough, and the reason is worth writing down: the target lookup underneath filtered on relationship, so a friendly player punching an Architect produced no valid target and therefore no retaliation at all. You could stand there hitting it and it would keep politely assessing you. Now whoever actually hit it is returned first, ahead of every other rule, and it does not dogpile. Each Architect answers only the thing that hit it.</p>
+            <p class="ap-p">An Architect being hit should fight, not scan.<span class="bi"> Both controllers now bail out the moment something has hurt them and hand the tick to the combat brain. That alone was not enough, and the reason is worth writing down: the target lookup underneath filtered on relationship, so a friendly player punching an Architect produced no valid target and therefore no retaliation at all.</span><span class="bo"> It did not. The lookup underneath only ever handed back people it had already decided were a threat, and somebody who had not been marked as one did not count, even while they were hitting it.</span> You could stand there hitting it and it would keep politely assessing you. Now whoever actually hit it is returned first, ahead of every other rule, and it does not dogpile. Each Architect answers only the thing that hit it.</p>
 
-            <p class="ap-p">Two of these controllers watch at different distances, twenty eight blocks and thirty two, through two different constants that happen to share a name. I left them different. Unifying them is a change to how far two separate creatures can see, which is not a thing to do quietly while fixing a counter.</p>
+            <div class="ap-h3">Two numbers I left alone</div>
+            <p class="ap-p bd">Two of these controllers watch at different distances, twenty eight blocks and thirty two, through two different constants that happen to share a name. I left them different. Unifying them is a change to how far two separate creatures can see, which is not a thing to do quietly while fixing a counter.</p>
 
-            <p class="ap-p">The last honest part: I did not write the test to match the fix. <code>HearthTargetArbitrationGameTest</code> already existed and already failed, on purpose, and it is the reason the build gate sat red for over a week. One of the commits on this branch is <code>fail the game test gate when tests never run</code>, because the gate had been reporting a pass when zero tests ran, which is the most dangerous kind of green there is.</p>
-            <span class="ap-wbmeta" style="display:block;margin-top:-4px">feat(entity): add Architect target commitment policy and state machine &middot; 2938f9e6 &middot; fourteen commits, 10 September</span>
+            <div class="ap-h3">A test that was already failing</div>
+            <p class="ap-p bd">The last honest part: I did not write the test to match the fix. <code>HearthTargetArbitrationGameTest</code> already existed and already failed, on purpose, and it is the reason the build gate sat red for over a week. One of the commits on this branch is <code>fail the game test gate when tests never run</code>, because the gate had been reporting a pass when zero tests ran, which is the most dangerous kind of green there is.</p>
+            <span class="ap-wbmeta bd" style="display:block;margin-top:-4px">feat(entity): add Architect target commitment policy and state machine &middot; 2938f9e6 &middot; fourteen commits, 10 September</span>
                 </section>
 
               </div>
@@ -2564,5 +2670,78 @@
   at(12300, function(){ line.classList.add('on'); });
   at(13060, function(){ out.classList.add('on'); });
   at(13400, reveal);
+})();
+</script>
+
+<script>
+/* ================= the reading layer switch =================
+   same control and same storage key as the chapters, so whichever side you
+   picked follows you here. the default is baked into the markup so the page
+   is correct before this runs at all. four of the nine sections in the deck
+   are workbench only and carry their own data-stub, because a reader who
+   never presses the switch should still learn what is behind it. */
+(function () {
+  var KEY = 'fd-layer';
+  var seg = document.querySelector('.rl-seg');
+  if (!seg) return;
+  var btns = [].slice.call(seg.querySelectorAll('button'));
+
+  function stubs() {
+    [].slice.call(document.querySelectorAll('.ap-pane')).forEach(function (pane) {
+      var stub = pane.querySelector('.rl-stub');
+      var real = [].slice.call(pane.children).some(function (el) {
+        return el !== stub && getComputedStyle(el).display !== 'none';
+      });
+      if (real) { if (stub) stub.hidden = true; return; }
+      if (!stub) {
+        stub = document.createElement('p');
+        stub.className = 'rl-stub';
+        stub.textContent = pane.getAttribute('data-stub')
+                         || 'This section is all workings. '
+                          + 'Switch to How I built it to read it.';
+        pane.appendChild(stub);
+      }
+      stub.hidden = false;
+    });
+  }
+
+  /* the scroll reveal observer never saw a block that was hidden when it
+     armed, so one arriving from behind the switch can land here still at
+     opacity zero. anything already at or above the fold is behind the
+     reader and has to be set outright. anything still below keeps its
+     reveal and animates in normally when it is scrolled to. */
+  function rescue() {
+    var sc = document.querySelector('.ap-doc');
+    if (!sc) return;
+    var lim = sc.getBoundingClientRect().bottom;
+    [].slice.call(document.querySelectorAll('.ap-rv')).forEach(function (el) {
+      if (getComputedStyle(el).display === 'none') return;
+      if (el.getBoundingClientRect().top > lim) return;
+      el.classList.remove('ap-rv');
+      el.classList.add('set');
+    });
+  }
+
+  function apply(layer, save) {
+    document.body.classList.toggle('build', layer === 'build');
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-layer') === layer;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    stubs();
+    rescue();
+    if (save) { try { localStorage.setItem(KEY, layer); } catch (e) {} }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-layer'), true);
+    });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  apply(saved === 'build' ? 'build' : 'story', false);
 })();
 </script>
