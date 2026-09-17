@@ -393,6 +393,49 @@
   .ap-code { font-size:10.5px; }
   .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
 }
+
+  /* ---- reading layers -------------------------------------------------
+     the page carries two audiences. the game layer is the world, the rules
+     a player meets, and what it is like to stand in them. the build layer
+     adds the source, the commits and the workings only someone who might
+     write this code would want. one class on the body, so switching costs
+     nothing at read time. the hide rule is body:not(.build) rather than a
+     display on .bd itself, because .bd lands on grids and details as well
+     as paragraphs and an authored display:block would flatten them. */
+  body:not(.build) .bd { display:none !important; }
+  body:not(.build) .bi { display:none !important; }
+  body.build .bo { display:none !important; }
+
+  .rl { display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+        margin:0 0 24px; }
+  .rl-seg { display:flex; gap:2px; padding:2px; border-radius:8px;
+            background:#0a0d11; border:1px solid #1a212a; flex:0 0 auto; }
+  .rl-seg button { -webkit-appearance:none; appearance:none; border:0;
+                   cursor:pointer; background:transparent; color:#6c7883;
+                   font-family:var(--mono); font-size:10.5px;
+                   letter-spacing:.12em; text-transform:uppercase;
+                   padding:7px 15px; border-radius:6px;
+                   transition:color .18s, background .18s; }
+  .rl-seg button:hover { color:#b8c3cb; }
+  .rl-seg button.on { color:#0b0f13; background:#7dd3fc; }
+  .rl-n { font-size:11.5px; line-height:1.5; color:#6c7883; }
+  .rl-stub { font-size:13px; line-height:1.6; color:#6c7883;
+             border:1px dashed #222b35; border-radius:8px; padding:16px 18px; }
+
+  /* the three line summary. enough to decide whether to read the chapter. */
+  .sm3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+         background:#1a212a; border:1px solid #1a212a; border-radius:8px;
+         overflow:hidden; margin:0 0 26px; }
+  .sm3 > div { background:#0d1116; padding:14px 16px; }
+  .sm3 em { display:block; font-family:var(--mono); font-size:9px;
+            letter-spacing:.13em; text-transform:uppercase; color:#5a6672;
+            font-style:normal; margin-bottom:7px; }
+  .sm3 p { font-size:13px; line-height:1.55; color:#b9c4cc; }
+
+  @media (max-width:640px) {
+    .sm3 { grid-template-columns:1fr; }
+    .rl-n { flex:1 1 100%; }
+  }
 </style>
 
 <div class="ap">
@@ -405,7 +448,21 @@
         <h1 class="ap-title">The World That Doesn't Wait</h1>
 
         <div class="ap-rest">
-          <p class="ap-stand">Building Frozen Dawn's six-phase collapse simulation.</p>
+          <p class="ap-stand">Frozen Dawn takes the sun away. This chapter is what that does to the world around you, stage by stage, and how little of it you get to see coming.</p>
+
+          <div class="rl">
+            <div class="rl-seg" role="group" aria-label="Reading layer">
+              <button type="button" class="on" data-layer="story" aria-pressed="true">The game</button>
+              <button type="button" data-layer="build" aria-pressed="false">How I built it</button>
+            </div>
+            <span class="rl-n">Left is the world you stand in. Right adds the code, the commits and the six months it took.</span>
+          </div>
+
+          <div class="sm3">
+            <div><em>What changed</em><p>The sun shrinks, the sky goes black and the temperature falls to minus two hundred and seventy three, across seven stages.</p></div>
+            <div><em>What you do with it</em><p>Drag the slider and watch a world die in ten seconds, then find the warm spike at every boundary that tells you it is over.</p></div>
+            <div><em>Why it is odd</em><p>Nothing is running while you are away. A world you have not loaded in a month is already exactly as dead as it should be.</p></div>
+          </div>
 
           <div class="ap-stats ap-wide">
             <div><b>7</b><span>phases, zero through six</span></div>
@@ -418,12 +475,15 @@
 
           <div class="ap-h3">What it actually is</div>
           <p class="ap-lede">Frozen Dawn does one thing to your world: it takes the sun away, slowly, and never gives it back.</p>
-          <p class="ap-p">Not as a cutscene. Not as a scripted event on day forty. The whole collapse is a single number between 0 and 1, the fraction of the world's lifespan that has already burned, and <strong>every visible symptom is read off that one number</strong>. The sun's size. The colour of the sky. How cold it is where you are standing. How long daylight lasts. Whether water can still exist as a liquid.</p>
-          <p class="ap-p">That design decision is the whole mod. It means there is no state to desync, no timer to drift, nothing to save except the day counter. Load a world on day 61 and the sky is already black, because black is simply what the function returns at 0.61.</p>
-          <p class="ap-p">It also means I can show you the entire thing in a slider.</p>
+          <p class="ap-p">Not as a cutscene. Not as a scripted event on day forty. <strong>Everything you can see is on the same slide.</strong> The size of the sun. The colour of the sky. How cold it is where you are standing. How long the day lasts. Whether water can still stay liquid.</p>
+          <p class="ap-p bd">All of it is read off one number: the fraction of the world's lifespan that has already burned, between 0 and 1. Every visible symptom is a function of that.</p>
+          <p class="ap-p">Load a world you have not touched in a month and the sky is already black. Nothing had to be running while you were gone.</p>
+          <p class="ap-p bd">That decision is the whole mod. No state to desync, no timer to drift, nothing to save except the day counter. Black is simply what the function returns at 0.61.</p>
+          <p class="ap-p">It also means the whole thing fits on a slider.</p>
 
           <div class="ap-h3">Drag the collapse</div>
-          <p class="ap-p">This is not a mock-up. The numbers below are the real arrays out of <code>PhaseManager.java</code>, run through a line-for-line port of the mod's own <code>interpolate()</code>. Drag the handle, click a phase marker, or use the arrow keys.</p>
+          <p class="ap-p">Drag the handle, click a marker, or use the arrow keys. This is the real thing, not a drawing of it.</p>
+          <p class="ap-p bd">The numbers are the real arrays out of <code>PhaseManager.java</code>, run through a line-for-line port of the mod's own <code>interpolate()</code>.</p>
 
           <div class="ap-scrub ap-wide" id="apScrub">
             <div class="ap-sky" id="apSky">
@@ -463,10 +523,10 @@
           <div class="ap-deck" id="apDeck">
             <div class="ap-dtop">
               <div class="ap-dstrip" role="tablist" aria-label="Chapter sections">
-                <button type="button" class="ap-dtab on" role="tab" data-i="0" data-full="The seven curves" data-short="Curves" aria-selected="true" tabindex="0"><i>01</i>Seven curves</button>
+                <button type="button" class="ap-dtab on" role="tab" data-i="0" data-full="How fast it happens" data-short="Pace" aria-selected="true" tabindex="0"><i>01</i>How fast it happens</button>
                 <button type="button" class="ap-dtab" role="tab" data-i="1" data-full="What the cold does" data-short="Cold" aria-selected="false" tabindex="-1"><i>02</i>What the cold does</button>
                 <button type="button" class="ap-dtab" role="tab" data-i="2" data-full="The vacuum" data-short="Vacuum" aria-selected="false" tabindex="-1"><i>03</i>The vacuum</button>
-                <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="The world doesn't wait" data-short="Loader" aria-selected="false" tabindex="-1"><i>04</i>The loader</button>
+                <button type="button" class="ap-dtab" role="tab" data-i="3" data-full="Land you have never visited" data-short="Away" aria-selected="false" tabindex="-1"><i>04</i>Land you never went to</button>
                 <button type="button" class="ap-dtab" role="tab" data-i="4" data-full="What it cost" data-short="Cost" aria-selected="false" tabindex="-1"><i>05</i>What it cost</button>
                 <span class="ap-dink" aria-hidden="true"></span>
               </div>
@@ -477,10 +537,11 @@
 
 <!-- ============ 01 ============ -->
 <section class="ap-pane on" role="tabpanel" data-p="0" aria-label="The seven curves">
-  <p class="ap-lede">Six arrays and a list of boundaries. That is the whole collapse.</p>
-  <p class="ap-p">Every value the slider showed you is one row of this table, read at one position. There is no simulation state behind it, no accumulator, no drift. Given the same day, it returns the same world.</p>
+  <p class="ap-lede">The world does not fall apart at a steady rate.</p>
+  <p class="ap-lede bd">Six arrays and a list of boundaries. That is the whole collapse.</p>
+  <p class="ap-p bd">Every value the slider showed you is one row of this table, read at one position. There is no simulation state behind it, no accumulator, no drift. Given the same day, it returns the same world.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>The six arrays, PhaseManager.java<em>Java</em></summary>
     <div class="ap-code"><c>// PhaseManager.java</c>
 <k>private static final</k> <v>float</v>[] PHASE_BOUNDS   = {0.0f, 0.05f, 0.12f, 0.22f, 0.34f, 0.46f, 0.60f, 1.00f};
@@ -491,11 +552,12 @@
 <k>private static final</k> <v>float</v>[] DAY_LENGTH     = {1.0f,  1.0f, 0.95f,  0.8f,  0.6f,  0.4f,  0.2f, 0.0f};</div>
   </details>
 
-  <p class="ap-p">The boundaries are deliberately uneven. Phase 0 is five percent of the world's life, phase 6 is forty. The early phases are short because they are supposed to feel like weather. The last one is long because it is supposed to feel like it will never end.</p>
-  <p class="ap-p">Look at what <strong>SUN_DISTANCE</strong> does between the first two stops: 1.0 down to 0.35 across five percent of the run. That is the fastest change in the entire mod, and it happens before most players have a bed. By the time anyone notices the sun is smaller, the interesting part of the curve is already behind them.</p>
+  <p class="ap-p">The stages are deliberately uneven. The early ones are short, because they are meant to feel like bad weather. The last one runs for forty percent of the world's life, because it is meant to feel like it will never end.</p>
+  <p class="ap-p">The sun does most of its shrinking in the first five percent, which is before most people have a bed. <strong>By the time anyone notices it is smaller, the fastest part is already behind them.</strong></p>
+  <p class="ap-p bd">SUN_DISTANCE goes 1.0 down to 0.35 between the first two stops. That is the steepest change in the entire mod.</p>
 
-  <div class="ap-h3">How a value is found</div>
-  <details class="ap-src">
+  <div class="ap-h3 bd">How a value is found</div>
+  <details class="ap-src bd">
     <summary>interpolate(), the fourteen lines everything calls<em>Java</em></summary>
     <div class="ap-code"><k>private static</k> <v>float</v> interpolate(<v>float</v>[] values, <v>int</v> currentDay, <v>int</v> totalDays) {
     <v>float</v> progress = getProgress(currentDay, totalDays);
@@ -510,11 +572,11 @@
     <k>return</k> values[values.length - 1];
 }</div>
   </details>
-  <p class="ap-p">Fourteen lines, called by everything. The sky renderer calls it. The freezer calls it. The heads-up display calls it. Nothing owns the collapse, which is why nothing can get out of step with it.</p>
+  <p class="ap-p bd">Fourteen lines, called by everything. The sky renderer calls it. The freezer calls it. The heads-up display calls it. Nothing owns the collapse, which is why nothing can get out of step with it.</p>
 
   <div class="ap-h3">The false calm</div>
-  <p class="ap-p">There is exactly one place where I broke my own rule and added something that is not strictly derived from the curve, because the curve alone read as a machine.</p>
-  <details class="ap-src">
+  <p class="ap-p bd">This is the one place I broke my own rule and added something that is not strictly derived from the curve, because the curve alone read as a machine.</p>
+  <details class="ap-src bd">
     <summary>getFalseCalmRebound(), the javadoc<em>Java</em></summary>
     <div class="ap-code"><c>/**
  * Returns a small warmth spike (+3C max) near phase boundaries.
@@ -523,16 +585,16 @@
  */</c>
 <k>public static</k> <v>float</v> getFalseCalmRebound(<v>int</v> currentDay, <v>int</v> totalDays) { ... }</div>
   </details>
-  <p class="ap-p">Three degrees. It changes nothing mechanically. What it does is give the player a moment, right at every threshold, where the thermometer stops falling and ticks back up, and they think the worst is over. Then the next segment starts and it is steeper than the last one. <strong>Drag the slider across a marker and watch the temperature cell turn amber.</strong></p>
+  <p class="ap-p">There is one thing in the collapse that is a lie. At the edge of every stage the temperature stops falling and ticks back up, by about three degrees. It changes nothing. What it buys is a moment where you think the worst is over, and then the next stage starts, steeper than the last. <strong>Drag the slider across a marker and watch the temperature cell turn amber.</strong></p>
 
-  <div class="ap-figs">
+  <div class="ap-figs bd">
     <div><b>9</b><span>commits to PhaseManager, ever</span></div>
     <div><b>7</b><span>of them in the first three days</span></div>
     <div><b>12</b><span>lines of mixin shrink the sun</span></div>
   </div>
 
-  <div class="ap-h3">Where it came from</div>
-  <div class="ap-cmts">
+  <div class="ap-h3 bd">Where it came from</div>
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><u>62191a3</u><b>Initial commit: Frozen Dawn mod (NeoForge 1.21.1)</b><s>23 Feb &middot; +2,762 / 91 files</s>
       <p>Phases 1 through 5 shipped in the first commit. The bones of the whole thing were there on day one.</p></div>
     <div class="ap-cmt"><u>ad26cfc</u><b>Add Phase 6: Atmospheric Collapse</b><s>24 Feb &middot; +638 / &minus;92 &middot; 19 files</s>
@@ -540,13 +602,14 @@
     <div class="ap-cmt"><u>50d3943</u><b>Add Phase 0, visual sun scaling via mixin</b><s>24 Feb &middot; +31 / &minus;17 &middot; 3 files</s>
       <p>The famous shrinking sun is a single <code>@ModifyConstant</code> on vanilla's 30.0F sun quad. Twelve lines. It is the most recognisable thing in the mod and the cheapest thing in it.</p></div>
   </div>
-  <p class="ap-p">Three days from empty repository to a world that can end. Everything after that was not building the collapse. It was making the rest of Minecraft agree with it.</p>
+  <p class="ap-p bd">Three days from empty repository to a world that can end. Everything after that was not building the collapse. It was making the rest of Minecraft agree with it.</p>
 </section>
 
 <!-- ============ 02 ============ -->
 <section class="ap-pane" role="tabpanel" data-p="1" aria-label="What the cold does">
   <p class="ap-lede">A number going down is not a feature. The feature is what the world does about it.</p>
-  <p class="ap-p">Each phase unlocks a specific set of block transformations, and each one escalates the number of checks per player per tick. Phase 2 does one pass. Phase 4 does five times that. The world does not just get colder, it gets colder <strong>faster</strong>.</p>
+  <p class="ap-p">Each stage turns over more of the world around you. Stage 2 makes one pass at it. Stage 4 makes five. The world does not just get colder, it gets colder <strong>faster</strong>.</p>
+  <p class="ap-p bd">Each phase unlocks a specific set of block transformations and escalates the number of checks per player per tick.</p>
 
   <div class="ap-phs">
     <div><h4><i style="background:#8fbdf0"></i>Normal<u>Phase 0 &middot; 0.00</u></h4>
@@ -572,9 +635,10 @@
   </div>
 
   <div class="ap-h3">And your heat shrinks with it</div>
-  <p class="ap-p">Phase 5 does not only raise the bill, it quietly shortens your reach. Every lit thermal heater checks one line before deciding how far it warms, and from phase 5 onward a heater with no roof over it keeps only sixty percent of its radius, rounded down.</p>
+  <p class="ap-p">Stage 5 also quietly shortens your reach. From then on, a heater with nothing over it warms only sixty percent as far.</p>
+  <p class="ap-p bd">Every lit thermal heater checks one line before deciding how far it warms. From phase 5 onward an unroofed one keeps sixty percent of its radius, rounded down.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>The radius cut, and the number it was tuned against<em>Java</em></summary>
     <div class="ap-code"><c>/**
  * In phase 5+, exposed heaters (no roof) have 60% radius (distSq &times; 0.36).
@@ -594,20 +658,24 @@
   </div>
   <p class="ap-tcap">Radius in blocks, bare / with capacitor. Warmth in degrees, flat anywhere inside the radius.</p>
 
-  <p class="ap-p">That comment is the whole balance decision in one line. <strong>A diamond heater standing in the open still out-reaches a plain one under a roof</strong>, eight blocks against seven, so the top tier never turns into a downgrade and a roof never turns into a requirement. Shelter only makes what you already built go further.</p>
-  <p class="ap-p">Campfires, furnaces and lava never take the cut at all. They sit on a different code path that is handed no phase at all, so they keep every block of their radius and simply stop mattering instead: a soul campfire is worth twenty eight degrees against an ambient minus seventy.</p>
+  <p class="ap-p"><strong>A diamond heater standing in the open still reaches further than a plain one under a roof</strong>, eight blocks against seven. So the best heater never becomes a downgrade, and a roof never becomes compulsory. Shelter just makes what you already built go further.</p>
+  <p class="ap-p bd">That comment is the whole balance decision in one line.</p>
+  <div class="ap-h3">What never takes the cut</div>
+  <p class="ap-p">Campfires, furnaces and lava never take the cut at all. They keep every block of their reach and simply stop mattering instead: a soul campfire is worth twenty eight degrees against an outside temperature of minus seventy.</p>
+  <p class="ap-p bd">They sit on a different code path, one that is handed no phase at all, which is why the cut never finds them.</p>
   <p class="ap-p">One phase later, a roof stops being enough by itself. What a room has to hold in is no longer heat, and the question changes from how warm you are to whether you can breathe at all. That is the next section.</p>
 
-  <div class="ap-h3">Depth is the answer, and it is also a curve</div>
-  <p class="ap-p">The one honest escape is downward. Temperature gets a depth modifier that is its own ladder, from minus ten at build height to plus eighty at bedrock. Deep enough and the surface reading stops mattering, which is exactly why phase 6 eventually reaches down and takes that away too.</p>
+  <div class="ap-h3">Depth is the answer, and it is also a ladder</div>
+  <p class="ap-p">The one honest escape is downward. How deep you have dug is its own ladder, from minus ten at the top of the world to plus eighty at bedrock. Dig far enough and what the surface says stops mattering, which is exactly why stage 6 eventually reaches down and takes that away too.</p>
 </section>
 
 <!-- ============ 03 ============ -->
 <section class="ap-pane" role="tabpanel" data-p="2" aria-label="The vacuum">
   <p class="ap-lede">Every other phase takes something away by adding something: fog, snow, dark. The last one takes things away by removing the air they were in.</p>
-  <p class="ap-p">Phase 6 covers the final forty percent of the world's life and it is the only part of the collapse with internal stages of its own. They are constants, not a separate system, so the same single number still drives everything.</p>
+  <p class="ap-p">Stage 6 covers the last forty percent of the world's life, and it is the only stage that has stages of its own.</p>
+  <p class="ap-p bd">They are constants, not a separate system, so the same single number still drives everything.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>The phase 6 thresholds and the stage enum<em>Java</em></summary>
     <div class="ap-code"><k>public static final</k> <v>float</v> PHASE6_START         = 0.60f;
 <k>public static final</k> <v>float</v> PHASE6_MID_START     = 0.72f;
@@ -629,9 +697,9 @@
   </div>
 
   <div class="ap-h3">Frozen atmosphere</div>
-  <p class="ap-p">Below minus one fifty, with direct sky access, the air itself starts settling out as a block. It is the only mechanic in the mod that is genuinely reversible, and it reverses for a reason: if a player builds a heat source, the deposits around it sublimate away. The world you are given back is exactly as big as the warmth you can hold.</p>
+  <p class="ap-p">Below minus one fifty, anywhere open to the sky, the air itself starts settling out as a block. It is the only thing in the mod that genuinely undoes itself, and it undoes itself for a reason: build a heat source and the deposits around it boil off. <strong>The world you get back is exactly as big as the warmth you can hold.</strong></p>
 
-  <div class="ap-bud">
+  <div class="ap-bud bd">
     <div><em>Formation</em><dl><dt>from</dt><dd>progress 0.85</dd><dt>radius</dt><dd>48</dd><dt>checks</dt><dd>16</dd><dt>chance</dt><dd>10%</dd></dl>
       <p>Requires phase 6, sky access, and a local temperature under minus 150.</p></div>
     <div><em>Sublimation</em><dl><dt>trigger</dt><dd>temp &gt; &minus;150</dd><dt>radius</dt><dd>32</dd><dt>checks</dt><dd>8</dd></dl>
@@ -641,16 +709,18 @@
   </div>
 
   <div class="ap-h3">The detail I am most attached to</div>
-  <p class="ap-p">The block freezer keeps escalating inside phase 6 even after the surface is finished. Past 0.65 it starts a second sublimation pass, and past 0.75 it adds another ten percent on top of every remaining conversion chance. There is nothing left to convert by then. It runs anyway, because a world that stops changing when it is finished feels finished, and this one is supposed to feel like it is still going somewhere without you.</p>
+  <p class="ap-p">By the very end there is nothing left to freeze. It keeps going anyway, because a world that stops changing when it is finished feels finished, and this one is supposed to feel like it is still going somewhere without you.</p>
+  <p class="ap-p bd">The block freezer keeps escalating inside phase 6 after the surface is done. Past 0.65 it starts a second sublimation pass, and past 0.75 it adds another ten percent on top of every remaining conversion chance.</p>
 </section>
 
 <!-- ============ 04 ============ -->
 <section class="ap-pane" role="tabpanel" data-p="3" aria-label="The world doesn't wait">
   <p class="ap-lede">You walk two thousand blocks east on day seventy and the grass is green.</p>
-  <p class="ap-p">This is the bug that gave the chapter its name, and it is not really a bug. Minecraft generates terrain on demand. Every ambient system in Frozen Dawn, the freezer, the snow, the vegetation decay, only runs inside a 64 block radius of a player and only gets a few hundred block checks per tick. Terrain that has never been loaded has never been cold. The apocalypse had been happening, precisely and beautifully, only in the places someone had already stood.</p>
+  <p class="ap-p">This is the bug that gave the chapter its name, and it is not really a bug. Minecraft only builds the land when somebody goes there. Everything that makes the world colder only runs close to a player. So land nobody has walked on has never been cold. <strong>The apocalypse had been happening, precisely and beautifully, only in the places someone had already stood.</strong></p>
+  <p class="ap-p bd">Every ambient system in the mod, the freezer, the snow and the vegetation decay, runs inside a 64 block radius of a player and gets a few hundred block checks per tick.</p>
   <p class="ap-p">So it needed a way to give a brand new chunk a past.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>The class javadoc, ChunkCatchUpManager.java<em>Java</em></summary>
     <div class="ap-code"><c>/**
  * Applies coarse apocalypse epochs to naturally loaded chunks.
@@ -660,10 +730,11 @@
  * bounded server budget.
  */</c></div>
   </details>
-  <p class="ap-p">That second sentence is the entire design. <strong>Replaying two months of missed ticks is impossible and also pointless.</strong> Nobody saw those ticks. What has to be true is only that the chunk <em>looks like</em> somewhere the last seventy days happened to, and that producing it does not stall the server.</p>
+  <p class="ap-p"><strong>You cannot replay two months of missed time, and there would be no point.</strong> Nobody was there to see it. The land only has to <em>look like</em> somewhere the last seventy days happened to.</p>
+  <p class="ap-p bd">That second sentence is the entire design. The other half of it is that producing the result must not stall the server.</p>
 
-  <div class="ap-h3">Three budgets, chosen per tick</div>
-  <div class="ap-bud">
+  <div class="ap-h3 bd">Three budgets, chosen per tick</div>
+  <div class="ap-bud bd">
     <div><em>Normal</em><dl><dt>time</dt><dd>2.5 ms</dd><dt>blocks</dt><dd>16,384</dd><dt>edits</dt><dd>384</dd></dl>
       <p>The steady state. A player wandering into fresh terrain at walking pace.</p></div>
     <div><em>Burst</em><dl><dt>time</dt><dd>5.0 ms</dd><dt>blocks</dt><dd>49,152</dd><dt>edits</dt><dd>768</dd></dl>
@@ -671,16 +742,17 @@
     <div><em>Prewarm</em><dl><dt>time</dt><dd>8.0 ms</dd><dt>blocks</dt><dd>49,152</dd><dt>edits</dt><dd>1,024</dd></dl>
       <p>Once, on server start, before anyone is looking. The most generous budget goes where nobody can feel it.</p></div>
   </div>
-  <p class="ap-p">The tick loop exits on whichever of the three limits it reaches first, and then leaves the queue exactly where it was.</p>
-  <details class="ap-src">
+  <p class="ap-p bd">The tick loop exits on whichever of the three limits it reaches first, and then leaves the queue exactly where it was.</p>
+  <details class="ap-src bd">
     <summary>The tick loop, and how it decides to stop<em>Java</em></summary>
     <div class="ap-code"><k>while</k> (!pendingChunks.isEmpty()
         &amp;&amp; blocks &lt; blockBudget
         &amp;&amp; System.nanoTime() - start &lt; budgetNanos) { ... }</div>
   </details>
 
-  <div class="ap-h3">Seven passes, and the order is load-bearing</div>
-  <p class="ap-p">A chunk is not transformed in one go. It is walked through seven passes, each with its own cursor, and the work can stop between any two of them and resume on a later tick. The order is not arbitrary: trees have to come out before snow is reconciled, or snow lands on branches that are about to be deleted and then floats.</p>
+  <div class="ap-h3"><span class="bo">Why the order matters</span><span class="bi">Seven passes, and the order is load-bearing</span></div>
+  <p class="ap-p">The order is not arbitrary. Trees have to come out before the snow is sorted out, or the snow lands on branches that are about to be deleted, and then hangs there in mid air.</p>
+  <p class="ap-p bd">A chunk is not transformed in one go. It is walked through seven passes, each with its own cursor, and the work can stop between any two of them and resume on a later tick.</p>
   <div class="ap-pass">
     <div><b>TREE_CLEAR</b><span>Strip dead canopy, 96 blocks deep. First, because everything below depends on it.</span></div>
     <div><b>DETACHED_SNOW</b><span>Remove snow that was resting on something the previous pass just took away.</span></div>
@@ -691,8 +763,8 @@
     <div><b>ATMOSPHERE</b><span>Frozen atmosphere deposits, last, once the world beneath them is settled.</span></div>
   </div>
 
-  <div class="ap-h3">A version number is a promise</div>
-  <details class="ap-src">
+  <div class="ap-h3 bd">A version number is a promise</div>
+  <details class="ap-src bd">
     <summary>TRANSFORM_VERSION and needsCatchUp()<em>Java</em></summary>
     <div class="ap-code"><k>public static final</k> <v>int</v> TRANSFORM_VERSION = <v>4</v>;
 
@@ -703,11 +775,11 @@
             || record.targetDay &lt; targetDay;
 }</div>
   </details>
-  <p class="ap-p">Every chunk stores the version of the transform it received and the day it was brought up to. Change the rules, bump the number, and every chunk in every existing save quietly re-qualifies for catch-up the next time it loads. It has been bumped four times. That single integer is the reason I could keep changing what phase 4 means without breaking anybody's world.</p>
-  <p class="ap-p">The one deliberate exception: chunks inside a protected ORSA structure are marked complete <strong>without being transformed at all</strong>. The sanctuaries are supposed to be the places the apocalypse did not reach, and the cheapest way to guarantee that is to make the catch-up system agree.</p>
+  <p class="ap-p bd">Every chunk stores the version of the transform it received and the day it was brought up to. Change the rules, bump the number, and every chunk in every existing save quietly re-qualifies for catch-up the next time it loads. It has been bumped four times. That single integer is the reason I could keep changing what phase 4 means without breaking anybody's world.</p>
+  <p class="ap-p">One deliberate exception: land inside a protected ORSA structure is <strong>skipped entirely</strong>. The sanctuaries are supposed to be the places the apocalypse did not reach, and the surest way to guarantee that is to have the catching up agree.</p>
 
-  <div class="ap-h3">What it actually cost</div>
-  <div class="ap-cmts">
+  <div class="ap-h3 bd">What it actually cost</div>
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><u>7192e4e</u><b>feat(world): add chunk catch-up epoch processing</b><s>24 May &middot; +1,111 / 5 files</s>
       <p>899 lines of manager and a 199 line saved-data class, in one commit. It worked.</p></div>
     <div class="ap-cmt"><u>477cf36</u><b>fix(world): stabilize chunk catch-up bursts</b><s>29 May &middot; +663 / &minus;200 &middot; 3 files</s>
@@ -722,29 +794,29 @@
 </section>
 
 <!-- ============ 05 ============ -->
-<section class="ap-pane" role="tabpanel" data-p="4" aria-label="What it cost">
-  <p class="ap-lede">Three days to build the collapse. Six months to make the rest of the game agree with it.</p>
-  <p class="ap-p">The gap between those two numbers is the honest story of this chapter, and it is not the story I expected to be telling. I thought the hard part would be the physics. The hard part was that a single shared value has to be read correctly by forty different things, every one of which was written on a different day by someone who had slightly forgotten the rules.</p>
+<section class="ap-pane" role="tabpanel" data-p="4" data-stub="This whole section is the making of: six months of commits, one refactor that changed nothing a player could see, and forty one days where I did not open the editor. Switch to How I built it to read it." aria-label="What it cost">
+  <p class="ap-lede bd">Three days to build the collapse. Six months to make the rest of the game agree with it.</p>
+  <p class="ap-p bd">The gap between those two numbers is the honest story of this chapter, and it is not the story I expected to be telling. I thought the hard part would be the physics. The hard part was that a single shared value has to be read correctly by forty different things, every one of which was written on a different day by someone who had slightly forgotten the rules.</p>
 
-  <div class="ap-figs">
+  <div class="ap-figs bd">
     <div><b>3</b><span>days to a world that can end</span></div>
     <div><b>46</b><span>commits in chapter one</span></div>
     <div><b>6</b><span>phases the world moves through</span></div>
   </div>
 
-  <div class="ap-h3">One constant, twenty-four files</div>
-  <div class="ap-cmts">
+  <div class="ap-h3 bd">One constant, twenty-four files</div>
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><u>7a3248e</u><b>fix(phase): centralize phase 6 thresholds</b><s>2 Apr &middot; +152 / &minus;80 &middot; 24 files</s>
       <p>The number 0.72 had been typed out by hand in the sky renderer, the wind ambience, the flag physics, the frost overlay, the oxygen HUD, the music controller, the suit ambience and seventeen other places. Changing what "mid phase 6" meant required finding all of them. This commit made it one constant and touched twenty-four files to do it.</p></div>
     <div class="ap-cmt"><u>22e69af</u><b>refactor(phase): clarify phase 6 presentation stages</b><s>2 Apr &middot; +144 / &minus;98 &middot; 8 files</s>
       <p>Same afternoon. This is the one that introduced <code>Phase6Stage</code>, so the question stopped being "is progress above 0.72" and started being "which stage are we in". Twenty-four lines added to PhaseManager, and they paid for themselves within a week.</p></div>
   </div>
-  <p class="ap-p">Two commits, one day, no new behaviour at all. If you played the mod before and after, nothing changed. It is still the most useful thing I did to this system after the first week, and it is the kind of work that leaves no trace in a changelog.</p>
+  <p class="ap-p bd">Two commits, one day, no new behaviour at all. If you played the mod before and after, nothing changed. It is still the most useful thing I did to this system after the first week, and it is the kind of work that leaves no trace in a changelog.</p>
 
-  <div class="ap-h3">And then the silence</div>
-  <p class="ap-p">Forty-one days with no commits, starting five days after the chunk loader's rewrite. I would like to say it was a planned break. It was not. I had just spent a week rewriting two thirds of the hardest file in the project because the first version stalled the server, it was finally correct, and I could not make myself open the editor again.</p>
-  <p class="ap-p">The thing that eventually brought me back was a bug report about snow floating where a tree used to be. Not a grand plan, not a new feature. A one file fix, 136 lines, in the same class I had walked away from.</p>
-  <p class="ap-pull">The mod is about a world that keeps getting colder whether or not anyone is there to watch. I did not notice until I read my own commit history back that I had built the system that handles exactly that, and then tested it on myself.</p>
+  <div class="ap-h3 bd">And then the silence</div>
+  <p class="ap-p bd">Forty-one days with no commits, starting five days after the chunk loader's rewrite. I would like to say it was a planned break. It was not. I had just spent a week rewriting two thirds of the hardest file in the project because the first version stalled the server, it was finally correct, and I could not make myself open the editor again.</p>
+  <p class="ap-p bd">The thing that eventually brought me back was a bug report about snow floating where a tree used to be. Not a grand plan, not a new feature. A one file fix, 136 lines, in the same class I had walked away from.</p>
+  <p class="ap-pull bd">The mod is about a world that keeps getting colder whether or not anyone is there to watch. I did not notice until I read my own commit history back that I had built the system that handles exactly that, and then tested it on myself.</p>
 </section>
 
               </div>
@@ -1387,5 +1459,57 @@
     if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 80) mark();
   }
   doc.addEventListener('scroll', check, { passive: true });
+})();
+</script>
+
+<script>
+(function () {
+  var KEY = 'fd-layer';
+  var seg = document.querySelector('.rl-seg');
+  if (!seg) return;
+  var btns = [].slice.call(seg.querySelectorAll('button'));
+
+  // a pane can lose everything it had to the build layer. a tab that opens
+  // onto nothing reads as broken, so the pane says what is behind the switch
+  // instead of showing an empty box. a pane may name its own wording.
+  function stubs() {
+    [].slice.call(document.querySelectorAll('.ap-pane')).forEach(function (pane) {
+      var stub = pane.querySelector('.rl-stub');
+      var real = [].slice.call(pane.children).some(function (el) {
+        return el !== stub && getComputedStyle(el).display !== 'none';
+      });
+      if (real) { if (stub) stub.hidden = true; return; }
+      if (!stub) {
+        stub = document.createElement('p');
+        stub.className = 'rl-stub';
+        stub.textContent = pane.getAttribute('data-stub')
+                         || 'This section is all workings. '
+                          + 'Switch to How I built it to read it.';
+        pane.appendChild(stub);
+      }
+      stub.hidden = false;
+    });
+  }
+
+  function apply(layer, save) {
+    document.body.classList.toggle('build', layer === 'build');
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-layer') === layer;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    stubs();
+    if (save) { try { localStorage.setItem(KEY, layer); } catch (e) {} }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-layer'), true);
+    });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  apply(saved === 'build' ? 'build' : 'story', false);
 })();
 </script>
