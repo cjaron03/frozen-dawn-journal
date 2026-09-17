@@ -692,7 +692,7 @@
 </div>
 
 <script>
-/* The one script on the homepage: lift each section in as it arrives. */
+/* Lift each section in as it arrives. */
 (function () {
   var items = document.querySelectorAll('.tl-rev');
   if (!window.IntersectionObserver) { for (var i = 0; i < items.length; i++) items[i].classList.add('in'); return; }
@@ -711,5 +711,51 @@
     var s = window.localStorage;
     if (s.getItem('fd.ok') === '1') s.setItem('fd.idx', '1');
   } catch (e) {}
+})();
+</script>
+
+<script>
+/* the commit tally is baked in when the site is built, so it is wrong again
+   the next time anything is pushed to the mod. this asks GitHub what the
+   number actually is.
+
+   there is no endpoint that returns a count. asking for one commit per page
+   and reading the last page number off the Link header is the whole trick:
+   one request, no token, nothing to paginate. every way this can fail ends
+   with the built in number already on screen, so it just stays there. */
+(function () {
+  var b = document.querySelector('.tl-stats div:nth-child(1) b');
+  if (!b || !window.fetch) return;
+
+  var API = 'https://api.github.com/repos/cjaron03/frozen-dawn/commits'
+          + '?per_page=1&sha=main';
+
+  fetch(API).then(function (r) {
+    if (!r.ok) throw 0;
+    var m = (r.headers.get('Link') || '').match(/[?&]page=(\d+)>;\s*rel="last"/);
+    if (!m) throw 0;
+    return parseInt(m[1], 10);
+  }).then(function (n) {
+    if (!n || n < 1) return;
+    /* asked before the value changes, because the answer is about the
+       animation that is running now, not the one that is about to. */
+    var run = b.getAnimations ? b.getAnimations() : null,
+        landed = !!(run && run.length && run.every(function (a) {
+          return a.playState === 'finished';
+        }));
+
+    b.style.setProperty('--v0', n);
+
+    /* mid count, the number simply climbs to the new total instead of the
+       old one. once the count has finished it would otherwise tick over on
+       its own with no explanation, so it counts again. under reduced motion
+       there is no animation to replay and the value just changes, which is
+       exactly what reduced motion asked for. */
+    if (landed) {
+      b.style.animation = 'none';
+      void b.offsetWidth;
+      b.style.animation = '';
+    }
+  }).catch(function () {});
 })();
 </script>

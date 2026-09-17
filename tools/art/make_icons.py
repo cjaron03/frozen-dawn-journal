@@ -176,14 +176,13 @@ def card():
     tracked(d, (x + w + 17, 86), "DEV JOURNAL", fi, MUTED, 1.2)
 
     fh = font("SFNS.ttf", 53)
-    d.text((x, 404), "One person, hundreds of commits,", font=fh, fill=HEAD)
-    d.text((x, 404 + 64), "and a thing that learned to think.", font=fh, fill=HEAD)
+    d.text((x, 420), "One person, hundreds of commits,", font=fh, fill=HEAD)
+    d.text((x, 420 + 64), "and a thing that learned to think.", font=fh, fill=HEAD)
 
-    # no stat row, and no commit count anywhere on the card. an image cannot
-    # update itself, and a tally that moves every day would be wrong by the
-    # time anyone saw it.
-    fm = font("Menlo.ttc", 16)
-    tracked(d, (x, 548), "cjaron03.github.io/frozen-dawn-journal", fm, ICE, 0.7)
+    # nothing here that an image cannot keep true. no commit tally, because
+    # it moves every day, and no address, because a move to a real domain is
+    # the one change a baked in address could not follow. every surface that
+    # shows this card shows the link beside it anyway.
 
     OUT.mkdir(parents=True, exist_ok=True)
     im.convert("RGB").save(OUT / "social-card.png", optimize=True)
@@ -228,8 +227,10 @@ def banner():
                      "that learned to think.".replace("\n", " "),
            font=fs, fill=(150, 161, 170))
 
-    fm = font("Menlo.ttc", 15)
-    tracked(d, (x, 186), "cjaron03.github.io/frozen-dawn-journal", fm, ICE, 0.7)
+    # the whole banner is a link, so this says where it goes rather than
+    # naming an address that would have to be redrawn to change.
+    fc = font("SFNS.ttf", 15)
+    tracked(d, (x, 184), "READ THE DEV JOURNAL", fc, ICE, 1.6)
 
     OUT.mkdir(parents=True, exist_ok=True)
     im.convert("RGB").save(OUT / "journal-banner.png", optimize=True)
