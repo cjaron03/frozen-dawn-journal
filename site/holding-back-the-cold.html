@@ -382,6 +382,147 @@
   .ap-code { font-size:10.5px; }
   .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
 }
+
+
+  /* ---- two small instruments that live inside a pane ------------------
+     everything on this page used to sit above the tab deck, so a reader who
+     opened a tab got prose and nothing to touch. these two sit next to the
+     paragraph they belong to. both are plain dom, no canvas, which matters
+     because .ap-pane is display:none until its tab is on and a canvas in
+     there would have no box to measure. */
+  .kit { border:1px solid #1a212a; border-radius:9px; background:#0b0f13;
+         margin:22px 0; overflow:hidden; }
+  .kit-t { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+           padding:12px 16px; border-bottom:1px solid #151c24; background:#0d1116; }
+  .kit-t b { font-family:var(--mono); font-size:9.5px; letter-spacing:.14em;
+             text-transform:uppercase; color:#7dd3fc; font-weight:500; }
+  .kit-t span { font-size:11.5px; line-height:1.5; color:#6c7883; }
+  .kit-b { padding:16px; }
+  .kit-f { padding:11px 16px 13px; border-top:1px solid #151c24;
+           font-size:12px; line-height:1.6; color:#8d98a1; }
+  .kit-f b { color:#c2ccd4; font-weight:600; }
+
+  /* the roof test. a column of blocks over your head, click to change one. */
+  .rt { display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:start; }
+  .rt-col { display:grid; gap:3px; }
+  .rt-row { display:flex; align-items:center; gap:9px; }
+  .rt-row > i { font-family:var(--mono); font-size:9px; color:#4f5a64;
+                font-style:normal; width:26px; text-align:right;
+                letter-spacing:.06em; }
+  .rt-row.out > i { color:#39424b; }
+  .rt-cell { -webkit-appearance:none; appearance:none; width:54px; height:30px;
+             border-radius:5px; cursor:pointer; padding:0;
+             border:1px solid #1e2732; background:#0e1319;
+             font-family:var(--mono); font-size:8.5px; letter-spacing:.09em;
+             text-transform:uppercase; color:#4f5a64;
+             transition:border-color .16s, background .16s, color .16s; }
+  .rt-cell:hover { border-color:#31404f; color:#8d98a1; }
+  .rt-cell.stone { background:#2a333d; border-color:#3a4552; color:#d4dade; }
+  .rt-cell.glass { background:#12222c; border-color:#2b4756; color:#7f9aa8; }
+  .rt-cell.ins   { background:#123040; border-color:#2f6a84; color:#7dd3fc; }
+  .rt-stop { display:flex; align-items:center; gap:9px; margin:5px 0 7px; }
+  .rt-stop i { width:26px; flex:0 0 26px; }
+  .rt-stop span { flex:1; display:flex; align-items:center; gap:8px;
+                  font-family:var(--mono); font-size:8px; letter-spacing:.11em;
+                  text-transform:uppercase; color:#4f5a64; white-space:nowrap; }
+  .rt-stop span:after { content:''; flex:1; height:1px;
+                        background:repeating-linear-gradient(to right,#2a343f 0 3px,transparent 3px 6px); }
+  .rt-you { display:flex; align-items:center; gap:9px; margin-top:6px;
+            padding-top:9px; border-top:1px dashed #212a34; }
+  .rt-you i { font-family:var(--mono); font-size:9px; color:#4f5a64;
+              font-style:normal; width:26px; text-align:right; }
+  .rt-you b { font-family:var(--mono); font-size:9px; letter-spacing:.12em;
+              text-transform:uppercase; color:#ffb454; font-weight:500; }
+  .rt-gap { height:5px; border-left:1px dashed #212a34; margin-left:33px; }
+  .rt-out b { display:block; font-size:22px; font-weight:600; letter-spacing:-.02em;
+              color:#6c7883; }
+  .rt-out b.warm { color:#7dd3fc; }
+  .rt-out em { display:block; font-family:var(--mono); font-size:9px;
+               letter-spacing:.13em; text-transform:uppercase; color:#5a6672;
+               font-style:normal; margin-bottom:8px; }
+  .rt-why { margin-top:12px; font-size:12.5px; line-height:1.6; color:#8d98a1;
+            min-height:3.2em; }
+  .rt-why b { color:#d4dade; font-weight:600; }
+
+  /* the swarm. two sliders, four heaters, watch the small ones switch off. */
+  .sw-ctl { display:flex; gap:20px; flex-wrap:wrap; align-items:flex-end;
+            margin-bottom:18px; }
+  .sw-ctl label { display:block; flex:1 1 210px; min-width:0; }
+  .sw-ctl em { display:flex; justify-content:space-between; gap:10px;
+               font-family:var(--mono); font-size:9px;
+               letter-spacing:.12em; text-transform:uppercase; color:#5a6672;
+               font-style:normal; }
+  .sw-ctl em s { text-decoration:none; color:#d4dade; text-align:right;
+                 flex:0 1 auto; }
+  .sw-cap { -webkit-appearance:none; appearance:none; border:1px solid #1e2732;
+            background:#0e1319; color:#6c7883; cursor:pointer; border-radius:6px;
+            font-family:var(--mono); font-size:9.5px; letter-spacing:.11em;
+            text-transform:uppercase; padding:9px 14px; flex:0 0 auto;
+            transition:color .16s, background .16s, border-color .16s; }
+  .sw-cap:hover { border-color:#31404f; color:#b8c3cb; }
+  .sw-cap.on { background:#123040; border-color:#2f6a84; color:#7dd3fc; }
+  .sw-rows { display:grid; gap:7px; }
+  .sw-row { display:grid; grid-template-columns:72px 1fr 58px; gap:11px;
+            align-items:center; }
+  .sw-row > i { font-style:normal; font-size:12px; color:#a9b4bd; }
+  .sw-bar { height:16px; border-radius:4px; background:#0e1319;
+            border:1px solid #1a212a; overflow:hidden; }
+  .sw-bar span { display:block; height:100%; background:#7dd3fc;
+                 transform-origin:left center; transition:transform .18s linear,
+                 background .18s linear; }
+  .sw-row.off > i { color:#6c7883; }
+  .sw-row.off .sw-bar span { background:#ffb454; }
+  .sw-row > b { font-family:var(--mono); font-size:11px; text-align:right;
+                color:#d4dade; font-variant-numeric:tabular-nums; font-weight:500; }
+  .sw-row.off > b { color:#ffb454; }
+
+  @media (max-width:640px) {
+    .rt { grid-template-columns:1fr; gap:16px; }
+    .sw-row { grid-template-columns:62px 1fr 52px; gap:9px; }
+  }
+
+  /* ---- reading layers -------------------------------------------------
+     the page carries two audiences. story is the world, the rules a player
+     meets, and why they are the way they are. build adds the source, the
+     commits and the notes only someone who might write this code would
+     check. one class on the body, so switching costs nothing at read time.
+     the hide rule is body:not(.build) rather than a display on .bd itself,
+     because .bd lands on grids and details as well as paragraphs and an
+     authored display:block would flatten them. */
+  body:not(.build) .bd { display:none !important; }
+  body:not(.build) .bi { display:none !important; }
+  body.build .bo { display:none !important; }
+
+  .rl { display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+        margin:0 0 24px; }
+  .rl-seg { display:flex; gap:2px; padding:2px; border-radius:8px;
+            background:#0a0d11; border:1px solid #1a212a; flex:0 0 auto; }
+  .rl-seg button { -webkit-appearance:none; appearance:none; border:0;
+                   cursor:pointer; background:transparent; color:#6c7883;
+                   font-family:var(--mono); font-size:10.5px;
+                   letter-spacing:.12em; text-transform:uppercase;
+                   padding:7px 15px; border-radius:6px;
+                   transition:color .18s, background .18s; }
+  .rl-seg button:hover { color:#b8c3cb; }
+  .rl-seg button.on { color:#0b0f13; background:#7dd3fc; }
+  .rl-n { font-size:11.5px; line-height:1.5; color:#6c7883; }
+  .rl-stub { font-size:13px; line-height:1.6; color:#6c7883;
+             border:1px dashed #222b35; border-radius:8px; padding:16px 18px; }
+
+  /* the three line summary. enough to decide whether to read the chapter. */
+  .sm3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+         background:#1a212a; border:1px solid #1a212a; border-radius:8px;
+         overflow:hidden; margin:0 0 26px; }
+  .sm3 > div { background:#0d1116; padding:14px 16px; }
+  .sm3 em { display:block; font-family:var(--mono); font-size:9px;
+            letter-spacing:.13em; text-transform:uppercase; color:#5a6672;
+            font-style:normal; margin-bottom:7px; }
+  .sm3 p { font-size:13px; line-height:1.55; color:#b9c4cc; }
+
+  @media (max-width:640px) {
+    .sm3 { grid-template-columns:1fr; }
+    .rl-n { flex:1 1 100%; }
+  }
 </style>
 
 <div class="ap">
@@ -396,20 +537,34 @@
         <h1 class="ap-title">Holding Back the Cold</h1>
 
         <div class="ap-rest">
-          <p class="ap-stand">Chapter one was the world taking the heat away. This one is everything I built to let you put some of it back, and every rule I wrote to stop that from being easy.</p>
+          <p class="ap-stand">Chapter one was the world taking your heat away. This one is everything you can build to get some of it back, and every rule I wrote to stop that being easy.</p>
+
+          <div class="rl">
+            <div class="rl-seg" role="group" aria-label="Reading layer">
+              <button type="button" class="on" data-layer="story" aria-pressed="true">The game</button>
+              <button type="button" data-layer="build" aria-pressed="false">How I built it</button>
+            </div>
+            <span class="rl-n">Left is the game. Right adds the code, the reasoning and the ten weeks it took.</span>
+          </div>
+
+          <div class="sm3">
+            <div><em>What changed</em><p>Four tiers of heater, one block that doubles any of them, and a swarm that quietly turns them off.</p></div>
+            <div><em>What you do with it</em><p>Find the edge of the warm zone by walking until the number drops, then build the whole base inside it.</p></div>
+            <div><em>Why it is odd</em><p>A fully infested heater reads exactly zero while still lit, still burning fuel, and still looking like it works.</p></div>
+          </div>
 
           <div class="ap-stats ap-wide">
             <div><b>4</b><span>heater tiers, and you will need all of them</span></div>
             <div><b>2&times;</b><span>what one capacitor does to a heater's reach</span></div>
-            <div><b>61</b><span>commits on staying warm, out of 355</span></div>
-            <div><b>50</b><span>frostmite heat penalty cap, enough to zero a heater</span></div>
-            <div><b>12,000</b><span>blocks the seal check visits before giving up</span></div>
-            <div><b>80</b><span>degrees the rock gives back at Y &minus;64</span></div>
+            <div><b>61</b><span>changes to the code, all about staying warm</span></div>
+            <div><b>50</b><span>the most a swarm can take off a heater, enough to switch it off</span></div>
+            <div><b>12,000</b><span>blocks it checks before it gives up on your room</span></div>
+            <div><b>80</b><span>degrees the rock gives back if you dig deep enough</span></div>
           </div>
 
           <div class="ap-h3">Play with it</div>
           <p class="ap-lede">Warmth in Frozen Dawn is four numbers added together, and you only control two of them.</p>
-          <p class="ap-p">The phase decides the floor. Your depth decides how much the planet is still willing to lend you. A roof is worth a flat five degrees. Everything else has to come out of a heater you built, fuelled, and then defended. <strong>Move anything below and watch which term actually saves you.</strong></p>
+          <p class="ap-p">How far the collapse has gone sets the floor. How deep you have dug decides how much warmth the planet will still lend you. A roof over your head is worth five degrees flat. Everything past that you have to build, fuel, and then defend. <strong>Move anything below and watch which one is actually keeping you alive.</strong></p>
 
           <div class="hb ap-wide" id="hb">
             <div class="hb-modes">
@@ -467,8 +622,8 @@
                   <input class="hb-rng" id="hbY" type="range" min="0" max="16" step="1" value="0" aria-label="Depth in blocks">
                 </div>
                 <div class="hb-ctl">
-                  <em>Frostmites latched<u id="hbMitesV">0 mites</u></em>
-                  <input class="hb-rng" id="hbMites" type="range" min="0" max="10" step="1" value="0" aria-label="Frostmites latched to the heater">
+                  <em>Frostmites on it<u id="hbMitesV">0 mites</u></em>
+                  <input class="hb-rng" id="hbMites" type="range" min="0" max="10" step="1" value="0" aria-label="Frostmites on the heater">
                 </div>
               </div>
 
@@ -516,7 +671,7 @@
             <p class="ap-note" id="hbNote"></p>
           </div>
 
-          <p class="ap-p">Two things are worth noticing before you read any further. The first is that the warm area has a <strong>hard edge</strong>. There is no falloff curve. The second is that in phase five, taking the roof off a heater is worse than dropping a whole tier.</p>
+          <p class="ap-p">Two things to notice before you read on. The warm patch has a <strong>hard edge</strong>, so you are either in it or you are not, with nothing in between. And once phase five arrives, leaving a heater open to the sky hurts you more than dropping it a whole tier.</p>
 
           <div class="ap-deck" id="apDeck">
             <div class="ap-dtop">
@@ -535,20 +690,22 @@
 
 <!-- ============ 01 ============ -->
 <section class="ap-pane on" role="tabpanel" data-p="0" aria-label="The ladder">
-  <p class="ap-lede">Four heaters. The difference between them is two numbers, and one block sitting next to them doubles both.</p>
-  <p class="ap-p">A heater is not a machine that warms the air around it. It is a radius and a constant. If the block you are standing on is inside the radius, you get the whole constant. If it is not, you get nothing at all. That decision is one line, and it never changed after the day I wrote it.</p>
+  <p class="ap-lede">Four heaters. All that separates them is how far they reach and how hard they push, and one block sitting next to any of them doubles both.</p>
+  <p class="ap-p">Walk towards a heater and nothing happens, nothing happens, and then you are warm. There is no fading in. One block closer and you get the whole amount, one block back and you get none of it.</p>
+  <p class="ap-p bd">That was a single line on the first day and I never touched it again.</p>
 
   <div class="ap-ladder ap-wide fd-x">
-    <div class="h">Heater</div><div class="h">Radius</div><div class="h">Heat</div><div class="h">With capacitor</div><div class="h">Capacitor heat</div>
+    <div class="h">Heater</div><div class="h">Reach</div><div class="h">Heat</div><div class="h">With capacitor</div><div class="h">Capacitor heat</div>
     <div class="t">Thermal</div><div class="n">7</div><div class="a">+35.0</div><div class="n">14</div><div class="a">+52.5</div>
     <div class="t">Iron</div><div class="n">9</div><div class="a">+50.0</div><div class="n">18</div><div class="a">+75.0</div>
     <div class="t">Gold</div><div class="n">11</div><div class="a">+65.0</div><div class="n">22</div><div class="a">+97.5</div>
     <div class="t">Diamond</div><div class="n">14</div><div class="a">+80.0</div><div class="n">28</div><div class="a">+120.0</div>
   </div>
 
-  <p class="ap-p">The Thermal Capacitor is the single best block in the survival tree and it does not look like it. It doubles the radius and multiplies the heat by one and a half. A Thermal heater with a capacitor reaches further than a Diamond heater without one, which is deliberate: the upgrade path is meant to have a shortcut in it for players who find the capacitor first.</p>
+  <p class="ap-p">The Thermal Capacitor is the best block in the game and it does not look like much. Put one beside a heater and it reaches twice as far and gives half again as much. The cheapest heater with a capacitor beats the most expensive one without.</p>
+<p class="ap-p bd">That is on purpose. Find a capacitor early and you get to skip most of the ladder, which is a shortcut I wanted to exist for anyone who explores before they mine.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>The whole decision, TemperatureManager.java<em>Java</em></summary>
     <div class="ap-code"><c>// one tier, unrolled. the other three are the same shape.</c>
 <k>if</k> (state.is(ModBlocks.THERMAL_HEATER.get()) &amp;&amp; state.getValue(ThermalHeaterBlock.LIT)) {
@@ -561,13 +718,14 @@
 }</div>
   </details>
 
-  <p class="ap-p">I have gone back and forth on the hard edge more than once. A smooth falloff is more realistic and it is also completely unreadable in play: you would never know whether moving two blocks helped. The binary version teaches itself. Players work out the exact radius within an hour of getting a heater and then build their base around it, which is the behaviour I wanted.</p>
+  <p class="ap-p">Most people work out exactly how far a heater reaches within an hour, and then build the whole base inside it.</p>
+<p class="ap-p bd">I have gone back and forth on that hard edge more than once. Warmth that fades with distance is more realistic, and it is also impossible to read while you are playing, because you would never know whether moving two blocks helped. The hard edge teaches itself, which is what I was after.</p>
 
   <div class="ap-h3">Everything else that is warm</div>
-  <p class="ap-p">Heaters are the tech answer. Before you have one, the world has a short list of things that happen to be hot, and they are all much worse.</p>
+  <p class="ap-p">Before you can build a heater you are stuck with whatever the world happens to have lying around that is hot. It is a short list and all of it is worse.</p>
 
   <div class="ap-heat ap-wide fd-x">
-    <div class="h">Source</div><div class="h">Radius</div><div class="h">Heat</div><div class="h">What it is good for</div>
+    <div class="h">Source</div><div class="h">Reach</div><div class="h">Heat</div><div class="h">What it is good for</div>
     <div class="e">Thermal vent lava</div><div class="n">6</div><div class="n">+42.0</div><div class="n">The best thing in the world you did not build</div>
     <div class="e">Lava</div><div class="n">4</div><div class="n">+30.0</div><div class="n">Warm, and it will kill you</div>
     <div class="e">Soul campfire</div><div class="n">6</div><div class="n">+28.0</div><div class="n">Better reach than a normal one</div>
@@ -578,10 +736,10 @@
     <div class="e">Acheronite block</div><div class="n">3</div><div class="n">+10.0</div><div class="n">Quiet and permanent</div>
   </div>
 
-  <p class="ap-p">Stack them and they add. A campfire and a furnace and a magma block in the same small room is fifty degrees, which carries you through phase two and most of phase three without any tech at all. That is the intended early game, and it falls apart exactly when phase four arrives.</p>
+  <p class="ap-p">Put several in one room and they stack. A campfire, a furnace and a magma block together is fifty degrees, enough to carry you through phase two and most of phase three without building anything at all. That is the intended early game, and it stops working the moment phase four arrives.</p>
 
   <div class="ap-figs">
-    <div><b>6</b><span>block radius the ambient scan ever looks</span></div>
+    <div><b>6</b><span>blocks is as far as the game looks for something warm</span></div>
     <div><b>8</b><span>vanilla and modded blocks that count as heat</span></div>
     <div><b>2</b><span>of them you can carry in a pocket</span></div>
   </div>
@@ -589,10 +747,28 @@
 
 <!-- ============ 02 ============ -->
 <section class="ap-pane" role="tabpanel" data-p="1" aria-label="A roof is a number">
-  <p class="ap-lede">Shelter in this mod is not a mood. It is a loop that looks up.</p>
-  <p class="ap-p">I wanted a player to be able to work out, without a wiki, whether the thing they just built counts. So the check is the dumbest thing that could possibly work: stand where you are, look straight up four blocks, and if any of them is solid, you are sheltered. Five degrees. That is the whole function.</p>
+  <p class="ap-lede">Shelter is not a feeling. It is the game looking straight up from wherever you are standing.</p>
+  <p class="ap-p">The test is the dumbest one that works. Look straight up. If any of the four blocks above your head is solid, you are sheltered, and that is worth five degrees.</p>
+<p class="ap-p bd">You should be able to work that out without going off to read a wiki, which is why it is four lines and never got cleverer.</p>
 
-  <details class="ap-src">
+  <div class="kit">
+    <div class="kit-t"><b>The roof test</b><span>Click a block above your head. Empty, stone, glass, insulated glass.</span></div>
+    <div class="kit-b">
+      <div class="rt">
+        <div>
+          <div class="rt-col" id="rtCol"></div>
+          <div class="rt-you"><i></i><b>You</b></div>
+        </div>
+        <div>
+          <div class="rt-out"><em>Shelter</em><b id="rtVal">0&deg;C</b></div>
+          <p class="rt-why" id="rtWhy"></p>
+        </div>
+      </div>
+    </div>
+    <div class="kit-f"><b>The takeaway.</b> Only the bottom four count, and glass is not solid. Put your one block at five up and you are standing outside.</div>
+  </div>
+
+  <details class="ap-src bd">
     <summary>getShelterModifier, TemperatureManager.java<em>Java</em></summary>
     <div class="ap-code"><k>public static</k> <v>float</v> getShelterModifier(<v>Level</v> level, <v>BlockPos</v> pos) {
     <k>for</k> (<v>int</v> dy = 1; dy &lt;= 4; dy++) {
@@ -607,13 +783,13 @@
 }</div>
   </details>
 
-  <p class="ap-p">Insulated glass is the exception written directly into that condition, and it is the reason the block exists. Glass is not solid, so ordinary glass fails the check and a greenhouse is just a cold box with a view. Insulated glass is the one transparent block that counts as a roof, which lets you build somewhere you can actually see out of without giving up the five degrees.</p>
+  <p class="ap-p">Ordinary glass is not solid, so a glass roof fails and your greenhouse is a cold box with a nice view. Insulated glass is the one see-through block that counts, and that is the whole reason it exists.</p>
 
   <div class="ap-pull">Four blocks up, not one. You should be able to put a lamp in your ceiling without losing your shelter.</div>
 
   <div class="ap-h3">A roof, and then walls</div>
-  <p class="ap-p">Five degrees is the cheap version. The expensive version is <strong>enclosure</strong>, and it is what most of the later systems actually test for. A position is enclosed when it has a roof within four above it <em>and</em> a solid block in all four cardinal directions within ten. Insulated glass counts for the walls too.</p>
-  <p class="ap-p">Ten blocks is generous on purpose. It means a reasonable room passes and an open pavilion does not, without forcing anyone to build a cupboard.</p>
+  <p class="ap-p">Five degrees is the cheap prize. The expensive one is being properly <strong>enclosed</strong>: a roof within four blocks above you <em>and</em> a wall within ten in every direction. A lot of the later systems ask for that instead.</p>
+  <p class="ap-p bd">Ten blocks is generous on purpose. Any sensible room passes and an open shelter with a roof on posts does not, and nobody is forced to live in a cupboard.</p>
 
   <div class="ap-bud">
     <div><em>Sheltered</em><dl><dt>looks</dt><dd>up only</dd><dt>range</dt><dd>4</dd><dt>worth</dt><dd>+5&deg;C</dd></dl>
@@ -625,30 +801,31 @@
   </div>
 
   <div class="ap-h3">The phase five rule</div>
-  <p class="ap-p">Everything above is background for one line that changed how the mod plays. From phase five onward, a heater with nothing over it keeps only sixty percent of its radius. Not its heat, its radius, which means the area falls to about a third.</p>
+  <p class="ap-p">All of that is background for one rule that changed how the whole mod plays. From phase five onward, a heater with open sky above it reaches only sixty percent as far. Not sixty percent as warm, sixty percent as far, which leaves about a third of the floor space it used to cover.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>The tuning note I left myself, TemperatureManager.java<em>Java</em></summary>
     <div class="ap-code"><c>// In phase 5+, exposed heaters (no roof) have 60% radius (distSq * 0.36).</c>
 <c>// This ensures Diamond exposed (r~8.4) &gt; Base enclosed (r=7).</c></div>
   </details>
 
-  <p class="ap-p">That second line is the whole balance argument. The penalty had to be harsh enough that roofing your heater is never optional, and gentle enough that a player who has spent the diamonds is still ahead of a player who has not. Sixty percent is the number where the best exposed heater just barely beats the worst sheltered one. Anything lower and the tech tree stopped mattering in the endgame.</p>
-  <p class="ap-p">The result in play is that phase five is when everybody's base changes shape. Open-air heater arrays that worked for thirty days stop working in a single night, and you find out because the readout drops, not because anything told you.</p>
+  <p class="ap-p bd">Picking sixty was the whole argument. It had to hurt enough that putting a roof over your heater is never optional, and not so much that spending the diamonds stopped being worth it. Sixty is the exact point where the best heater left out in the open only just beats the worst one under a roof. Any lower and none of the upgrades mattered by the end of the game.</p>
+  <p class="ap-p">What that means in play is that phase five is when everybody's base changes shape. Heaters out in the open that worked fine for thirty days stop working in a single night, and nothing warns you. You find out because the number on your screen drops.</p>
 
   <div class="ap-figs">
     <div><b>5</b><span>degrees for anything over your head</span></div>
-    <div><b>10</b><span>blocks the wall check reaches sideways</span></div>
-    <div><b>36</b><span>percent of the area left when exposed in phase 5</span></div>
+    <div><b>10</b><span>blocks it will reach sideways looking for a wall</span></div>
+    <div><b>36</b><span>percent of the warm floor left if you leave it open to the sky</span></div>
   </div>
 </section>
 
 <!-- ============ 03 ============ -->
 <section class="ap-pane" role="tabpanel" data-p="2" aria-label="Sealing a room">
-  <p class="ap-lede">In phase six there is no air outside. The game has to decide, constantly, whether the room you are in counts as inside.</p>
-  <p class="ap-p">This is the check I rewrote the most times, because it is the only one where being wrong kills someone who did nothing wrong. It is a flood fill. It starts on the block you are standing in, walks outward through every air block it can reach in all six directions, and asks one question of each: <strong>can this block see the sky?</strong> If any of them can, the room is not sealed and you are breathing vacuum.</p>
+  <p class="ap-lede">In phase six, stepping outside kills you. So the game has to keep deciding whether the room you are standing in counts as inside.</p>
+  <p class="ap-p">It works like water. It starts in the air where you are standing and spreads out through every air block it can reach, up, down and sideways, asking each one the same thing: <strong>can you see the sky from here?</strong> If a single block can, the room is not sealed and you are breathing vacuum.</p>
+<p class="ap-p bd">This is the check I rewrote the most, because it is the only one where getting it wrong kills someone who did nothing wrong.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>hasBreathableAir, TemperatureManager.java<em>Java</em></summary>
     <div class="ap-code"><k>public static</k> <v>boolean</v> hasBreathableAir(<v>Level</v> level, <v>BlockPos</v> pos) {
     <k>if</k> (level.dimension() != <v>Level</v>.OVERWORLD) <k>return</k> <k>false</k>;
@@ -662,21 +839,23 @@
 }</div>
   </details>
 
-  <p class="ap-p">Note the order. Oxygen support is checked first and it short circuits, because a blast pit warm zone or a geothermal core is supposed to make the flood fill irrelevant. Those structures produce air on their own terms, and running a twelve thousand block search to confirm something the registry already knows would be a waste of a tick.</p>
+  <p class="ap-p">A blast pit warm zone or a geothermal core skips all of that. Those make their own air, so if you are standing in one the room around you does not have to be sealed at all.</p>
+  <p class="ap-p bd">Note the order in the code. Oxygen support is checked first and it short circuits, because running a twelve thousand block search to confirm something the registry already knows would be a waste of a tick.</p>
 
   <div class="ap-h3">The four ways it says no</div>
   <div class="ap-pass">
-    <div><b>SKY</b><span>Any visited block can see the sky. This is the honest failure, and it is the one players cause themselves.</span></div>
-    <div><b>BOUNDS</b><span>The fill wandered more than 48 blocks horizontally or 24 vertically from where you are standing. A tunnel network is not a room.</span></div>
-    <div><b>BUDGET</b><span>12,000 blocks visited and still going. At that size it is cheaper to call it open than to keep looking.</span></div>
-    <div><b>UNLOADED</b><span>The fill reached a chunk that is not loaded. Unknown counts as open, because guessing the other way suffocates people.</span></div>
+    <div><b><span class="bi">SKY</span><span class="bo">It can see the sky</span></b><span>Somewhere in the room, the sky is visible. This is the honest one, and it is the one you caused yourself.</span></div>
+    <div><b><span class="bi">BOUNDS</span><span class="bo">The room is too big</span></b><span>The air kept going more than 48 blocks sideways or 24 up and down from where you stand. A tunnel network is not a room.</span></div>
+    <div><b><span class="bi">BUDGET</span><span class="bo">It ran out of patience</span></b><span>Twelve thousand blocks checked and no end in sight. At that size it stops looking and assumes the worst.</span></div>
+    <div><b><span class="bi">UNLOADED</span><span class="bo">It could not tell</span></b><span>It reached part of the world that is not loaded in. When it cannot tell, it assumes open, because guessing the other way suffocates you.</span></div>
   </div>
 
-  <p class="ap-p">Every one of those is a refusal to guess in your favour, and that is intentional. The cost of a false positive is a player who sealed their base, walked in, took the helmet off, and died. The cost of a false negative is a player who has to wear a helmet in a room that probably would have been fine. Only one of those is recoverable.</p>
+  <p class="ap-p">None of those guess in your favour. Guess kindly and you get someone who sealed their base, walked in, took the helmet off and died. Guess meanly and you get someone wearing a helmet in a room that would have been fine. Only one of those is something you can walk away from.</p>
 
-  <div class="ap-pull">Unknown counts as open. If the algorithm cannot prove you are safe, it says you are not.</div>
+  <div class="ap-pull">If it cannot prove you are safe, it says you are not.</div>
 
-  <p class="ap-p">The bounds do a second job that is easy to miss. Without them, a player who digs a long mineshaft has a single connected air volume the size of a chunk, and every check anywhere in it costs the full budget. Capping the search at 48 blocks turns an unbounded question into a local one, and the fill collections get reused between calls rather than reallocated, because this runs often enough that the garbage would show up.</p>
+  <p class="ap-p bd">The size limit does a second job that is easy to miss. Dig a long mineshaft and all that air is joined up, so without a limit every check anywhere in it would have to search the whole thing. Stopping at 48 blocks keeps the question about the room you are in rather than about the entire mine.</p>
+  <p class="ap-p bd">The fill collections are reused between calls rather than reallocated. This runs often enough that the garbage would show up.</p>
 
   <div class="ap-figs">
     <div><b>12,000</b><span>blocks visited before it gives up</span></div>
@@ -688,21 +867,36 @@
 <!-- ============ 04 ============ -->
 <section class="ap-pane" role="tabpanel" data-p="3" aria-label="What eats your heat">
   <p class="ap-lede">Frostmites do not attack you. They attach to the thing keeping you alive and then they wait.</p>
-  <p class="ap-p">Every survival system above is a wall between you and the cold. A wall is only interesting if something is pushing on it. Frostmites are that push, and the design brief I gave myself was that they should never deal damage directly. They should make your own equipment stop working and let the world finish the job.</p>
+  <p class="ap-p">Everything above is a wall between you and the cold, and a wall is only interesting if something is pushing on it. Frostmites are the push. They never hurt you directly. They break the thing keeping you alive and let the cold finish the job.</p>
 
   <div class="ap-h3">What one costs you</div>
-  <p class="ap-p">A latched mite does three separate things, and only the first is visible.</p>
+  <p class="ap-p">One mite on your heater does three things to you, and you only ever see the first.</p>
 
   <div class="ap-bud">
-    <div><em>Radius</em><dl><dt>formula</dt><dd>(n + 1) / 2</dd><dt>cap</dt><dd>4</dd></dl>
+    <div><em>Reach</em><dl><dt>two mites</dt><dd>1 block</dd><dt>stops at</dt><dd>4 blocks</dd></dl>
       <p>Two mites cost one block of reach. Eight cost four, and that is as far as it goes.</p></div>
-    <div><em>Heat</em><dl><dt>per step</dt><dd>n &times; 1.5</dd><dt>cap</dt><dd>50.0</dd><dt>recovery</dt><dd>2.0</dd></dl>
+    <div><em>Heat</em><dl><dt>each mite</dt><dd>1.5 a step</dd><dt>stops at</dt><dd>50.0</dd><dt>comes back</dt><dd>2.0</dd></dl>
       <p>It only climbs while they are attached and the heater is lit. Clear them and it walks back down.</p></div>
-    <div><em>Fuel</em><dl><dt>drain</dt><dd>n extra</dd><dt>cap</dt><dd>10</dd></dl>
+    <div><em>Fuel</em><dl><dt>each mite</dt><dd>1 extra</dd><dt>stops at</dt><dd>10</dd></dl>
       <p>The same swarm that is cooling the heater is also burning through what fuels it.</p></div>
   </div>
 
-  <p class="ap-p">The heat penalty is the one that matters, and the arithmetic is worth doing out loud. It is subtracted from the heater's constant with a floor at zero, and it only ever grows while the mites are on it. So the steady state of any infestation you ignore is the cap.</p>
+  <p class="ap-p">The heat loss is the one that matters. It only ever climbs while they are still on it, so a swarm you ignore always ends up at the worst it can be.</p>
+
+  <div class="kit">
+    <div class="kit-t"><b>Watch one switch off</b><span>Drag the mites up, then drag the time along and watch the small heaters die.</span></div>
+    <div class="kit-b">
+      <div class="sw-ctl">
+        <label><em>Mites on it <s id="swNv">0</s></em>
+          <input id="swN" class="hb-rng" type="range" min="0" max="10" step="1" value="0" aria-label="Mites attached"></label>
+        <label><em>How long they have been on <s id="swTv">none</s></em>
+          <input id="swT" class="hb-rng" type="range" min="0" max="40" step="1" value="0" aria-label="Time attached"></label>
+        <button type="button" class="sw-cap" id="swCap" aria-pressed="false">Capacitor</button>
+      </div>
+      <div class="sw-rows" id="swRows"></div>
+    </div>
+    <div class="kit-f"><b>The takeaway.</b> <span id="swSay">Nothing on them yet. Every heater is giving you everything it has.</span></div>
+  </div>
 
   <div class="ap-ladder ap-wide fd-x">
     <div class="h">Heater</div><div class="h">Heat</div><div class="h">At the 50 cap</div><div class="h">With capacitor</div><div class="h">Capped</div>
@@ -712,9 +906,9 @@
     <div class="t">Diamond</div><div class="n">+80.0</div><div class="a">+30.0</div><div class="n">+120.0</div><div class="a">+70.0</div>
   </div>
 
-  <p class="ap-p">A fully infested Thermal or Iron heater reads <strong>exactly zero</strong>. Not reduced. Off. It is still lit, still burning fuel faster than it was, still rendering as a working machine, and it is contributing nothing to the number that decides whether you live. I did not plan that cliff, I noticed it after the fact, and then I kept it, because finding out that way is a better lesson than a tooltip.</p>
+  <p class="ap-p">A swarmed Thermal or Iron heater reads <strong>exactly zero</strong>. Not weakened. Off. It is still lit, still burning fuel faster than before, still looking exactly like a working heater, and it is doing nothing at all for the number that decides whether you live. I did not plan that, I noticed it afterwards, and I kept it, because finding that out yourself sticks far better than being told.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>The penalty walk, ThermalHeaterBlockEntity.java<em>Java</em></summary>
     <div class="ap-code"><v>int</v> attached = FrostmiteEntity.countLatchedToHeater(level, worldPosition);
 <k>if</k> (isLit() &amp;&amp; attached &gt; 0) {
@@ -726,16 +920,17 @@
   </details>
 
   <div class="ap-h3">How they find you</div>
-  <p class="ap-p">A frostmite targets within fourteen blocks, but it will cross eighteen for a lit heater. Heaters are bait, and they outrank you. Six can latch onto a player at once and ten onto a heater, and once attached they stick for a hundred and forty ticks on a player or two hundred on a heater before they will even consider letting go.</p>
+  <p class="ap-p">A frostmite will come for anything within fourteen blocks, and it will come eighteen for a lit heater. Your heater is louder than you are, and they would rather have it. Six can get onto you at once and ten onto a heater, and once they are on they stay on for a while before they will even think about letting go.</p>
 
   <div class="ap-pass">
-    <div><b>TARGET_RANGE 14</b><span>How far it will look for anything at all.</span></div>
-    <div><b>HEATER_BAIT_RANGE 18</b><span>How far it will come for a lit heater specifically. Your base is louder than you are.</span></div>
-    <div><b>MAX_HEATER_LATCH 10</b><span>Ten at once, which is exactly enough to hit every cap simultaneously.</span></div>
-    <div><b>IS_FREEZING</b><span>Freezing damage is rejected outright. You cannot kill a frostmite with the cold.</span></div>
+    <div><b><span class="bi">TARGET_RANGE 14</span><span class="bo">14 blocks</span></b><span>How far it will look for anything at all.</span></div>
+    <div><b><span class="bi">HEATER_BAIT_RANGE 18</span><span class="bo">18 blocks</span></b><span>How far it will come for a lit heater specifically. Your base is louder than you are.</span></div>
+    <div><b><span class="bi">MAX_HEATER_LATCH 10</span><span class="bo">10 at once</span></b><span>Ten at once, which is exactly enough to hit every cap simultaneously.</span></div>
+    <div><b><span class="bi">IS_FREEZING</span><span class="bo">Immune to cold</span></b><span>Freezing damage is rejected outright. You cannot kill a frostmite with the cold.</span></div>
   </div>
 
-  <p class="ap-p">That last one closed an exploit I liked losing. Frost Ward Torches and freezing effects were the obvious answer to a swarm, and they trivialised it, so the entity now refuses freezing damage entirely and clears its latch when it takes any other hit. The intended answer became the <strong>MiteAway burner</strong>, a block that costs fuel and space and does nothing else, which is the trade I wanted: defending your heat should cost you some of it.</p>
+  <p class="ap-p">So you cannot freeze them off. The answer is the <strong>MiteAway burner</strong>, a block that eats fuel and floor space and does nothing else. Defending your heat should cost you some of it.</p>
+<p class="ap-p bd">That last one closed a loophole I was glad to lose. Frost Ward Torches and anything else that freezes were the obvious answer to a swarm, and they made it far too easy, so a frostmite now shrugs off cold damage entirely and only lets go when you hit it with something else. That is the trade I wanted.</p>
 
   <div class="ap-figs">
     <div><b>10</b><span>mites on one heater is the cap</span></div>
@@ -746,10 +941,10 @@
 
 <!-- ============ 05 ============ -->
 <section class="ap-pane" role="tabpanel" data-p="4" aria-label="What it cost">
-  <p class="ap-lede">Sixty one commits out of three hundred and fifty five, spread over ten weeks, all of them about one question.</p>
-  <p class="ap-p">The thermal systems were never a single feature. They arrived in layers, and almost every layer was a response to somebody surviving in a way I had not intended.</p>
+  <p class="ap-lede">Ten weeks of work and sixty one goes at it, all of them chewing on one question: how hard should staying warm be?</p>
+  <p class="ap-p">None of this arrived as one finished thing. It came in layers, and nearly every layer was me reacting to somebody staying alive in a way I had not meant to allow.</p>
 
-  <div class="ap-cmts">
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><u>afea99c</u><b>Add tiered heaters, geothermal core upgrades, heat stacking, and hyperthermia system</b><s>24 Feb &middot; +1,100 / &minus;41 &middot; 50 files</s>
       <p>The ladder arrives fully formed. Four tiers, stacking heat, and overheating as the other side of the same number, because once you could add fifty degrees you could also add too many.</p></div>
     <div class="ap-cmt"><u>4dc5860</u><b>Add phase-based fuel scaling and shelter-gated heater radius</b><s>24 Feb &middot; +61 / &minus;13 &middot; 5 files</s>
@@ -765,8 +960,9 @@
   </div>
 
   <div class="ap-h3">What I would do differently</div>
-  <p class="ap-p">The heater tiers should have been three, not four. Iron and Gold do the same job at different prices and neither of them changes how you play, which makes the middle of the ladder a wait rather than a decision. If I were starting again the jump would be Thermal, then Gold, then Diamond, and the capacitor would stay exactly where it is.</p>
-  <p class="ap-p">The seal check I would leave alone. It is the slowest thing in the mod per call and I have tried three times to make it cleverer, and every version that was faster was also wrong in some room shape I had not thought of. Being conservative and occasionally rude about a room is the correct answer.</p>
+  <p class="ap-p">There should have been three heaters, not four. Iron and Gold do the same job at different prices and neither changes how you play, so the middle of the climb is waiting rather than choosing.</p>
+<p class="ap-p bd">If I started again the jump would be Thermal, then Gold, then Diamond, and the capacitor would stay exactly where it is.</p>
+  <p class="ap-p bd">The seal check I would leave exactly as it is. It is the slowest thing in the mod and I have tried three times to make it cleverer. Every version that ran faster was also wrong about some room shape I had not thought of. Being careful and occasionally rude about a room is the right answer.</p>
 </section>
 
               </div>
@@ -1101,34 +1297,32 @@
         return 'No heater. Everything on the readout is the world: the phase floor, whatever the rock '
              + 'gives back at this depth, and five degrees if something is over your head.';
       if (!v.ht)
-        return 'You are standing <b>' + d + ' blocks</b> out. The disc ends at <b>' + r + '</b>. '
+        return 'You are standing <b>' + d + ' blocks</b> out. The warm patch ends at <b>' + r + '</b>. '
              + 'Step one block inside it and you get the full ' + TIERS[S.tier].h[S.cap ? 1 : 0]
-             + ' degrees at once. The check is <b>distSq &lt;= radius squared</b>, so heat does not fade '
-             + 'with distance. It is on or it is off.';
+             + ' degrees all at once. Heat does not fade with distance here. You are in it or you are not.';
       if (S.phase >= 5 && !S.roof)
-        return 'Phase five with nothing overhead. The heater keeps <b>60 percent</b> of its radius, '
-             + 'so ' + TIERS[S.tier].r[S.cap ? 1 : 0] + ' becomes ' + r + '. A roof is not decoration here, '
-             + 'it is most of the machine.';
+        return 'Phase five with nothing over it. The heater reaches only <b>60 percent</b> as far, '
+             + 'so ' + TIERS[S.tier].r[S.cap ? 1 : 0] + ' becomes ' + r + '. A roof is not decoration here. '
+             + 'It is most of what the heater is worth.';
       if (S.pen > 0)
-        return 'Frostmites are draining it. The penalty is at <b>' + (Math.round(S.pen * 10) / 10)
-             + '</b> and climbing while they stay latched, and the radius has already lost '
-             + radiusPenalty() + '. At the 50 cap a Thermal or an Iron heater reads exactly zero.';
-      if (v.tot > 10) return 'Comfortably warm. This is what the whole tech tree is for.';
+        return 'Frostmites are draining it. They have taken <b>' + (Math.round(S.pen * 10) / 10)
+             + '</b> off it so far and it climbs while they stay on, and it has already lost '
+             + radiusPenalty() + ' of reach. Once they have taken 50, a Thermal or an Iron heater reads zero.';
+      if (v.tot > 10) return 'Comfortably warm. This is what all the building is for.';
       if (v.tot > 0)  return 'Alive, barely. Nothing here has any margin left in it.';
-      return 'Inside the disc and still losing. At this phase and this depth the heater is not enough '
-           + 'on its own. Go deeper, add a capacitor, or move up the ladder.';
+      return 'Inside the warm patch and still losing. At this phase and this depth one heater is not '
+           + 'enough on its own. Dig deeper, add a capacitor, or build a better one.';
     }
     function noteB(){
       if (!ran) return 'The room starts sealed. Knock a hole in a wall, or take the roof off, then run '
-                     + 'the check and watch where the fill gets out.';
-      if (!S.roof) return 'Open to the sky. The real check calls <b>canSeeSky</b> on every cell it visits '
-                        + 'and fails the moment one of them answers yes. It never even starts crawling.';
-      if (running) return 'Crawling. Every air cell it reaches gets queued, and its neighbours after that.';
-      if (leak === 1) return 'It got out. The fill reached the edge of the world window, which in the real '
-                           + 'thing means it ran past <b>48 blocks horizontally</b> without hitting a wall. '
-                           + 'One missing block is all it takes.';
-      return 'Sealed. The fill ran out of places to go before it ran out of budget, so the room counts as '
-           + 'breathable and you can take the helmet off.';
+                     + 'the check and watch where the air gets out.';
+      if (!S.roof) return 'Open to the sky. The real check asks every block it reaches whether it can see '
+                        + 'the sky, and gives up the moment one says yes. It never even starts spreading.';
+      if (running) return 'Spreading. Every air block it reaches gets checked, then all of that block\'s neighbours.';
+      if (leak === 1) return 'It got out. The air reached the edge, which in the real thing means it ran past '
+                           + '<b>48 blocks sideways</b> without hitting a wall. One missing block is all it takes.';
+      return 'Sealed. The air ran out of places to go before the check ran out of patience, so the room '
+           + 'counts as breathable and you can take the helmet off.';
     }
 
     /* paint */
@@ -1513,5 +1707,238 @@
     if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 80) mark();
   }
   doc.addEventListener('scroll', check, { passive: true });
+})();
+</script>
+<script>
+(function () {
+  var KEY = 'fd-layer';
+  var seg = document.querySelector('.rl-seg');
+  if (!seg) return;
+  var btns = [].slice.call(seg.querySelectorAll('button'));
+
+  // a pane can lose everything it had to the build layer. a tab that opens
+  // onto nothing reads as broken, so the pane says what is behind the switch
+  // instead of showing an empty box.
+  function stubs() {
+    [].slice.call(document.querySelectorAll('.ap-pane')).forEach(function (pane) {
+      var stub = pane.querySelector('.rl-stub');
+      var real = [].slice.call(pane.children).some(function (el) {
+        return el !== stub && getComputedStyle(el).display !== 'none';
+      });
+      if (real) { if (stub) stub.hidden = true; return; }
+      if (!stub) {
+        stub = document.createElement('p');
+        stub.className = 'rl-stub';
+        stub.textContent = 'This section is all workings. '
+                         + 'Switch to How I built it to read it.';
+        pane.appendChild(stub);
+      }
+      stub.hidden = false;
+    });
+  }
+
+  function apply(layer, save) {
+    document.body.classList.toggle('build', layer === 'build');
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-layer') === layer;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    stubs();
+    if (save) { try { localStorage.setItem(KEY, layer); } catch (e) {} }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-layer'), true);
+    });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  apply(saved === 'build' ? 'build' : 'story', false);
+})();
+</script>
+
+<script>
+/* ================= the roof test =================
+   the shelter rule is four lines of java and it is the easiest thing on the
+   page to get wrong from reading alone, because the two facts that trip
+   people up are both absences: glass is not solid, and the loop stops at
+   four. so the instrument is the loop itself with a hand on it. */
+(function () {
+  var col = document.getElementById('rtCol');
+  if (!col) return;
+  var val = document.getElementById('rtVal');
+  var why = document.getElementById('rtWhy');
+
+  // empty, then the three things a player actually tries to roof with.
+  var KIND = [
+    { c: '',      t: 'Air',      solid: false, name: 'nothing' },
+    { c: 'stone', t: 'Stone',    solid: true,  name: 'stone' },
+    { c: 'glass', t: 'Glass',    solid: false, name: 'ordinary glass' },
+    { c: 'ins',   t: 'Ins glass', solid: true, name: 'insulated glass' }
+  ];
+  var HEIGHT = 6;            // what we draw
+  var CHECKED = 4;           // what the game looks at
+  var at = [];               // index 0 is one block above your head
+
+  var cells = [];
+  for (var dy = HEIGHT; dy >= 1; dy--) {
+    at[dy - 1] = 0;
+    var row = document.createElement('div');
+    row.className = 'rt-row' + (dy > CHECKED ? ' out' : '');
+    var lab = document.createElement('i');
+    lab.textContent = '+' + dy;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'rt-cell';
+    b.textContent = KIND[0].t;
+    b.setAttribute('data-dy', String(dy));
+    b.setAttribute('aria-label', dy + ' blocks up');
+    b.addEventListener('click', function () {
+      var i = +this.getAttribute('data-dy') - 1;
+      at[i] = (at[i] + 1) % KIND.length;
+      paint();
+    });
+    row.appendChild(lab); row.appendChild(b);
+    col.appendChild(row);
+    cells[dy - 1] = b;
+
+    // the two rows above the line exist so the line has something to be
+    // above. without them nobody discovers that the loop stops at four.
+    if (dy === CHECKED + 1) {
+      var stop = document.createElement('div');
+      stop.className = 'rt-stop';
+      stop.innerHTML = '<i></i><span>it stops looking here</span>';
+      col.appendChild(stop);
+    }
+  }
+
+  function paint() {
+    for (var i = 0; i < HEIGHT; i++) {
+      var k = KIND[at[i]];
+      cells[i].className = 'rt-cell' + (k.c ? ' ' + k.c : '');
+      cells[i].textContent = k.t;
+    }
+
+    // the loop, exactly as the mod runs it: bottom up, first hit wins.
+    var hit = 0;
+    for (var dy = 1; dy <= CHECKED; dy++) {
+      if (KIND[at[dy - 1]].solid) { hit = dy; break; }
+    }
+
+    val.textContent = hit ? '+5°C' : '0°C';
+    val.className = hit ? 'warm' : '';
+
+    if (hit) {
+      why.innerHTML = 'The ' + KIND[at[hit - 1]].name + ' <b>' + hit +
+        (hit === 1 ? ' block' : ' blocks') + ' up</b> is your roof. ' +
+        'It stops looking the moment it finds one, so nothing above that matters.';
+      return;
+    }
+
+    // no shelter. say which mistake it was, because that is the whole lesson.
+    var glassLow = -1, anyHigh = -1;
+    for (var j = 0; j < CHECKED; j++) if (KIND[at[j]].c === 'glass') { glassLow = j + 1; break; }
+    for (var m = CHECKED; m < HEIGHT; m++) if (KIND[at[m]].solid) { anyHigh = m + 1; break; }
+
+    if (glassLow > 0) {
+      why.innerHTML = 'That glass is not a solid block, so the check walks ' +
+        'straight past it. <b>Swap it for insulated glass</b> and you keep the ' +
+        'view and get the five degrees.';
+    } else if (anyHigh > 0) {
+      why.innerHTML = 'There is something solid <b>' + anyHigh + ' blocks up</b>, ' +
+        'but the check only ever looks four. As far as the cold is concerned ' +
+        'you are standing outside.';
+    } else {
+      why.innerHTML = 'Nothing over your head. <b>Put one block anywhere in the ' +
+        'bottom four</b> and you are sheltered.';
+    }
+  }
+  paint();
+})();
+
+/* ================= the swarm =================
+   the cliff is the most surprising thing in this chapter and it is buried in
+   a subtraction, so here is the subtraction with two handles on it. the
+   penalty climbs while they are attached and stops at 50, which is more than
+   a Thermal or an Iron heater has to give. */
+(function () {
+  var rowsEl = document.getElementById('swRows');
+  if (!rowsEl) return;
+  var nIn = document.getElementById('swN'), nOut = document.getElementById('swNv');
+  var tIn = document.getElementById('swT'), tOut = document.getElementById('swTv');
+  var cap = document.getElementById('swCap'), say = document.getElementById('swSay');
+
+  var TIERS = [
+    { name: 'Thermal', heat: 35 },
+    { name: 'Iron',    heat: 50 },
+    { name: 'Gold',    heat: 65 },
+    { name: 'Diamond', heat: 80 }
+  ];
+  var PER_MITE = 1.5, MAX_PEN = 50, CAP_MULT = 1.5;
+  var on = false;
+
+  var bars = [], nums = [], rows = [];
+  TIERS.forEach(function (t, i) {
+    var r = document.createElement('div');
+    r.className = 'sw-row';
+    var nm = document.createElement('i'); nm.textContent = t.name;
+    var bar = document.createElement('div'); bar.className = 'sw-bar';
+    var fill = document.createElement('span');
+    bar.appendChild(fill);
+    var num = document.createElement('b');
+    r.appendChild(nm); r.appendChild(bar); r.appendChild(num);
+    rowsEl.appendChild(r);
+    rows[i] = r; bars[i] = fill; nums[i] = num;
+  });
+
+  function render() {
+    var n = +nIn.value, t = +tIn.value;
+    var mult = on ? CAP_MULT : 1;
+    var pen = Math.min(MAX_PEN, n * PER_MITE * t);
+    var top = TIERS[TIERS.length - 1].heat * mult;
+    var dead = 0;
+
+    nOut.textContent = n === 0 ? '0' : String(n);
+    tOut.textContent = n === 0 ? 'none on it'
+                     : t === 0 ? 'just landed'
+                     : pen >= MAX_PEN ? 'as bad as it gets'
+                     : 'taking ' + pen.toFixed(1) + ' off';
+
+    TIERS.forEach(function (tier, i) {
+      var full = tier.heat * mult;
+      var out = Math.max(0, full - pen);
+      if (out === 0) dead++;
+      rows[i].className = 'sw-row' + (out === 0 ? ' off' : '');
+      bars[i].style.transform = 'scaleX(' + (out / top).toFixed(4) + ')';
+      nums[i].textContent = out === 0 ? 'OFF' : '+' + out.toFixed(1);
+    });
+
+    if (n === 0) {
+      say.textContent = 'Nothing on them yet. Every heater is giving you everything it has.';
+    } else if (dead === 0 && pen < MAX_PEN) {
+      say.textContent = 'Still climbing. It does not stop while they are attached.';
+    } else if (dead === 0) {
+      say.textContent = on
+        ? 'The capacitor is what saved these. Without it the bottom two would read zero.'
+        : 'All four are still giving you something, but the bottom two are close.';
+    } else {
+      say.textContent = dead + (dead === 1 ? ' heater reads' : ' heaters read') +
+        ' zero, and every one of them is still lit, still burning fuel, and ' +
+        'still looks exactly like it is working.';
+    }
+  }
+
+  nIn.addEventListener('input', render);
+  tIn.addEventListener('input', render);
+  cap.addEventListener('click', function () {
+    on = !on;
+    cap.classList.toggle('on', on);
+    cap.setAttribute('aria-pressed', on ? 'true' : 'false');
+    render();
+  });
+  render();
 })();
 </script>
