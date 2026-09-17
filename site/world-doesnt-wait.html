@@ -436,6 +436,114 @@
     .sm3 { grid-template-columns:1fr; }
     .rl-n { flex:1 1 100%; }
   }
+
+  /* ---- two instruments that live inside a pane ------------------------
+     the chapter had exactly one thing you could touch, the scrubber, and it
+     sat above the tab deck. so a reader who opened a tab got prose and a
+     static diagram. these two sit next to the paragraph they belong to.
+     both are plain dom, no canvas, because .ap-pane is display:none until
+     its tab is on and a canvas in there has no box to measure. */
+  .kit { border:1px solid #1a212a; border-radius:9px; background:#0b0f13;
+         margin:22px 0; overflow:hidden; }
+  .kit-t { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+           padding:12px 16px; border-bottom:1px solid #151c24; background:#0d1116; }
+  .kit-t b { font-family:var(--mono); font-size:9.5px; letter-spacing:.14em;
+             text-transform:uppercase; color:#7dd3fc; font-weight:500; }
+  .kit-t span { font-size:11.5px; line-height:1.5; color:#6c7883; }
+  .kit-b { padding:16px; }
+  .kit-f { padding:11px 16px 13px; border-top:1px solid #151c24;
+           font-size:12px; line-height:1.6; color:#8d98a1; }
+  .kit-f b { color:#c2ccd4; font-weight:600; }
+
+  .rng { -webkit-appearance:none; appearance:none; width:100%; height:3px;
+         border-radius:2px; background:#1b232c; outline:none; margin:13px 0 2px;
+         display:block; }
+  .rng::-webkit-slider-thumb { -webkit-appearance:none; appearance:none;
+         width:15px; height:15px; border-radius:50%; background:#7dd3fc;
+         border:3px solid #0d1116; cursor:pointer; }
+  .rng::-moz-range-thumb { width:11px; height:11px; border-radius:50%;
+         background:#7dd3fc; border:3px solid #0d1116; cursor:pointer; }
+  .rng:focus-visible { outline:1px solid #5c4620; outline-offset:4px; }
+  .kit-ctl { display:flex; gap:20px; flex-wrap:wrap; align-items:flex-end;
+             margin-bottom:18px; }
+  .kit-ctl label { display:block; flex:1 1 200px; min-width:0; }
+  .kit-ctl em { display:flex; justify-content:space-between; gap:10px;
+                font-family:var(--mono); font-size:9px; letter-spacing:.12em;
+                text-transform:uppercase; color:#5a6672; font-style:normal; }
+  .kit-ctl em s { text-decoration:none; color:#d4dade; text-align:right; }
+  .kit-btn { -webkit-appearance:none; appearance:none; border:1px solid #1e2732;
+             background:#0e1319; color:#6c7883; cursor:pointer; border-radius:6px;
+             font-family:var(--mono); font-size:9.5px; letter-spacing:.11em;
+             text-transform:uppercase; padding:9px 14px; flex:0 0 auto;
+             transition:color .16s, background .16s, border-color .16s; }
+  .kit-btn:hover { border-color:#31404f; color:#b8c3cb; }
+  .kit-btn.on { background:#123040; border-color:#2f6a84; color:#7dd3fc; }
+
+  /* the depth ladder. a column of the world, and where you are standing. */
+  .dl { display:grid; grid-template-columns:150px 1fr; gap:22px; align-items:stretch; }
+  /* the column has to be taller than its neighbour needs to be, or the seven
+     labelled stops land on top of each other and the shape of the ladder,
+     which is the only reason it is drawn, stops being readable. */
+  .dl-col { position:relative; border:1px solid #1a212a; border-radius:6px;
+            overflow:hidden; min-height:284px;
+            background:linear-gradient(to bottom,#0c1219,#161009); }
+  .dl-tick { position:absolute; left:0; width:100%; border-top:1px dashed #212a34;
+             font-family:var(--mono); font-size:8px; letter-spacing:.06em;
+             color:#4f5a64; padding:2px 0 0 6px; pointer-events:none; }
+  .dl-tick s { text-decoration:none; float:right; padding-right:6px; color:#3d4650; }
+  .dl-you { position:absolute; left:0; width:100%; height:2px; background:#ffb454;
+            transition:top .12s linear; }
+  /* at bedrock the marker lands exactly on a labelled stop, so the chip has
+     to sit over that label rather than through it. */
+  .dl-you b { position:absolute; right:3px; top:3px; font-family:var(--mono);
+              font-size:8.5px; letter-spacing:.1em; text-transform:uppercase;
+              color:#ffb454; font-weight:500; background:#100c07;
+              padding:1px 4px; border-radius:2px; }
+  .dl-out b { display:block; font-size:30px; font-weight:600; letter-spacing:-.02em;
+              color:#7dd3fc; font-variant-numeric:tabular-nums; }
+  .dl-out b.cold { color:#8d98a1; }
+  .dl-out b.dead { color:#ffb454; }
+  .dl-out em { display:block; font-family:var(--mono); font-size:9px;
+               letter-spacing:.13em; text-transform:uppercase; color:#5a6672;
+               font-style:normal; margin-bottom:6px; }
+  /* the readout column is a flex column so the three line breakdown sits on
+     the floor of the ladder rather than floating in the middle of the gap. */
+  .dl > div:last-child { display:flex; flex-direction:column; }
+  .dl-sum { display:grid; gap:4px; margin-top:auto; padding-top:14px;
+            font-family:var(--mono); font-size:10px; color:#6c7883; }
+  .dl-sum div { display:flex; justify-content:space-between; gap:12px;
+                border-bottom:1px dotted #1a212a; padding-bottom:3px; }
+  .dl-sum div s { text-decoration:none; color:#b8c3cb;
+                  font-variant-numeric:tabular-nums; }
+
+  /* the chunk. a cross section you can run the seven passes over. */
+  .ck-grid { display:grid; gap:1px; background:#11161c; border:1px solid #1a212a;
+             border-radius:6px; padding:1px; grid-auto-rows:1fr; }
+  .ck-grid i { display:block; aspect-ratio:1; border-radius:1px;
+               background:#0a0e12; transition:background .18s linear; }
+  .ck-grid i.gr { background:#4a7c3f } .ck-grid i.dt { background:#5a4232 }
+  .ck-grid i.st { background:#3a4048 } .ck-grid i.lg { background:#6b4e2e }
+  .ck-grid i.lf { background:#3f6b38 } .ck-grid i.sn { background:#e2edf4 }
+  .ck-grid i.fz { background:#7fa8bd } .ck-grid i.fd { background:#33424e }
+  .ck-grid i.fs { background:#2b3a46 } .ck-grid i.co { background:#1a1d22 }
+  .ck-grid i.cr { background:#9fd8f0 } .ck-grid i.at { background:#2a4658 }
+  .ck-grid i.float { box-shadow:0 0 0 1px #ffb454; }
+  .ck-step { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+             margin-bottom:12px; min-height:2.6em; }
+  .ck-step u { text-decoration:none; font-family:var(--mono); font-size:9px;
+               letter-spacing:.12em; text-transform:uppercase; color:#7dd3fc;
+               flex:0 0 auto; }
+  .ck-step span { font-size:12px; line-height:1.55; color:#8d98a1; flex:1 1 200px; }
+  .ck-bar { display:grid; grid-template-columns:repeat(7,1fr); gap:3px;
+            margin:12px 0 0; }
+  .ck-bar i { height:3px; border-radius:2px; background:#1b232c;
+              transition:background .18s; }
+  .ck-bar i.did { background:#7dd3fc } .ck-bar i.did.bad { background:#ffb454 }
+
+  @media (max-width:640px) {
+    .dl { grid-template-columns:1fr; }
+    .dl-col { min-height:190px; }
+  }
 </style>
 
 <div class="ap">
@@ -667,6 +775,31 @@
 
   <div class="ap-h3">Depth is the answer, and it is also a ladder</div>
   <p class="ap-p">The one honest escape is downward. How deep you have dug is its own ladder, from minus ten at the top of the world to plus eighty at bedrock. Dig far enough and what the surface says stops mattering, which is exactly why stage 6 eventually reaches down and takes that away too.</p>
+
+  <div class="kit">
+    <div class="kit-t"><b>How deep is deep enough</b><span>Pick a day, then drag yourself down through the world and watch what you actually feel.</span></div>
+    <div class="kit-b">
+      <div class="kit-ctl">
+        <label><em>Day of the world <s id="dlDv">0 of 100</s></em>
+          <input id="dlD" class="rng" type="range" min="0" max="100" step="1" value="0" aria-label="Day of the world"></label>
+        <label><em>Where you are standing <s id="dlYv">Y 64</s></em>
+          <input id="dlY" class="rng" type="range" min="-64" max="256" step="4" value="64" aria-label="Height in the world"></label>
+        <button type="button" class="kit-btn" id="dlR" aria-pressed="false">Roof</button>
+      </div>
+      <div class="dl">
+        <div class="dl-col" id="dlCol"></div>
+        <div>
+          <div class="dl-out"><em>What you feel</em><b id="dlV">0&deg;C</b></div>
+          <div class="dl-sum">
+            <div><span>Outside air</span><s id="dlA">0</s></div>
+            <div><span>Being this deep</span><s id="dlB">0</s></div>
+            <div><span>A roof</span><s id="dlC">0</s></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="kit-f" id="dlF"></div>
+  </div>
 </section>
 
 <!-- ============ 03 ============ -->
@@ -730,6 +863,7 @@
  * bounded server budget.
  */</c></div>
   </details>
+  <div class="ap-h3 bo">What the land only has to look like</div>
   <p class="ap-p"><strong>You cannot replay two months of missed time, and there would be no point.</strong> Nobody was there to see it. The land only has to <em>look like</em> somewhere the last seventy days happened to.</p>
   <p class="ap-p bd">That second sentence is the entire design. The other half of it is that producing the result must not stall the server.</p>
 
@@ -753,7 +887,23 @@
   <div class="ap-h3"><span class="bo">Why the order matters</span><span class="bi">Seven passes, and the order is load-bearing</span></div>
   <p class="ap-p">The order is not arbitrary. Trees have to come out before the snow is sorted out, or the snow lands on branches that are about to be deleted, and then hangs there in mid air.</p>
   <p class="ap-p bd">A chunk is not transformed in one go. It is walked through seven passes, each with its own cursor, and the work can stop between any two of them and resume on a later tick.</p>
-  <div class="ap-pass">
+  <div class="kit">
+    <div class="kit-t"><b>Give a chunk a past</b><span>This is land nobody has ever walked on. Press step and watch seventy days happen to it.</span></div>
+    <div class="kit-b">
+      <div class="ck-step"><u id="ckN">Untouched</u><span id="ckD">Minecraft just built this. It has never been cold, because nobody has ever been here.</span></div>
+      <div class="ck-grid" id="ckG"></div>
+      <div class="ck-bar" id="ckB"></div>
+      <div class="kit-ctl" style="margin:16px 0 0">
+        <button type="button" class="kit-btn" id="ckS">Step</button>
+        <button type="button" class="kit-btn" id="ckA">Run all</button>
+        <button type="button" class="kit-btn" id="ckR">Reset</button>
+        <button type="button" class="kit-btn" id="ckW" aria-pressed="false">Snow before trees</button>
+      </div>
+    </div>
+    <div class="kit-f" id="ckF"><b>The takeaway.</b> Nothing has happened here yet. The apocalypse only ran where somebody stood.</div>
+  </div>
+
+  <div class="ap-pass bd">
     <div><b>TREE_CLEAR</b><span>Strip dead canopy, 96 blocks deep. First, because everything below depends on it.</span></div>
     <div><b>DETACHED_SNOW</b><span>Remove snow that was resting on something the previous pass just took away.</span></div>
     <div><b>SURFACE</b><span>The top face of every column: freeze, convert, kill.</span></div>
@@ -1513,3 +1663,330 @@
   apply(saved === 'build' ? 'build' : 'story', false);
 })();
 </script>
+
+<script>
+/* ================= how deep is deep enough =================
+   depth is the one escape this chapter offers and it was a sentence. the
+   ladder in PhaseManager is piecewise and the interesting thing about it is
+   that it stops being enough partway through the run, which you cannot see
+   from a sentence. both functions below are the real ones, transcribed. */
+(function () {
+  var col = document.getElementById('dlCol');
+  if (!col) return;
+  var dIn = document.getElementById('dlD'), dOut = document.getElementById('dlDv');
+  var yIn = document.getElementById('dlY'), yOut = document.getElementById('dlYv');
+  var roof = document.getElementById('dlR'), val = document.getElementById('dlV');
+  var foot = document.getElementById('dlF');
+  var aEl = document.getElementById('dlA'), bEl = document.getElementById('dlB'),
+      cEl = document.getElementById('dlC');
+
+  var BOUNDS = [0, 0.05, 0.12, 0.22, 0.34, 0.46, 0.60, 1.00];
+  var TEMP   = [0, 0, -10, -25, -45, -70, -120, -273];
+  var TOP = 256, BOT = -64, ROOF = 5;
+  var on = false;
+
+  function lerp(t, a, b) { return a + (b - a) * t; }
+
+  // PhaseManager.interpolate over TEMP_OFFSET, the same walk
+  function air(day) {
+    var pr = Math.min(1, Math.max(0, day / 100));
+    for (var i = 1; i < BOUNDS.length; i++) {
+      if (pr <= BOUNDS[i]) {
+        return lerp((pr - BOUNDS[i - 1]) / (BOUNDS[i] - BOUNDS[i - 1]),
+                    TEMP[i - 1], TEMP[i]);
+      }
+    }
+    return TEMP[TEMP.length - 1];
+  }
+
+  // PhaseManager.getDepthModifier, line for line
+  function depth(y) {
+    if (y >= 256) return -10;
+    if (y >= 128) return lerp((y - 128) / 128, -5, -10);
+    if (y >= 64)  return lerp((y - 64) / 64, 0, -5);
+    if (y >= 32)  return lerp((y - 32) / 32, 10, 0);
+    if (y >= 0)   return lerp(y / 32, 25, 10);
+    if (y >= -32) return lerp((y + 32) / 32, 55, 25);
+    if (y >= -64) return lerp((y + 64) / 32, 80, 55);
+    return 80;
+  }
+
+  function pct(y) { return 3 + (TOP - y) / (TOP - BOT) * 91; }
+
+  // the ladder itself, drawn once. the labelled stops are the corners of the
+  // piecewise function, so the shape of it is visible standing still.
+  [256, 128, 64, 32, 0, -32, -64].forEach(function (y) {
+    var t = document.createElement('div');
+    t.className = 'dl-tick';
+    t.style.top = pct(y) + '%';
+    t.innerHTML = 'Y ' + y + '<s>' + (depth(y) > 0 ? '+' : '') +
+                  depth(y).toFixed(0) + '&deg;</s>';
+    col.appendChild(t);
+  });
+  var you = document.createElement('div');
+  you.className = 'dl-you';
+  you.innerHTML = '<b>You</b>';
+  col.appendChild(you);
+
+  function sign(n) { return (n > 0 ? '+' : '') + n.toFixed(1); }
+
+  function render() {
+    var d = +dIn.value, y = +yIn.value;
+    var a = air(d), b = depth(y), c = on ? ROOF : 0;
+    var t = a + b + c;
+
+    dOut.textContent = d + ' of 100';
+    yOut.textContent = 'Y ' + y + (y === -64 ? ', bedrock' : y >= 256 ? ', the ceiling' : '');
+    you.style.top = pct(y) + '%';
+
+    aEl.textContent = sign(a); bEl.textContent = sign(b); cEl.textContent = sign(c);
+    val.textContent = (t > 0 ? '+' : '') + t.toFixed(1) + '°C';
+    val.className = t >= 0 ? '' : t > -40 ? 'cold' : 'dead';
+
+    // the fact worth carrying away is not this reading, it is whether the
+    // bottom of the world is still an answer on this day.
+    var best = a + depth(-64) + ROOF;
+    if (t >= 0) {
+      foot.innerHTML = '<b>Above freezing.</b> You could stand here with nothing ' +
+        'but a coat on.';
+    } else if (best >= 0) {
+      foot.innerHTML = '<b>Not here, but the bottom still works.</b> At bedrock ' +
+        'under a roof you would be at ' + sign(best) + '°C. On this day the ' +
+        'digging is doing all of it.';
+    } else {
+      foot.innerHTML = '<b>Depth has stopped being an answer.</b> Even at bedrock ' +
+        'under a roof you are at ' + sign(best) + '°C. From here on the only ' +
+        'warmth left is warmth you built, which is what chapter four is about.';
+    }
+  }
+
+  dIn.addEventListener('input', render);
+  yIn.addEventListener('input', render);
+  roof.addEventListener('click', function () {
+    on = !on;
+    roof.classList.toggle('on', on);
+    roof.setAttribute('aria-pressed', on ? 'true' : 'false');
+    render();
+  });
+  render();
+})();
+</script>
+
+<script>
+/* ================= give a chunk a past =================
+   the chapter's title is about land that was never simulated, and the page
+   was telling you that in prose next to a static list of seven pass names.
+   this runs the seven, in the real order, over a cross section. the toggle
+   puts SURFACE before TREE_CLEAR, which is the bug that actually shipped:
+   snow lands on a canopy that the next pass deletes, and then hangs there. */
+(function () {
+  var host = document.getElementById('ckG');
+  if (!host) return;
+  var nameEl = document.getElementById('ckN'), descEl = document.getElementById('ckD');
+  var barEl = document.getElementById('ckB'), footEl = document.getElementById('ckF');
+  var bStep = document.getElementById('ckS'), bAll = document.getElementById('ckA'),
+      bReset = document.getElementById('ckR'), bWrong = document.getElementById('ckW');
+
+  var W = 24, H = 12, SURF = 6, TREES = [4, 12, 19];
+  var grid, done, wrong = false, timer = null;
+
+  // the passes, in the order PhaseManager runs them. the constant name is
+  // for the people reading the build layer, the sentence is for everyone.
+  var PASS = {
+    tree: { n: 'Clear the trees', c: 'TREE_CLEAR',
+      d: 'Strip the dead canopy, ninety six blocks down. First, because everything underneath depends on it being gone.' },
+    loose: { n: 'Drop the loose snow', c: 'DETACHED_SNOW',
+      d: 'Take away snow that was resting on something the pass before just deleted.' },
+    surf: { n: 'Freeze the surface', c: 'SURFACE',
+      d: 'The top face of every column. Freeze it, convert it, kill what was growing on it.' },
+    colm: { n: 'Freeze the column', c: 'SURFACE_COLUMN',
+      d: 'Forty eight blocks straight down from the surface. Twelve thousand two hundred and eighty eight positions in one chunk.' },
+    vol: { n: 'Sample the deep', c: 'VOLUME_SAMPLE',
+      d: 'Seven hundred and sixty eight sampled spots in the deep volume. Sampled, not every block, and that is on purpose.' },
+    coal: { n: 'Crystallise the coal', c: 'COAL_SAMPLE',
+      d: 'Coal ore crystallises. Its own pass, because its rules are not the same as stone.' },
+    air: { n: 'Settle the air', c: 'ATMOSPHERE',
+      d: 'Frozen atmosphere deposits, last, once the world beneath it has stopped moving.' }
+  };
+  var RIGHT = ['tree', 'loose', 'surf', 'colm', 'vol', 'coal', 'air'];
+  var BROKEN = ['loose', 'surf', 'tree', 'colm', 'vol', 'coal', 'air'];
+
+  function order() { return wrong ? BROKEN : RIGHT; }
+  function solid(v) { return v !== '' && v !== 'at'; }
+
+  function fresh() {
+    var g = [], r, c;
+    for (r = 0; r < H; r++) {
+      g[r] = [];
+      for (c = 0; c < W; c++) {
+        g[r][c] = r < SURF ? '' : r === SURF ? 'gr' : r < SURF + 3 ? 'dt' : 'st';
+      }
+    }
+    TREES.forEach(function (x) {
+      g[SURF - 1][x] = 'lg'; g[SURF - 2][x] = 'lg'; g[SURF - 3][x] = 'lg';
+      [[3, x - 1], [3, x + 1], [2, x - 1], [2, x], [2, x + 1], [1, x]]
+        .forEach(function (q) {
+          if (q[1] >= 0 && q[1] < W && !g[q[0]][q[1]]) g[q[0]][q[1]] = 'lf';
+        });
+    });
+    g[H - 1][6] = 'co'; g[H - 2][17] = 'co'; g[H - 1][18] = 'co';
+    return g;
+  }
+
+  var RUN = {
+    tree: function (g) {
+      for (var r = 0; r < H; r++) for (var c = 0; c < W; c++)
+        if (g[r][c] === 'lg' || g[r][c] === 'lf') g[r][c] = '';
+    },
+    loose: function (g) {
+      for (var r = 0; r < H - 1; r++) for (var c = 0; c < W; c++)
+        if (g[r][c] === 'sn' && !solid(g[r + 1][c])) g[r][c] = '';
+    },
+    surf: function (g) {
+      for (var c = 0; c < W; c++) {
+        for (var r = 0; r < H; r++) {
+          if (solid(g[r][c])) {
+            g[r][c] = 'fz';
+            if (r > 0) g[r - 1][c] = 'sn';
+            break;
+          }
+        }
+      }
+    },
+    colm: function (g) {
+      for (var r = 0; r < H; r++) for (var c = 0; c < W; c++)
+        if (g[r][c] === 'dt') g[r][c] = 'fd';
+    },
+    vol: function (g) {
+      for (var r = 0; r < H; r++) for (var c = 0; c < W; c++)
+        if (g[r][c] === 'st' && (r * 7 + c * 3) % 4 === 0) g[r][c] = 'fs';
+    },
+    coal: function (g) {
+      for (var r = 0; r < H; r++) for (var c = 0; c < W; c++)
+        if (g[r][c] === 'co') g[r][c] = 'cr';
+    },
+    air: function (g) {
+      for (var c = 0; c < W; c++) if (c % 5 === 1 || c % 7 === 3) g[0][c] = 'at';
+    }
+  };
+
+  // build the cells once and only ever change their class. twenty four by
+  // twelve is 288 nodes, and rebuilding them per step throws away the
+  // transition that makes a pass legible as a change.
+  host.style.gridTemplateColumns = 'repeat(' + W + ',1fr)';
+  host.setAttribute('aria-hidden', 'true');
+  var cells = [];
+  for (var i = 0; i < W * H; i++) {
+    var el = document.createElement('i');
+    host.appendChild(el);
+    cells.push(el);
+  }
+  var segs = [];
+  for (i = 0; i < 7; i++) {
+    var sg = document.createElement('i');
+    barEl.appendChild(sg);
+    segs.push(sg);
+  }
+  barEl.setAttribute('aria-hidden', 'true');
+
+  // a block is held up if it is on the floor or if the block under it is
+  // held up. one sweep upward from the bottom marks every clump that is not,
+  // which is the whole hanging mass, not just the snow on top of it.
+  function held() {
+    var h = [], r, c;
+    for (r = 0; r < H; r++) h[r] = [];
+    for (r = H - 1; r >= 0; r--) for (c = 0; c < W; c++)
+      h[r][c] = !solid(grid[r][c]) ? true
+              : r === H - 1 ? true
+              : (solid(grid[r + 1][c]) && h[r + 1][c]);
+    return h;
+  }
+
+  function floats() {
+    var h = held(), n = 0;
+    for (var r = 0; r < H; r++) for (var c = 0; c < W; c++)
+      if (solid(grid[r][c]) && !h[r][c]) n++;
+    return n;
+  }
+
+  function paint() {
+    var h = held();
+    for (var r = 0; r < H; r++) for (var c = 0; c < W; c++) {
+      var v = grid[r][c];
+      cells[r * W + c].className = v + (solid(v) && !h[r][c] ? ' float' : '');
+    }
+    segs.forEach(function (sg, k) {
+      sg.className = k < done ? (wrong ? 'did bad' : 'did') : '';
+    });
+    bStep.disabled = done >= 7;
+    bAll.disabled = done >= 7;
+  }
+
+  function say(key) {
+    if (!key) {
+      nameEl.textContent = 'Untouched';
+      descEl.innerHTML = 'Minecraft has just built this. It has never been cold, '
+        + 'because nobody has ever been here.';
+      return;
+    }
+    var p = PASS[key];
+    nameEl.textContent = p.n;
+    descEl.innerHTML = '<span class="bi">' + p.c + '. </span>' + p.d;
+  }
+
+  function foot() {
+    if (done === 0) {
+      footEl.innerHTML = '<b>The takeaway.</b> Nothing has happened here yet. '
+        + 'The collapse only ever ran where somebody was standing.';
+    } else if (done < 7) {
+      footEl.innerHTML = '<b>Catching up.</b> Seventy days of cold, being applied '
+        + 'in one tick, because you just walked in.';
+    } else if (wrong) {
+      footEl.innerHTML = '<b>The takeaway.</b> ' + floats() + ' blocks are hanging '
+        + 'in mid air with nothing underneath them. The surface pass found the top '
+        + 'of the canopy and froze it, and then the trees it was made of were '
+        + 'deleted out from under it. This is the whole reason clearing the trees '
+        + 'goes first.';
+    } else {
+      footEl.innerHTML = '<b>The takeaway.</b> Seventy days, in the right order, '
+        + 'in about four milliseconds. What the player walks into is a chunk that '
+        + 'looks like it was always this cold.';
+    }
+  }
+
+  function reset() {
+    if (timer) { clearInterval(timer); timer = null; bAll.classList.remove('on'); }
+    grid = fresh(); done = 0;
+    say(null); paint(); foot();
+  }
+
+  function step() {
+    if (done >= 7) return false;
+    var key = order()[done];
+    RUN[key](grid);
+    done++;
+    say(key); paint(); foot();
+    return true;
+  }
+
+  bStep.addEventListener('click', step);
+  bReset.addEventListener('click', reset);
+  bAll.addEventListener('click', function () {
+    if (timer) { clearInterval(timer); timer = null; bAll.classList.remove('on'); return; }
+    if (done >= 7) reset();
+    bAll.classList.add('on');
+    timer = setInterval(function () {
+      if (!step()) { clearInterval(timer); timer = null; bAll.classList.remove('on'); }
+    }, 620);
+  });
+  bWrong.addEventListener('click', function () {
+    wrong = !wrong;
+    bWrong.classList.toggle('on', wrong);
+    bWrong.setAttribute('aria-pressed', wrong ? 'true' : 'false');
+    reset();
+  });
+
+  reset();
+})();
+</script>
+
