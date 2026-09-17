@@ -633,6 +633,11 @@
            white-space:pre; border-radius:2px; }
   .tm-tk:hover, .tm-tk:focus-visible { background:#b8d0c3; color:#111618;
                                        outline:none; }
+  /* the bracket pairs are free help and nothing on screen said so. giving
+     them the archive amber is a wordless way of saying these are not noise.
+     it has to come before .gone, which both kinds share once they are used. */
+  .tm-tk.pair { color:#f2c38a; }
+  .tm-tk.pair:hover, .tm-tk.pair:focus-visible { background:#f2c38a; color:#111618; }
   .tm-tk.spent { color:#3f524e; cursor:default; }
   .tm-tk.spent:hover, .tm-tk.spent:focus-visible { background:transparent;
                                                    color:#3f524e; }
@@ -657,6 +662,37 @@
   .tm-st.good { color:#aee8b5; }
   .tm-st.bad { color:#ffa7a7; }
 
+  /* the scoring rule is the one thing people get wrong, and they get it
+     wrong the same way every time: they read the number as letters in common.
+     this panel is deliberately not green, so it reads as me explaining rather
+     than as part of the machine. */
+  .tmx { border:1px solid #1a212a; border-radius:8px; background:#0a0d11;
+         padding:14px 16px; margin:0 0 14px; }
+  .tmx > em { display:block; font-family:var(--mono); font-size:9px;
+              font-style:normal; letter-spacing:.13em; text-transform:uppercase;
+              color:#5a6672; margin-bottom:11px; }
+  .tmx-g { display:grid; grid-template-columns:auto repeat(5, 26px);
+           gap:3px 4px; align-items:center; justify-content:start;
+           font-family:var(--mono); margin-bottom:11px; }
+  .tmx-g > u { text-decoration:none; font-size:9.5px; letter-spacing:.08em;
+               text-transform:uppercase; color:#6c7883; padding-right:7px;
+               white-space:nowrap; }
+  .tmx-g > b { font-weight:400; font-size:14px; text-align:center; color:#8d98a1;
+               background:#11171d; border:1px solid #1e2630; border-radius:4px;
+               padding:5px 0; }
+  .tmx-g > b.m { color:#0b0f13; background:#aee8b5; border-color:#aee8b5; }
+  .tmx-g > i { font-style:normal; font-size:10px; text-align:center;
+               color:#38424c; }
+  .tmx-g > i.m { color:#aee8b5; }
+  .tmx p { font-size:13px; line-height:1.6; color:#8d98a1; }
+  .tmx p b { color:#d4dade; font-weight:600; }
+  .tmx ul { list-style:none; display:grid; gap:7px; margin-top:11px; }
+  .tmx li { font-size:12.5px; line-height:1.55; color:#8d98a1;
+            padding-left:15px; position:relative; }
+  .tmx li:before { content:"\2022"; position:absolute; left:2px; color:#4a5764; }
+  .tmx li b { color:#d4dade; font-weight:600; }
+  .tmx li code { font-family:var(--mono); font-size:11.5px; color:#f2c38a; }
+
   .tm-arch { margin-top:14px; border:1px solid #3a3227; border-radius:8px;
              background:#15120d; padding:14px 16px; font-family:var(--mono); }
   .tm-arch > em { display:block; font-style:normal; font-size:9px;
@@ -680,6 +716,7 @@
   @media (max-width:760px) {
     .sm3, .ors { grid-template-columns:1fr; }
     .rl-n { flex:1 1 100%; }
+    .tmx-g { grid-template-columns:auto repeat(5, 22px); }
     .tm { grid-template-columns:1fr; }
     .tm-log { max-height:170px; }
     /* a 12.5px monospace row is a 19px tap target. the padding grows the hit
@@ -1285,11 +1322,36 @@ status: <b>no termination date</b></div>
 
                   <div class="kit" id="tmKit">
                     <p class="kit-t">Interactive &middot; the terminal at the top of the tower</p>
-                    <p class="kit-b">This is the lock. Pick one of the words on the board. The
-                    terminal answers with how many of its letters are already in the right place,
-                    counting from the left, and nothing else. Five tries.
+                    <p class="kit-b">Six real words are hidden in the junk below. One of them is
+                    the password. Pick a word and the terminal tells you how close you got. You get
+                    five goes.
                     <span class="bi">Ported from <code>MonitoringTerminalPuzzle.java</code>, with
                     every number loosened. The comparison is at the bottom.</span></p>
+
+                    <div class="tmx">
+                      <em>What the number after each guess means</em>
+                      <div class="tmx-g">
+                        <u>You picked</u>
+                        <b>S</b><b>M</b><b>O</b><b>K</b><b class="m">E</b>
+                        <u>Password was</u>
+                        <b>M</b><b>O</b><b>U</b><b>S</b><b class="m">E</b>
+                        <u></u>
+                        <i>&middot;</i><i>&middot;</i><i>&middot;</i><i>&middot;</i><i class="m">&#10003;</i>
+                      </div>
+                      <p><b>That scores 1.</b> Both words are made of almost the same letters, but
+                      only the E is in the same slot. A letter that is in the word but in the wrong
+                      place counts for nothing. That is the only rule, and it is the one everybody
+                      gets wrong the first time.</p>
+                      <ul>
+                        <li><b>Click a word</b> to try it. The score is how many letters landed in
+                        the right slot, out of five.</li>
+                        <li><b>The gold brackets are free.</b> Things like <code>(!$#)</code> or
+                        <code>[%~=]</code> do not cost you a go. One kind crosses off a word that is
+                        wrong, the other gives you all five goes back.</li>
+                        <li><b>Run out and it locks.</b> It will tell you what the password was, and
+                        New password builds a fresh one.</li>
+                      </ul>
+                    </div>
 
                     <div class="tm">
                       <div class="tm-scr">
@@ -1318,6 +1380,7 @@ status: <b>no termination date</b></div>
                       <span>Bracket pairs</span><span>5</span><span>4</span>
                       <span>Brackets in the noise</span><span>yes, most are fakes</span><span>none, every pair is real</span>
                       <span>Guessed words</span><span>logged, board unchanged</span><span>greyed out, score on the board</span>
+                      <span>Pairs on screen</span><span>same colour as the noise</span><span>picked out in amber</span>
                     </div>
 
                     <p class="kit-f" id="tmFoot"></p>
@@ -2259,11 +2322,9 @@ window.ORSA_POSTERS = {
         + 'the mod it locks like this too, and then quietly resets itself after a '
         + 'while, which is the only kindness in the whole building.';
     } else {
-      footEl.innerHTML = '<b>How to read it.</b> Likeness counts letters that are in '
-        + 'the right position, not letters the word happens to contain. Two words '
-        + 'scoring 2 and 3 tell you more together than either does alone. The '
-        + 'bracket pairs are free: one kind deletes a wrong word for you, the other '
-        + 'gives you your attempts back.';
+      footEl.innerHTML = '<b>A tip.</b> Guesses stack up. If one word scores 2 and '
+        + 'another scores 3, hold them side by side and compare them letter by '
+        + 'letter. The answer usually falls out on its own.';
     }
   }
 
@@ -2309,7 +2370,7 @@ window.ORSA_POSTERS = {
         if (off) text(noise(off));
         var b = document.createElement('button');
         b.type = 'button';
-        b.className = 'tm-tk';
+        b.className = 'tm-tk' + (tok.kind === 'p' ? ' pair' : '');
         b.textContent = tok.s;
         b.addEventListener('click', function () { hit(tok); });
         tok.el = b;
@@ -2375,11 +2436,11 @@ window.ORSA_POSTERS = {
         d.removed = true;
         d.el.classList.add('gone');
         d.el.textContent = new Array(d.s.length + 1).join('.');
-        log('good', 'DUD REMOVED. <b>' + d.s + '</b> was never it.');
+        log('good', 'CROSSED OFF. <b>' + d.s + '</b> was never the password.');
       } else {
         att = MAXA;
         paintAtt();
-        log('good', 'ALLOWANCE RESTORED. Five attempts.');
+        log('good', 'FREE PASS. All five goes are back.');
         paintStatus();
       }
       return;
@@ -2387,7 +2448,7 @@ window.ORSA_POSTERS = {
 
     if (tok.s === pw) {
       tok.used = true;
-      log('good', '<b>&gt; ' + tok.s + '</b> <i>5 of 5</i>');
+      log('good', '<b>&gt; ' + tok.s + '</b> <i>all five, that is it</i>');
       end(true);
       return;
     }
@@ -2398,7 +2459,8 @@ window.ORSA_POSTERS = {
     tok.el.setAttribute('data-lk', lk);
     att--;
     paintAtt();
-    log('', '<b>&gt; ' + tok.s + '</b> <i>' + lk + ' of 5</i>');
+    log('', '<b>&gt; ' + tok.s + '</b> <i>' + lk
+           + (lk === 1 ? ' letter in the right spot' : ' letters in the right spot') + '</i>');
     if (att <= 0) { end(false); return; }
     paintStatus();
   }
