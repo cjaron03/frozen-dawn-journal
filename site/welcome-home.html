@@ -508,6 +508,48 @@
   .ap-code { font-size:10.5px; }
   .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
 }
+  /* ---- reading layers -------------------------------------------------
+     the page carries two audiences. story is the world, the rules a player
+     meets, and why they are the way they are. build adds the source, the
+     commits and the notes only someone who might write this code would
+     check. one class on the body, so switching costs nothing at read time.
+     the hide rule is body:not(.build) rather than a display on .bd itself,
+     because .bd lands on grids and figure rows as well as paragraphs and an
+     authored display:block would flatten them. */
+  body:not(.build) .bd { display:none !important; }
+  body:not(.build) .bi { display:none !important; }
+  body.build .bo { display:none !important; }
+
+  .rl { display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+        margin:0 0 24px; }
+  .rl-seg { display:flex; gap:2px; padding:2px; border-radius:8px;
+            background:#0a0d11; border:1px solid #1a212a; flex:0 0 auto; }
+  .rl-seg button { -webkit-appearance:none; appearance:none; border:0;
+                   cursor:pointer; background:transparent; color:#6c7883;
+                   font-family:var(--mono); font-size:10.5px;
+                   letter-spacing:.12em; text-transform:uppercase;
+                   padding:7px 15px; border-radius:6px;
+                   transition:color .18s, background .18s; }
+  .rl-seg button:hover { color:#b8c3cb; }
+  .rl-seg button.on { color:#0b0f13; background:#7dd3fc; }
+  .rl-n { font-size:11.5px; line-height:1.5; color:#6c7883; }
+  .rl-stub { font-size:13px; line-height:1.6; color:#6c7883;
+             border:1px dashed #222b35; border-radius:8px; padding:16px 18px; }
+
+  /* the three line summary. enough to decide whether to read the chapter. */
+  .sm3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+         background:#1a212a; border:1px solid #1a212a; border-radius:8px;
+         overflow:hidden; margin:0 0 26px; }
+  .sm3 > div { background:#0d1116; padding:14px 16px; }
+  .sm3 em { display:block; font-family:var(--mono); font-size:9px;
+            letter-spacing:.13em; text-transform:uppercase; color:#5a6672;
+            font-style:normal; margin-bottom:7px; }
+  .sm3 p { font-size:13px; line-height:1.55; color:#b9c4cc; }
+
+  @media (max-width:640px) {
+    .sm3 { grid-template-columns:1fr; }
+    .rl-n { flex:1 1 100%; }
+  }
 </style>
 
 <div class="ap">
@@ -558,18 +600,41 @@
         <h1 class="ap-title">Welcome Home</h1>
 
         <div class="ap-rest">
-          <p class="ap-stand">Everything before this chapter is about staying alive. This one is about leaving. For six chapters Frozen Dawn teaches you to fight for every degree of warmth you can hold onto. Then it asks you to spend all of it at once, on a single object, pointed away from the planet.</p>
+          <p class="ap-stand">Everything before this chapter is about staying alive. This one is about leaving.<span class="bi"> A hundred and forty four commits in three weeks, the densest stretch in the project.</span> For six chapters Frozen Dawn teaches you to fight for every degree of warmth you can hold onto. Then it asks you to spend all of it at once, on a single object, pointed away from the planet.</p>
 
-          <div class="ap-stats ap-wide">
-            <div><b>144</b><span>commits across the endgame, 14 Apr to 7 May</span></div>
-            <div><b>13</b><span>fields on one saved object hold the whole ending</span></div>
+          <div class="rl">
+            <div class="rl-seg" role="group" aria-label="Reading layer">
+              <button type="button" class="on" data-layer="story" aria-pressed="true">The game</button>
+              <button type="button" data-layer="build" aria-pressed="false">How I built it</button>
+            </div>
+            <span class="rl-n">Left is the ending as it is played. Right adds the source, the commits and the arithmetic.</span>
+          </div>
+
+          <div class="sm3">
+            <div><em>What changed</em><p>The game stops being about staying warm and starts being about leaving. There is a way off the planet, and the company that ended the world built it first.</p></div>
+            <div><em>What you do with it</em><p>Answer a signal from Mars, raise a rocket block by block on a pad that was already there, and burn every heater you own to fuel it.</p></div>
+            <div><em>Why it is odd</em><p>The machine that greets you on arrival has no idea what it cost you. It says the kindest sentence in the mod, and that is what makes it unbearable.</p></div>
+          </div>
+
+          <div class="ap-stats ap-wide bo">
             <div><b>6</b><span>fuel cells, and not one of them is optional</span></div>
             <div><b>30</b><span>silo runs between raw sulfur and a full rocket</span></div>
-            <div><b>50,400</b><span>ticks of heater fuel that warm nothing</span></div>
+            <div><b>2.1</b><span>in-game days of heater fuel that warm nothing</span></div>
+            <div><b>5</b><span>in-game days of shouting at the sky before Mars answers</span></div>
+            <div><b>35</b><span>seconds between arming the launch and the dark</span></div>
             <div><b>1</b><span>word proves humanity survived</span></div>
           </div>
 
-          <p class="ap-p">The obvious ending to Frozen Dawn was death. Earth gets colder, the atmosphere collapses, and eventually there is nowhere left to go. I did not want that ending. I wanted the player to discover that the people who caused the apocalypse had <strong>already built a way out</strong>, and then to have to walk through it.</p>
+          <div class="ap-stats ap-wide bd">
+            <div><b>144</b><span>commits across the endgame, 14 Apr to 7 May</span></div>
+            <div><b>13</b><span>fields on one saved object hold the whole ending</span></div>
+            <div><b>46</b><span>days the finished exit sat behind a flag</span></div>
+            <div><b>700</b><span>ticks of launch sequence, held in five constants</span></div>
+            <div><b>50,400</b><span>ticks of heater fuel, and the tier does not change it</span></div>
+            <div><b>1</b><span>writer of conspiracyDiscovered in the whole codebase</span></div>
+          </div>
+
+          <p class="ap-p">The obvious ending to Frozen Dawn was death. Earth gets colder, the atmosphere collapses, and eventually there is nowhere left to go.<span class="bi"> I did not want that ending.</span> <span class="bi">I wanted the player to discover that</span><span class="bo">Instead,</span> the people who caused the apocalypse had <strong>already built a way out</strong>, and <span class="bi">then to have to walk through it</span><span class="bo">you walk through it</span>.</p>
 
           <p class="ap-p">For most of the game, Mars exists as a claim. It is on posters. It is in evacuation material. It is the thing ORSA kept promising in the past tense. It is in a mythology written by something that is not human. Then a machine returns a status flag, and the claim turns out to be true.</p>
 
@@ -596,17 +661,19 @@
               <div class="ap-dpanes" id="apDpanes">
 
 <section class="ap-pane on" role="tabpanel" data-p="0" aria-label="Earth is not the whole game">
-  <p class="ap-lede">The exit was in the code before almost anything else was.</p>
+  <p class="ap-lede"><span class="bi">The exit was in the code before almost anything else was.</span><span class="bo">The way off this planet was here before almost anything else was.</span></p>
 
-  <p class="ap-p">Four days after the first commit, on 27 February 2026, the mod shipped a version whose changelog line reads like four separate projects at once: <code>v0.15.0, Win condition, ORSA MultiTool, O2 system, transponder, EVA ambience</code>. In the same window I added a satellite log entry and a piece of lore foreshadowing called Project Lighthouse, and then I did the sensible thing and put the entire ending behind a flag: <code>Gate transponder on ENABLE_WIN_CONDITION</code>.</p>
+  <p class="ap-p bd">Four days after the first commit, on 27 February 2026, the mod shipped a version whose changelog line reads like four separate projects at once: <code>v0.15.0, Win condition, ORSA MultiTool, O2 system, transponder, EVA ambience</code>. In the same window I added a satellite log entry and a piece of lore foreshadowing called Project Lighthouse, and then I did the sensible thing and put the entire ending behind a flag: <code>Gate transponder on ENABLE_WIN_CONDITION</code>.</p>
 
-  <div class="ap-figs">
+  <div class="ap-figs bd">
     <div><b>27</b><span>February 2026, the day an exit entered the code</span></div>
     <div><b>46</b><span>days it sat behind a flag before I built it</span></div>
     <div><b>144</b><span>commits once I finally did, 14 Apr to 7 May</span></div>
   </div>
 
-  <p class="ap-p">So for six and a half weeks the game had a way out that nobody could reach. That gap was not laziness. I did not want to build the ending until the middle of the game was hard enough to make an ending mean something. An escape route from a survivable world is a fast travel button. An escape route from a world that has spent forty hours convincing you it is going to win is something else.</p>
+  <p class="ap-p"><span class="bi">So for six and a half weeks the game had a way out that nobody could reach. That gap was not laziness. I did not want to build the ending until the middle of the game was hard enough to make an ending mean something. </span>An escape route from a survivable world is a fast travel button. An escape route from a world that has spent forty hours convincing you it is going to win is something else.</p>
+
+  <p class="ap-h3">ORSA built it first</p>
 
   <p class="ap-p">The important part is who built it. The rocket is not a thing the player invents. It is an ORSA asset: an ORSA blast pit, an ORSA launch manifest, an ORSA relay satellite, an ORSA transponder schematic, and a set of blueprints transmitted from an ORSA colony. <strong>The same company responsible for the reason you need an exit had already built one, used it, and left it running.</strong></p>
 
@@ -622,9 +689,9 @@
 </section>
 
 <section class="ap-pane" role="tabpanel" data-p="1" aria-label="Establish contact">
-  <p class="ap-lede">The whole ending is thirteen fields on a single saved object.</p>
+  <p class="ap-lede"><span class="bi">The whole ending is thirteen fields on a single saved object.</span><span class="bo">The whole ending is one machine asking a question and then waiting five days for an answer.</span></p>
 
-  <div class="ap-src">
+  <div class="ap-src bd">
     <summary>WinConditionState, the endgame in one file <em>SavedData</em></summary>
     <div class="ap-code"><k>private</k> BlockPos satellitePos;
 <k>private boolean</k> satellitePlaced;
@@ -641,9 +708,11 @@
 <k>private boolean</k> endingTriggered;</div>
   </div>
 
-  <p class="ap-p">Read top to bottom, that is the shape of the last act. Find the thing. Learn the thing. Optionally learn too much. Get the plans. Answer. Build. Fuel. Burn. Leave. Every one of those is a boolean because every one of them is a door that only opens forwards.</p>
+  <p class="ap-p"><span class="bi">Read top to bottom, that is the shape of the last act.</span><span class="bo">Nine steps, and that is the shape of the last act.</span> Find the thing. Learn the thing. Optionally learn too much. Get the plans. Answer. Build. Fuel. Burn. Leave.<span class="bi"> Every one of those is a boolean because every one of them is a door that only opens forwards.</span><span class="bo"> Every one of them is a door that only opens forwards.</span></p>
 
-  <p class="ap-p">The satellite is placed by <code>initSatellitePosition</code>, which picks a random angle and a random distance <strong>between 500 and 2000 blocks from world spawn</strong>, then resolves its height when that chunk actually loads. It does not force-load anything. Chapter I is partly about a chunk epoch loader that refuses to touch chunks the player is not in, and the endgame obeys that rule as strictly as the weather does. The satellite is a promise the world keeps lazily.</p>
+  <p class="ap-h3">Where the satellite lands</p>
+
+  <p class="ap-p"><span class="bi">The satellite is placed by <code>initSatellitePosition</code>, which picks</span><span class="bo">Where it falls is decided the first time you need it: </span> a random angle and a random distance <strong>between 500 and 2000 blocks from world spawn</strong>, <span class="bi">then resolves its height when that chunk actually loads. It does not force-load anything. Chapter I is partly about a chunk epoch loader that refuses to touch chunks the player is not in, and the endgame obeys that rule as strictly as the weather does.</span><span class="bo">with its height settled only when you are close enough for the world to bother drawing it. Nothing anywhere is holding that corner of the map open for you.</span> The satellite is a promise the world keeps lazily.</p>
 
   <p class="ap-h3">The transponder</p>
 
@@ -651,9 +720,9 @@
 
   <div class="ap-pass">
     <div><b>Underground</b><span>the block has to sit below Y zero. This is a signal from a buried world.</span></div>
-    <div><b>Powered</b><span>a Geothermal Core within twelve blocks, checked as a squared distance of 144.</span></div>
-    <div><b>Open to the sky</b><span>a clear vertical shaft all the way up, re-checked every 100 ticks.</span></div>
-    <div><b>Patient</b><span>120,000 ticks of broadcast by default, about five in-game days.</span></div>
+    <div><b>Powered</b><span>a Geothermal Core within twelve blocks<span class="bi">, checked as a squared distance of 144</span>.</span></div>
+    <div><b>Open to the sky</b><span>a clear vertical shaft all the way up, re-checked every <span class="bi">100 ticks</span><span class="bo">five seconds</span>.</span></div>
+    <div><b>Patient</b><span><span class="bi">120,000 ticks of broadcast by default, about five in-game days</span><span class="bo">about five in-game days of broadcast before anything answers</span>.</span></div>
   </div>
 
   <p class="ap-p">The shaft requirement is my favourite piece of it. You have spent the entire game sealing rooms, plugging gaps, and treating open air as the enemy. To call Mars you have to <strong>cut a hole in your own shelter and leave it open for five days.</strong> The signal melts the snow inside the shaft while it runs, which is the only time in Frozen Dawn that something warms a column of air on purpose and it is not for you.</p>
@@ -665,9 +734,9 @@
     <p><b>ORSA RELAY: Mars Command response buffered. Return to transponder for packet recovery.</b></p>
   </div>
 
-  <p class="ap-tcap">Those first two strings carry a long dash in the mod itself. They are reproduced here with the site's own punctuation.</p>
+  <p class="ap-tcap bd">Those first two strings carry a long dash in the mod itself. They are reproduced here with the site's own punctuation.</p>
 
-  <p class="ap-p">I wanted this to be one of the quietest reveals in the game. No cinematic. No survivor suddenly talking over the radio. No swelling music. A machine on Earth asks a machine on Mars whether anyone is there, and a machine on Mars answers with a status flag. <strong>One word proves that humanity survived. The same word proves that Earth was left behind.</strong></p>
+  <p class="ap-p"><span class="bi">I wanted this to be one of the quietest reveals in the game. </span>No cinematic. No survivor suddenly talking over the radio. No swelling music. A machine on Earth asks a machine on Mars whether anyone is there, and a machine on Mars answers with a status flag. <strong>One word proves that humanity survived. The same word proves that Earth was left behind.</strong></p>
 
   <div class="ap-orsa">
     <em>Advancement &middot; found_martian_command_packet</em>
@@ -681,7 +750,7 @@
 <section class="ap-pane" role="tabpanel" data-p="2" aria-label="A way off a dead planet">
   <p class="ap-lede">Early Frozen Dawn asks whether you can keep one room above freezing. Late Frozen Dawn asks whether you can manufacture enough propellant to escape the planet. Same game.</p>
 
-  <p class="ap-p">The rocket is not crafted. It is built, in the world, out of ten blocks in exactly the right relationship to each other, on top of an ORSA blast pit that was already there when you arrived. <code>RocketLaunchStructure.diagnose</code> checks all of it and tells you the first thing that is wrong.</p>
+  <p class="ap-p">The rocket is not crafted. It is built, in the world, out of ten blocks in exactly the right relationship to each other, on top of an ORSA blast pit that was already there when you arrived. <span class="bi"><code>RocketLaunchStructure.diagnose</code> checks all of it and tells</span><span class="bo">The pad checks all of it and tells</span> you the first thing that is wrong.</p>
 
   <div class="ap-pass">
     <div><b>Engine</b><span>directly above the blast pit's launch pad centre, and nowhere else in the world.</span></div>
@@ -696,7 +765,7 @@
 
   <p class="ap-h3">Thirty five seconds</p>
 
-  <div class="ap-code"><k>static final int</k> STATE_IDLE = <v>0</v>, STATE_LAUNCHING = <v>1</v>, STATE_FINISHED = <v>2</v>;
+  <div class="ap-code bd"><k>static final int</k> STATE_IDLE = <v>0</v>, STATE_LAUNCHING = <v>1</v>, STATE_FINISHED = <v>2</v>;
 
 COUNTDOWN_TICKS        = <v>200</v>;  <c>// 10s, sitting in the cockpit</c>
 LIFTOFF_TRACK_TICKS    = <v>50</v>;   <c>// 2.5s, the camera stays with it</c>
@@ -704,9 +773,11 @@ ASCENT_TICKS           = <v>260</v>;  <c>// 13s</c>
 ATMOSPHERE_EXIT_TICKS  = <v>120</v>;  <c>// 6s, and there is barely any left</c>
 FADE_TICKS             = <v>70</v>;   <c>// 3.5s</c></div>
 
-  <p class="ap-p">Seven hundred ticks. Thirty five seconds of game time between arming the launch and the screen going dark, and the particle work escalates across it: the plume thickens at tick 100 of the countdown when flame is added to the exhaust, peaks through a hundred ticks of liftoff, and then thins out for the ascent because there is almost no atmosphere left to push against.</p>
+  <p class="ap-p"><span class="bi">Seven hundred ticks. </span>Thirty five seconds <span class="bi">of game time </span>between arming the launch and the screen going dark, and the particle work escalates across it: the plume thickens <span class="bi">at tick 100 of the countdown</span><span class="bo">five seconds in</span> when flame is added to the exhaust, peaks through <span class="bi">a hundred ticks of</span><span class="bo">five seconds of</span> liftoff, and then thins out for the ascent because there is almost no atmosphere left to push against.</p>
 
-  <p class="ap-p">I spent a genuinely unreasonable amount of 16 and 17 April on that thinning. It is four seconds that most players will see once. But Chapter I spends six phases stripping the atmosphere off this planet, and it would be a betrayal for the rocket to leave a thick contrail in a sky that no longer has air in it.</p>
+  <p class="ap-h3">Thinning the plume</p>
+
+  <p class="ap-p"><span class="bi">I spent a genuinely unreasonable amount of 16 and 17 April on that thinning. It is four seconds that most players will see once. But Chapter</span><span class="bo">Those last four seconds took two days to get right, and most players will see them once. Chapter</span> I spends six phases stripping the atmosphere off this planet, and it would be a betrayal for the rocket to leave a thick contrail in a sky that no longer has air in it.</p>
 
   <div class="ap-orsa">
     <em>Advancement &middot; found_launch_manifest</em>
@@ -718,9 +789,9 @@ FADE_TICKS             = <v>70</v>;   <c>// 3.5s</c></div>
 <section class="ap-pane" role="tabpanel" data-p="3" aria-label="The final resource">
   <p class="ap-lede">The fuel that lifts the rocket is the fuel that was keeping you alive.</p>
 
-  <p class="ap-p">This is the mechanic I am proudest of in the whole endgame, and it is four lines long. The Fuel Processing Silo does not have its own power source. It runs on a lit Thermal Heater, and it charges that heater for every unit of progress it makes.</p>
+  <p class="ap-p"><span class="bi">This is the mechanic I am proudest of in the whole endgame, and it is four lines long. </span>The Fuel Processing Silo does not have its own power source. It runs on a lit Thermal Heater, and it charges that heater for every unit of progress it makes.</p>
 
-  <div class="ap-src">
+  <div class="ap-src bd">
     <summary>FuelProcessingSiloBlockEntity, the bill <em>drainHeaterForProcessing</em></summary>
     <div class="ap-code"><k>if</k> (!structureValid || !heaterLit || recipe == <k>null</k>) { <c>/* stop */</c> }
 
@@ -738,9 +809,13 @@ progressUnits += heaterSpeedUnits;
 }</div>
   </div>
 
+  <p class="ap-h3">What the tier buys you</p>
+
   <p class="ap-p">The heater tier sets the rate. A Basic heater feeds the silo 20 units a tick, Iron 30, Gold 40, Diamond 60, and a capacitor multiplies whatever that is by one and a half. The mod shows that to the player as a speed multiplier, <code>x1.00</code> through <code>x4.50</code>. What it does not show the player is that the speed number and the burn number are <strong>the same number.</strong></p>
 
-  <p class="ap-p">Work the arithmetic through and something falls out that I did not plan and would not change. Finishing a recipe always costs exactly <code>baseTicks</code> of extra heater fuel, because the total progress required is <code>baseTicks * 20</code> and the surcharge is one fuel tick per 20 units of progress. <strong>The tier changes how fast you pay. It does not change what you pay.</strong></p>
+  <p class="ap-h3">The same bill at every tier</p>
+
+  <p class="ap-p"><span class="bi">Work the arithmetic through and something falls out that I did not plan and would not change. Finishing a recipe always costs exactly <code>baseTicks</code> of extra heater fuel, because the total progress required is <code>baseTicks * 20</code> and the surcharge is one fuel tick per 20 units of progress.</span><span class="bo">Work it through and something falls out. Whichever heater you use, finishing a batch burns the same amount of fuel, because the faster it goes the faster the bill runs up.</span> <strong>The tier changes how fast you pay. It does not change what you pay.</strong></p>
 
   <p class="ap-p">Below is the actual ledger. Pick a heater, run the silo, and watch the two columns move: the cells going in, and the fuel going out. The maths is the mod's, the recipe tree is the mod's, and the total at the bottom is the same at every tier.</p>
 
@@ -792,7 +867,9 @@ progressUnits += heaterSpeedUnits;
 
   <p class="ap-p">Chapter IV is a hundred small decisions about fuel: which heater, where, how insulated, how long you can leave it. None of those decisions get easier here. They get repurposed. The moment the silo lights up, every heater optimisation you learned in the middle of the game turns into a launch schedule, and every fuel reserve you were proud of turns into a countdown.</p>
 
-  <p class="ap-p">There is a version of this mechanic where the rocket has its own generator and none of this happens. It would be easier to balance and completely inert. <strong>Making the silo parasitic on the heater is what turns a crafting chain into a decision.</strong> You are not gathering a new resource at the end of Frozen Dawn. You are taking the one that has kept you alive since the first night and pointing it at the sky.</p>
+  <p class="ap-h3">Why it has to be parasitic</p>
+
+  <p class="ap-p"><span class="bi">There is a version of this mechanic where the rocket has its own generator and none of this happens. It would be easier to balance and completely inert. </span><strong>Making the silo parasitic on the heater is what turns a crafting chain into a decision.</strong> You are not gathering a new resource at the end of Frozen Dawn. You are taking the one that has kept you alive since the first night and pointing it at the sky.</p>
 </section>
 
 <section class="ap-pane" role="tabpanel" data-p="4" aria-label="You become Orsha">
@@ -811,11 +888,15 @@ progressUnits += heaterSpeedUnits;
 
   <p class="ap-p">That is the myth. Word for word, beat for beat, it is the thing the Hearths have been telling each other since before the player existed, and the player is about to perform it in front of them.</p>
 
+  <p class="ap-h3">You did not do this</p>
+
   <p class="ap-p">I want to be precise about this, because it would be cheap to be vague. <strong>The player did not cause this.</strong> The player arrived after. The player did not authorise Project Exodus, did not write the continuity memos, did not leave anyone behind on a runway. Frozen Dawn does not end by revealing that you were secretly as bad as ORSA all along. That would be a twist, and it would be a lie.</p>
 
   <p class="ap-pull">It ends by making you perform an image the world has already seen once before.</p>
 
-  <p class="ap-p">And the world has no way to tell the difference. That is not a metaphor about perception. It is a property of the language I wrote for them. Thaeven has one verb for movement and I never gave it a tense marker. The archive's own recorded usages are <code>Vel-thae thaeven vel-an.</code> and <code>Vesh thaeven.</code> Nothing in the vocabulary I built separates going somewhere new from going back.</p>
+  <p class="ap-p">And the world has no way to tell the difference. That is not a metaphor about perception. It is a property of the language itself. <span class="bi">Thaeven has one verb for movement and I never gave it a tense marker.</span><span class="bo">Thaeven has one verb for movement, and no way at all to mark when.</span> The archive's own recorded usages are <code>Vel-thae thaeven vel-an.</code> and <code>Vesh thaeven.</code> Nothing in the vocabulary I built separates going somewhere new from going back.</p>
+
+  <p class="ap-h3">What they will record</p>
 
   <p class="ap-p">So a civilisation that inherited this planet from us, that remembers exactly one story about warm things leaving, watches a warm thing gather the last of the heat and rise. Whatever they record about it, they are going to record it with the only words they have.</p>
 
@@ -845,17 +926,19 @@ progressUnits += heaterSpeedUnits;
 
   <p class="ap-p">The message is not sinister. That is exactly why it works. Nobody on Mars is sitting behind a terminal enjoying the irony. There is no villain in that line. It is simply the greeting the system was designed to give, written years ago by someone who thought they were being warm, and it has been sitting in a string table waiting for a human to trip it ever since.</p>
 
+  <p class="ap-h3">The horror is on your side</p>
+
   <p class="ap-p">All of the horror is on the player's side of the screen. The machine says the kindest sentence in the entire mod, and it is unbearable, because <strong>you are the only one in the exchange who knows what it cost.</strong></p>
 
-  <p class="ap-p">I wrote a lot of versions of that line. Every version that tried to be clever was worse. Every version that hinted the system knew something was worse. The line works because it is thoughtless. It is the sound of a process completing.</p>
+  <p class="ap-p"><span class="bi">I wrote a lot of versions of that line. Every version that tried to be clever was worse. Every version that hinted the system knew something was worse. </span>The line works because it is thoughtless. It is the sound of a process completing.</p>
 </section>
 
 <section class="ap-pane" role="tabpanel" data-p="6" aria-label="The truth route">
   <p class="ap-lede">And then there is the version for players who read too much.</p>
 
-  <p class="ap-p">Chapter III leaves a password lying around. It is in the Blackglass material, it is optional, and nothing in the game ever tells you it matters. There is exactly one place in the entire codebase where it turns into a consequence, and it is a single boolean flip on a tower antenna console.</p>
+  <p class="ap-p">Chapter III leaves a password lying around. It is in the Blackglass material, it is optional, and nothing in the game ever tells you it matters. There is exactly one place in the <span class="bi">entire codebase</span><span class="bo">whole game</span> where it turns into a consequence, and it is <span class="bi">a single boolean flip on a tower antenna console</span><span class="bo">one console in one tower</span>.</p>
 
-  <div class="ap-src">
+  <div class="ap-src bd">
     <summary>TowerAntennaConsoleBlockEntity, the only writer of conspiracyDiscovered <em>acceptArchivePassword</em></summary>
     <div class="ap-code"><k>boolean</k> accepted = TowerArchive.COMMAND_ARCHIVE_PASSWORD.equals(normalizedGuess);
 <k>if</k> (accepted) {
@@ -863,13 +946,15 @@ progressUnits += heaterSpeedUnits;
 }</div>
   </div>
 
-  <p class="ap-p">Get it wrong and the console gives you <code>ACCESS DENIED / COMMAND PERSONNEL ONLY</code>. Get it right and nothing visible happens at all. No advancement fires. No message congratulates you. A flag flips on a saved object and the game continues exactly as before, for however many hours it takes you to build a rocket.</p>
+  <p class="ap-h3">One console, one password</p>
 
-  <p class="ap-p">It comes back at the very last screen. Below is the real post-credits terminal, both ways, rendered the way the ending screen renders it: the same strings, the same colours, and the same 34 ticks of signal corruption that sit between the greeting and what replaces it.</p>
+  <p class="ap-p">Get it wrong and the console gives you <code>ACCESS DENIED / COMMAND PERSONNEL ONLY</code>. Get it right and nothing visible happens at all. No advancement fires. No message congratulates you. <span class="bi">A flag flips on a saved object and the</span><span class="bo">Something is quietly written down, and the</span> game continues exactly as before, for however many hours it takes you to build a rocket.</p>
+
+  <p class="ap-p">It comes back at the very last screen. Below is the real post-credits terminal, both ways, rendered the way the ending screen renders it: the same strings, the same colours, and the same <span class="bi">34 ticks</span><span class="bo">second and a half</span> of signal corruption that sit between the greeting and what replaces it.</p>
 
   <div class="tm ap-wide" id="tmRoot">
     <div class="tm-top">
-      <span class="tm-flag">conspiracyDiscovered</span>
+      <span class="tm-flag bi">conspiracyDiscovered</span><span class="tm-flag bo">You read the archive</span>
       <span class="tm-val" id="tmVal">false</span>
       <button type="button" class="tm-go" id="tmGo">Read the Blackglass archive</button>
     </div>
@@ -896,14 +981,21 @@ progressUnits += heaterSpeedUnits;
       </div>
     </div>
 
-    <div class="tm-bot">Static drawn to the mod's own recipe: <b>44</b> streaks of 8 to 90 pixels over <b>34</b> ticks, scanlines every 4 pixels, header shown when <b>tick % 5 is not 0</b> and footer when <b>tick % 7 is under 4</b>.</div>
+    <div class="tm-bot bd">Static drawn to the mod's own recipe: <b>44</b> streaks of 8 to 90 pixels over <b>34</b> ticks, scanlines every 4 pixels, header shown when <b>tick % 5 is not 0</b> and footer when <b>tick % 7 is under 4</b>.</div>
+    <div class="tm-bot bo">Static drawn to the mod's own recipe: <b>44</b> streaks over about <b>a second and a half</b>, with the header and the footer flickering on two clocks that never line up.</div>
   </div>
 
   <p class="ap-p">Two things are worth noticing about that screen. The first is that the colour changes before the words do. Green is the colony's palette all the way through the ending sequence, and the moment the flag is set the same telemetry renders amber, which on this site has always been the colour of a machine talking. The second is the question mark. The unmodified ending is a statement. The informed ending is <code>The End?</code>, and that is the only editorial comment the mod ever makes about itself.</p>
 
+  <p class="ap-h3">Then the warrant</p>
+
   <p class="ap-p">Then the compliance packet. The player has not done anything at this point except arrive. The infraction is months old and several hundred million kilometres away, and it was a document they read in a dead building on a dead planet. <strong>ORSA logged it anyway.</strong></p>
 
+  <p class="ap-h3">Access control outlived the planet</p>
+
   <p class="ap-p">This is where Chapter III collides with this one. ORSA preserved humanity. Fine. It also preserved its own org chart. Its bureaucracy survived. Its security posture survived. Its document classification scheme survived the literal end of the world and is still enforcing itself against a civilian who spent a year and a half not dying. The company outlived the planet, and the part of it that outlived the planet most completely was <strong>access control.</strong></p>
+
+  <p class="ap-h3">Neither one is canon</p>
 
   <p class="ap-p">Neither ending is the canonical one, and I am not going to say which is true. One of them is what happens when you leave without knowing. The other is what happens when you leave knowing. That the second is worse is not a punishment for curiosity. It is what curiosity costs when the thing you were curious about is still running.</p>
 </section>
@@ -911,12 +1003,12 @@ progressUnits += heaterSpeedUnits;
 <section class="ap-pane" role="tabpanel" data-p="7" aria-label="End on Earth">
   <p class="ap-lede">The last thing the journal should be about is not Mars.</p>
 
-  <p class="ap-p">The ending screen is eight minutes and twenty seconds long if you let it run. Five seconds of black, a minute before the credits start, and then a post-credits sequence that fades up from black into a colony readout, an incoming signal, and if you learned too much, thirty four ticks of static and a red panel. Hold Q to fast-forward at fifty five ticks a tick. There is a dedication in it that is not about the game at all.</p>
+  <p class="ap-p">The ending screen is eight minutes and twenty seconds long if you let it run. Five seconds of black, a minute before the credits start, and then a post-credits sequence that fades up from black into a colony readout, an incoming signal, and if you learned too much, <span class="bi">thirty four ticks</span><span class="bo">a second and a half</span> of static and a red panel. Hold Q to fast-forward at fifty five times speed. There is a dedication in it that is not about the game at all.</p>
 
   <div class="ap-figs">
-    <div><b>700</b><span>ticks from arming the launch to the screen going dark</span></div>
-    <div><b>500</b><span>ticks of ending screen before the credits even start</span></div>
-    <div><b>34</b><span>ticks of static between a greeting and a warrant</span></div>
+    <div><b class="bi">700</b><b class="bo">35</b><span class="bi">ticks from arming the launch to the screen going dark</span><span class="bo">seconds from arming the launch to the screen going dark</span></div>
+    <div><b class="bi">500</b><b class="bo">25</b><span class="bi">ticks of ending screen before the credits even start</span><span class="bo">seconds of ending screen before the credits even start</span></div>
+    <div><b class="bi">34</b><b class="bo">1.7</b><span class="bi">ticks of static between a greeting and a warrant</span><span class="bo">seconds of static between a greeting and a warrant</span></div>
   </div>
 
   <p class="ap-p">Project Exodus gives the player the one thing Frozen Dawn otherwise never gives them, which is a future. They build the rocket. They fill the cells. They ignite engines above a world with almost no atmosphere left to carry the sound. And for the first time since the game began, <strong>the temperature stops mattering.</strong></p>
@@ -1530,5 +1622,76 @@ progressUnits += heaterSpeedUnits;
     if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 80) mark();
   }
   doc.addEventListener('scroll', check, { passive: true });
+})();
+</script>
+
+<script>
+/* ================= the reading layer switch =================
+   same control and same storage key as the other chapters, so whichever side
+   you picked follows you between them. the default is baked into the markup
+   so the page is correct before this runs at all. */
+(function () {
+  var KEY = 'fd-layer';
+  var seg = document.querySelector('.rl-seg');
+  if (!seg) return;
+  var btns = [].slice.call(seg.querySelectorAll('button'));
+
+  function stubs() {
+    [].slice.call(document.querySelectorAll('.ap-pane')).forEach(function (pane) {
+      var stub = pane.querySelector('.rl-stub');
+      var real = [].slice.call(pane.children).some(function (el) {
+        return el !== stub && getComputedStyle(el).display !== 'none';
+      });
+      if (real) { if (stub) stub.hidden = true; return; }
+      if (!stub) {
+        stub = document.createElement('p');
+        stub.className = 'rl-stub';
+        stub.textContent = pane.getAttribute('data-stub')
+                         || 'This section is all workings. '
+                          + 'Switch to How I built it to read it.';
+        pane.appendChild(stub);
+      }
+      stub.hidden = false;
+    });
+  }
+
+  /* the scroll reveal observer never saw a block that was hidden when it
+     armed, so one arriving from behind the switch can land here still at
+     opacity zero. anything already at or above the fold is behind the
+     reader and has to be set outright. anything still below keeps its
+     reveal and animates in normally when it is scrolled to. */
+  function rescue() {
+    var sc = document.querySelector('.ap-doc');
+    if (!sc) return;
+    var lim = sc.getBoundingClientRect().bottom;
+    [].slice.call(document.querySelectorAll('.ap-rv')).forEach(function (el) {
+      if (getComputedStyle(el).display === 'none') return;
+      if (el.getBoundingClientRect().top > lim) return;
+      el.classList.remove('ap-rv');
+      el.classList.add('set');
+    });
+  }
+
+  function apply(layer, save) {
+    document.body.classList.toggle('build', layer === 'build');
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-layer') === layer;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    stubs();
+    rescue();
+    if (save) { try { localStorage.setItem(KEY, layer); } catch (e) {} }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-layer'), true);
+    });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  apply(saved === 'build' ? 'build' : 'story', false);
 })();
 </script>
