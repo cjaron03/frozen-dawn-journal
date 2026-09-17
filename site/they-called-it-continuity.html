@@ -544,6 +544,150 @@
   .pw-aml > li { font-size:12px; }
   .pw-aml > li > i { font-size:11px; }
 }
+  /* ================= reading layers =================
+     the split is "is this about playing the game, or about making it", not
+     "is this code". chapter three is almost all game, so the build layer here
+     is thin on purpose rather than padded out to match the other chapters. */
+  body:not(.build) .bd { display:none !important; }
+  body:not(.build) .bi { display:none !important; }
+  body.build .bo { display:none !important; }
+
+  .rl { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 24px; }
+  .rl-seg { display:flex; gap:2px; padding:2px; border-radius:8px;
+            background:#0a0d11; border:1px solid #1a212a; flex:0 0 auto; }
+  .rl-seg button { -webkit-appearance:none; appearance:none; border:0;
+                   cursor:pointer; background:transparent; color:#6c7883;
+                   font-family:var(--mono); font-size:10.5px;
+                   letter-spacing:.12em; text-transform:uppercase;
+                   padding:7px 15px; border-radius:6px;
+                   transition:color .18s, background .18s; }
+  .rl-seg button:hover { color:#b8c3cb; }
+  .rl-seg button.on { color:#0b0f13; background:#7dd3fc; }
+  .rl-n { font-size:11.5px; line-height:1.5; color:#6c7883; }
+  .rl-stub { font-size:13px; line-height:1.6; color:#6c7883;
+             border:1px dashed #222b35; border-radius:8px; padding:16px 18px; }
+
+  .sm3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+         background:#1a212a; border:1px solid #1a212a; border-radius:8px;
+         overflow:hidden; margin:0 0 26px; }
+  .sm3 > div { background:#0d1116; padding:14px 16px; }
+  .sm3 em { display:block; font-family:var(--mono); font-size:9px;
+            letter-spacing:.13em; text-transform:uppercase; color:#5a6672;
+            font-style:normal; margin-bottom:7px; }
+  .sm3 p { font-size:13px; line-height:1.55; color:#b9c4cc; }
+
+  /* the six structures as things in the world, for the game layer. the build
+     layer has the same six with their dates and commit counts. */
+  .ors { display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+         background:#1a212a; border:1px solid #1a212a; border-radius:8px;
+         overflow:hidden; margin:0 0 26px; }
+  .ors > div { background:#0d1116; padding:14px 16px; }
+  .ors em { display:block; font-size:13px; font-style:normal; font-weight:600;
+            color:#d4dade; margin-bottom:6px; }
+  .ors p { font-size:12.5px; line-height:1.55; color:#8d98a1; }
+
+  /* ================= widget chrome ================= */
+  .kit { border:1px solid #1a212a; border-radius:10px; background:#0d1116;
+         padding:18px 20px 20px; margin:0 0 26px; }
+  .kit-t { font-family:var(--mono); font-size:9px; letter-spacing:.14em;
+           text-transform:uppercase; color:#5a6672; margin:0 0 6px; }
+  .kit-b { font-size:13px; line-height:1.6; color:#8d98a1; margin:0 0 16px; }
+  .kit-f { font-size:13px; line-height:1.65; color:#8d98a1; margin:16px 0 0;
+           padding-top:14px; border-top:1px solid #1a212a; }
+  .kit-f b { color:#d4dade; font-weight:600; }
+  .kit-ctl { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+  .kit-btn { -webkit-appearance:none; appearance:none; cursor:pointer;
+             background:#11171d; border:1px solid #232c36; border-radius:6px;
+             color:#8d98a1; font-family:var(--mono); font-size:10px;
+             letter-spacing:.11em; text-transform:uppercase; padding:8px 14px;
+             transition:color .16s, border-color .16s, background .16s; }
+  .kit-btn:hover { color:#d4dade; border-color:#33404d; }
+  .kit-btn:disabled { opacity:.35; cursor:default; }
+
+  /* ================= the station terminal =================
+     the colours are the renderer's, straight out of MonitoringTerminalRenderer:
+     panel 0xFF111618, rule 0xFFB7D4C4, accent 0xFF6BA590, noise 0xFF7D978D,
+     highlight 0xFFB8D0C3, ready 0xFFAEE8B5, warning 0xFFFFA7A7, archive
+     0xFFF2C38A. it is the one green screen in a chapter of amber and ice, and
+     that is because the real one is green. */
+  .tm { display:grid; grid-template-columns:max-content minmax(0,1fr); gap:12px;
+        background:#111618; border:1px solid #223032; border-radius:8px;
+        padding:14px; font-family:var(--mono); }
+  .tm-scr { min-width:0; }
+  .tm-head { display:flex; justify-content:space-between; gap:10px;
+             font-size:9px; letter-spacing:.11em; color:#6ba590;
+             border-bottom:1px solid #2b3a3a; padding-bottom:7px; margin-bottom:10px; }
+  .tm-head i { font-style:normal; color:#4e6660; }
+  .tm-att { font-size:9px; letter-spacing:.11em; color:#7d978d; margin-bottom:9px; }
+  .tm-att span { color:#aee8b5; letter-spacing:.24em; margin-left:6px; }
+  .tm-att span u { text-decoration:none; color:#2f3f3d; }
+  .tm-board { display:grid; gap:1px; }
+  .tm-row { display:flex; align-items:center; gap:9px; font-size:12.5px;
+            line-height:1.5; white-space:pre; }
+  .tm-row > u { text-decoration:none; color:#4e6660; font-size:10.5px;
+                letter-spacing:.02em; flex:0 0 auto; }
+  .tm-row > span { color:#7d978d; }
+  .tm-tk { -webkit-appearance:none; appearance:none; background:transparent;
+           border:0; padding:0; margin:0; cursor:pointer; position:relative;
+           font:inherit; letter-spacing:inherit; color:#b8d0c3;
+           white-space:pre; border-radius:2px; }
+  .tm-tk:hover, .tm-tk:focus-visible { background:#b8d0c3; color:#111618;
+                                       outline:none; }
+  .tm-tk.spent { color:#3f524e; cursor:default; }
+  .tm-tk.spent:hover, .tm-tk.spent:focus-visible { background:transparent;
+                                                   color:#3f524e; }
+  .tm-tk.spent::after { content:attr(data-lk); position:absolute; top:-7px;
+                        right:-4px; font-size:8px; letter-spacing:0;
+                        color:#6ba590; }
+  .tm-tk.gone { color:#2b3a3a; cursor:default; }
+  .tm-tk.gone:hover, .tm-tk.gone:focus-visible { background:transparent;
+                                                 color:#2b3a3a; }
+  .tm-tk.hit { background:#aee8b5; color:#111618; }
+  .tm-side { display:flex; flex-direction:column; min-width:0; }
+  .tm-log { flex:0 1 auto; min-height:0; max-height:212px; overflow-y:auto;
+            font-size:11px; line-height:1.85; color:#7d978d; }
+  .tm-log div { white-space:pre-wrap; word-break:break-word; }
+  .tm-log b { color:#b8d0c3; font-weight:400; }
+  .tm-log i { font-style:normal; color:#6ba590; }
+  .tm-log .warn { color:#ffa7a7; }
+  .tm-log .good { color:#aee8b5; }
+  .tm-st { margin-top:10px; padding-top:9px; border-top:1px solid #2b3a3a;
+           font-size:9.5px; letter-spacing:.13em; color:#7d978d; }
+  .tm-side > .tm-head { margin-bottom:9px; }
+  .tm-st.good { color:#aee8b5; }
+  .tm-st.bad { color:#ffa7a7; }
+
+  .tm-arch { margin-top:14px; border:1px solid #3a3227; border-radius:8px;
+             background:#15120d; padding:14px 16px; font-family:var(--mono); }
+  .tm-arch > em { display:block; font-style:normal; font-size:9px;
+                  letter-spacing:.14em; color:#f2c38a; margin-bottom:10px; }
+  .tm-arch ol { list-style:none; display:grid; gap:5px; }
+  .tm-arch li { display:flex; justify-content:space-between; gap:10px;
+                font-size:11px; letter-spacing:.06em; color:#c9b394; }
+  .tm-arch li s { text-decoration:none; color:#6b5d48; }
+  .tm-arch li.lk { color:#ff9e9e; }
+  .tm-arch li.lk s { color:#8a5a5a; }
+
+  /* the honest side by side, for anyone who wants to know how much easier */
+  .tm-diff { margin-top:14px; display:grid; grid-template-columns:1fr 1fr 1fr;
+             gap:1px; background:#1a212a; border:1px solid #1a212a;
+             border-radius:6px; overflow:hidden; font-family:var(--mono);
+             font-size:10.5px; }
+  .tm-diff > span { background:#0d1116; padding:7px 10px; color:#8d98a1; }
+  .tm-diff > span.h { color:#5a6672; letter-spacing:.11em;
+                      text-transform:uppercase; font-size:9px; }
+
+  @media (max-width:760px) {
+    .sm3, .ors { grid-template-columns:1fr; }
+    .rl-n { flex:1 1 100%; }
+    .tm { grid-template-columns:1fr; }
+    .tm-log { max-height:170px; }
+    /* a 12.5px monospace row is a 19px tap target. the padding grows the hit
+       area and the negative margin keeps the board the same height. */
+    .tm-row { line-height:1.75; }
+    .tm-tk { padding:4px 2px; margin:-4px -2px; }
+  }
+
 </style>
 
 <div class="ap">
@@ -563,6 +707,20 @@
           logo, a mission statement, and a newsletter that ran birthday announcements right up until
           the sky stopped working. This is the week I stopped writing a survival mod and started
           writing a paper trail.</p>
+
+          <div class="rl">
+            <div class="rl-seg" role="group" aria-label="Reading layer">
+              <button type="button" class="on" data-layer="story" aria-pressed="true">The game</button>
+              <button type="button" data-layer="build" aria-pressed="false">How I built it</button>
+            </div>
+            <span class="rl-n">Left is the agency as you meet it in the world. Right adds the commits, the source and the week it took to invent it.</span>
+          </div>
+
+          <div class="sm3">
+            <div><em>What changed</em><p>The cold stopped being weather and got an author. A Swiss agency with a board, a vote, a logo and forty five pages of paperwork.</p></div>
+            <div><em>What you do with it</em><p>You read it. Memos in crates, posters on walls, and a terminal in a monitoring station with an archive locked behind a password.</p></div>
+            <div><em>Why it is odd</em><p>Nobody in ORSA is a villain. They ran the numbers, got ninety four percent, published fifteen, and signed the form anyway.</p></div>
+          </div>
 
           <div class="ap-stats ap-wide">
             <div><b>36</b><span>years from the founding to the day the sun let go</span></div>
@@ -592,10 +750,11 @@
           Is anyone coming.</p>
 
           <p class="ap-p">I had two options. I could go mystical, make the cold an unknowable event
-          with no author, or I could give it a paper trail. I went with paper. A monster you cannot
-          argue with is scary for one night. An agency that filled out the forms correctly, ran the
-          numbers, got the answer, and approved it anyway is scary every time you open a chest and
-          find another memo.</p>
+          with no author, or I could give it a paper trail. I went with paper.</p>
+
+          <p class="ap-pull">A monster you cannot argue with is scary for one night. An agency that
+          filled out the forms correctly, ran the numbers, got the answer, and approved it anyway is
+          scary every time you open a chest and find another memo.</p>
 
           <p class="ap-p">So ORSA is not evil in the way a boss is evil. ORSA has a cafeteria. ORSA
           has a visitor center with a gift shop, and you could buy a mug. ORSA's motto, printed on
@@ -744,6 +903,8 @@
                   different one. That is not a conspiracy, it is a communications strategy, and it
                   is the most realistic thing in my mod.</p>
 
+                  <p class="ap-h3">The two who voted no</p>
+
                   <p class="ap-p">Two directors voted no and resigned. Both were dead before 2080. A third file exists in the same folder and I will quote it exactly
                   as the guide does, because the shape of it is the story:</p>
 
@@ -792,6 +953,8 @@ status: <b>no termination date</b></div>
                   read a mission statement and felt anything, but everybody has looked at a logo and
                   instantly known what kind of organization made it.</p>
 
+                  <p class="ap-h3">Four jobs in one image</p>
+
                   <p class="ap-p">The ORSA lockup had to do four things in one image. Look like it
                   was designed by a committee in 2041. Look expensive. Be legible at the size of a
                   book page and at the size of a loading screen. And contain, somewhere in it, the
@@ -799,9 +962,11 @@ status: <b>no termination date</b></div>
 
                   <p class="ap-p">It is a ringed planet in a circle, the wordmark, three gold bars,
                   and a white rocket crossing them. The tagline runs underneath.
-                  <strong>Stability Above. Continuity Beyond.</strong> The rocket is pointed off the
-                  top of the frame and it is not coming back, and that detail was in the logo
-                  months before I wrote a single word about where it was going.</p>
+                  <strong>Stability Above. Continuity Beyond.</strong></p>
+
+                  <p class="ap-pull">The rocket is pointed off the top of the frame and it is not
+                  coming back, and that detail was in the logo months before I wrote a single word
+                  about where it was going.</p>
 
                   <p class="ap-p">The three gold bars are separate texture files, not part of the
                   base image. That was a production decision, not an artistic one, and it is the
@@ -857,7 +1022,7 @@ status: <b>no termination date</b></div>
                   shuttle: departed 03:17 UTC.</strong> Your character is being medically assessed by
                   the organization that left without them, and the readout is polite about it.</p>
 
-                  <details class="ap-src">
+                  <details class="ap-src bd">
                     <summary>The timing, straight out of the class<em>OrsaAwakeningIntro.java</em></summary>
                     <div class="ap-code"><c>// everything is a tick offset, 20 ticks to the second</c>
 <k>private static final</k> <v>int</v> START_DELAY_TICKS = 40;
@@ -876,22 +1041,24 @@ status: <b>no termination date</b></div>
 <k>private static</k> <v>float</v> smooth(<v>float</v> t) { <k>return</k> t * t * (3 - 2 * t); }</div>
                   </details>
 
-                  <p class="ap-p">Porting it to the page was mostly arithmetic. The Java version
+                  <p class="ap-p bd">Porting it to the page was mostly arithmetic. The Java version
                   positions everything against the live screen size, so I fixed the stage to sixteen
                   by nine, worked out the lockup's height as a fraction of the width, and converted
                   every pixel coordinate into a percentage. The lift goes from 33.88% down the frame
                   to 22.67%, scaling to 60.7%, and it holds at any width because nothing in it is a
                   pixel value.</p>
 
-                  <p class="ap-h3">What that week was actually like</p>
+                  <p class="ap-h3 bo">Who manufactured it</p>
 
-                  <p class="ap-p">Sixteen commits in seven days, and almost none of them were code.
+                  <p class="ap-h3 bi">What that week was actually like</p>
+
+                  <p class="ap-p bd">Sixteen commits in seven days, and almost none of them were code.
                   Branch names like <code>feat/phase-9a-orsa-book-branding</code> and
                   <code>feat/phase-9c-orsa-document-texture</code>. It was the least technical week
                   of the whole project and it is the week the mod became a thing instead of a
                   system.</p>
 
-                  <div class="ap-cmts">
+                  <div class="ap-cmts bd">
                     <div class="ap-cmt"><u>24 Apr</u><b>feat(patchouli): add ORSA landing masthead</b><s>the logo lands</s></div>
                     <div class="ap-cmt"><u>24 Apr</u><b>feat(patchouli): expand ORSA board packet entry</b><s>seat six goes dark</s></div>
                     <div class="ap-cmt"><u>24 Apr</u><b>fix(orsa): polish continuity artifacts</b><s>branch: feat/orsa-continuity-polish</s></div>
@@ -1041,7 +1208,16 @@ status: <b>no termination date</b></div>
                   sheltering in its buildings for hours. The logo on the crate was never explained
                   to them. They just got used to it.</p>
 
-                  <div class="ap-bud">
+                  <div class="ors bo">
+                    <div><em>Communication tower</em><p>A mast you climb in the open air. There is a terminal at the top and an archive sitting behind it.</p></div>
+                    <div><em>Monitoring station</em><p>Weather instruments still taking readings for nobody, and a trail leading away from them.</p></div>
+                    <div><em>Field camp</em><p>Tents and flags, with evacuation vehicles that were loaded and then never driven anywhere.</p></div>
+                    <div><em>Cargo drop pods</em><p>Supplies delivered on schedule, to people who had already gone. The schedule is the part that stings.</p></div>
+                    <div><em>Frozen town</em><p>Somewhere people lived. The front doors are still shut.</p></div>
+                    <div><em>Evacuation sirens</em><p>Infrastructure still announcing a departure that finished months before you got here.</p></div>
+                  </div>
+
+                  <div class="ap-bud bd">
                     <div><em>Communication tower</em>
                       <dl><dt>built</dt><dd>21 to 26 Mar</dd><dt>commits</dt><dd>6</dd></dl>
                       <p>A landmark chain rather than a building. There is a terminal at the top,
@@ -1074,7 +1250,7 @@ status: <b>no termination date</b></div>
                       That is the entire reason they are in the mod.</p></div>
                   </div>
 
-                  <div class="ap-gap">
+                  <div class="ap-gap bd">
                     <em>17 March to 3 April &middot; commits per structure</em>
                     <div class="ap-gbar"><u>Comms tower</u>
                       <span class="ap-gtrack"><b style="width:60%"></b></span><s>6</s></div>
@@ -1096,14 +1272,58 @@ status: <b>no termination date</b></div>
                   <p class="ap-p">Up to 27 March these were six separate props that happened to
                   share a logo. Then I wrote eleven words and they stopped being props.</p>
 
-                  <div class="ap-cmts">
+                  <p class="ap-p bo">What I wrote was a note tying the monitoring station's trail to
+                  the tower's archive. That is the moment the map stopped being decorated and
+                  started being evidence.</p>
+
+                  <div class="ap-cmts bd">
                     <div class="ap-cmt mark"><u>27 Mar</u><b>link monitoring station trail to tower archive</b><s>1 commit</s>
                       <p>The station's trail now leads somewhere, and the place it leads to has a
                       terminal with an archive sitting behind it. That is the moment the map stopped
                       being decorated and started being evidence.</p></div>
                   </div>
 
-                  <p class="ap-p">I would love to tell you the rest of it was planned. A commit named
+                  <div class="kit" id="tmKit">
+                    <p class="kit-t">Interactive &middot; the terminal at the top of the tower</p>
+                    <p class="kit-b">This is the lock. Pick one of the words on the board. The
+                    terminal answers with how many of its letters are already in the right place,
+                    counting from the left, and nothing else. Five tries.
+                    <span class="bi">Ported from <code>MonitoringTerminalPuzzle.java</code>, with
+                    every number loosened. The comparison is at the bottom.</span></p>
+
+                    <div class="tm">
+                      <div class="tm-scr">
+                        <div class="tm-head"><b>ORSA KERNEL v4.2.14-FRZN</b><i>MONITORING STN</i></div>
+                        <div class="tm-att">ATTEMPTS<span id="tmAtt"></span></div>
+                        <div class="tm-board" id="tmBoard"></div>
+                      </div>
+                      <div class="tm-side">
+                        <div class="tm-head"><b>OUTPUT</b><i>READ ONLY</i></div>
+                        <div class="tm-log" id="tmLog" role="log" aria-live="polite"></div>
+                        <div class="tm-st" id="tmSt">AWAITING INPUT</div>
+                      </div>
+                    </div>
+
+                    <div class="tm-arch" id="tmArch" hidden></div>
+
+                    <div class="kit-ctl">
+                      <button type="button" class="kit-btn" id="tmNew">New password</button>
+                    </div>
+
+                    <div class="tm-diff bd">
+                      <span class="h"></span><span class="h">In the mod</span><span class="h">Here</span>
+                      <span>Board</span><span>24 segments of 16</span><span>12 rows of 16</span>
+                      <span>Words</span><span>7</span><span>6</span>
+                      <span>Attempts</span><span>4</span><span>5</span>
+                      <span>Bracket pairs</span><span>5</span><span>4</span>
+                      <span>Brackets in the noise</span><span>yes, most are fakes</span><span>none, every pair is real</span>
+                      <span>Guessed words</span><span>logged, board unchanged</span><span>greyed out, score on the board</span>
+                    </div>
+
+                    <p class="kit-f" id="tmFoot"></p>
+                  </div>
+
+                  <p class="ap-p bd">I would love to tell you the rest of it was planned. A commit named
                   <em>final monitoring station pass</em> shares its date with passes three, four and
                   five. <em>town optimization pass 5</em> and <em>town pass 4</em> are both dated
                   1 April. <em>town final pass 2</em> is dated 2 April, and so is <em>town pass 7</em>.
@@ -1113,9 +1333,11 @@ status: <b>no termination date</b></div>
                   that already happened, to a town that already left, in a language nobody is left
                   to hear.</p>
 
-                  <p class="ap-p">Screenshots of all six are coming once I do a proper capture pass.
-                  For now the honest version is the dates and the counts, which is the part I would
-                  rather read anyway. What the towers were talking to is the next tab.</p>
+                  <p class="ap-p bd">Screenshots of all six are coming once I do a proper capture
+                  pass. For now the honest version is the dates and the counts, which is the part I
+                  would rather read anyway.</p>
+
+                  <p class="ap-p">What the towers were talking to is the next tab.</p>
 
                 </section>
 
@@ -1140,10 +1362,12 @@ status: <b>no termination date</b></div>
 
                   <p class="ap-p"><strong>The endgame exists because Vasquez wrote an appendix.</strong>
                   Project Lighthouse is seven relay satellites left in orbit before the evacuation,
-                  each listening on a transponder frequency. Three are still alive. To reach them you
-                  need to be below sea level, hold a signal for ninety minutes, have a clear vertical
-                  path, and run it on geothermal power. Those four constraints are a boss fight, and
-                  they are stated in a technical appendix rather than a quest log.</p>
+                  each listening on a transponder frequency. Three are still alive.</p>
+
+                  <p class="ap-pull">To reach them you need to be below sea level, hold a signal for
+                  ninety minutes, have a clear vertical path, and run it on geothermal power. Those
+                  four constraints are a boss fight, and they are stated in a technical appendix
+                  rather than a quest log.</p>
 
                   <div class="ap-term">PROJECT <b>LIGHTHOUSE</b> // relay status
 RS-01  <b>OFFLINE</b>   deorbited, phase 2
@@ -1164,17 +1388,23 @@ do from up here.</b></div>
                   feels haunted, and it cost me one line in a text file.</p>
 
                   <p class="ap-p">The ground directive on that manifest is the best piece of level
-                  design advice I have ever written by accident. <em>If the pit is still warm, build
-                  here. But the ground remembers fire.</em> It tells the player exactly where to put
-                  their base and exactly why they will regret it.</p>
+                  design advice I have ever written by accident.</p>
 
-                  <p class="ap-p">And underneath the manifest, in handwriting, somebody added: we
-                  left too many behind, use the heat, make it count, signed <strong>K</strong>.</p>
+                  <p class="ap-pull">If the pit is still warm, build here. But the ground remembers
+                  fire.</p>
+
+                  <p class="ap-p">It tells the player exactly where to put their base and exactly why
+                  they will regret it. And underneath the manifest, in handwriting, somebody added:
+                  we left too many behind, use the heat, make it count, signed <strong>K</strong>.</p>
+
+                  <p class="ap-h3">What the filing cabinet was for</p>
 
                   <p class="ap-p">I did not set out to make a mod about a bureaucracy. I set out to
                   make a mod about being cold. But a temperature number on a screen is a mechanic,
                   and a temperature number that somebody in Geneva approved with full knowledge of
                   what it would do is a story, and the second one costs about the same to build.</p>
+
+                  <p class="ap-h3">One thread I have not pulled</p>
 
                   <p class="ap-p">There is one thread through all of it I have deliberately not
                   pulled here. It is in the floor directory, it is in the sixth seat on the board, it
@@ -1911,5 +2141,325 @@ window.ORSA_POSTERS = {
     if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 80) mark();
   }
   doc.addEventListener('scroll', check, { passive: true });
+})();
+</script>
+
+<script>
+/* ================= the station terminal =================
+   the real one is MonitoringTerminalPuzzle.java and it is a fallout style
+   word hunt: twenty four segments, seven candidate words, four attempts, and
+   a noise field full of brackets that mostly go nowhere. it is hard on
+   purpose, because in the mod you are standing at the top of a tower in the
+   cold while you do it. on a web page there is no cold, so the difficulty is
+   just friction. this is the same puzzle with the numbers loosened.
+
+   what is not loosened: likeness() and the bucket walk that picks the
+   candidates are both transcribed line for line, because they are the reason
+   the puzzle is solvable at all rather than a coin toss. */
+(function () {
+  var board = document.getElementById('tmBoard');
+  if (!board) return;
+  var attEl = document.getElementById('tmAtt'), logEl = document.getElementById('tmLog'),
+      stEl = document.getElementById('tmSt'), archEl = document.getElementById('tmArch'),
+      newBtn = document.getElementById('tmNew'), footEl = document.getElementById('tmFoot');
+
+  // WORDS_5, verbatim. all eighteen of them, all weather.
+  var WORDS = ['CLOUD', 'FROST', 'STORM', 'GAUGE', 'RADAR', 'CHART', 'FRONT', 'WINDS',
+               'RAINS', 'DRIFT', 'POLAR', 'CLEAR', 'PROBE', 'GALES', 'SLEET', 'TRACK',
+               'PHASE', 'SNOWS'];
+  // the mod's GLYPHS includes brackets, so most of the pairs you can see are
+  // fakes. here they are stripped out, which means every bracket on the board
+  // is worth clicking. that is the single biggest thing making this easier.
+  var NOISE = '!@#$%^&*+=/?:;,.|~'.split('');
+  var OPEN = ['(', '[', '{', '<'], CLOSE = [')', ']', '}', '>'];
+  var PAGES = ['LIVE TELEMETRY', 'HISTORICAL DATA', 'NETWORK STATUS',
+               'INSTRUMENT STATUS', 'LOCAL EVENT LOGS', 'ORSA EMPLOYEE ONLY'];
+
+  var ROWS = 12, LEN = 16, MAXA = 5, WORDN = 6, PAIRN = 4, BASE = 0x0F40;
+  var pw, toks, att, over;
+
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function noise(n) {
+    var o = '';
+    for (var i = 0; i < n; i++) o += NOISE[rnd(NOISE.length)];
+    return o;
+  }
+
+  // MonitoringTerminalPuzzle.likeness, unchanged
+  function likeness(guess, password) {
+    var n = 0, max = Math.min(guess.length, password.length);
+    for (var i = 0; i < max; i++) if (guess.charAt(i) === password.charAt(i)) n++;
+    return n;
+  }
+
+  // the candidate walk. buckets by likeness, then round robins them in the
+  // order 5 0 4 1 3 2 so the board always carries a spread of near misses and
+  // total misses rather than six words that are all one letter apart.
+  function pick() {
+    var pool = WORDS.slice();
+    var word = pool.splice(rnd(pool.length), 1)[0];
+    var buckets = {};
+    pool.forEach(function (w) {
+      var l = likeness(w, word);
+      (buckets[l] = buckets[l] || []).push(w);
+    });
+    var order = [5, 0, 4, 1, 3, 2], sel = [word];
+    while (sel.length < WORDN) {
+      var added = false;
+      for (var i = 0; i < order.length; i++) {
+        var b = buckets[order[i]];
+        if (!b || !b.length) continue;
+        sel.push(b.pop());
+        added = true;
+        if (sel.length >= WORDN) break;
+      }
+      if (!added) break;
+    }
+    return { word: word, list: shuffle(sel) };
+  }
+
+  function log(cls, html) {
+    var d = document.createElement('div');
+    if (cls) d.className = cls;
+    d.innerHTML = html;
+    logEl.appendChild(d);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function paintAtt() {
+    var o = '';
+    for (var i = 0; i < MAXA; i++) o += i < att ? '\u2588' : '<u>\u2588</u>';
+    attEl.innerHTML = o;
+  }
+
+  function status(text, cls) {
+    stEl.textContent = text;
+    stEl.className = 'tm-st' + (cls ? ' ' + cls : '');
+  }
+
+  function paintStatus() {
+    status(att === 1 ? 'ONE ATTEMPT REMAINING' : att + ' ATTEMPTS REMAINING',
+           att <= 2 ? 'bad' : '');
+  }
+
+  function foot(state) {
+    if (state === 'win') {
+      footEl.innerHTML = '<b>The takeaway.</b> The terminal never lied to you. It '
+        + 'answered every question exactly, and it never once volunteered anything. '
+        + 'That is ORSA all the way through: completely honest, page by page, to '
+        + 'nobody who is still alive to ask.';
+    } else if (state === 'lose') {
+      footEl.innerHTML = '<b>Locked out.</b> The password was <b>' + pw + '</b>. In '
+        + 'the mod it locks like this too, and then quietly resets itself after a '
+        + 'while, which is the only kindness in the whole building.';
+    } else {
+      footEl.innerHTML = '<b>How to read it.</b> Likeness counts letters that are in '
+        + 'the right position, not letters the word happens to contain. Two words '
+        + 'scoring 2 and 3 tell you more together than either does alone. The '
+        + 'bracket pairs are free: one kind deletes a wrong word for you, the other '
+        + 'gives you your attempts back.';
+    }
+  }
+
+  function build() {
+    var got = pick();
+    pw = got.word;
+    toks = [];
+    got.list.forEach(function (w) { toks.push({ kind: 'w', s: w }); });
+
+    // two that remove a dud, two that hand the attempts back. the mod runs
+    // five pairs at two and three.
+    var rewards = shuffle(['dud', 'dud', 'reset', 'reset']);
+    for (var i = 0; i < PAIRN; i++) {
+      var len = 4 + rnd(3), k = rnd(OPEN.length);
+      toks.push({ kind: 'p', s: OPEN[k] + noise(len - 2) + CLOSE[k], reward: rewards[i] });
+    }
+
+    // one token per row, rows chosen at random, the rest left as noise
+    var slots = [];
+    for (i = 0; i < ROWS; i++) slots.push(i);
+    shuffle(slots);
+    var rows = [];
+    for (i = 0; i < ROWS; i++) rows[i] = null;
+    toks.forEach(function (t, n) { rows[slots[n]] = t; });
+
+    board.innerHTML = '';
+    rows.forEach(function (tok, r) {
+      var row = document.createElement('div');
+      row.className = 'tm-row';
+      var addr = document.createElement('u');
+      addr.textContent = '0x' + ('000' + (BASE + r * LEN).toString(16).toUpperCase()).slice(-4);
+      row.appendChild(addr);
+
+      function text(str) {
+        var sp = document.createElement('span');
+        sp.textContent = str;
+        row.appendChild(sp);
+      }
+      if (!tok) {
+        text(noise(LEN));
+      } else {
+        var off = rnd(LEN - tok.s.length + 1);
+        if (off) text(noise(off));
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'tm-tk';
+        b.textContent = tok.s;
+        b.addEventListener('click', function () { hit(tok); });
+        tok.el = b;
+        row.appendChild(b);
+        var rest = LEN - off - tok.s.length;
+        if (rest) text(noise(rest));
+      }
+      board.appendChild(row);
+    });
+
+    att = MAXA;
+    over = false;
+    paintAtt();
+    logEl.innerHTML = '';
+    log('', '<i>[  OK  ]</i> METEOROLOGICAL ARRAY ONLINE');
+    log('', '<i>[READY ]</i> TERMINAL AWAITING INPUT');
+    status('AWAITING INPUT', '');
+    archEl.hidden = true;
+    archEl.innerHTML = '';
+    foot(null);
+  }
+
+  function end(won) {
+    over = true;
+    toks.forEach(function (t) {
+      if (t.el && !t.el.classList.contains('spent') && !t.el.classList.contains('gone')) {
+        t.el.classList.add(t.s === pw && won ? 'hit' : 'gone');
+      }
+    });
+    if (won) {
+      status('ARCHIVE UNSEALED', 'good');
+      log('good', 'ACCESS GRANTED. Back room access restored.');
+      var html = '<em>ORSA WEATHER ARCHIVE &middot; ' + PAGES.length + ' PAGES</em><ol>';
+      PAGES.forEach(function (p, i) {
+        var last = i === PAGES.length - 1;
+        html += '<li' + (last ? ' class="lk"' : '') + '><span>' + p + '</span><s>'
+             +  (last ? 'SECOND PASSWORD REQUIRED' : 'OPEN') + '</s></li>';
+      });
+      archEl.innerHTML = html + '</ol>';
+      archEl.hidden = false;
+      foot('win');
+    } else {
+      status('TERMINAL LOCKED', 'bad');
+      log('warn', 'TERMINAL LOCKED. Automatic reset pending.');
+      foot('lose');
+    }
+  }
+
+  function hit(tok) {
+    if (over || tok.used || tok.removed) return;
+
+    if (tok.kind === 'p') {
+      tok.used = true;
+      tok.el.classList.add('gone');
+      tok.el.textContent = new Array(tok.s.length + 1).join('.');
+      // a dud remover with no duds left to remove would be a dead click, so
+      // it falls back to the attempts instead of doing nothing.
+      var live = toks.filter(function (t) {
+        return t.kind === 'w' && t.s !== pw && !t.used && !t.removed;
+      });
+      if (tok.reward === 'dud' && live.length) {
+        var d = live[rnd(live.length)];
+        d.removed = true;
+        d.el.classList.add('gone');
+        d.el.textContent = new Array(d.s.length + 1).join('.');
+        log('good', 'DUD REMOVED. <b>' + d.s + '</b> was never it.');
+      } else {
+        att = MAXA;
+        paintAtt();
+        log('good', 'ALLOWANCE RESTORED. Five attempts.');
+        paintStatus();
+      }
+      return;
+    }
+
+    if (tok.s === pw) {
+      tok.used = true;
+      log('good', '<b>&gt; ' + tok.s + '</b> <i>5 of 5</i>');
+      end(true);
+      return;
+    }
+
+    var lk = likeness(tok.s, pw);
+    tok.used = true;
+    tok.el.classList.add('spent');
+    tok.el.setAttribute('data-lk', lk);
+    att--;
+    paintAtt();
+    log('', '<b>&gt; ' + tok.s + '</b> <i>' + lk + ' of 5</i>');
+    if (att <= 0) { end(false); return; }
+    paintStatus();
+  }
+
+  newBtn.addEventListener('click', build);
+  build();
+})();
+</script>
+
+<script>
+/* ================= the reading layer switch =================
+   same control and same storage key as the other chapters, so whichever side
+   you picked follows you between them. the default is baked into the markup
+   so the page is correct before this runs at all. */
+(function () {
+  var KEY = 'fd-layer';
+  var seg = document.querySelector('.rl-seg');
+  if (!seg) return;
+  var btns = [].slice.call(seg.querySelectorAll('button'));
+
+  // a pane can lose everything it had to the build layer. a tab that opens
+  // onto nothing reads as broken, so the pane says what is behind the switch
+  // instead of showing an empty box. a pane may name its own wording.
+  function stubs() {
+    [].slice.call(document.querySelectorAll('.ap-pane')).forEach(function (pane) {
+      var stub = pane.querySelector('.rl-stub');
+      var real = [].slice.call(pane.children).some(function (el) {
+        return el !== stub && getComputedStyle(el).display !== 'none';
+      });
+      if (real) { if (stub) stub.hidden = true; return; }
+      if (!stub) {
+        stub = document.createElement('p');
+        stub.className = 'rl-stub';
+        stub.textContent = pane.getAttribute('data-stub')
+                         || 'This section is all workings. '
+                          + 'Switch to How I built it to read it.';
+        pane.appendChild(stub);
+      }
+      stub.hidden = false;
+    });
+  }
+
+  function apply(layer, save) {
+    document.body.classList.toggle('build', layer === 'build');
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-layer') === layer;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    stubs();
+    if (save) { try { localStorage.setItem(KEY, layer); } catch (e) {} }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-layer'), true);
+    });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  apply(saved === 'build' ? 'build' : 'story', false);
 })();
 </script>
