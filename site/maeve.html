@@ -457,6 +457,55 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
   .ap-dstep b { font-size:11.5px; }
   .ap-deck { margin-top:34px; }
 }
+
+  /* ---- reading layers -------------------------------------------------
+     the lightest pass on the site, on purpose. every other chapter is a
+     record of something that exists, so the split there is the game
+     against the making of it. this page is a specification for a thing
+     that is barely started, which means almost all of it is what she is
+     and what she does to you, and only a little of it is class names and
+     branch rules. so one section goes behind the switch and the rest
+     stays where it is. same class and same storage key as the chapters. */
+  body:not(.build) .bd { display:none !important; }
+  /* the inline build only span is .bx here, not .bi, because this page
+     already owns .bi: it is the belief instrument in section 05. */
+  body:not(.build) .bx { display:none !important; }
+  body.build .bo { display:none !important; }
+
+  .rl { display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+        margin:34px 0 22px; }
+  .rl-seg { display:flex; gap:2px; padding:2px; border-radius:8px;
+            background:#0a0d11; border:1px solid #1a212a; flex:0 0 auto; }
+  .rl-seg button { -webkit-appearance:none; appearance:none; border:0;
+                   cursor:pointer; background:transparent; color:#6c7883;
+                   font-family:var(--mono); font-size:10.5px;
+                   letter-spacing:.12em; text-transform:uppercase;
+                   padding:7px 15px; border-radius:6px;
+                   transition:color .18s, background .18s; }
+  .rl-seg button:hover { color:#b8c3cb; }
+  /* the control keeps the site ice even here, where the deck is purple.
+     it is the same switch on every page and it should look like it. */
+  .rl-seg button.on { color:#0b0f13; background:#7dd3fc; }
+  .rl-n { font-size:11.5px; line-height:1.5; color:#6c7883; }
+  .rl-stub { font-size:13px; line-height:1.6; color:#6c7883;
+             border:1px dashed #222b35; border-radius:8px; padding:16px 18px;
+             margin-top:6px; }
+
+  /* the three line summary. this is the one chapter that is not a record,
+     so the first card says so outright rather than describing a system. */
+  .sm3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+         background:#1a212a; border:1px solid #1a212a; border-radius:8px;
+         overflow:hidden; margin:0 0 6px; }
+  .sm3 > div { background:#0d1116; padding:14px 16px; }
+  .sm3 em { display:block; font-family:var(--mono); font-size:9px;
+            letter-spacing:.13em; text-transform:uppercase; color:#5a6672;
+            font-style:normal; margin-bottom:7px; }
+  .sm3 p { font-size:13px; line-height:1.55; color:#b9c4cc; }
+
+  @media (max-width:640px) {
+    .sm3 { grid-template-columns:1fr; }
+    .rl-n { flex:1 1 100%; }
+  }
 </style>
 
 <div class="ap">
@@ -493,12 +542,27 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
           <aside class="mv-side"><i></i><p>a promise with a deadline attached. that part is accurate. the deadline is the half that belongs to me.</p></aside>
           <p class="ap-p">I put off writing this page for a long time, because a design document is not an achievement. It is a promise with a deadline attached to it. But leaving it out would have been dishonest in a way that bothered me more. The whole second half of Frozen Dawn is shaped by a system that has barely started to exist, and a journal that only shows the finished parts is a sales page, not a record.</p>
 
+          <div class="ap-h3">What is written down here</div>
           <p class="ap-p">So: this is the blueprint, and construction started this week in one corner of it. The laws it has to obey, the two brains it runs on, the one door it walks through, and the seven objects it is built from, one of which now exists. Where the document says a value is locked, I have said so. Where I still do not know the answer, I have said that too.</p>
 
           <aside class="mv-side"><i></i><p>you will read the next line twice. here, and again at the bottom of the last section. i am telling you first, so that you notice.</p></aside>
           <div class="ap-pull">The player spends the apocalypse learning how Frozen Dawn works. Once Maeve wakes, Frozen Dawn begins learning how the player works.</div>
 
           <p class="ap-p">That sentence has been the first line of the specification since the day I started it. Everything below is the machinery for making it true without cheating.</p>
+
+          <div class="sm3">
+            <div><em>What it is</em><p>The one chapter that is not a record. It is the design document for the thing the other seven chapters are pointed at, written in full before any of it existed.</p></div>
+            <div><em>What you do with it</em><p>Section 05 has her running. Feed her sightings until she commits to a guess about you, then contradict her while the bet is still open and watch what it costs her.</p></div>
+            <div><em>Why it is odd</em><p>She is allowed to be wrong, in public, on a timer. Nearly every rule here exists to stop her being right too often to be readable.</p></div>
+          </div>
+
+          <div class="rl">
+            <div class="rl-seg" role="group" aria-label="Reading layer">
+              <button type="button" class="on" data-layer="story" aria-pressed="true">The game</button>
+              <button type="button" data-layer="build" aria-pressed="false">How I built it</button>
+            </div>
+            <span class="rl-n">Left is what she is and what she does to you. Right adds the class names, the developer dump and the order it gets written in. Less is hidden here than anywhere else in the journal, because on this page almost nothing has been built yet.</span>
+          </div>
 
           <div class="ap-deck" id="apDeck">
             <div class="ap-dtop">
@@ -575,6 +639,7 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
 
   <p class="ap-p">Activation sits at the late end of Phase 6, gated on Major Hearths. It is not a boss trigger and it is not an item pickup. It is a state change on the region that cannot be undone, reloaded around, or walked back.</p>
 
+  <div class="ap-h3">How you are told</div>
   <p class="ap-p">The signal is a Thaeven transmission. Not text on screen, not a cutscene: the player receives the Orsha sensation of a door closing, delivered in their own inner voice. By this point in the game the player has been reading Thaeven for hours in the archive, which means the moment lands as comprehension rather than as a notification.</p>
 
   <div class="ap-orsa">
@@ -597,7 +662,7 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
 
   <p class="ap-p">So the unit of memory is a belief record. Every one of them carries its own confidence, its own evidence list, and its own expiry.</p>
 
-  <div class="ap-src">
+  <div class="ap-src bd">
     <summary>A belief record, as the dump prints it <em>Section 9.1</em></summary>
     <div class="ap-code"><c>// approach.roof</c>
 <k>belief</k>        the player enters from above
@@ -611,6 +676,8 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
               HEARTH_WITNESS   day 38  roof breach
               ARCHITECT_SIGHT  day 41  rope anchor</div>
   </div>
+
+  <div class="ap-note bo"><b>One of them, in words.</b> She thinks you come in from above, and she is about two thirds sure of it. Three things put it there: an Architect saw you on the east ridge on day 34, a hearth saw the roof breached on day 38, an Architect found a rope anchor on day 41. Nothing has contradicted it yet. If nothing new supports it by day 61 she starts letting it go.</div>
 
   <p class="ap-p">Staleness onset is a locked value: twenty in-game days after the last supporting observation, a belief begins to decay. It is not deleted, it is demoted. She keeps believing you come in through the roof for a while after you have stopped, which is exactly the behaviour a real opponent has and exactly the behaviour that makes deliberate disinformation worth the player&rsquo;s time.</p>
 
@@ -631,9 +698,10 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
 
   <p class="ap-p">A director that only ever acts once it is certain is indistinguishable from a director that can read the save file. The player never sees it think, they only see it be right. So the rule is the opposite: once confidence in a belief crosses <strong>0.75</strong>, she has to act on it early, visibly, and before it is confirmed, and then she has to hold that commitment for about twenty seconds whatever happens next.</p>
 
+  <div class="ap-h3">Why she has to hold it</div>
   <p class="ap-p">Commitment is sticky on purpose. If she could drop a bet the instant it looked wrong, the player would never get to watch her be wrong, and being watched being wrong is the entire point.</p>
 
-  <p class="ap-p">Below is the developer dump from section 9.15, wired up. Feed her sightings and watch the confidence climb. Cross the threshold and she commits out loud. Then contradict her while the commitment is still live.</p>
+  <p class="ap-p"><span class="bx">Below is the developer dump from section 9.15, wired up.</span><span class="bo">Below she is actually running.</span> Feed her sightings and watch the confidence climb. Cross the threshold and she commits out loud. Then contradict her while the commitment is still live.</p>
 
   <div class="bi ap-wide" id="biRoot">
     <div class="bi-top">
@@ -691,8 +759,10 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
 
   <p class="ap-p">I went back and forth on this one for a long time, because the obvious version is a pool. Give her a meter, make her spend it, let it refill. It reads well on paper and it is wrong for two reasons.</p>
 
+  <div class="ap-h3">Why not a meter</div>
   <p class="ap-p">The first is that a pool is farmable. Anything with a refill rate turns into a timing puzzle, and within a week somebody has worked out how to drain her and walk past. The second is that it is off fiction. A hive does not run out of attention. It runs out of <em>places to put it</em>. So attention is a <strong>concurrency cap</strong>, not a currency: a fixed number of slots, always full, always doing something, and taking an interest in you means dropping an interest in something else.</p>
 
+  <div class="ap-h3">What she stops watching</div>
   <p class="ap-p">Which raises the only question that matters. When every slot is busy and something new happens, what does she stop watching? The answer is ranked by legibility, not by value. She drops the things whose loss the player can most easily read.</p>
 
   <div class="ap-pass ap-wide">
@@ -711,7 +781,8 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
   </div>
 </section>
 
-<section class="ap-pane" role="tabpanel" data-p="6" aria-label="Seven objects and a name">
+<section class="ap-pane" role="tabpanel" data-p="6" aria-label="Seven objects and a name" data-stub="This one is the class list: seven objects, a three hundred line cap on the one that holds them, and the developer dump they print. The part of it worth knowing either way is that there is no Maeve in the game files at all. There is a class that coordinates the hive, and a people who feel that coordination from the inside and gave it a name. Switch to How I built it for the rest.">
+  <div class="bd">
   <p class="ap-lede">There is a strict limit on how much of this is allowed to live in one class, and it is about three hundred lines.</p>
 
   <p class="ap-p">Everything above is a lot of machinery, and there is a very ordinary failure mode waiting at the end of it: one enormous god object called <span class="ap-code">MaeveDirector</span> that does belief storage, inference, attention, commitment, planning, strategy selection and logging, and that nobody, me included, can safely change a year from now.</p>
@@ -748,6 +819,7 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
   <div class="ap-note">
     <p>And this is the one place in the journal where the name appears on purpose. <b>Dataminers finding <span class="ap-code">MaeveDirector</span> is the payoff.</b> There is no entity called Maeve in the game files, no dialogue, no boss bar, no health value. There is a class that coordinates the hive, and a people who feel that coordination from the inside and gave it a name.</p>
   </div>
+  </div>
 </section>
 
 <section class="ap-pane" role="tabpanel" data-p="7" aria-label="One of eight slices exists">
@@ -775,6 +847,7 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
 
   <p class="ap-p">One capability was designed in full and then deliberately cut. Maeve could track which counters you have already seen, and then pick a familiar one on purpose to bait a prediction before switching to something else. A feint.</p>
 
+  <div class="ap-h3">Why deception is not allowed</div>
   <p class="ap-p">It is cut because <strong>a feint is definitionally illegible</strong>. Its whole function is to be misread. Every other counter in this system telegraphs: a changed search pattern, preemptive cover, a held position. Deception cannot, and when it works the player has no way to tell the difference between <em>she deceived me</em> and <em>the game did something random and I lost</em>. Small fraction of the emotional payoff, large share of the quality assurance surface, highest risk of the whole thing reading as unfair. Law 02 wins.</p>
 
   <p class="ap-p">Four things are still genuinely unresolved, and I would rather leave them written down as questions than pretend the document is finished:</p>
@@ -786,10 +859,13 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
     <div class="ap-cmt"><b>Twenty seconds</b><span>The commitment hold is the number this whole chapter rests on and it is currently a guess. It has never been tested against real encounter pacing.</span></div>
   </div>
 
-  <p class="ap-p">There is a branch contract, and it was written long before there was any work for it to govern. Maeve gets a protected integration branch cut from a clean <span class="ap-code">main</span>, one short lived branch per slice, pull requests that target the integration branch and never the mainline, and a merge bar that includes the exit criterion from the list above. Notion records the contract. GitHub enforces it. The first branch cut under it is <span class="ap-code">feat/maeve-belief-store</span>.</p>
+  <div class="ap-h3 bd">The branch contract</div>
+  <p class="ap-p bd">There is a branch contract, and it was written long before there was any work for it to govern. Maeve gets a protected integration branch cut from a clean <span class="ap-code">main</span>, one short lived branch per slice, pull requests that target the integration branch and never the mainline, and a merge bar that includes the exit criterion from the list above. Notion records the contract. GitHub enforces it. The first branch cut under it is <span class="ap-code">feat/maeve-belief-store</span>.</p>
 
+  <div class="ap-h3">Why it was written first</div>
   <p class="ap-p">I wrote all of that before a single line of it existed, which was either good discipline or a very elaborate way of not starting. Probably both, and it is no longer hypothetical either way. I have built enough of this mod now to know which parts of it hurt, and every rule on this page is a scar from something earlier in this journal: the Architect that knew too much, the systems that were clever in ways nobody could see, the week I spent tuning four numbers at once and could not tell you afterwards which one had helped.</p>
 
+  <div class="ap-h3">Where that leaves it</div>
   <p class="ap-p">So this chapter is still mostly a promise rather than a record. The rest of the journal is what I built. This is what I am going to build, written down carefully enough that a year from now I will not be able to pretend I meant something else. What changed this week is that the document finally has something to be checked against.</p>
 
   <div class="ap-pull">The player spends the apocalypse learning how Frozen Dawn works. Once Maeve wakes, Frozen Dawn begins learning how the player works.</div>
@@ -1312,5 +1388,80 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
   });
 
   draw();
+})();
+</script>
+
+<script>
+/* ================= the reading layer switch =================
+   same control and same storage key as the chapters, so whichever side you
+   picked follows you here. the lightest pass of the eight: one section of
+   eight goes behind the switch, because this chapter is a specification for
+   a thing that barely exists and almost all of it is what she is rather than
+   how she is written. the default is baked into the markup, so the page is
+   correct before this runs at all. the inline build only class here is .bx,
+   not .bi, because .bi is already the belief instrument. */
+(function () {
+  var KEY = 'fd-layer';
+  var seg = document.querySelector('.rl-seg');
+  if (!seg) return;
+  var btns = [].slice.call(seg.querySelectorAll('button'));
+
+  function stubs() {
+    [].slice.call(document.querySelectorAll('.ap-pane')).forEach(function (pane) {
+      var stub = pane.querySelector('.rl-stub');
+      var real = [].slice.call(pane.children).some(function (el) {
+        return el !== stub && getComputedStyle(el).display !== 'none';
+      });
+      if (real) { if (stub) stub.hidden = true; return; }
+      if (!stub) {
+        stub = document.createElement('p');
+        stub.className = 'rl-stub';
+        stub.textContent = pane.getAttribute('data-stub')
+                         || 'This section is all workings. '
+                          + 'Switch to How I built it to read it.';
+        pane.appendChild(stub);
+      }
+      stub.hidden = false;
+    });
+  }
+
+  /* the scroll reveal observer never saw a block that was hidden when it
+     armed, so one arriving from behind the switch can land here still at
+     opacity zero. anything already at or above the fold is behind the
+     reader and has to be set outright. anything still below keeps its
+     reveal and animates in normally when it is scrolled to. */
+  function rescue() {
+    var sc = document.querySelector('.ap-doc');
+    if (!sc) return;
+    var lim = sc.getBoundingClientRect().bottom;
+    [].slice.call(document.querySelectorAll('.ap-rv')).forEach(function (el) {
+      if (getComputedStyle(el).display === 'none') return;
+      if (el.getBoundingClientRect().top > lim) return;
+      el.classList.remove('ap-rv');
+      el.classList.add('set');
+    });
+  }
+
+  function apply(layer, save) {
+    document.body.classList.toggle('build', layer === 'build');
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-layer') === layer;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    stubs();
+    rescue();
+    if (save) { try { localStorage.setItem(KEY, layer); } catch (e) {} }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-layer'), true);
+    });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  apply(saved === 'build' ? 'build' : 'story', false);
 })();
 </script>
