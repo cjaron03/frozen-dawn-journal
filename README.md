@@ -8,7 +8,10 @@ Mod repo: https://github.com/cjaron03/frozen-dawn
 ## Layout
 
     site/       the pages themselves, hand written HTML
-    pipeline/   data extraction and build scripts
+    pipeline/   data extraction, and the numbers the pages read
+    tools/      the build and the checks
+    preview/    the built site, what actually gets served
+    docs/       design documents and decision records
 
 ## site/
 
@@ -33,6 +36,20 @@ Numbers shown on the site are read out of the real mod source rather
 than retyped, so PhaseManager.java and ChunkCatchUpManager.java here
 are reference copies, not a second implementation.
 
+## Licence
+
+The mod is one thing and the journal is another, so they are licensed
+separately.
+
+This repository is the writing, the artwork and the site design, and it is
+licensed under Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+International. See LICENSE for the legal code, or
+https://creativecommons.org/licenses/by-nc-sa/4.0/ for the summary. In
+short: reuse it with credit, share changes on the same terms, and not
+commercially.
+
+The mod itself lives in cjaron03/frozen-dawn under LGPL-3.0.
+
 ## Status
 
-Work in progress. Not yet deployed.
+Live at https://frozendawn.jaronc.com. Still being written.
