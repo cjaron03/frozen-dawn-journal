@@ -1641,6 +1641,26 @@
     });
   }
 
+  /* the scroll reveal observer watches a block that is hidden behind the
+     switch, but a hidden block has no box, so it never intersects and it is
+     never landed. once the switch shows it, one that is still below the fold
+     intersects on the next scroll and rises normally. one that is already at
+     or above the fold is behind the reader and will never intersect again,
+     so it arrives from behind the switch still at opacity zero. set those
+     outright. */
+  function rescue() {
+    var sc = document.querySelector('.ap-doc');
+    if (!sc) return;
+    var lim = sc.getBoundingClientRect().bottom;
+    [].slice.call(document.querySelectorAll('.ap-rv')).forEach(function (el) {
+      if (getComputedStyle(el).display === 'none') return;
+      if (el.classList.contains('in') || el.classList.contains('set')) return;
+      if (el.getBoundingClientRect().top > lim) return;
+      el.classList.remove('ap-rv');
+      el.classList.add('set');
+    });
+  }
+
   function apply(layer, save) {
     document.body.classList.toggle('build', layer === 'build');
     btns.forEach(function (b) {
@@ -1649,6 +1669,7 @@
       b.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
     stubs();
+    rescue();
     if (save) { try { localStorage.setItem(KEY, layer); } catch (e) {} }
   }
 
