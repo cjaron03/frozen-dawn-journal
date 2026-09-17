@@ -156,13 +156,12 @@ def card():
         gd.ellipse([cx - rad, cy - rad, cx + rad, cy + rad], fill=SUN + (a,))
     im = Image.alpha_composite(im, glow.filter(ImageFilter.GaussianBlur(30)))
     d = ImageDraw.Draw(im)
-    d.ellipse([cx - 18, cy - 18, cx + 18, cy + 18], fill=SUN + (240,))
-
     # the drift path. it leaves, and it does not come back.
     pts = bezier((cx, cy), (440, 128), (790, 142), (1152, 268))
     for i in range(len(pts) - 1):
         f = i / (len(pts) - 1)
         d.line([pts[i], pts[i + 1]], fill=PATH + (int(34 + 165 * f),), width=3)
+    d.ellipse([cx - 18, cy - 18, cx + 18, cy + 18], fill=SUN + (240,))
 
     # earth, three quarters of the way out and most of the way frozen.
     ex, ey = pts[int(0.735 * (len(pts) - 1))]
@@ -189,6 +188,51 @@ def card():
     im.convert("RGB").save(OUT / "social-card.png", optimize=True)
 
 
+def banner():
+    """1200x260, for the mod's README. Same scene, laid on its side.
+
+    The README shows it at width 900, and the whole image is one link, so
+    the only job the type has is to say what it opens.
+    """
+    W, H = 1200, 260
+    im = Image.new("RGBA", (W, H), BG + (255,))
+
+    cx, cy = 52, 34
+    glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow)
+    for rad, a in ((200, 8), (130, 13), (76, 21), (40, 46)):
+        gd.ellipse([cx - rad, cy - rad, cx + rad, cy + rad], fill=SUN + (a,))
+    im = Image.alpha_composite(im, glow.filter(ImageFilter.GaussianBlur(26)))
+    d = ImageDraw.Draw(im)
+    # the arc is routed high over the type, so the words keep the left side
+    # and the planet keeps the right.
+    pts = bezier((cx, cy), (380, 2), (770, 34), (1148, 156))
+    for i in range(len(pts) - 1):
+        f = i / (len(pts) - 1)
+        d.line([pts[i], pts[i + 1]], fill=PATH + (int(30 + 165 * f),), width=3)
+    d.ellipse([cx - 12, cy - 12, cx + 12, cy + 12], fill=SUN + (240,))
+
+    ex, ey = pts[int(0.80 * (len(pts) - 1))]
+    size = 96
+    im.alpha_composite(earth(size, 0.58), (int(ex - size / 2), int(ey - size / 2)))
+    d = ImageDraw.Draw(im)
+
+    x = 62
+    fb, fi = font("SFNS.ttf", 30), font("SFNS.ttf", 18)
+    w = tracked(d, (x, 92), "Frozen Dawn", fb, HEAD)
+    tracked(d, (x + w + 16, 103), "DEV JOURNAL", fi, MUTED, 1.2)
+
+    fs = font("SFNS.ttf", 21)
+    d.text((x, 140), "535 commits, eight chapters, and a thing that learned to think.",
+           font=fs, fill=(150, 161, 170))
+
+    fm = font("Menlo.ttc", 15)
+    tracked(d, (x, 186), "cjaron03.github.io/frozen-dawn-journal", fm, ICE, 0.7)
+
+    OUT.mkdir(parents=True, exist_ok=True)
+    im.convert("RGB").save(OUT / "journal-banner.png", optimize=True)
+
+
 def icons():
     OUT.mkdir(parents=True, exist_ok=True)
     # a touch further into the freeze than the card, so the caps still read
@@ -203,6 +247,7 @@ def icons():
 
 if __name__ == "__main__":
     card()
+    banner()
     icons()
     for f in sorted(OUT.glob("*.png")):
         print(f"  {f.relative_to(ROOT)}  {f.stat().st_size // 1024}K")
