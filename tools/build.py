@@ -36,6 +36,44 @@ UNLISTED = [
 
 TITLE = "Frozen Dawn"
 
+# where the built site actually lives. og:image has to be absolute, because
+# the machine reading it is not the browser and has no page to resolve
+# against.
+BASE = "https://cjaron03.github.io/frozen-dawn-journal/"
+
+# one line per page, for the search result and for the card that appears
+# when someone pastes the link into chat.
+DESC = {
+    "index.html": "A dev journal for Frozen Dawn, a rogue planet survival mod. "
+                  "535 commits, eight chapters, and a thing that learned to think.",
+    "chapter-1.html": "Building Frozen Dawn's six phase collapse: vacuum, cold, "
+                      "snow, and a chunk loader that had to keep up with a dying world.",
+    "architect.html": "How the Architect learned to think. The decision loop, the "
+                      "mistakes it made, and a simulation you can run yourself.",
+    "chapter-3.html": "ORSA promised continuity and delivered an evacuation. The "
+                      "corporate layer of Frozen Dawn, and the breadcrumbs it left.",
+    "chapter-4.html": "Heaters, capacitors, insulated glass and sealed rooms. Every "
+                      "system the player has for holding one room above freezing.",
+    "chapter-5.html": "Frostbitten, Hollows, Mimics and Frostmites. What kinds of "
+                      "things survive when the world itself turns hostile.",
+    "chapter-6.html": "Hearths, the Returned, Thaeven and Maeve. ORSA left. "
+                      "Humanity left. They stayed.",
+    "chapter-7.html": "Warmth begins as life and ends as fuel. Building a way off a "
+                      "dead planet, and what home turns out to mean.",
+    "director.html": "A chapter of the Frozen Dawn dev journal.",
+}
+
+# the hidden chapter is reachable by anyone who types the address, which is
+# fine. it should not turn up in a search for it, which is the difference
+# between a secret and a listing.
+NOINDEX = {"director.html"}
+
+def esc(t: str) -> str:
+    """These land inside double quoted attributes, so they get escaped."""
+    return (t.replace("&", "&amp;").replace("<", "&lt;")
+             .replace(">", "&gt;").replace('"', "&quot;"))
+
+
 # leading <h2>...</h2> then <p class="subtitle">...</p>, both my annotations.
 ANNOT = re.compile(r'\A\s*<h2>.*?</h2>\s*<p class="subtitle">.*?</p>\s*', re.S)
 
@@ -60,7 +98,13 @@ def nav_html(current: str) -> str:
 
 def wrap(shell: str, title: str, current: str, body: str) -> str:
     # the homepage supplies its own masthead, so it hides the shared site bar.
-    return (shell.replace("__TITLE__", title)
+    robots = ('<meta name="robots" content="noindex">\n'
+              if current in NOINDEX else "")
+    return (shell.replace("__TITLE__", esc(title))
+                 .replace("__DESC__", esc(DESC.get(current, DESC["index.html"])))
+                 .replace("__URL__", BASE + ("" if current == "index.html" else current))
+                 .replace("__BASE__", BASE)
+                 .replace("__ROBOTS__", robots)
                  .replace("__BODYCLASS__", "home" if current == "index.html" else "")
                  .replace("__NAV__", nav_html(current))
                  .replace("__BODY__", body))
@@ -71,6 +115,11 @@ def main() -> int:
     if OUT.exists():
         shutil.rmtree(OUT)
     OUT.mkdir(parents=True)
+
+    # the icons and the social card, drawn by tools/art/make_icons.py.
+    assets = SITE / "assets"
+    if assets.is_dir():
+        shutil.copytree(assets, OUT / "assets")
 
     built, skipped, kept_notes = [], [], []
 

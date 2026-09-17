@@ -96,7 +96,20 @@ else:
                                           f"{r.stderr.strip().splitlines()[0]}")
 
 
-# ---- 6. the build produced something -------------------------------------
+# ---- 6. the icons and the card actually reached the build ----------------
+# the shell references these by relative path, so a missing copy step gives
+# every page a blank tab icon and every pasted link a blank card, and the
+# pages themselves still look perfectly fine locally.
+for f in sorted(OUT.glob("*.html")):
+    s = f.read_text(encoding="utf-8")
+    for ref in set(re.findall(r'(?:href|content)="(?:[^"]*/)?(assets/[^"]+)"', s)):
+        if not (OUT / ref).exists():
+            fail("missing asset", f"{f.name} references {ref}")
+    for ph in re.findall(r'__[A-Z]+__', s):
+        fail("placeholder left unfilled", f"{f.name}: {ph}")
+
+
+# ---- 7. the build produced something -------------------------------------
 if not (OUT / "index.html").exists():
     fail("missing", "preview/index.html")
 if len(have) < 8:
