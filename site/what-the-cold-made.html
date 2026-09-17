@@ -386,6 +386,49 @@
   .ap-code { font-size:10.5px; }
   .ap-replay { right:8px; bottom:8px; font-size:9px; padding:6px 10px; }
 }
+
+  /* ---- reading layers -------------------------------------------------
+     the page carries two audiences. story is the world, the rules a player
+     meets, and why they are the way they are. build adds the source, the
+     commits and the notes only someone who might write this code would
+     check. one class on the body, so switching costs nothing at read time.
+     the hide rule is body:not(.build) rather than a display on .bd itself,
+     because .bd lands on grids and details as well as paragraphs and an
+     authored display:block would flatten them. */
+  body:not(.build) .bd { display:none !important; }
+  body:not(.build) .bi { display:none !important; }
+  body.build .bo { display:none !important; }
+
+  .rl { display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+        margin:0 0 24px; }
+  .rl-seg { display:flex; gap:2px; padding:2px; border-radius:8px;
+            background:#0a0d11; border:1px solid #1a212a; flex:0 0 auto; }
+  .rl-seg button { -webkit-appearance:none; appearance:none; border:0;
+                   cursor:pointer; background:transparent; color:#6c7883;
+                   font-family:var(--mono); font-size:10.5px;
+                   letter-spacing:.12em; text-transform:uppercase;
+                   padding:7px 15px; border-radius:6px;
+                   transition:color .18s, background .18s; }
+  .rl-seg button:hover { color:#b8c3cb; }
+  .rl-seg button.on { color:#0b0f13; background:#7dd3fc; }
+  .rl-n { font-size:11.5px; line-height:1.5; color:#6c7883; }
+  .rl-stub { font-size:13px; line-height:1.6; color:#6c7883;
+             border:1px dashed #222b35; border-radius:8px; padding:16px 18px; }
+
+  /* the three line summary. enough to decide whether to read the chapter. */
+  .sm3 { display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+         background:#1a212a; border:1px solid #1a212a; border-radius:8px;
+         overflow:hidden; margin:0 0 26px; }
+  .sm3 > div { background:#0d1116; padding:14px 16px; }
+  .sm3 em { display:block; font-family:var(--mono); font-size:9px;
+            letter-spacing:.13em; text-transform:uppercase; color:#5a6672;
+            font-style:normal; margin-bottom:7px; }
+  .sm3 p { font-size:13px; line-height:1.55; color:#b9c4cc; }
+
+  @media (max-width:640px) {
+    .sm3 { grid-template-columns:1fr; }
+    .rl-n { flex:1 1 100%; }
+  }
 </style>
 
 <div class="ap">
@@ -402,20 +445,44 @@
         <h1 class="ap-title">What the Cold Made</h1>
 
         <div class="ap-rest">
-          <p class="ap-stand">Chapter four was the heater. This one is everything that noticed you built it. Five species landed in thirteen days, and not one of them was designed as a monster. They were designed as answers to the same question the player is asking: where is the last warm thing, and what do I have to survive to reach it.</p>
+          <p class="ap-stand">Chapter four was the heater. This one is everything that noticed you built it. Five creatures,<span class="bi"> all of them shipped inside thirteen days,</span> and not one of them was designed as a monster. They were designed as answers to the same question you are asking: where is the last warm thing, and what do I have to survive to reach it.</p>
 
-          <div class="ap-stats ap-wide">
+          <div class="rl">
+            <div class="rl-seg" role="group" aria-label="Reading layer">
+              <button type="button" class="on" data-layer="story" aria-pressed="true">The game</button>
+              <button type="button" data-layer="build" aria-pressed="false">How I built it</button>
+            </div>
+            <span class="rl-n">Left is the five things that live out there. Right adds the code, the commits and the thirteen days.</span>
+          </div>
+
+          <div class="sm3">
+            <div><em>What changed</em><p>Five creatures arrived, and every one of them is built around your fire. Four of them burn if they get too close. One of them sits on it.</p></div>
+            <div><em>What you do with it</em><p>Let the heater do the work. Most of them will kill themselves reaching you. The trick is knowing which ones will not.</p></div>
+            <div><em>Why it is odd</em><p>The most dangerous thing here cannot hurt you at all. It has no attack. It climbs on, holds you still, and lets the cold finish it.</p></div>
+          </div>
+
+          <div class="ap-stats ap-wide bo">
+            <div><b>5</b><span>creatures, and every one of them is built around your fire</span></div>
+            <div><b>0</b><span>damage the Hollow deals, ever. It does not need any</span></div>
+            <div><b>8</b><span>blocks out that the Hollow starts to burn, further than anything else</span></div>
+            <div><b>16</b><span>blocks the Returned will cross to put your fire out</span></div>
+            <div><b>30</b><span>seconds a Mimic will stand still and watch you</span></div>
+            <div><b>10</b><span>Frostmites can sit on one heater at once, and they will</span></div>
+          </div>
+
+          <div class="ap-stats ap-wide bd">
             <div><b>5</b><span>species, all of them shipped inside thirteen days</span></div>
             <div><b>24</b><span>commits made the entire ecology</span></div>
-            <div><b>0</b><span>damage the Hollow deals, ever, by design</span></div>
-            <div><b>8</b><span>blocks: the widest burn radius, on the one that cannot hurt you</span></div>
-            <div><b>16</b><span>blocks the Returned will cross to put your fire out</span></div>
+            <div><b>1</b><span>commit for the Frostbitten. Ten for the Returned</span></div>
+            <div><b>4</b><span>entities share one copied and pasted heater check</span></div>
             <div><b>600</b><span>ticks a Mimic will stand still and watch you</span></div>
+            <div><b>0</b><span>textures the Mimic owns, past a blank shadow</span></div>
           </div>
 
           <div class="ap-h3">Play with it</div>
           <p class="ap-lede">Every creature in this chapter is defined by how close it can get to a lit heater.</p>
-          <p class="ap-p">I did not plan that. I wrote five entities over two weeks and only saw the pattern when I put their proximity checks next to each other. Four of them take fire damage near a heater and one of them is immune, and the exact distance at which each one starts to cook <strong>is the whole personality of the creature</strong>. Light the heater and let them come.</p>
+          <p class="ap-p bd">I did not plan that. I wrote five entities over two weeks and only saw the pattern when I put their proximity checks next to each other.</p>
+          <p class="ap-p">Four of them catch fire near a heater and one of them is immune, and the exact distance at which each one starts to cook <strong>is the whole personality of the creature</strong>. Light the heater and let them come.</p>
 
           <div class="wc ap-wide" id="wc">
             <div class="wc-modes" id="wcModes">
@@ -449,7 +516,7 @@
                     <button type="button" data-k="frostmite"><i style="background:#6fb8a4"></i>Frostmite<s>immune</s></button>
                   </div>
                 </div>
-                <p class="wc-hint">Damage, radii and the mite penalty are the real numbers. Walking speed is scaled so the whole thing fits in one screen.</p>
+                <p class="wc-hint">The damage, the distances and what the mites cost you are the game's own numbers. Walking speed is sped up so it all fits on one screen.</p>
                 <div class="wc-act">
                   <button type="button" id="wcRelight">Relight</button>
                   <button type="button" id="wcClear">Clear</button>
@@ -514,8 +581,10 @@
 
 <!-- ============ 01 ============ -->
 <section class="ap-pane on" role="tabpanel" data-p="0" aria-label="Everything burns">
-  <p class="ap-lede">Five creatures, five files, written days apart. All five of them open the same registry and ask the same question.</p>
-  <p class="ap-p">A heater in Frozen Dawn is not a light source and it is not a block the world tracks for you. It is an entry in <code>HeaterRegistry</code>, a set of positions that know they are currently lit. I built that registry in chapter four so the temperature maths could find warm spots quickly. Then I wrote the Frostbitten, and without really thinking about it I reached for the same set.</p>
+  <p class="ap-lede bo">Five creatures, written days apart, and every one of them asks your fire the same question: how close can I get?</p>
+  <p class="ap-lede bi">Five creatures, five files, written days apart. All five of them open the same registry and ask the same question.</p>
+  <p class="ap-p bo">A lit heater is not just light. The world keeps a running list of every heater that is currently burning, and all five of these things read that list. The only difference between them is what they do about it.</p>
+  <p class="ap-p bd">A heater in Frozen Dawn is not a light source and it is not a block the world tracks for you. It is an entry in <code>HeaterRegistry</code>, a set of positions that know they are currently lit. I built that registry in chapter four so the temperature maths could find warm spots quickly. Then I wrote the Frostbitten, and without really thinking about it I reached for the same set.</p>
 
   <div class="ap-bes ap-wide fd-x">
     <div class="h">Creature</div><div class="h">HP</div><div class="h">Hit</div><div class="h">Near a lit heater</div><div class="h">What it is actually for</div>
@@ -535,11 +604,11 @@
     <div class="t">Frostmite</div><div class="n">5</div><div class="n">1</div><div class="z">immune</div>
     <div class="q">The only thing that can sit on a lit heater. So it does, in tens.</div>
   </div>
-  <p class="ap-tcap">Hit is the ATTACK_DAMAGE attribute. Burn distance is the literal radius in each entity's own tick handler.</p>
+  <p class="ap-tcap bd">Hit is the ATTACK_DAMAGE attribute. Burn distance is the literal radius in each entity's own tick handler.</p>
 
-  <p class="ap-p">Here is the Frostbitten's copy of it. Every twenty ticks it walks the registry, and the moment it is inside four blocks of anything lit, it takes two damage and catches fire for two seconds.</p>
+  <p class="ap-p bd">Here is the Frostbitten's copy of it. Every twenty ticks it walks the registry, and the moment it is inside four blocks of anything lit, it takes two damage and catches fire for two seconds.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>FrostbittenEntity.java, the heater check<em>10 lines</em></summary>
     <pre class="ap-code"><c>// Heater burn: 2 damage per second within 4 blocks</c>
 <k>if</k> (gameTick % <v>20</v> == <v>0</v>) {
@@ -554,11 +623,18 @@
 }</pre>
   </details>
 
-  <p class="ap-p">The Hollow's copy is the same shape with two numbers changed, and one line missing. It burns from <strong>eight</strong> blocks instead of four, at four damage a second instead of two, and there is no <code>setRemainingFireTicks</code> call at all. It does not catch fire. It just stops.</p>
+  <p class="ap-p bo">The Hollow is the odd one out. It starts burning from <strong>eight</strong> blocks instead of four, at twice the rate, and it never actually catches fire. It just stops.</p>
+  <p class="ap-p bd">The Hollow's copy is the same shape with two numbers changed, and one line missing. It burns from <strong>eight</strong> blocks instead of four, at four damage a second instead of two, and there is no <code>setRemainingFireTicks</code> call at all. It does not catch fire. It just stops.</p>
 
-  <p class="ap-pull">I never sat down and designed a burn distance for each creature. I wrote the first one, copied it four times, and changed the numbers to whatever felt right for that specific thing. The ecology is an accident of copy and paste, and it is the most coherent part of the mod.</p>
+  <p class="ap-pull bd">I never sat down and designed a burn distance for each creature. I wrote the first one, copied it four times, and changed the numbers to whatever felt right for that specific thing. The ecology is an accident of copy and paste, and it is the most coherent part of the mod.</p>
 
-  <div class="ap-figs">
+  <div class="ap-figs bo">
+    <div><b>4</b><span>blocks: where most of them start to cook</span></div>
+    <div><b>8</b><span>blocks: where the Hollow does, twice as far out</span></div>
+    <div><b>1</b><span>that feels nothing at all, and climbs on</span></div>
+  </div>
+
+  <div class="ap-figs bd">
     <div><b>4</b><span>creatures that share this exact block, with different constants</span></div>
     <div><b>20</b><span>ticks between checks, in every one of them</span></div>
     <div><b>1</b><span>that does not have the block at all</span></div>
@@ -573,22 +649,23 @@
 
   <div class="ap-phs">
     <div>
-      <h4><i style="background:#7fb8d4"></i>Frostbitten<u>1 March, one commit</u></h4>
-      <p>Thirty health, six damage, four armour, and it hits with Slowness I for two seconds so you cannot simply walk away from it. It is immune to freezing in three separate places: it reports that it cannot freeze, it reports zero frozen ticks, and its damage handler rejects anything tagged <code>IS_FREEZING</code> outright. The world it lives in cannot touch it.</p>
+      <h4><i style="background:#7fb8d4"></i>Frostbitten<u><span class="bo">What is left of a person</span><span class="bi">1 March, one commit</span></u></h4>
+      <p>Thirty health, six damage, four armour, and it hits with Slowness I for two seconds so you cannot simply walk away from it. It cannot be frozen<span class="bi">, and it is immune in three separate places: it reports that it cannot freeze, it reports zero frozen ticks, and its damage handler rejects anything tagged <code>IS_FREEZING</code> outright</span>. The world it lives in cannot touch it.</p>
       <s>30 HP</s><s>6 damage</s><s>0.24 speed</s><s>freeze immune</s><s>2&times; fire damage</s>
     </div>
     <div>
-      <h4><i style="background:#6fb8a4"></i>Frostmite<u>13 March, four commits</u></h4>
+      <h4><i style="background:#6fb8a4"></i>Frostmite<u><span class="bo">Five hit points of economics</span><span class="bi">13 March, four commits</span></u></h4>
       <p>Five health. One damage. No armour, no knockback resistance, and any hit at all clears its latch and usually kills it. It is not supposed to survive a fight. It is supposed to arrive before you notice and cost you the fight you have later.</p>
       <s>5 HP</s><s>1 damage</s><s>0.42 speed</s><s>14b target range</s><s>18b heater bait</s>
     </div>
   </div>
 
-  <p class="ap-p">The Frostbitten pays for its freeze immunity. Its damage handler takes fire at <strong>double</strong>, which is why it dies at a heater in fifteen seconds while a vanilla zombie would shrug it off. It is a creature built entirely out of the cold, so the one thing left in the world that is not cold takes it apart.</p>
+  <p class="ap-p">The Frostbitten pays for that. It takes fire at <strong>double</strong>, which is why it dies at a heater in fifteen seconds while an ordinary zombie would shrug it off. It is a creature built entirely out of the cold, so the one thing left in the world that is not cold takes it apart.</p>
 
-  <p class="ap-p">There is also a detail I put in on the first day and have never touched since. If a Frostbitten ends up in water, every ten ticks it freezes the entire three by three by three volume around itself into ice. It does not do this as an attack. It does it because it cannot not do it.</p>
+  <p class="ap-p bd">There is also a detail I put in on the first day and have never touched since.</p>
+  <p class="ap-p">If a Frostbitten ends up in water it freezes the whole three by three block of water around itself solid, twice a second. It does not do this as an attack. It does it because it cannot not do it.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>FrostbittenEntity.java, standing in water<em>7 lines</em></summary>
     <pre class="ap-code"><c>// Water behavior: sink and freeze surrounding water every 10 ticks</c>
 <k>if</k> (isInWater() &amp;&amp; gameTick % <v>10</v> == <v>0</v>) {
@@ -602,10 +679,11 @@
   </details>
 
   <div class="ap-h3">The mite maths</div>
-  <p class="ap-p">The Frostmite is the only creature in this chapter whose effect on you is a number rather than an event. It finds a lit heater within eighteen blocks, walks to within 1.2 blocks of it, latches, and then orbits the block doing nothing visible for up to two hundred ticks. Up to ten of them can hold one heater at a time.</p>
-  <p class="ap-p">What they are doing is being counted. The heater block entity asks the mite class two questions every time it recalculates, and both answers come straight off the head count.</p>
+  <p class="ap-p">The Frostmite is the only creature in this chapter whose effect on you is a number rather than an event. It finds a lit heater within eighteen blocks, walks to within 1.2 blocks of it, latches, and then orbits the block doing nothing visible for up to ten seconds. Up to ten of them can hold one heater at a time.</p>
+  <p class="ap-p bo">What they are doing is being counted. Your heater looks at how many are sitting on it, and the answer costs you twice: it shrinks how far the warmth reaches, and it burns your fuel faster.</p>
+  <p class="ap-p bd">What they are doing is being counted. The heater block entity asks the mite class two questions every time it recalculates, and both answers come straight off the head count.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>FrostmiteEntity.java, what a latch is worth<em>13 lines</em></summary>
     <pre class="ap-code"><k>public static</k> <v>int</v> <v>getHeaterRadiusPenalty</v>(Level level, BlockPos heaterPos) {
     <v>int</v> attached = <v>countLatchedToHeater</v>(level, heaterPos);
@@ -628,29 +706,31 @@
 
   <p class="ap-p">A Thermal heater has a seven block radius. Seven mites take it to three. They have not attacked you, they have not been seen, and the room you were standing in safely thirty seconds ago now ends before it reaches you.</p>
 
-  <p class="ap-pull">The Frostmite is the only creature I wrote that never needs to touch the player to beat them. Everything it does happens to the building.</p>
+  <p class="ap-pull">The Frostmite is the only one that never needs to touch you to beat you. Everything it does happens to the building.</p>
 </section>
 
 <!-- ============ 03 ============ -->
 <section class="ap-pane" role="tabpanel" data-p="2" aria-label="The one that can't hurt you">
-  <p class="ap-lede">The Hollow has an ATTACK_DAMAGE attribute of zero. That is not a placeholder I forgot to fill in. It is the design.</p>
-  <p class="ap-p">It has no goals either. <code>registerGoals()</code> is an empty method. Minecraft's whole AI system, the thing that makes a zombie want you, is switched off, because the constructor sets <code>noPhysics</code> and turns gravity off and none of the pathfinding works any more once you do that. So it drifts. It picks a point within eight blocks, moves toward it at a speed of 0.03, and picks a new one every hundred to two hundred ticks.</p>
+  <p class="ap-lede bo">The Hollow cannot hurt you. Not a little, not eventually, not at all. It has no attack. That is the design.</p>
+  <p class="ap-lede bi">The Hollow has an ATTACK_DAMAGE attribute of zero. That is not a placeholder I forgot to fill in. It is the design.</p>
+  <p class="ap-p bd">It has no goals either. <code>registerGoals()</code> is an empty method. Minecraft's whole AI system, the thing that makes a zombie want you, is switched off, because the constructor sets <code>noPhysics</code> and turns gravity off and none of the pathfinding works any more once you do that.</p>
+  <p class="ap-p">It does not hunt. It drifts. It picks a point within eight blocks, floats towards it very slowly, and picks a new one every five to ten seconds.</p>
 
   <p class="ap-pull">It does not hunt you. It is in the room, and eventually the room is small enough.</p>
 
   <div class="ap-h3">What happens when it reaches you</div>
-  <p class="ap-p">It does not attack. It calls <code>startRiding</code> on you. From that tick on you are wearing it, and four things start happening at once.</p>
+  <p class="ap-p">It does not attack. It climbs on.<span class="bi"> It calls <code>startRiding</code> on you.</span> From that moment you are wearing it, and four things start happening at once.</p>
 
   <div class="ap-pass">
-    <div><b>Slowness IV</b><span>reapplied every single tick for two seconds, so it never lapses</span></div>
-    <div><b>+5 freeze</b><span>per tick, ramped to a ceiling of 300 ticks frozen</span></div>
-    <div><b>Packed ice</b><span>one block every ten ticks, into the six air spaces around your head and body</span></div>
-    <div><b>80 ticks</b><span>or six blocks placed, whichever comes first, then it lets go</span></div>
+    <div><b>Slowness IV</b><span>topped back up every single tick for two seconds, so it never lapses</span></div>
+    <div><b>+5 freeze</b><span>a tick, pushed all the way to fifteen seconds of frozen</span></div>
+    <div><b>Packed ice</b><span>one block every half second, into the six air spaces around your head and body</span></div>
+    <div><b>4 seconds</b><span>or six blocks placed, whichever comes first, then it lets go</span></div>
   </div>
 
-  <p class="ap-p">Vanilla Minecraft considers you fully frozen at 140 ticks and starts dealing freeze damage there. The Hollow ramps you to <strong>300</strong>. It has no attack damage because it does not need one. It holds the door open for the weather.</p>
+  <p class="ap-p">Minecraft counts you as fully frozen after seven seconds, and starts dealing freeze damage there. The Hollow takes you to <strong>fifteen</strong>. It has no attack of its own because it does not need one. It holds the door open for the weather.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>HollowEntity.java, the entombment<em>14 lines</em></summary>
     <pre class="ap-code"><c>// Offsets around the player for ice entombment</c>
 BlockPos[] offsets = {
@@ -672,7 +752,7 @@ BlockPos[] offsets = {
   <p class="ap-p">Six blocks: north, south, east, west, your head, and the space above your head. It is building you a coffin one wall at a time, and it is polite enough to only use air.</p>
 
   <div class="ap-h3">Getting out</div>
-  <p class="ap-p">Swing at it. Any swing at all breaks the grab, and the same swing deals two damage. <strong>Unless you are holding Acheronite</strong>, in which case it deals six, which is nearly a third of the thing in one hit. That was deliberate: Acheronite is the late-game metal, and I wanted one moment where a player who had gone and got it felt the difference immediately rather than reading it on a tooltip.</p>
+  <p class="ap-p">Swing at it. Any swing at all breaks the grab, and the same swing deals two damage. <strong>Unless you are holding Acheronite</strong>, in which case it deals six, which is nearly a third of the thing in one hit.<span class="bi"> That was deliberate. Acheronite is the late game metal, and I wanted one moment where a player who had gone and got it felt the difference immediately rather than reading it on a tooltip.</span></p>
 
   <div class="ap-figs">
     <div><b>20</b><span>health, and projectiles do nothing to it at all</span></div>
@@ -683,42 +763,43 @@ BlockPos[] offsets = {
   <p class="ap-p">It ignores arrows. It shrugs off half of a normal sword. It takes fire at face value, and it burns from eight blocks out rather than four, which means the Hollow is the only creature in the game that dies to your heater <em>before it can see it properly</em>.</p>
 
   <div class="ap-h3">The thing it is afraid of</div>
-  <p class="ap-p">Every ten ticks it scans a sixteen block radius, stepping two blocks at a time, for a Frost Ward Torch. If it finds one it sprints directly away at 0.55, which is more than three times its drift speed, and keeps going for forty ticks with no steering at all.</p>
-  <p class="ap-p">Doing that grants an advancement. I called it <code>later_casper</code>, and the fact that a joke I typed at midnight is now a permanent string in the mod's data pack is roughly how the whole creature ecology got built.</p>
+  <p class="ap-p">It is watching for exactly one thing: a Frost Ward Torch, sixteen blocks out.<span class="bi"> It scans every ten ticks, stepping two blocks at a time.</span> If it finds one it turns and sprints directly away, more than three times faster than it drifts, and keeps going for two seconds without steering at all.</p>
+  <p class="ap-p">Scaring one off grants an advancement called <code>later_casper</code>.<span class="bi"> The fact that a joke I typed at midnight is now a permanent string in the mod's data pack is roughly how the whole creature ecology got built.</span></p>
 </section>
 
 <!-- ============ 04 ============ -->
 <section class="ap-pane" role="tabpanel" data-p="3" aria-label="The one that wears you">
   <p class="ap-lede">The Mimic spends its first twenty to thirty seconds doing nothing at all. That is the entire point of it.</p>
-  <p class="ap-p">It has five phases and it starts in phase zero, observation, for <code>400 + random(201)</code> ticks. During those ticks it zeroes its own horizontal motion, stops its navigation, and turns to face the nearest player within forty eight blocks. It does not approach. It does not have a health bar. Its name is hidden. On the client it is rendered exactly the same way as the sanity system's hallucination, which is a flat silhouette that always turns to face the camera, so wherever you walk to look at it from a better angle, it is already looking back.</p>
+  <p class="ap-p">It has five phases, and it starts in the first one, watching, for twenty to thirty seconds. It stands completely still and turns to face you from as far as forty eight blocks away. It does not approach. It has no health bar and no name floating above it. It is drawn the same way the sanity system draws a hallucination, a flat silhouette that always turns to face the camera, so wherever you walk to look at it from a better angle, it is already looking back.</p>
+  <p class="ap-p bd">Exactly <code>400 + random(201)</code> ticks. During them it zeroes its own horizontal motion and stops its navigation outright.</p>
 
   <div class="ap-phs">
     <div>
-      <h4><i style="background:#4a5058"></i>Phase 0, observation<u>400 to 600 ticks</u></h4>
-      <p>Stands still. Faces you. Plays a stare cue if it catches you looking directly at it, with a cooldown of 100 to 300 ticks so it never becomes rhythmic.</p>
+      <h4><i style="background:#4a5058"></i>Phase 0, observation<u><span class="bo">20 to 30 seconds</span><span class="bi">400 to 600 ticks</span></u></h4>
+      <p>Stands still. Faces you. Plays a stare cue if it catches you looking directly at it, with a cooldown of five to fifteen seconds so it never becomes rhythmic.</p>
       <s>zero motion</s><s>no name</s><s>no health bar</s>
     </div>
     <div>
-      <h4><i style="background:#8a6a72"></i>Phase 1, mimicry<u>exactly 100 ticks</u></h4>
-      <p>Triggered the moment you come within sixteen blocks. It stores your UUID, then copies your movement and all three of your rotations every tick for five seconds.</p>
+      <h4><i style="background:#8a6a72"></i>Phase 1, mimicry<u><span class="bo">exactly 5 seconds</span><span class="bi">exactly 100 ticks</span></u></h4>
+      <p>Triggered the moment you come within sixteen blocks. It locks on to you, then copies your movement and every angle of your head and body, every tick, for five seconds.</p>
       <s>your velocity</s><s>your YRot</s><s>your head</s><s>your pitch</s>
     </div>
     <div>
       <h4><i style="background:#e0655a"></i>Phase 2, combat<u>until it loses you</u></h4>
-      <p>Forty health, ten damage, and it is now wearing your skin. Red eyes are the tell. Three hundred ticks without line of sight and it goes back to watching.</p>
+      <p>Forty health, ten damage, and it is now wearing your skin. Red eyes are the tell. Fifteen seconds without sight of you and it goes back to watching.</p>
       <s>40 HP</s><s>10 damage</s><s>0.35 speed</s><s>48b follow</s>
     </div>
     <div>
       <h4><i style="background:#5f6b76"></i>Phases 3 and 4<u>retreat, burrow</u></h4>
-      <p>Under half health it retreats for two hundred ticks. And if its observation timer runs out and you never engaged, it digs into the ground and is gone.</p>
+      <p>Under half health it retreats for ten seconds. And if it waits out its whole timer and you never came, it digs into the ground and is gone.</p>
       <s>retreat at 20 HP</s><s>3600t despawn</s>
     </div>
   </div>
 
   <div class="ap-h3">What mimicry actually copies</div>
-  <p class="ap-p">Not a walk cycle. Not an approximation. It reads the real player object every tick and writes the values onto itself.</p>
+  <p class="ap-p">Not a walk cycle. Not an approximation.<span class="bo"> It reads what you are actually doing, every tick, and does exactly that.</span><span class="bi"> It reads the real player object every tick and writes the values onto itself.</span></p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>MimicEntity.java, the copy<em>8 lines</em></summary>
     <pre class="ap-code"><c>// Real-time player movement mirroring</c>
 Vec3 playerVel = targetPlayer.<v>getDeltaMovement</v>();
@@ -729,17 +810,26 @@ Vec3 playerVel = targetPlayer.<v>getDeltaMovement</v>();
 <v>setXRot</v>(targetPlayer.<v>getXRot</v>());</pre>
   </details>
 
-  <p class="ap-p">Your exact velocity on X and Z, your body rotation, your head rotation, and your pitch. If you strafe left, it strafes left on the same tick. If you look up, it looks up. There is no smoothing and no delay, because a delay would read as a bad animation and an exact copy reads as something wrong with the game.</p>
+  <p class="ap-p"><span class="bi">Your exact velocity on X and Z, your body rotation, your head rotation, and your pitch. </span>If you strafe left, it strafes left on the same tick. If you look up, it looks up. There is no smoothing and no delay, because a delay would read as a bad animation and an exact copy reads as something wrong with the game.</p>
 
-  <p class="ap-p">The renderer does the rest. Over those hundred ticks it crossfades: for the first half the shadow silhouette fades out, and for the second half <strong>your own skin texture</strong> fades in, pulled live from the connection by your UUID. Smoke particles cover the seam. The eyes go from dull red to pure red across the same window, because after the morph the eyes are the only thing left that tells you it is not another player.</p>
+  <div class="ap-h3">Then it changes</div>
+  <p class="ap-p">Over those five seconds it crossfades. For the first half the shadow fades out, and for the second half <strong>your own skin</strong> fades in<span class="bi">, pulled live from the connection by your UUID</span>. Smoke covers the seam. The eyes go from dull red to pure red across the same window, because once the change is done the eyes are the only thing left that tells you it is not another player.</p>
 
-  <p class="ap-pull">There is no mimic.png in the mod. The only texture the Mimic owns is a blank shadow. Everything else it ever looks like, it takes from you.</p>
+  <p class="ap-pull bo">The only thing the Mimic actually looks like is a blank shadow. Everything else it ever looks like, it takes from you.</p>
+  <p class="ap-pull bi">There is no mimic.png in the mod. The only texture the Mimic owns is a blank shadow. Everything else it ever looks like, it takes from you.</p>
 
   <div class="ap-h3">The blink</div>
-  <p class="ap-p">The eyes are a separate render pass on a seven tick cycle, once every sixty to a hundred ticks depending on the entity's own id so a group never blinks in unison. Two ticks half closed, three ticks fully shut, two ticks half open again. Minecraft's glowing eye render type ignores alpha entirely, so a closed eye cannot be faded out. It has to simply not be drawn.</p>
-  <p class="ap-p">That is why the stare works. For three ticks there is nothing there at all.</p>
+  <p class="ap-p bo">The eyes blink on their own clock, every three to five seconds, and every Mimic in a group is on a slightly different one so they never blink together. It is quick: half closed, shut, half open again.</p>
+  <p class="ap-p bd">The eyes are a separate render pass on a seven tick cycle, once every sixty to a hundred ticks depending on the entity's own id so a group never blinks in unison. Two ticks half closed, three ticks fully shut, two ticks half open again. Minecraft's glowing eye render type ignores alpha entirely, so a closed eye cannot be faded out. It has to simply not be drawn.</p>
+  <p class="ap-p">That is why the stare works. For <span class="bo">a fraction of a second</span><span class="bi">three ticks</span> there is nothing there at all.</p>
 
-  <div class="ap-figs">
+  <div class="ap-figs bo">
+    <div><b>48</b><span>blocks away, and it can already see you</span></div>
+    <div><b>16</b><span>blocks: the distance that ends the waiting</span></div>
+    <div><b>3</b><span>minutes, and if you never came it leaves</span></div>
+  </div>
+
+  <div class="ap-figs bd">
     <div><b>7</b><span>commits, most of them on the observation phase</span></div>
     <div><b>16</b><span>blocks: the distance that ends the waiting</span></div>
     <div><b>3600</b><span>ticks and it gives up and despawns</span></div>
@@ -754,18 +844,25 @@ Vec3 playerVel = targetPlayer.<v>getDeltaMovement</v>();
   <p class="ap-lede">Everything else in this chapter reacts to your heater. The Returned is the only thing that goes looking for it.</p>
   <p class="ap-p">Fifty health, eight damage, eight armour, five texture variants so a group does not look like a clone army, and it opens doors. It also takes the same three damage per second inside four blocks that everything else does. It walks in anyway.</p>
 
-  <div class="ap-h3">Three goals, one idea</div>
-  <p class="ap-p">Most of the ten commits on this thing were not the entity file. They were goals, and each one is a slightly different answer to the same question: what does a thing do when it remembers that the light used to be somewhere?</p>
+  <div class="ap-h3 bo">Three things it wants</div>
+  <div class="ap-cmts bo">
+    <div class="ap-cmt"><b>Stand by the hearth</b><span>If there is a hearth near it, it just stands there and does not attack anybody at all.</span></div>
+    <div class="ap-cmt"><b>Break the lights</b><span>It looks sixteen blocks out and four up for anything giving off light, and breaks it.</span></div>
+    <div class="ap-cmt"><b>Put the heater out</b><span>It walks to a lit thermal heater, faster than it walks at you, and puts it out by hand.</span></div>
+  </div>
 
-  <div class="ap-cmts">
+  <div class="ap-h3 bd">Three goals, one idea</div>
+  <p class="ap-p bd">Most of the ten commits on this thing were not the entity file. They were goals, and each one is a slightly different answer to the same question: what does a thing do when it remembers that the light used to be somewhere?</p>
+
+  <div class="ap-cmts bd">
     <div class="ap-cmt"><b>ReturnedHearthWatchGoal</b><span>Stands near where a hearth is, and does not attack. Being hearthbound disables everything below.</span></div>
     <div class="ap-cmt"><b>ReturnedBreakLightGoal</b><span>Scans sixteen blocks out and four up for anything giving off light, then breaks it.</span></div>
     <div class="ap-cmt"><b>ReturnedExtinguishHeaterGoal</b><span>Paths to a lit thermal heater at 1.2 speed and puts it out by hand.</span></div>
   </div>
 
-  <p class="ap-p">The extinguish goal is the one that took the most tries. It extends Minecraft's own <code>MoveToBlockGoal</code> with a search range of sixteen and an accepted distance of two, but a block search alone was not enough, because the first version would happily beeline toward a heater on the other side of a wall and stand there grinding against the stone forever.</p>
+  <p class="ap-p bd">The extinguish goal is the one that took the most tries. It extends Minecraft's own <code>MoveToBlockGoal</code> with a search range of sixteen and an accepted distance of two, but a block search alone was not enough, because the first version would happily beeline toward a heater on the other side of a wall and stand there grinding against the stone forever.</p>
 
-  <details class="ap-src">
+  <details class="ap-src bd">
     <summary>ReturnedExtinguishHeaterGoal.java, the visibility gate<em>11 lines</em></summary>
     <pre class="ap-code"><c>// Only target heaters the mob can actually see</c>
 Vec3 eyes = mob.<v>getEyePosition</v>();
@@ -781,7 +878,8 @@ BlockHitResult hit = level.<v>clip</v>(<k>new</k> ClipContext(
         || hit.getBlockPos().<v>equals</v>(pos);</pre>
   </details>
 
-  <p class="ap-p">A raycast from its eyes to the heater. If the ray reaches open air or lands on the heater itself, the heater is a valid target. If it hits anything else, the Returned does not know that heater exists. Walling in your hearth is a real defence, and it is a real defence because of eleven lines that exist only to stop a pathfinding bug from looking stupid.</p>
+  <p class="ap-p bo">It can only go after a heater it can actually see. Put a wall between it and your fire and it does not know the fire is there. <strong>Walling in your hearth is a real defence.</strong></p>
+  <p class="ap-p bd">A raycast from its eyes to the heater. If the ray reaches open air or lands on the heater itself, the heater is a valid target. If it hits anything else, the Returned does not know that heater exists. Walling in your hearth is a real defence, and it is a real defence because of eleven lines that exist only to stop a pathfinding bug from looking stupid.</p>
 
   <div class="ap-figs">
     <div><b>2</b><span>blocks: how close it has to get before it can reach out</span></div>
@@ -789,14 +887,14 @@ BlockHitResult hit = level.<v>clip</v>(<k>new</k> ClipContext(
     <div><b>32</b><span>blocks: everyone who gets the advancement when it works</span></div>
   </div>
 
-  <p class="ap-p">When it arrives it calls <code>heater.extinguish()</code>, plays the vanilla fire-out sound, and puffs ten smoke particles. Then every player within thirty two blocks is granted an advancement called <code>they_remember</code>.</p>
+  <p class="ap-p">When it arrives it puts the fire out<span class="bi"> with a call to <code>heater.extinguish()</code></span>, plays the fire-out sound, and puffs ten smoke particles. Then every player within thirty two blocks is granted an advancement called <code>they_remember</code>.</p>
 
   <p class="ap-pull">The advancement does not fire when you kill one. It fires when one wins.</p>
 
-  <div class="ap-h3">What the ledger says</div>
-  <p class="ap-p">Twenty four commits across thirteen days, and the distribution is the honest record of what was actually hard.</p>
+  <div class="ap-h3 bd">What the ledger says</div>
+  <p class="ap-p bd">Twenty four commits across thirteen days, and the distribution is the honest record of what was actually hard.</p>
 
-  <div class="ap-bes ap-wide fd-x">
+  <div class="ap-bes ap-wide fd-x bd">
     <div class="h">Creature</div><div class="h">First</div><div class="h">Commits</div><div class="h">Shipped in</div><div class="h">What ate the time</div>
 
     <div class="t">Frostbitten</div><div class="n">1 Mar</div><div class="a">1</div><div class="z">one sitting</div>
@@ -814,9 +912,10 @@ BlockHitResult hit = level.<v>clip</v>(<k>new</k> ClipContext(
     <div class="t">Frostmite</div><div class="n">13 Mar</div><div class="a">4</div><div class="z">one day</div>
     <div class="q">The latch orbit, and capping the fuel drain before ten of them could kill a heater instantly.</div>
   </div>
-  <p class="ap-tcap">Commit counts are every commit whose diff touched that entity or its goals, first appearance to 31 March 2026.</p>
+  <p class="ap-tcap bd">Commit counts are every commit whose diff touched that entity or its goals, first appearance to 31 March 2026.</p>
 
-  <p class="ap-p">The Frostbitten took one commit and the Returned took ten, and they were started on consecutive days. That gap is the whole chapter. One of them is a monster. The other one had to be taught what it wanted.</p>
+  <p class="ap-p bd">The Frostbitten took one commit and the Returned took ten, and they were started on consecutive days. That gap is the whole chapter. One of them is a monster. The other one had to be taught what it wanted.</p>
+  <p class="ap-p bo">Which is the difference in one line: the Frostbitten is a monster, and the Returned had to be taught what it wanted.</p>
 
   <div class="ap-note">Everything here is the March 2026 base tier. What happens to these five once the world has had longer to work on them, the lineages and what drives them to split, is a later chapter.</div>
 </section>
@@ -1758,5 +1857,76 @@ BlockHitResult hit = level.<v>clip</v>(<k>new</k> ClipContext(
     if (doc.scrollTop + doc.clientHeight >= doc.scrollHeight - 80) mark();
   }
   doc.addEventListener('scroll', check, { passive: true });
+})();
+</script>
+
+<script>
+/* ================= the reading layer switch =================
+   same control and same storage key as the other chapters, so whichever side
+   you picked follows you between them. the default is baked into the markup
+   so the page is correct before this runs at all. */
+(function () {
+  var KEY = 'fd-layer';
+  var seg = document.querySelector('.rl-seg');
+  if (!seg) return;
+  var btns = [].slice.call(seg.querySelectorAll('button'));
+
+  function stubs() {
+    [].slice.call(document.querySelectorAll('.ap-pane')).forEach(function (pane) {
+      var stub = pane.querySelector('.rl-stub');
+      var real = [].slice.call(pane.children).some(function (el) {
+        return el !== stub && getComputedStyle(el).display !== 'none';
+      });
+      if (real) { if (stub) stub.hidden = true; return; }
+      if (!stub) {
+        stub = document.createElement('p');
+        stub.className = 'rl-stub';
+        stub.textContent = pane.getAttribute('data-stub')
+                         || 'This section is all workings. '
+                          + 'Switch to How I built it to read it.';
+        pane.appendChild(stub);
+      }
+      stub.hidden = false;
+    });
+  }
+
+  /* the scroll reveal observer never saw a block that was hidden when it
+     armed, so one arriving from behind the switch can land here still at
+     opacity zero. anything already at or above the fold is behind the
+     reader and has to be set outright. anything still below keeps its
+     reveal and animates in normally when it is scrolled to. */
+  function rescue() {
+    var sc = document.querySelector('.ap-doc');
+    if (!sc) return;
+    var lim = sc.getBoundingClientRect().bottom;
+    [].slice.call(document.querySelectorAll('.ap-rv')).forEach(function (el) {
+      if (getComputedStyle(el).display === 'none') return;
+      if (el.getBoundingClientRect().top > lim) return;
+      el.classList.remove('ap-rv');
+      el.classList.add('set');
+    });
+  }
+
+  function apply(layer, save) {
+    document.body.classList.toggle('build', layer === 'build');
+    btns.forEach(function (b) {
+      var on = b.getAttribute('data-layer') === layer;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    stubs();
+    rescue();
+    if (save) { try { localStorage.setItem(KEY, layer); } catch (e) {} }
+  }
+
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-layer'), true);
+    });
+  });
+
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  apply(saved === 'build' ? 'build' : 'story', false);
 })();
 </script>
