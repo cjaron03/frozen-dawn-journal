@@ -45,7 +45,8 @@ BASE = "https://cjaron03.github.io/frozen-dawn-journal/"
 # when someone pastes the link into chat.
 DESC = {
     "index.html": "A dev journal for Frozen Dawn, a rogue planet survival mod. "
-                  "535 commits, eight chapters, and a thing that learned to think.",
+                  "How one person built a world that freezes, and a thing "
+                  "that learned to think.",
     "chapter-1.html": "Building Frozen Dawn's six phase collapse: vacuum, cold, "
                       "snow, and a chunk loader that had to keep up with a dying world.",
     "architect.html": "How the Architect learned to think. The decision loop, the "

@@ -176,11 +176,12 @@ def card():
     tracked(d, (x + w + 17, 86), "DEV JOURNAL", fi, MUTED, 1.2)
 
     fh = font("SFNS.ttf", 53)
-    d.text((x, 404), "One person, 535 commits,", font=fh, fill=HEAD)
+    d.text((x, 404), "One person, hundreds of commits,", font=fh, fill=HEAD)
     d.text((x, 404 + 64), "and a thing that learned to think.", font=fh, fill=HEAD)
 
-    # no stat row. the headline already carries every number one would hold,
-    # and a card that says 535 twice looks like it was assembled twice.
+    # no stat row, and no commit count anywhere on the card. an image cannot
+    # update itself, and a tally that moves every day would be wrong by the
+    # time anyone saw it.
     fm = font("Menlo.ttc", 16)
     tracked(d, (x, 548), "cjaron03.github.io/frozen-dawn-journal", fm, ICE, 0.7)
 
@@ -223,7 +224,8 @@ def banner():
     tracked(d, (x + w + 16, 103), "DEV JOURNAL", fi, MUTED, 1.2)
 
     fs = font("SFNS.ttf", 21)
-    d.text((x, 140), "535 commits, eight chapters, and a thing that learned to think.",
+    d.text((x, 140), "How one person built a world that freezes, and a thing\n"
+                     "that learned to think.".replace("\n", " "),
            font=fs, fill=(150, 161, 170))
 
     fm = font("Menlo.ttc", 15)
