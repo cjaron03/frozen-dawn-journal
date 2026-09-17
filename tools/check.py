@@ -7,6 +7,7 @@ place. Exits non-zero on the first category that fails.
 """
 import glob, os, re, shutil, subprocess, sys, tempfile
 from pathlib import Path
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
@@ -109,7 +110,26 @@ for f in sorted(OUT.glob("*.html")):
         fail("placeholder left unfilled", f"{f.name}: {ph}")
 
 
-# ---- 7. the build produced something -------------------------------------
+# ---- 7. the custom domain survived the build -----------------------------
+# pages serves the site from whatever host the CNAME file names. lose that
+# file and the domain silently reverts to the github.io address, while every
+# og:url and og:image in the build keeps naming a host the site is no longer
+# served from. checked against the build's own output rather than against
+# build.py, so it catches a broken copy as well as a broken constant.
+idx = OUT / "index.html"
+if idx.exists():
+    m = re.search(r'<meta property="og:url" content="([^"]+)"', idx.read_text(encoding="utf-8"))
+    host = urlparse(m.group(1)).hostname if m else None
+    if host and not host.endswith(".github.io"):
+        cname = OUT / "CNAME"
+        if not cname.exists():
+            fail("missing CNAME", f"pages would fall back off {host}")
+        elif cname.read_text(encoding="utf-8").strip() != host:
+            fail("CNAME mismatch",
+                 f"{cname.read_text(encoding='utf-8').strip()} but og:url says {host}")
+
+
+# ---- 8. the build produced something -------------------------------------
 if not (OUT / "index.html").exists():
     fail("missing", "preview/index.html")
 if len(have) < 8:

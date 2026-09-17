@@ -11,6 +11,7 @@ alongside it now live in docs/workbench/ and are never emitted.
 """
 import re, sys, shutil
 from pathlib import Path
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = ROOT / "site"
@@ -39,7 +40,7 @@ TITLE = "Frozen Dawn"
 # where the built site actually lives. og:image has to be absolute, because
 # the machine reading it is not the browser and has no page to resolve
 # against.
-BASE = "https://cjaron03.github.io/frozen-dawn-journal/"
+BASE = "https://frozendawn.jaronc.com/"
 
 # one line per page, for the search result and for the card that appears
 # when someone pastes the link into chat.
@@ -121,6 +122,14 @@ def main() -> int:
     assets = SITE / "assets"
     if assets.is_dir():
         shutil.copytree(assets, OUT / "assets")
+
+    # pages takes the custom domain from a CNAME file at the root of whatever
+    # gets published, and a deploy without one can drop the site back to the
+    # github.io address. this is derived from BASE so the two cannot drift:
+    # the address changes in one place and the deploy follows it.
+    host = urlparse(BASE).hostname or ""
+    if host and not host.endswith(".github.io"):
+        (OUT / "CNAME").write_text(host + "\n", encoding="utf-8")
 
     built, skipped, kept_notes = [], [], []
 
