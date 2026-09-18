@@ -742,48 +742,15 @@
 })();
 </script>
 
-<script>
-/* the commit tally is baked in when the site is built, so it is wrong again
-   the next time anything is pushed to the mod. this asks GitHub what the
-   number actually is.
+<!-- The commit tally used to be corrected from the GitHub API on load, by
+     asking for one commit per page and reading the last page number off the
+     Link header. It was removed because it answered a different question
+     from the rest of the page and then overwrote the answer.
 
-   there is no endpoint that returns a count. asking for one commit per page
-   and reading the last page number off the Link header is the whole trick:
-   one request, no token, nothing to paginate. every way this can fail ends
-   with the built in number already on screen, so it just stays there. */
-(function () {
-  var b = document.querySelector('.tl-stats div:nth-child(1) b');
-  if (!b || !window.fetch) return;
-
-  var API = 'https://api.github.com/repos/cjaron03/frozen-dawn/commits'
-          + '?per_page=1&sha=main';
-
-  fetch(API).then(function (r) {
-    if (!r.ok) throw 0;
-    var m = (r.headers.get('Link') || '').match(/[?&]page=(\d+)>;\s*rel="last"/);
-    if (!m) throw 0;
-    return parseInt(m[1], 10);
-  }).then(function (n) {
-    if (!n || n < 1) return;
-    /* asked before the value changes, because the answer is about the
-       animation that is running now, not the one that is about to. */
-    var run = b.getAnimations ? b.getAnimations() : null,
-        landed = !!(run && run.length && run.every(function (a) {
-          return a.playState === 'finished';
-        }));
-
-    b.style.setProperty('--v0', n);
-
-    /* mid count, the number simply climbs to the new total instead of the
-       old one. once the count has finished it would otherwise tick over on
-       its own with no explanation, so it counts again. under reduced motion
-       there is no animation to replay and the value just changes, which is
-       exactly what reduced motion asked for. */
-    if (landed) {
-      b.style.animation = 'none';
-      void b.offsetWidth;
-      b.style.animation = '';
-    }
-  }).catch(function () {});
-})();
-</script>
+     Everything on this page, the bands, the line, the dots and the day
+     span, is built from a mirror of every branch. The API call could only
+     count one, and counting main alone left out the Maeve work entirely:
+     545 against 566, with the bands underneath adding up to the number the
+     headline was contradicting. One of them had to go, and it is not the
+     graph. The number is generated now, like the rest of them, and a
+     rebuild is what keeps it current. -->
