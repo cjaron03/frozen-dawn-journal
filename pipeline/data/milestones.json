@@ -15,5 +15,7 @@
  {"match":"feat(homo-reliquus): add Master Architect combat suite","kind":"major","title":"Master Architect","go":"chapter-6.html","place":"above"},
  {"match":"feat(homo-reliquus): add the Aggregate","kind":"minor","title":"The Aggregate","go":"chapter-6.html","place":"above"},
  {"match":"docs(release): prepare The Long Silence launch notes","kind":"major","title":"The Long Silence","go":"chapter-6.html","place":"above"},
+ {"match":"feat(debug): add Architect visual debugger and snapshot exports","kind":"arch2","title":"Watching it think","go":"architect.html","place":"above"},
+ {"match":"feat(maeve): record persistent beliefs from witnessed player actions","kind":"maeve","title":"It starts remembering","go":"director.html","place":"below"},
  {"match":"feat(maeve): learn conditional pursuit and counter outcomes","kind":"maeve","title":"It learns","go":"director.html","place":"above"}
 ]

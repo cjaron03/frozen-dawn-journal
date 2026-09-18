@@ -555,6 +555,7 @@
 2026-09-16	431	33	feat(maeve): explain beliefs and observed contradictions
 2026-09-16	468	0	feat(dev): add isolated Architect LAN guest client
 2026-09-16	1375	3	feat(maeve): record persistent beliefs from witnessed player actions
+2026-09-17	19	7	fix(maeve): keep follow-up counter replay near observed evidence
 2026-09-17	26	14	fix(maeve): attribute counter losses and interference correctly
 2026-09-17	28	9	test(maeve): isolate counter-result learning in the live replay
 2026-09-17	64	17	fix(maeve): recognize converging pursuit and preserve crossing observations

@@ -21,7 +21,12 @@ SPIN     = 7.0             # seconds per rotation
 ARC      = "M 34 46 C 250 14, 640 11, 1078 40"
 STAGE_H  = 238.0           # .tl-stage height in px, for the lifted dot stems
 RANK     = {"arch": 0, "maeve": 0, "arch2": 1, "major": 1, "minor": 2}
-NEAR_X, NEAR_Y, LIFT = 24.0, 12.0, 24.0   # collision box and lift, in stage units
+NEAR_X, NEAR_Y, LIFT = 24.0, 12.0, 28.0   # collision box and lift, in stage units
+# LIFT is 28 because TAP_MIN below is 26. A stage unit is a pixel on the
+# phone stage, so a step of 24 could never pull two dots sharing an x
+# apart by the 26 the tap rule asks for: they climbed in lockstep until
+# the ceiling stopped them, still crowded. A lift step has to clear a
+# whole tap box or it cannot solve the thing it exists to solve.
 # NEAR_Y is the moment two dots actually touch, not a comfortable gap: 12 stage
 # units is 14.3px on the rendered stage, and the Architect dot with its halo
 # measures 11px from centre to edge against a plain dot's 3.5px. Anything
@@ -36,15 +41,13 @@ NEAR_X, NEAR_Y, LIFT = 24.0, 12.0, 24.0   # collision box and lift, in stage uni
 # with it.
 PHONE_W, PHONE_H = 343.0, 200.0
 PHONE_LIVE = {"major", "arch", "arch2", "maeve"}
-TAP_MIN  = 20.0            # px between two live targets on the phone stage
-# 20 and not 26. Twenty six is the tap box, so that is the width at which
-# two boxes stop overlapping at all, and it is the number to reach for if
-# the line ever has room. It does not here: the only pair still inside it
-# sits at 23px, and the pair is the origin dot and the Architect, hard
-# against the left edge. Clearing those three pixels means lifting one of
-# the two, and by rank that is the origin, which then reads as a line
-# starting from nowhere. Three pixels of overlap between the first dot on
-# the graph and the one dot wearing a halo is the cheaper mistake.
+TAP_MIN  = 26.0            # px between two live targets on the phone stage
+# 26 is the tap box itself, so it is the width at which two boxes stop
+# overlapping at all and every pixel of the stage belongs to exactly one
+# target. Picking any smaller number means picking how much overlap is
+# tolerable, and there is no honest answer to that: the last version used
+# 20, which left a pair sitting at 20.018px, clearing the bar by two
+# hundredths of a pixel and only until the next commit shifted it.
 CEIL     = 24.0            # stop climbing here, or the cards leave the stage
 LAND = ('<path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/>'
         '<path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/>'
@@ -212,6 +215,14 @@ def main():
             return math.hypot(dx / W * PHONE_W, dy / H * PHONE_H) < TAP_MIN
         return False
 
+    # The first dot is where the line starts, and a line whose first dot
+    # floats above its own beginning reads as starting from nowhere. So it
+    # is pinned, and a crowd it is part of simply stays crowded, the same
+    # way a crowd with no headroom left does. Today that is the origin and
+    # the Architect at 23px: their boxes overlap by three pixels at the far
+    # left edge, where one of the two wears a halo and the other is the
+    # first thing on the graph. Nobody misses which is which.
+    #
     # Every pair, not just neighbours in date order. On a phone the dots that
     # are still targets have quiet ones sitting between them, so a crowd's two
     # halves can be three dots apart in this list and still land on the same
@@ -222,15 +233,26 @@ def main():
             for b in marks[i + 1:]:
                 if not crowded(a, b):
                     continue
+                # Maeve's dots are hidden until the page is unlocked, so
+                # they are not allowed to push a visible dot anywhere. A
+                # public dot moved out of the way of something nobody can see
+                # reads as a dot floating for no reason, with a stem pointing
+                # at empty line. The secret pays for its own crowding: when
+                # one of a pair is Maeve's, that is the one that climbs, and
+                # the locked graph is laid out as though she were not there.
+                if (a["m"]["kind"] == "maeve") != (b["m"]["kind"] == "maeve"):
+                    lo = a if a["m"]["kind"] == "maeve" else b
                 # a dot already off the line climbs again in preference to
                 # pushing its neighbour off too: the second step costs nothing
                 # but stem, while moving the neighbour costs a whole new one.
                 # only then does rank decide, and equal rank sends the later
                 # dot up, so the older milestone keeps its place.
-                if bool(a["lift"]) != bool(b["lift"]):
+                elif bool(a["lift"]) != bool(b["lift"]):
                     lo = a if a["lift"] else b
                 else:
                     lo = a if RANK[a["m"]["kind"]] > RANK[b["m"]["kind"]] else b
+                if lo is marks[0]:
+                    continue      # see below: the first dot does not move
                 if lo["y"] - lo["lift"] - LIFT < CEIL:
                     continue      # out of headroom, so it stays crowded
                 lo["lift"] += LIFT
@@ -243,10 +265,16 @@ def main():
         m, x, y = k["m"], k["x"], k["y"]
         edge = " edgeL" if x / W * 100 < 12 else (" edgeR" if x / W * 100 > 88 else "")
         stem = ('<u style="height:%.1fpx"></u>' % (k["lift"] / H * STAGE_H)) if k["lift"] else ""
+        # a lift takes away the room a card above the dot was relying on, and
+        # it takes it from the one direction that matters, so a dot that has
+        # been moved opens its card downward whatever the file asked for.
+        # place is an editorial choice about which side reads better, not a
+        # claim that there is space on that side.
+        place = "below" if k["lift"] else m["place"]
         dots.append((x, '<a class="tl-d %s" href="%s" style="left:%.2f%%;top:%.2f%%;animation-delay:%.2fs">'
                         '<i></i>%s<span class="tl-card %s%s"><em>%s</em><b>%s</b><code>%s</code></span></a>'
                         % (m["kind"], m["go"], x / W * 100, (y - k["lift"]) / H * 100,
-                           delay(k["frac"]), stem, m["place"], edge,
+                           delay(k["frac"]), stem, place, edge,
                            short(k["d"]), m["title"], k["subject"])))
 
     # ---- chapter bands, counts and widths both derived ----
