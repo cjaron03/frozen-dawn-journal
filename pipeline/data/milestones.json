@@ -14,5 +14,6 @@
  {"match":"fix(world): reconcile snow after tree catch-up","kind":"major","title":"Coming back","go":"chapter-6.html","place":"above"},
  {"match":"feat(homo-reliquus): add Master Architect combat suite","kind":"major","title":"Master Architect","go":"chapter-6.html","place":"above"},
  {"match":"feat(homo-reliquus): add the Aggregate","kind":"minor","title":"The Aggregate","go":"chapter-6.html","place":"above"},
- {"match":"docs(release): prepare The Long Silence launch notes","kind":"major","title":"The Long Silence","go":"chapter-6.html","place":"above"}
+ {"match":"docs(release): prepare The Long Silence launch notes","kind":"major","title":"The Long Silence","go":"chapter-6.html","place":"above"},
+ {"match":"feat(maeve): learn conditional pursuit and counter outcomes","kind":"maeve","title":"It learns","go":"director.html","place":"above"}
 ]

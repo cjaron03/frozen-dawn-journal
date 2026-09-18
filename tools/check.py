@@ -36,19 +36,23 @@ for f in sorted(OUT.glob("*.html")):
 
 # ---- 2. the hidden chapter stays hidden ----------------------------------
 # there is one intended way into director.html and it is not a link anyone
-# can see. the single exception is the swap control on the architect page,
-# which the unlock reveals. that one is allowed, but only for as long as it
-# is still hidden by default, so the gate itself is what gets checked.
+# can see. the exceptions are controls that the unlock reveals: the swap on
+# the architect page, and Maeve's own dots on the homepage graph. each is
+# allowed only for as long as it is still hidden by default, so an exception
+# has to name the rule that hides it, and that rule gets checked too.
+GATED = [("ap-swap",    "architect-page.html", ".ap-swap { display:none; }"),
+         ("tl-d maeve", "timeline.html",       ".tl-d.maeve { display:none; }")]
+
 for f in sorted(OUT.glob("*.html")):
     if f.name == "director.html":
         continue
     for tag in re.findall(r'<a\b[^>]*href="[^"]*director\.html"[^>]*>', f.read_text(encoding="utf-8")):
-        if "ap-swap" not in tag:
+        if not any(cls in tag for cls, _s, _r in GATED):
             fail("director.html linked", f"{f.name}: {tag[:60]}")
 
-gate = (SITE / "architect-page.html").read_text(encoding="utf-8")
-if ".ap-swap { display:none; }" not in gate:
-    fail("unlock gate missing", "architect-page.html no longer hides .ap-swap by default")
+for cls, src, rule in GATED:
+    if rule not in (SITE / src).read_text(encoding="utf-8"):
+        fail("unlock gate missing", f"{src} no longer hides .{cls.replace(chr(32), chr(46))} by default")
 
 
 # ---- 3. no dead internal links -------------------------------------------

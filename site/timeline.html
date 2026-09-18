@@ -59,6 +59,13 @@
           background:linear-gradient(#2c688a,#2c688a00); pointer-events:none; }
 .tl-d.major i { width:10px; height:10px; box-shadow:0 0 0 3px #0f1216, 0 0 0 4px #7dd3fc4d; }
 .tl-d.arch2 i { width:10px; height:10px; box-shadow:0 0 0 3px #0f1216, 0 0 0 4px #7dd3fc4d; }
+/* Maeve's dots are the same secret as the MAEVE button on the Architect
+   page. Locked, the graph simply ends at 2.0, which is true of the public
+   story. Unlocked, the last five weeks appear. */
+.tl-d.maeve { display:none; }
+.fd-mv .tl-d.maeve { display:grid; }
+.tl-d.maeve i { width:10px; height:10px; background:#a98cd8;
+                box-shadow:0 0 0 3px #0f1216, 0 0 0 4px #a98cd83d, 0 0 14px #a98cd880; }
 .tl-d.arch i { width:12px; height:12px; background:#ffb454; box-shadow:0 0 0 3px #0f1216, 0 0 0 5px #ffb4543d, 0 0 16px #ffb45480; }
 .tl-d:hover i, .tl-d:focus-visible i { transform:scale(1.45); }
 .tl-d:hover, .tl-d:focus-visible { z-index:20; }
@@ -79,6 +86,8 @@
 .tl-card em { display:block; font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:#7c8891; font-style:normal; }
 .tl-card b { display:block; font-size:13px; font-weight:600; color:#f2f6f8; letter-spacing:-.01em; margin:3px 0 6px; }
 .tl-card code { display:block; font-family:var(--mono); font-size:9.5px; line-height:1.5; color:#7e8a96; border-top:1px solid #212831; padding-top:6px; }
+.tl-d.maeve .tl-card { border-color:#3f3357; }
+.tl-d.maeve .tl-card b { color:#a98cd8; }
 .tl-d.arch .tl-card { border-color:#3a3020; }
 .tl-d.arch .tl-card b { color:#ffb454; }
 
@@ -594,6 +603,7 @@
       <a class="tl-d major" href="chapter-6.html" style="left:68.93%;top:30.87%;animation-delay:2.37s"><i></i><span class="tl-card above"><em>15 Jul</em><b>Master Architect</b><code>feat(homo-reliquus): add Master Architect combat suite</code></span></a>
       <a class="tl-d minor" href="chapter-6.html" style="left:83.50%;top:30.62%;animation-delay:3.05s"><i></i><span class="tl-card above"><em>14 Aug</em><b>The Aggregate</b><code>feat(homo-reliquus): add the Aggregate</code></span></a>
       <a class="tl-d major" href="chapter-6.html" style="left:89.32%;top:66.26%;animation-delay:3.28s"><i></i><span class="tl-card above edgeR"><em>26 Aug</em><b>The Long Silence</b><code>docs(release): prepare The Long Silence launch notes</code></span></a>
+      <a class="tl-d maeve" href="director.html" style="left:100.00%;top:43.65%;animation-delay:3.75s"><i></i><span class="tl-card above edgeR"><em>17 Sep</em><b>It learns</b><code>feat(maeve): learn conditional pursuit and counter outcomes</code></span></a>
       <div class="tl-sil" style="left:46.12%;width:20.39%"><div></div><span>42 days</span></div>
     </div>
 

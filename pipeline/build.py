@@ -20,7 +20,7 @@ TRAV     = 72.0            # seconds for Earth to cross the header
 SPIN     = 7.0             # seconds per rotation
 ARC      = "M 34 46 C 250 14, 640 11, 1078 40"
 STAGE_H  = 238.0           # .tl-stage height in px, for the lifted dot stems
-RANK     = {"arch": 0, "arch2": 1, "major": 1, "minor": 2}
+RANK     = {"arch": 0, "maeve": 0, "arch2": 1, "major": 1, "minor": 2}
 NEAR_X, NEAR_Y, LIFT = 24.0, 12.0, 24.0   # collision box and lift, in stage units
 # NEAR_Y is the moment two dots actually touch, not a comfortable gap: 12 stage
 # units is 14.3px on the rendered stage, and the Architect dot with its halo
