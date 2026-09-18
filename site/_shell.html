@@ -51,6 +51,19 @@ __ROBOTS__<style>
     color:#7dd3fc; text-decoration:none; white-space:nowrap; flex-shrink:0;
   }
   .sb-brand span { color:#5a6672; }
+  /* the journal is one project on a portfolio, and someone who arrives here
+     from a link has no history to go back through. the way out is a door,
+     not the browser's back button. */
+  .sb-up {
+    display:inline-flex; align-items:center; gap:7px;
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;
+    font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    color:#5a6672; text-decoration:none; white-space:nowrap; flex-shrink:0;
+  }
+  .sb-up:hover { color:#7dd3fc; }
+  .sb-up i { font-style:normal; transition:transform .16s ease; }
+  .sb-up:hover i { transform:translateX(-3px); }
+  .sb-sep { width:1px; height:14px; background:#222c36; flex-shrink:0; }
   .sb-nav {
     --f0:0px; --f1:0px;
     display:flex; align-items:center; gap:18px;
@@ -126,11 +139,15 @@ __ROBOTS__<style>
     .sb-page { padding:1rem; }
     .sb-brand { font-size:10px; letter-spacing:.1em; }
     .sb-brand span { display:none; }
+    .sb-up { font-size:10px; letter-spacing:.1em; gap:6px; }
+    .sb-sep { height:12px; }
   }
 </style>
 </head>
 <body class="__BODYCLASS__">
 <nav class="sb">
+  <a class="sb-up" href="https://jaronc.com"><i>&larr;</i>Jaron&nbsp;Cabral</a>
+  <span class="sb-sep" aria-hidden="true"></span>
   <a class="sb-brand" href="index.html">Frozen&nbsp;Dawn <span>/ dev journal</span></a>
   <div class="sb-nav">__NAV__</div>
   <div class="sb-rail" aria-hidden="true"><i></i></div>

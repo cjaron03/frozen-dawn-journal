@@ -23,6 +23,18 @@
 @keyframes tlfall { from { transform:translate3d(0,-10px,0) } to { transform:translate3d(var(--dx),460px,0) } }
 
 /* ---- header ---- */
+/* the homepage hides the shared bar, so the way back up to the portfolio has
+   to be stated here instead. it sits above the masthead rather than in it,
+   so the first thing read is still the name of the project. */
+.tl-back { position:relative; z-index:3; padding:16px 22px 0;
+           font-family:var(--mono); font-size:9.5px; letter-spacing:.15em;
+           text-transform:uppercase; }
+.tl-back a { display:inline-flex; align-items:center; gap:7px;
+             color:#5a6672; text-decoration:none; }
+.tl-back a:hover { color:#7dd3fc; }
+.tl-back i { font-style:normal; transition:transform .16s ease; }
+.tl-back a:hover i { transform:translateX(-3px); }
+.tl-back + .tl-head { padding-top:7px; }
 .tl-head { position:relative; z-index:3; display:flex; align-items:baseline; gap:10px; padding:16px 22px 0; }
 .tl-head b { color:#f2f6f8; font-size:15px; font-weight:700; letter-spacing:-.015em; }
 .tl-head i { color:#7c8891; font-size:11px; font-style:normal; letter-spacing:.06em; }
@@ -413,7 +425,7 @@
 
   /* 16px in, so the stage lines up with the chapter cards underneath it
      rather than sitting 6px narrower than everything else on the page. */
-  .tl-head, .tl-hero { padding-left:16px; padding-right:16px; }
+  .tl-back, .tl-head, .tl-hero { padding-left:16px; padding-right:16px; }
   .tl-meta { padding-left:16px; padding-right:16px; font-size:8.5px; letter-spacing:.1em; }
   .tl-stage, .tl-bands { margin-left:16px; margin-right:16px; }
 
@@ -549,6 +561,7 @@
       </svg>
     </div>
 
+    <div class="tl-back"><a href="https://jaronc.com"><i>&larr;</i>Jaron Cabral</a></div>
     <div class="tl-head"><b>Frozen Dawn</b><i>DEV JOURNAL</i></div>
     <div class="tl-meta">Since 23 Feb 2026 &middot; one person &middot; still going</div>
 
@@ -686,6 +699,7 @@
     <a href="chapter-1.html">Start at chapter one</a>
     <a href="architect.html">The Architect</a>
     <a href="https://github.com/cjaron03/frozen-dawn">The mod on GitHub</a>
+    <a href="https://jaronc.com">Everything else I have built</a>
     <span>Since 23 Feb 2026 &middot; one person &middot; still going</span>
   </div>
 
