@@ -27,6 +27,25 @@ NEAR_X, NEAR_Y, LIFT = 24.0, 12.0, 24.0   # collision box and lift, in stage uni
 # measures 11px from centre to edge against a plain dot's 3.5px. Anything
 # looser lifts dots that were never overlapping, and a lifted dot reads worse
 # than a tight one.
+#
+# That box is in stage units, so it holds at every window width: the graph
+# scales as one piece. Reach does not. On a phone the stage is 343px and the
+# same two dots are a third as far apart under a finger, so the ones that are
+# still targets there get measured again in millimetres. Which ones those are
+# is decided by pointer-events in the stylesheet, and this set has to agree
+# with it.
+PHONE_W, PHONE_H = 343.0, 200.0
+PHONE_LIVE = {"major", "arch", "arch2", "maeve"}
+TAP_MIN  = 20.0            # px between two live targets on the phone stage
+# 20 and not 26. Twenty six is the tap box, so that is the width at which
+# two boxes stop overlapping at all, and it is the number to reach for if
+# the line ever has room. It does not here: the only pair still inside it
+# sits at 23px, and the pair is the origin dot and the Architect, hard
+# against the left edge. Clearing those three pixels means lifting one of
+# the two, and by rank that is the origin, which then reads as a line
+# starting from nowhere. Three pixels of overlap between the first dot on
+# the graph and the one dot wearing a halo is the cheaper mistake.
+CEIL     = 24.0            # stop climbing here, or the cards leave the stage
 LAND = ('<path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/>'
         '<path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/>'
         '<path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/>'
@@ -169,20 +188,55 @@ def main():
                       "subject": subject, "lift": 0.0})
     marks.sort(key=lambda k: k["x"])
 
-    # Milestones a couple of days apart land on top of each other, and a 7px
-    # dot simply disappears inside the Architect's 22px halo. Where two collide
-    # the quieter one is lifted clear and keeps a stem down to where it really
-    # sits, so nothing moves in time, only out of the way.
-    for a, b in zip(marks, marks[1:]):
+    # Milestones a couple of days apart land on top of each other, and a dot
+    # is a 26px tap box however small it draws. Where a crowd forms the
+    # quieter dots climb a row at a time until they are clear, each keeping a
+    # stem down to where it really sits, so nothing moves in time, only out of
+    # the way.
+    #
+    # Crowding is measured where the dots have ended up rather than where they
+    # started, so a dot already moved aside does not drag its neighbour up
+    # with it, and a third dot in the same crowd takes a row of its own
+    # instead of the one already occupied. That second part is why this
+    # relaxes in rounds instead of deciding each pair once.
+    def crowded(a, b):
         # measured where the dots have ended up, not where they started, so a
         # dot already moved out of the way does not drag its neighbour up too.
-        if b["x"] - a["x"] >= NEAR_X:
-            continue
-        if abs((b["y"] - b["lift"]) - (a["y"] - a["lift"])) >= NEAR_Y:
-            continue
-        lo = a if RANK[a["m"]["kind"]] > RANK[b["m"]["kind"]] else b
-        if not lo["lift"]:
-            lo["lift"] = LIFT
+        dx = b["x"] - a["x"]
+        dy = (b["y"] - b["lift"]) - (a["y"] - a["lift"])
+        if abs(dx) < NEAR_X and abs(dy) < NEAR_Y:
+            return True          # they overlap on screen, at any width
+        if a["m"]["kind"] in PHONE_LIVE and b["m"]["kind"] in PHONE_LIVE:
+            # diagonal distance, because two dots offset on both axes are two
+            # targets even when neither axis alone says so.
+            return math.hypot(dx / W * PHONE_W, dy / H * PHONE_H) < TAP_MIN
+        return False
+
+    # Every pair, not just neighbours in date order. On a phone the dots that
+    # are still targets have quiet ones sitting between them, so a crowd's two
+    # halves can be three dots apart in this list and still land on the same
+    # square centimetre of glass.
+    for _ in range(len(marks)):
+        moved = False
+        for i, a in enumerate(marks):
+            for b in marks[i + 1:]:
+                if not crowded(a, b):
+                    continue
+                # a dot already off the line climbs again in preference to
+                # pushing its neighbour off too: the second step costs nothing
+                # but stem, while moving the neighbour costs a whole new one.
+                # only then does rank decide, and equal rank sends the later
+                # dot up, so the older milestone keeps its place.
+                if bool(a["lift"]) != bool(b["lift"]):
+                    lo = a if a["lift"] else b
+                else:
+                    lo = a if RANK[a["m"]["kind"]] > RANK[b["m"]["kind"]] else b
+                if lo["y"] - lo["lift"] - LIFT < CEIL:
+                    continue      # out of headroom, so it stays crowded
+                lo["lift"] += LIFT
+                moved = True
+        if not moved:
+            break
 
     dots = []
     for k in marks:

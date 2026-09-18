@@ -447,11 +447,12 @@
   .tl-cta { gap:8px; margin-top:16px; }
   .tl-cta a { font-size:12px; padding:7px 12px; }
 
-  /* 205 days across 343px is a day and a half per pixel, so the eight smaller
-     milestones stop being targets and go back to being marks: ten of them were
-     landing inside each other's 26px tap box, and whichever sat on top won.
-     They keep their place on the line, and the six that open a chapter keep
-     the finger. */
+  /* 207 days across 343px is well over half a day per pixel, so the eight
+     smaller milestones stop being targets and go back to being marks: they
+     were landing inside each other's 26px tap box, and whichever sat on top
+     won. They keep their place on the line, and the nine that open a chapter
+     or belong to the Architect keep the finger. Which nine those are is also
+     written into pipeline/build.py, which spaces them for this width. */
   .tl-stage { height:200px; }
   .tl-d.minor { pointer-events:none; }
   .tl-d.minor i { width:4px; height:4px; opacity:.7; }
@@ -460,8 +461,9 @@
   .tl-sil span { font-size:8.5px; }
 }
 
-/* A finger has no hover state, and eleven of the sixteen cards hang off the
-   side of a phone-width stage anyway. On touch the dot is simply a link.
+/* A finger has no hover state, and twelve of the seventeen cards would hang
+   off the side of a phone-width stage anyway. On touch the dot is simply a
+   link.
    Crowding is a question of how precisely you can point, not of how wide the
    window is, so a tablet gets the thinned set of targets as well. */
 @media (hover:none) {
@@ -594,7 +596,7 @@
       <a class="tl-d minor" href="chapter-5.html" style="left:8.74%;top:54.80%;animation-delay:0.55s"><i></i><span class="tl-card below edgeL"><em>13 Mar</em><b>Swarm pressure</b><code>add frostmite swarm pressure</code></span></a>
       <a class="tl-d minor" href="chapter-3.html" style="left:12.62%;top:61.09%;animation-delay:0.73s"><i></i><span class="tl-card above"><em>21 Mar</em><b>Tower terminal</b><code>Refine tower terminal UI and unlock compass recovery</code></span></a>
       <a class="tl-d major" href="chapter-1.html" style="left:18.45%;top:55.37%;animation-delay:0.91s"><i></i><span class="tl-card above"><em>02 Apr</em><b>Everything changes</b><code>fix(atmosphere): add breathable zone authority pass 1</code></span></a>
-      <a class="tl-d arch2" href="architect.html" style="left:20.39%;top:47.05%;animation-delay:1.02s"><i></i><span class="tl-card below"><em>06 Apr</em><b>The decision engine</b><code>refactor(architect): extract decision engine</code></span></a>
+      <a class="tl-d arch2" href="architect.html" style="left:20.39%;top:23.05%;animation-delay:1.02s"><i></i><u style="height:57.1px"></u><span class="tl-card below"><em>06 Apr</em><b>The decision engine</b><code>refactor(architect): extract decision engine</code></span></a>
       <a class="tl-d minor" href="chapter-4.html" style="left:21.84%;top:37.54%;animation-delay:1.06s"><i></i><span class="tl-card below"><em>09 Apr</em><b>Instruments</b><code>feat(blizzard_goggles): add Curios whiteout optics</code></span></a>
       <a class="tl-d minor" href="chapter-7.html" style="left:24.76%;top:46.84%;animation-delay:1.20s"><i></i><span class="tl-card above"><em>15 Apr</em><b>The way out</b><code>feat(endgame): add blast pit launch pad and rocket launch entity</code></span></a>
       <a class="tl-d major" href="chapter-7.html" style="left:31.55%;top:76.22%;animation-delay:1.39s"><i></i><span class="tl-card above"><em>29 Apr</em><b>alpha-1.0</b><code>Merge pull request #31 from cjaron03/release/alpha-1.0-release</code></span></a>
