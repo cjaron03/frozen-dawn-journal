@@ -535,7 +535,9 @@
 2026-09-15	75	7	fix(debug): abandon stalled wilderness detours promptly
 2026-09-16	0	0	Merge pull request #84 from cjaron03/feat/architect-visual-debugger
 2026-09-16	0	0	Merge pull request #85 from cjaron03/docs/dev-journal-link
+2026-09-16	0	0	Merge pull request #86 from cjaron03/feat/maeve-belief-store
 2026-09-16	0	0	Merge pull request #87 from cjaron03/docs/journal-custom-domain
+2026-09-16	0	0	Merge pull request #88 from cjaron03/feat/maeve-diagnostics
 2026-09-16	0	0	Take the address off the banner
 2026-09-16	0	0	merge: integrate Architect target commitment into alpha
 2026-09-16	0	0	merge: release Frozen Dawn 2.0.1 alpha stability update
@@ -543,11 +545,21 @@
 2026-09-16	3	3	docs: point the journal links at frozendawn.jaronc.com
 2026-09-16	11	0	Link the dev journal from the README and from the mods list
 2026-09-16	40	3	docs(architect): verify combined alpha LAN recovery
+2026-09-16	53	21	test(maeve): await entity visibility in observation fixtures
 2026-09-16	57	0	docs(release): prepare 2.0.1 alpha stability notes
 2026-09-16	149	14	fix(debug): verify observed gate reopening before accepting pursuit hits
 2026-09-16	186	5	fix(entity): keep bridge turns and scaffold descents supported
 2026-09-16	187	3	fix(architect): honor recovery cooldowns during player commitment
 2026-09-16	206	0	docs(architect): record alpha integration evidence and LAN replay
 2026-09-16	239	0	fix(architect): cancel stale scaffold lifts after interrupted pursuit
+2026-09-16	431	33	feat(maeve): explain beliefs and observed contradictions
 2026-09-16	468	0	feat(dev): add isolated Architect LAN guest client
 2026-09-16	1375	3	feat(maeve): record persistent beliefs from witnessed player actions
+2026-09-17	26	14	fix(maeve): attribute counter losses and interference correctly
+2026-09-17	28	9	test(maeve): isolate counter-result learning in the live replay
+2026-09-17	64	17	fix(maeve): recognize converging pursuit and preserve crossing observations
+2026-09-17	987	27	feat(maeve): learn conditional pursuit and counter outcomes
+2026-09-17	1007	28	feat(maeve): add MACS reconnaissance missions (#92)
+2026-09-17	1191	30	feat(maeve): bound shared attention and make eviction visible (#91)
+2026-09-17	1480	20	feat(maeve): hold recoverable bets from prior encounters (#89)
+2026-09-17	1485	33	feat(maeve): add observed access points and spatial discovery (#90)
