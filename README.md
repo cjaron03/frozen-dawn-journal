@@ -27,7 +27,7 @@ history of how the look was settled.
 ## pipeline/
 
     fetch.py        pulls commit history out of the mod repo
-    build.py        turns that into the data the pages read
+    build.py        writes that history into the homepage graph
     data/           commits.tsv, chapters.json, milestones.json
     src/            copies of the mod classes the pages document,
                     the source of truth for every number on the site
@@ -35,6 +35,19 @@ history of how the look was settled.
 Numbers shown on the site are read out of the real mod source rather
 than retyped, so PhaseManager.java and ChunkCatchUpManager.java here
 are reference copies, not a second implementation.
+
+The homepage graph refreshes itself. Once a day the deploy workflow runs
+fetch.py and build.py, commits whatever changed and ships it; a day with
+no new commits in the mod ships nothing. To do the same by hand:
+
+    python3 pipeline/fetch.py
+    python3 pipeline/build.py
+
+build.py only rewrites the parts of site/timeline.html fenced with
+build: markers, plus the line's length where the stylesheet uses it.
+Everything else on that page is hand written and safe to edit. Editing
+inside a fence is not: every deploy runs build.py --check, which fails
+if the page and the data disagree.
 
 ## Licence
 

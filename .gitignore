@@ -14,6 +14,3 @@ preview/
 pipeline/.cache/
 
 .claude/
-
-# rendered by pipeline/build.py, spliced into site/ by hand
-pipeline/out/

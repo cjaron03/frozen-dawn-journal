@@ -4,9 +4,14 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # the mod keeps moving whether or not this repo does, so once a day the
+  # graph goes and looks. 10:17 UTC is the middle of the night in
+  # California, off the hour so it is not queued behind everyone else's.
+  schedule:
+    - cron: "17 10 * * *"
 
-# the deploy needs to mint an id token for Pages. nothing here writes to
-# the repository itself.
+# the deploy needs to mint an id token for Pages. the refresh job is the one
+# place that writes to the repository, and it asks for that itself.
 permissions:
   contents: read
   pages: write
@@ -19,14 +24,76 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  # the clock and the button pull new history out of the mod. a push already
+  # carries whatever data it was committed with, so it goes straight to build.
+  refresh:
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+      sha: ${{ steps.commit.outputs.sha }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      # the mirror is 80MB and a day's fetch is a few KB, so it is kept
+      # between runs rather than cloned fresh every morning.
+      - uses: actions/cache@v4
+        with:
+          path: pipeline/.cache
+          key: mirror-${{ github.run_id }}
+          restore-keys: mirror-
+
+      - name: Fetch
+        run: python3 pipeline/fetch.py
+
+      - name: Build the graph
+        run: python3 pipeline/build.py
+
+      # a push made with the workflow's own token does not start another
+      # run, so this job hands its commit to the build below instead.
+      - id: commit
+        name: Commit what changed
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add pipeline/data/commits.tsv site/timeline.html
+            git commit -m "Graph: refresh from the mod, $(grep -c . pipeline/data/commits.tsv) commits"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  build:
+    needs: refresh
+    # a push always ships and so does the button. the clock ships only when
+    # it found something, so a quiet week is seven runs and no deploys.
+    if: >-
+      always() && (needs.refresh.result == 'skipped' ||
+      (needs.refresh.result == 'success' &&
+      (github.event_name == 'workflow_dispatch' || needs.refresh.outputs.changed == 'true')))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.refresh.outputs.sha || github.sha }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # the graph on the page has to be the graph the data draws. this is
+      # what catches a hand edit inside one of the build: fences.
+      - name: Graph is current
+        run: python3 pipeline/build.py --check
 
       - name: Build
         run: python3 tools/build.py

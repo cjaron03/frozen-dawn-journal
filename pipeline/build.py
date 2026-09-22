@@ -1,25 +1,34 @@
-"""Render the homepage from the commit history.
+"""Write the commit history into the homepage.
 
-Every number, position and duration on the page is derived here from
+Every number, position and duration on the graph is derived here from
 data/commits.tsv. Nothing about the project's shape is typed by hand,
 so a rebuild after new commits produces a correct page with no edits.
 Hand authored input is limited to two small files: chapters.json (where
 the chapter boundaries fall) and milestones.json (which commits are
 worth a dot), and both are editorial choices, not facts about the repo.
+
+The page itself, site/timeline.html, is hand written, and this only owns
+the parts of it that are facts about the repo. Those sit between
+build: markers and are replaced whole; everything outside them is left
+exactly as it was found, so the page can be edited like any other and a
+rebuild never undoes the edit. The exceptions are two numbers that sit
+inside hand written text, the line's length, which the stylesheet needs
+in seven places, and the day count in the page's working note, and those
+are filled in where they stand rather than fenced.
+
+    python3 pipeline/build.py           rewrite the page
+    python3 pipeline/build.py --check   fail if the page is out of date
 """
-import collections, datetime, json, math, pathlib, random, sys
+import collections, datetime, difflib, html, json, math, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).parent
-OUT  = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "out" / "timeline.html"
-REPO_URL = "https://github.com/cjaron03/frozen-dawn"
+PAGE = ROOT.parent / "site" / "timeline.html"
 
 W, H     = 1000.0, 200.0   # stage viewBox
 WEIGHT   = [7, 6, 5, 4, 3, 2, 1]   # trailing days, today weighted heaviest
 T0, DRAW = 0.15, 3.6       # when the line starts, how long it takes
-TRAV     = 72.0            # seconds for Earth to cross the header
-SPIN     = 7.0             # seconds per rotation
-ARC      = "M 34 46 C 250 14, 640 11, 1078 40"
-STAGE_H  = 238.0           # .tl-stage height in px, for the lifted dot stems
+STAGE_H  = 238.0           # .tl-stage height in px, for the lifted dot stems;
+                           # the stylesheet owns that number, so change both
 RANK     = {"arch": 0, "maeve": 0, "arch2": 1, "major": 1, "minor": 2}
 NEAR_X, NEAR_Y, LIFT = 24.0, 12.0, 28.0   # collision box and lift, in stage units
 # LIFT is 28 because TAP_MIN below is 26. A stage unit is a pixel on the
@@ -49,14 +58,9 @@ TAP_MIN  = 26.0            # px between two live targets on the phone stage
 # 20, which left a pair sitting at 20.018px, clearing the bar by two
 # hundredths of a pixel and only until the next commit shifted it.
 CEIL     = 24.0            # stop climbing here, or the cards leave the stage
-LAND = ('<path d="M -7.2 -4.4 q 3.1 -2.2 5.2 .9 q 2 3.1 -1.1 4.1 q -4.1 1 -5.1 -2 z"/>'
-        '<path d="M 1.1 -1.3 q 4 -3 6 .2 q 1 3.9 -3 4.8 q -3.9 0 -3 -5 z"/>'
-        '<path d="M -3.3 4.2 q 3 -1 4.1 1.9 q -1 2 -4.1 1 z"/>'
-        '<path d="M 5.4 -6.1 q 2.6 -1 3.4 1.4 q -1.2 1.8 -3.6 .9 z"/>')
 
 MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 def short(d):  return "%02d %s" % (d.day, MONTHS[d.month - 1])
-def longd(d):  return "%02d %s %d" % (d.day, MONTHS[d.month - 1], d.year)
 
 
 def load():
@@ -275,7 +279,7 @@ def main():
                         '<i></i>%s<span class="tl-card %s%s"><em>%s</em><b>%s</b><code>%s</code></span></a>'
                         % (m["kind"], m["go"], x / W * 100, (y - k["lift"]) / H * 100,
                            delay(k["frac"]), stem, place, edge,
-                           short(k["d"]), m["title"], k["subject"])))
+                           short(k["d"]), m["title"], html.escape(k["subject"], quote=False))))
 
     # ---- chapter bands, counts and widths both derived ----
     chapters = json.loads((ROOT / "data" / "chapters.json").read_text(encoding="utf-8"))
@@ -292,68 +296,70 @@ def main():
                      % (cls, days / float(span) * 100.0, delay(frac) + 0.05, c["name"], n))
 
     # ---- counters, pure CSS so the hero needs no script ----
-    stats = [(len(rows), "commits", False), (span, "days", False),
-             (gap_days, "days dark", True), (1, "person", False)]
-    css, html = [], []
-    for i, (val, label, dim) in enumerate(stats):
+    stats = [len(rows), span, gap_days, 1]   # commits, days, days dark, person
+    css = []
+    for i, val in enumerate(stats):
         v = "v%d" % i
         css.append("@property --%s { syntax:'<integer>'; initial-value:0; inherits:false }\n"
                    ".tl-stats div:nth-child(%d) b { --%s:%d; counter-reset:c var(--%s); animation:k%d 1.7s cubic-bezier(.15,.85,.25,1) %.2fs; }\n"
                    ".tl-stats div:nth-child(%d) b:after { content:counter(c) }\n"
                    "@keyframes k%d { from { --%s:0 } }"
                    % (v, i + 1, v, val, v, i, 0.35 + i * 0.08, i + 1, i, v))
-        html.append('<div%s><b></b><span>%s</span></div>' % (' class="dim"' if dim else '', label))
 
-    # ---- snow ----
-    random.seed(7)
-    snow = []
-    for i in range(26):
-        lay = i % 3
-        size = [1.6, 2.3, 3.2][lay]; op = [.16, .26, .4][lay]
-        dur = [26, 19, 14][lay] + random.random() * 7
-        snow.append('<span style="left:%.1f%%;width:%spx;height:%spx;opacity:%s;animation-duration:%.1fs;'
-                    'animation-delay:-%.1fs;--dx:%dpx"></span>'
-                    % (random.random() * 100, size, size, op, dur, random.random() * dur,
-                       random.randint(-40, 40)))
+    poly = " ".join("%.1f,%.1f" % p for p in pts)
+    regions = {
+        "line": ['<path class="tl-grain" d="%s"/>' % grain(raw, y_of)] +
+                ['<polyline class="tl-%s" points="%s"/>' % (c, poly)
+                 for c in ("glow", "trace", "scan")],
+        "dots": [d for _, d in dots] +
+                ['<div class="tl-sil" style="left:%.2f%%;width:%.2f%%"><div></div><span>%d days</span></div>'
+                 % (sil_x, sil_w, gap_days)],
+        "bands": bands,
+        "counters": "\n".join(css).split("\n"),
+    }
+    length = "%.0f" % total_len
+    slots = [  # (what, pattern, value, how many times it has to appear)
+        ("line length", r"(?<=stroke-dasharray:)\d+(?=; stroke-dashoffset:\d+; animation:tldraw)", length, 2),
+        ("line length", r"(?<=stroke-dashoffset:)\d+(?=; animation:tldraw)", length, 2),
+        ("line length", r"(?<=stroke-dasharray:52 )\d+(?=;)", length, 1),
+        ("line length", r"(?<=stroke-dashoffset:-)\d+(?= })", length, 2),
+        ("day span",    r"(?<=each day across )\d+(?= days)", str(span), 1),
+    ]
 
-    headline = ("One person, %s commits, and a thing that learned to think."
-                % "{:,}".format(len(rows)).replace(",", " hundred and ") if False else
-                "One person, %d commits, and a thing that learned to think." % len(rows))
-    subtitle = ("The line is how much code moved each day across %d days, so drawing it in draws the real "
-                "shape of the project. Hover a dot to read the commit, click it to open the chapter. The "
-                "amber dots are the Architect. Every number here is read from the repository at build "
-                "time." % span)
-    meta = "%d commits &middot; %s to %s &middot; one person" % (len(rows), short(first), longd(last))
+    page = PAGE.read_text(encoding="utf-8")
+    out = page
+    for name, lines in regions.items():
+        # either comment syntax, since three of these are markup and one is CSS
+        fence = re.compile(r"^([ \t]*)(?:<!--|/\*) build:%s (?:-->|\*/)\n"
+                           r"(.*?)^[ \t]*(?:<!--|/\*) /build:%s (?:-->|\*/)$" % (name, name),
+                           re.S | re.M)
+        found = list(fence.finditer(out))
+        if len(found) != 1:
+            sys.exit("%s: expected one build:%s region, found %d" % (PAGE, name, len(found)))
+        m = found[0]
+        body = "".join(m.group(1) + ln + "\n" for ln in lines)
+        out = out[:m.start(2)] + body + out[m.end(2):]
+    for what, pat, val, want in slots:
+        out, n = re.subn(pat, val, out)
+        if n != want:
+            sys.exit("%s: the %s appears %d times, expected %d; a hand edit moved "
+                     "one of the anchors in pipeline/build.py" % (PAGE, what, n, want))
 
-    tpl = (ROOT / "templates" / "home.tpl").read_text(encoding="utf-8")
-    out = (tpl
-        .replace("__POLY__", " ".join("%.1f,%.1f" % p for p in pts))
-        .replace("__LEN__", "%.0f" % total_len)
-        .replace("__SCANAT__", "%.1f" % (T0 + DRAW + 1.2))
-        .replace("__GRAIN__", grain(raw, y_of))
-        .replace("__GRAINAT__", "%.2f" % (T0 + DRAW + 0.15))
-        .replace("__DOTS__", "\n      ".join(d for _, d in dots))
-        .replace("__BANDS__", "\n      ".join(bands))
-        .replace("__SNOW__", "\n      ".join(snow))
-        .replace("__SILX__", "%.2f" % sil_x).replace("__SILW__", "%.2f" % sil_w)
-        .replace("__DARK__", str(gap_days))
-        .replace("__META__", meta).replace("__HEADLINE__", headline).replace("__SUBTITLE__", subtitle)
-        .replace("__STATS__", "".join(html)).replace("__COUNTERCSS__", "\n".join(css))
-        .replace("__REPO__", REPO_URL)
-        .replace("__ARC__", ARC).replace("__LAND__", LAND)
-        .replace("__TRAV__", "%.1f" % TRAV).replace("__SPIN__", "%.1f" % SPIN)
-        .replace("__SPINS__", "%.1f" % (TRAV / SPIN)))
-
-    left = [tok for tok in ("__",) if "__" in out]
-    if left:
-        sys.exit("unfilled placeholders remain: " + str(set(__import__("re").findall(r"__[A-Z]+__", out))))
-
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(out, encoding="utf-8")
     print("%s\n  %d commits, %s to %s, %d days"
-          % (OUT, len(rows), first, last, span))
+          % (PAGE.relative_to(ROOT.parent), len(rows), first, last, span))
     print("  longest gap %d days, %s to %s" % (gap_days, gap_from, gap_to))
-    print("  line length %.0f, %d dots, %d chapters" % (total_len, len(dots), len(bands)))
+    print("  line length %s, %d dots, %d chapters" % (length, len(dots), len(bands)))
+
+    if out == page:
+        print("  already up to date")
+    elif "--check" in sys.argv[1:]:
+        sys.stdout.writelines(list(difflib.unified_diff(
+            page.splitlines(True), out.splitlines(True),
+            "site/timeline.html", "what build.py would write", n=0))[:40])
+        sys.exit("site/timeline.html is out of date: run python3 pipeline/build.py")
+    else:
+        PAGE.write_text(out, encoding="utf-8")
+        print("  rewritten")
 
 
 if __name__ == "__main__":
