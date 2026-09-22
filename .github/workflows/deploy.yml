@@ -107,6 +107,10 @@ jobs:
 
   deploy:
     needs: build
+    # said out loud because the default is not "build passed" but "every
+    # job upstream passed", and on a push the refresh job is skipped, which
+    # counts against it. without this line a push builds and never ships.
+    if: always() && needs.build.result == 'success'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
