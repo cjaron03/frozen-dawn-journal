@@ -99,7 +99,10 @@ else:
 # pages themselves still look perfectly fine locally.
 for f in sorted(OUT.glob("*.html")):
     s = f.read_text(encoding="utf-8")
-    for ref in set(re.findall(r'(?:href|content)="(?:[^"]*/)?(assets/[^"]+)"', s)):
+    refs = set(re.findall(r'(?:href|content)="(?:[^"]*/)?(assets/[^"]+)"', s))
+    # and anything a script points at, like the chapter three artwork
+    refs |= set(re.findall(r'["\'(](assets/[\w./-]+\.\w+)', s))
+    for ref in refs:
         if not (OUT / ref).exists():
             fail("missing asset", f"{f.name} references {ref}")
     for ph in re.findall(r'__[A-Z]+__', s):
