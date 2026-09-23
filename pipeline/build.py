@@ -27,9 +27,17 @@ PAGE = ROOT.parent / "site" / "timeline.html"
 W, H     = 1000.0, 200.0   # stage viewBox
 WEIGHT   = [7, 6, 5, 4, 3, 2, 1]   # trailing days, today weighted heaviest
 T0, DRAW = 0.15, 3.6       # when the line starts, how long it takes
+NARROW   = 3.5             # a band under this percentage of the width is too
+                           # thin to hold its own name; see the bands below
+FOLD_TO  = 8.0             # days of width the longest silence keeps, folded
+ZOOM_DAYS, ZOOM = 28, 2.0  # the last four weeks, drawn twice as wide
+# The width is time, with two marked exceptions, and both are in widths()
+# below. On a plain calendar the chapter being written right now is the
+# thinnest thing on the page: three chapters in three weeks came to about a
+# ninth of the width, while forty two days with nothing in them took a fifth.
 STAGE_H  = 238.0           # .tl-stage height in px, for the lifted dot stems;
                            # the stylesheet owns that number, so change both
-RANK     = {"arch": 0, "maeve": 0, "arch2": 1, "major": 1, "minor": 2}
+RANK     = {"arch": 0, "arch2": 1, "maeve": 1, "major": 1, "minor": 2}
 NEAR_X, NEAR_Y, LIFT = 24.0, 12.0, 28.0   # collision box and lift, in stage units
 # LIFT is 28 because TAP_MIN below is 26. A stage unit is a pixel on the
 # phone stage, so a step of 24 could never pull two dots sharing an x
@@ -76,7 +84,39 @@ def load():
     return rows
 
 
-def curve(rows, first, span):
+def widths(first, span, last, gap_from, gap_to):
+    """Where each day sits across the stage, and how wide it is.
+
+    Every day is the same width, except two runs that are marked on the page
+    where they happen. The longest silence is folded down to FOLD_TO days of
+    width under a bracket that still says how long it really was, since a
+    flat line at zero reads the same at any length. The last ZOOM_DAYS are
+    drawn ZOOM times as wide behind a seam that says so, because that is the
+    part still being written and the part with the most dots on it. Order is
+    never touched, only spacing, so every date still falls where it did
+    relative to every other date.
+    """
+    inner = (gap_to - gap_from).days - 1
+    fold = FOLD_TO / inner if inner > FOLD_TO else 1.0
+    w = []
+    for i in range(span):
+        d = first + datetime.timedelta(days=i)
+        k = fold if gap_from < d < gap_to else 1.0
+        if (last - d).days < ZOOM_DAYS:
+            k *= ZOOM
+        w.append(k)
+    # a day's centre is half its own width past the previous centre plus
+    # half the previous width, so a wide day and a narrow one meet at their
+    # shared edge; then the whole run is stretched so the first day sits at
+    # 0 and the last at W, which is where the old even spacing put them.
+    xs = [0.0]
+    for i in range(1, span):
+        xs.append(xs[-1] + (w[i - 1] + w[i]) / 2.0)
+    k = W / xs[-1]
+    return [x * k for x in xs], [x * k for x in w]
+
+
+def curve(rows, first, span, xs):
     """How much code moved per day, smoothed, as a polyline in the stage viewBox."""
     per = collections.Counter(d for d, _a, _r, _s in rows)
     moved = collections.Counter()
@@ -111,11 +151,11 @@ def curve(rows, first, span):
     # line really was a day bigger than the week around it.
     peak = float(max(max(raw), max(sm))) or 1.0
     y_of = lambda v: H - 18 - math.sqrt(v / peak) * (H - 40)
-    pts = [(i / float(span - 1) * W, y_of(v)) for i, v in enumerate(sm)]
+    pts = [(xs[i], y_of(v)) for i, v in enumerate(sm)]
     return pts, per, raw, y_of
 
 
-def grain(raw, y_of):
+def grain(raw, y_of, xs, ws):
     """One column per day at its true, unsmoothed height.
 
     The line is a week of work averaged into a shape. This is what the days
@@ -124,11 +164,9 @@ def grain(raw, y_of):
     days around it were quiet. The columns tile the full width, so the 105 days
     with no commit at all read as gaps rather than as a low flat run.
     """
-    span = len(raw)
-    step = W / float(span - 1)
     base = H - 18
     return "".join("M%.2f %.1fh%.2fV%.1fH%.2fZ"
-                   % (i * step - step / 2.0, y_of(v), step, base, i * step - step / 2.0)
+                   % (xs[i] - ws[i] / 2.0, y_of(v), ws[i], base, xs[i] - ws[i] / 2.0)
                    for i, v in enumerate(raw) if v)
 
 
@@ -165,16 +203,22 @@ def main():
     rows = load()
     first, last = rows[0][0], rows[-1][0]
     span = (last - first).days + 1
-    pts, per, raw, y_of = curve(rows, first, span)
+    gap_days, gap_from, gap_to = longest_gap(rows)
+    xs, ws = widths(first, span, last, gap_from, gap_to)
+    pts, per, raw, y_of = curve(rows, first, span, xs)
     cum = arclen(pts)
     total_len = cum[-1]
-    x_of = lambda d: (d - first).days / float(span - 1) * W
+    x_of = lambda d: xs[(d - first).days]
     delay = lambda frac: T0 + frac * DRAW
 
     # ---- the silence, measured rather than remembered ----
-    gap_days, gap_from, gap_to = longest_gap(rows)
     sil_x = x_of(gap_from) / W * 100.0
     sil_w = (x_of(gap_to) - x_of(gap_from)) / W * 100.0
+
+    # ---- the seam where the last weeks start drawing wider ----
+    z = max(0, span - ZOOM_DAYS)
+    zoom_x = (xs[z - 1] + xs[z]) / 2.0 / W * 100.0 if z else None
+    zoom_t = delay(at_x(pts, cum, zoom_x / 100.0 * W)[1]) if z else 0
 
     # ---- milestone dots, placed on the curve at their real dates ----
     marks = []
@@ -237,21 +281,12 @@ def main():
             for b in marks[i + 1:]:
                 if not crowded(a, b):
                     continue
-                # Maeve's dots are hidden until the page is unlocked, so
-                # they are not allowed to push a visible dot anywhere. A
-                # public dot moved out of the way of something nobody can see
-                # reads as a dot floating for no reason, with a stem pointing
-                # at empty line. The secret pays for its own crowding: when
-                # one of a pair is Maeve's, that is the one that climbs, and
-                # the locked graph is laid out as though she were not there.
-                if (a["m"]["kind"] == "maeve") != (b["m"]["kind"] == "maeve"):
-                    lo = a if a["m"]["kind"] == "maeve" else b
                 # a dot already off the line climbs again in preference to
                 # pushing its neighbour off too: the second step costs nothing
                 # but stem, while moving the neighbour costs a whole new one.
                 # only then does rank decide, and equal rank sends the later
                 # dot up, so the older milestone keeps its place.
-                elif bool(a["lift"]) != bool(b["lift"]):
+                if bool(a["lift"]) != bool(b["lift"]):
                     lo = a if a["lift"] else b
                 else:
                     lo = a if RANK[a["m"]["kind"]] > RANK[b["m"]["kind"]] else b
@@ -291,9 +326,19 @@ def main():
         n = sum(v for k, v in per.items() if s <= k <= e)
         days = (e - s).days + 1
         _, frac = at_x(pts, cum, x_of(s))
-        cls = (' class="%s"' % c["class"]) if c.get("class") else ""
-        bands.append('<div%s style="flex:%.2f;animation-delay:%.2fs">%s<br><b>%d</b></div>'
-                     % (cls, days / float(span) * 100.0, delay(frac) + 0.05, c["name"], n))
+        a, b = (s - first).days, (e - first).days
+        flex = sum(ws[a:b + 1]) / sum(ws) * 100.0
+        # a chapter a few days old is a sliver, and its name is wider than
+        # its band. Rather than let the name shove the band wider and knock
+        # every boundary out of line with the graph above, a narrow band keeps
+        # its true width and hangs its label off the right hand edge, one row
+        # down, clear of its neighbour's. As the chapter grows past NARROW it
+        # goes back to being labelled like the rest.
+        cls = " ".join(filter(None, [c.get("class"), "n" if flex < NARROW else ""]))
+        cls = (' class="%s"' % cls) if cls else ""
+        label = ("<span>%s <b>%d</b></span>" if flex < NARROW else "%s<br><b>%d</b>") % (c["name"], n)
+        bands.append('<div%s style="flex:%.2f;animation-delay:%.2fs">%s</div>'
+                     % (cls, flex, delay(frac) + 0.05, label))
 
     # ---- counters, pure CSS so the hero needs no script ----
     stats = [len(rows), span, gap_days, 1]   # commits, days, days dark, person
@@ -308,12 +353,14 @@ def main():
 
     poly = " ".join("%.1f,%.1f" % p for p in pts)
     regions = {
-        "line": ['<path class="tl-grain" d="%s"/>' % grain(raw, y_of)] +
+        "line": ['<path class="tl-grain" d="%s"/>' % grain(raw, y_of, xs, ws)] +
                 ['<polyline class="tl-%s" points="%s"/>' % (c, poly)
                  for c in ("glow", "trace", "scan")],
         "dots": [d for _, d in dots] +
-                ['<div class="tl-sil" style="left:%.2f%%;width:%.2f%%"><div></div><span>%d days</span></div>'
-                 % (sil_x, sil_w, gap_days)],
+                ['<div class="tl-sil" style="left:%.2f%%;width:%.2f%%"><div></div><span>%d days, folded</span></div>'
+                 % (sil_x, sil_w, gap_days)] +
+                (['<div class="tl-zm" style="left:%.2f%%;animation-delay:%.2fs"><span>last %d weeks, %g&times; wide</span></div>'
+                  % (zoom_x, zoom_t, ZOOM_DAYS // 7, ZOOM)] if zoom_x is not None else []),
         "bands": bands,
         "counters": "\n".join(css).split("\n"),
     }
