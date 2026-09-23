@@ -34,6 +34,9 @@ through the Architect page, and the check below keeps that door a reward.
 
     assets/         the icons and the social cards, plus assets/ch3/, the
                     ORSA textures and campaign posters Chapter III loads
+    assets/chapter.js
+                    what every chapter shares: the typed title, the deck,
+                    the cards, the reading marker and the layer switch
 
 ## tools/
 

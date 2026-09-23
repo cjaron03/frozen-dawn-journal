@@ -59,8 +59,10 @@ for f in sorted(OUT.glob("*.html")):
 # ---- 4. no em dashes, anywhere -------------------------------------------
 # a standing style rule for this project. the exemptions are the places a
 # double hyphen is not punctuation: css custom properties, the js decrement,
-# comment delimiters, section dividers and base64 payloads.
-for f in sorted(SITE.glob("*.html")):
+# comment delimiters, section dividers and base64 payloads. the scripts the
+# pages share are written the same way, so they are held to it too.
+SHARED_JS = sorted((SITE / "assets").glob("*.js"))
+for f in sorted(SITE.glob("*.html")) + SHARED_JS:
     s = f.read_text(encoding="utf-8")
     if s.count("—"):
         fail("em dash", f"{f.name} x{s.count('—')}")
@@ -91,6 +93,11 @@ else:
                 if r.returncode:
                     fail("script syntax", f"{f.name} block {i}: "
                                           f"{r.stderr.strip().splitlines()[0]}")
+        for f in SHARED_JS:
+            r = subprocess.run([node, "--check", str(f)], capture_output=True, text=True)
+            if r.returncode:
+                fail("script syntax", f"assets/{f.name}: "
+                                      f"{r.stderr.strip().splitlines()[0]}")
 
 
 # ---- 6. the icons and the card actually reached the build ----------------
