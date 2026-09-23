@@ -62,6 +62,33 @@ DESC = {
                      "it gets built.",
 }
 
+# what each page's card shows, for the reader who cannot see it. the cards
+# are drawn by tools/art/make_icons.py into assets/cards/, named after the
+# built page. a page without one falls back to the journal's own card.
+CARD_ALT = {
+    "index.html": "Earth drifting away from the sun, most of the way frozen.",
+    "chapter-1.html": "The Earth along its drift path, freezing a little more at "
+                      "each of six phases.",
+    "architect.html": "The Architect's two cyan eyes, glowing in the dark.",
+    "chapter-3.html": "The ORSA masthead: Stability above. Continuity beyond.",
+    "chapter-4.html": "A grid of frozen rooms with one lit amber, its warmth "
+                      "thinning through the walls.",
+    "chapter-5.html": "A single ice crystal, glowing pale blue.",
+    "chapter-6.html": "Three pairs of violet eyes at the edge of a hearth's light.",
+    "chapter-7.html": "An amber trail leaving the frozen Earth, heading back "
+                      "towards a distant sun.",
+    "director.html": "Maeve's violet eyes, with five of the Returned watching "
+                     "below her.",
+}
+
+
+def card_for(current: str) -> tuple[str, str]:
+    art = f"assets/cards/{current.replace('.html', '.png')}"
+    if (SITE / art).exists():
+        return art, CARD_ALT.get(current, CARD_ALT["index.html"])
+    return "assets/social-card.png", CARD_ALT["index.html"]
+
+
 def esc(t: str) -> str:
     """These land inside double quoted attributes, so they get escaped."""
     return (t.replace("&", "&amp;").replace("<", "&lt;")
@@ -92,7 +119,10 @@ def nav_html(current: str) -> str:
 
 def wrap(shell: str, title: str, current: str, body: str) -> str:
     # the homepage supplies its own masthead, so it hides the shared site bar.
+    art, alt = card_for(current)
     return (shell.replace("__TITLE__", esc(title))
+                 .replace("__CARDALT__", esc(alt))
+                 .replace("__CARD__", art)
                  .replace("__DESC__", esc(DESC.get(current, DESC["index.html"])))
                  .replace("__URL__", BASE + ("" if current == "index.html" else current))
                  .replace("__BASE__", BASE)
