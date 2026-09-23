@@ -2123,7 +2123,7 @@ window.ORSA_POSTERS = {
   }
 
   var rest = frame.querySelector('.ap-rest');
-  var pub = [], deckIdx = 0;
+  var pub = [];
   if (rest){
     for (var n = 0; n < rest.children.length; n++){
       var k = rest.children[n];
@@ -2131,7 +2131,6 @@ window.ORSA_POSTERS = {
       pub.push(k);
     }
   }
-  deckIdx = pub.length;
   if (deck) pub.push(deck);
 
   function land(el){
@@ -2147,9 +2146,38 @@ window.ORSA_POSTERS = {
     stagger(el);
   }
   function revealAll(){ pub.forEach(function(el){ el.classList.remove('ap-rv'); el.classList.add('set'); }); }
+  /* what a block does on arrival, short of the rise itself */
+  function greet(el){
+    if (el.classList.contains('ap-stats')) arr('b', el).forEach(countUp);
+    if (el === deck) arr('.ap-pane.on .ap-figs b', el).forEach(countUp);
+  }
+  function onScreen(el, lim){
+    return el.getClientRects().length > 0 && el.getBoundingClientRect().top < lim;
+  }
+  /* the first screen fades in with the intro, so its numbers start counting
+     as the fade starts, and are already moving the moment they can be seen. */
+  if (frame) frame.addEventListener('animationstart', function(e){
+    if (e.animationName !== 'apUp' || e.target !== rest) return;
+    var lim = doc.getBoundingClientRect().bottom;
+    pub.forEach(function(el){ if (onScreen(el, lim)) greet(el); });
+  });
+
+  var armed = false;
   function arm(){
+    if (armed) return;
+    armed = true;
     if (RM || !window.IntersectionObserver){ revealAll(); return; }
-    pub.forEach(function(el, i){ if (i !== deckIdx) el.classList.add('ap-rv'); });
+    /* whatever is already on screen came in with the intro's fade. hiding it
+       here only to rise it again made the first screen load twice, so it is
+       set as it stands, and only what is still below the fold waits. */
+    var lim = doc.getBoundingClientRect().bottom;
+    var later = pub.filter(function(el){
+      if (!onScreen(el, lim)) return true;
+      if (el !== deck) el.classList.add('set');
+      greet(el);
+      return false;
+    });
+    later.forEach(function(el){ if (el !== deck) el.classList.add('ap-rv'); });
     var io = new IntersectionObserver(function(es){
       es.forEach(function(e){
         if (!e.isIntersecting) return;
@@ -2157,7 +2185,7 @@ window.ORSA_POSTERS = {
         land(e.target);
       });
     }, { root: doc, rootMargin: '0px 0px -8% 0px', threshold: 0.01 });
-    pub.forEach(function(el){ io.observe(el); });
+    later.forEach(function(el){ io.observe(el); });
 
     /* a jump scroll (end key, a restored position) can carry an element from
        below the fold to above it without ever intersecting, and the observer
@@ -2194,7 +2222,7 @@ window.ORSA_POSTERS = {
       if (frame.classList.contains('done')){ mo.disconnect(); arm(); }
     });
     mo.observe(frame, { attributes: true, attributeFilter: ['class'] });
-    setTimeout(function(){ if (!pub[0] || !pub[0].classList.contains('ap-rv')){ mo.disconnect(); arm(); } }, 4000);
+    setTimeout(function(){ if (!armed){ mo.disconnect(); arm(); } }, 4000);
   } else setTimeout(arm, 3000);
 })();
 </script>
