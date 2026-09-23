@@ -1845,11 +1845,24 @@ BlockHitResult hit = level.<v>clip</v>(<k>new</k> ClipContext(
   var N = 5, doc = document.querySelector('.ap-doc');
   if (!doc) return;
   function mark(){
+    var s, was;
     try {
-      var s = window.localStorage,
-          v = (parseInt(s.getItem('fd.read'), 10) || 0) | (1 << N);
+      s = window.localStorage;
+      was = parseInt(s.getItem('fd.read'), 10) || 0;
+      var v = was | (1 << N);
       s.setItem('fd.read', String(v));
       if (v === 254) s.setItem('fd.ok', '1');
+    } catch (e) { return; }
+    /* the first time each chapter is finished, and when, in the order it
+       happened. only a first finish that this script actually saw goes in,
+       so the log never claims more than it witnessed. Maeve's page reads it
+       back. it is never sent anywhere. */
+    if (was & (1 << N)) return;
+    try {
+      var log = JSON.parse(s.getItem('fd.log') || '[]');
+      if (!Array.isArray(log)) log = [];
+      log.push([N, Date.now()]);
+      s.setItem('fd.log', JSON.stringify(log));
     } catch (e) {}
   }
   function check(){
