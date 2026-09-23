@@ -27,12 +27,7 @@ PAGES = [
     ("what-the-cold-made",        "chapter-5.html", "V. What the Cold Made"),
     ("the-ones-who-stayed",       "chapter-6.html", "VI. The Ones Who Stayed"),
     ("welcome-home",              "chapter-7.html", "VII. Welcome Home"),
-]
-
-# built, but deliberately absent from every index, nav and card on the site.
-# there is exactly one intended way in and it is not a link.
-UNLISTED = [
-    ("maeve", "director.html", "Maeve"),
+    ("maeve",                     "director.html",  "VIII. Maeve"),
 ]
 
 TITLE = "Frozen Dawn"
@@ -62,13 +57,10 @@ DESC = {
                       "Humanity left. They stayed.",
     "chapter-7.html": "Warmth begins as life and ends as fuel. Building a way off a "
                       "dead planet, and what home turns out to mean.",
-    "director.html": "A chapter of the Frozen Dawn dev journal.",
+    "director.html": "Maeve, the director that learns how you play. The "
+                     "specification came first; this is the chapter where "
+                     "it gets built.",
 }
-
-# the hidden chapter is reachable by anyone who types the address, which is
-# fine. it should not turn up in a search for it, which is the difference
-# between a secret and a listing.
-NOINDEX = {"director.html"}
 
 def esc(t: str) -> str:
     """These land inside double quoted attributes, so they get escaped."""
@@ -100,13 +92,10 @@ def nav_html(current: str) -> str:
 
 def wrap(shell: str, title: str, current: str, body: str) -> str:
     # the homepage supplies its own masthead, so it hides the shared site bar.
-    robots = ('<meta name="robots" content="noindex">\n'
-              if current in NOINDEX else "")
     return (shell.replace("__TITLE__", esc(title))
                  .replace("__DESC__", esc(DESC.get(current, DESC["index.html"])))
                  .replace("__URL__", BASE + ("" if current == "index.html" else current))
                  .replace("__BASE__", BASE)
-                 .replace("__ROBOTS__", robots)
                  .replace("__BODYCLASS__", "home" if current == "index.html" else "")
                  .replace("__NAV__", nav_html(current))
                  .replace("__BODY__", body))
@@ -144,18 +133,6 @@ def main() -> int:
         (OUT / out).write_text(
             wrap(shell, f"{label} · {TITLE}" if out != "index.html" else TITLE,
                  out, body), encoding="utf-8")
-        built.append(out)
-
-    for stem, out, label in UNLISTED:
-        src = SITE / f"{stem}.html"
-        if not src.exists():
-            skipped.append(stem)
-            continue
-        body, ok = strip_notes(src.read_text(encoding="utf-8"))
-        if not ok:
-            kept_notes.append(stem)
-        (OUT / out).write_text(
-            wrap(shell, f"{label} · {TITLE}", out, body), encoding="utf-8")
         built.append(out)
 
     print(f"built {len(built)} pages into preview/")

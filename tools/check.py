@@ -34,25 +34,17 @@ for f in sorted(OUT.glob("*.html")):
         fail("annotation leaked", f"{f.name} (leading h2)")
 
 
-# ---- 2. the hidden chapter stays hidden ----------------------------------
-# there is one intended way into director.html and it is not a link anyone
-# can see. the exceptions are controls that the unlock reveals: the swap on
-# the architect page, and Maeve's own dots on the homepage graph. each is
-# allowed only for as long as it is still hidden by default, so an exception
-# has to name the rule that hides it, and that rule gets checked too.
-GATED = [("ap-swap",    "architect-page.html", ".ap-swap { display:none; }"),
-         ("tl-d maeve", "timeline.html",       ".tl-d.maeve { display:none; }")]
-
-for f in sorted(OUT.glob("*.html")):
-    if f.name == "director.html":
-        continue
-    for tag in re.findall(r'<a\b[^>]*href="[^"]*director\.html"[^>]*>', f.read_text(encoding="utf-8")):
-        if not any(cls in tag for cls, _s, _r in GATED):
-            fail("director.html linked", f"{f.name}: {tag[:60]}")
+# ---- 2. the finishers' door stays a finishers' door ----------------------
+# Maeve is listed like any other chapter now, but reading all seven still
+# opens a second way in, through the Architect page, and that one is a
+# reward. the controls it reveals have to stay hidden by default, or the
+# reward is just a button.
+GATED = [("ap-swap",   "architect-page.html", ".ap-swap { display:none; }"),
+         ("ap-replay", "maeve.html",          ".ap-replay { display:none; }")]
 
 for cls, src, rule in GATED:
     if rule not in (SITE / src).read_text(encoding="utf-8"):
-        fail("unlock gate missing", f"{src} no longer hides .{cls.replace(chr(32), chr(46))} by default")
+        fail("unlock gate missing", f"{src} no longer hides .{cls} by default")
 
 
 # ---- 3. no dead internal links -------------------------------------------
