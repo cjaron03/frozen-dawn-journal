@@ -555,12 +555,14 @@
 2026-09-16	431	33	feat(maeve): explain beliefs and observed contradictions
 2026-09-16	468	0	feat(dev): add isolated Architect LAN guest client
 2026-09-16	1375	3	feat(maeve): record persistent beliefs from witnessed player actions
-2026-09-17	19	7	fix(maeve): keep follow-up counter replay near observed evidence
-2026-09-17	26	14	fix(maeve): attribute counter losses and interference correctly
-2026-09-17	28	9	test(maeve): isolate counter-result learning in the live replay
-2026-09-17	64	17	fix(maeve): recognize converging pursuit and preserve crossing observations
-2026-09-17	987	27	feat(maeve): learn conditional pursuit and counter outcomes
 2026-09-17	1007	28	feat(maeve): add MACS reconnaissance missions (#92)
 2026-09-17	1191	30	feat(maeve): bound shared attention and make eviction visible (#91)
 2026-09-17	1480	20	feat(maeve): hold recoverable bets from prior encounters (#89)
 2026-09-17	1485	33	feat(maeve): add observed access points and spatial discovery (#90)
+2026-09-23	13	1	test(maeve): measure scout extraction during its active window
+2026-09-23	92	10	fix(maeve): distinguish noncombat scouting from ordinary roaming
+2026-09-23	176	10	fix(maeve): inspect partial floors and retain scout departure cues
+2026-09-23	230	22	fix(maeve): ground scout routes on partial terrain
+2026-09-23	371	0	test(maeve): prepare paired MACS camp playtests
+2026-09-23	1100	32	feat(maeve): learn conditional pursuit and counter outcomes (#93)
+2026-09-24	2927	162	feat(macs): refine scouting and add sustained sword guards
