@@ -565,4 +565,17 @@
 2026-09-23	230	22	fix(maeve): ground scout routes on partial terrain
 2026-09-23	371	0	test(maeve): prepare paired MACS camp playtests
 2026-09-23	1100	32	feat(maeve): learn conditional pursuit and counter outcomes (#93)
+2026-09-24	0	0	feat(macs): integrate reconnaissance, cover and sword guard (#94)
+2026-09-24	127	54	fix(architect): bound snow circling and trial shorter cover with more ice
+2026-09-24	185	29	fix(macs): resume pillar combat and orient mantlets locally
+2026-09-24	217	23	fix(macs): safely retire mantlet screens and expand their allowance
+2026-09-24	244	35	fix(architect): build bow cover through layered snow
+2026-09-24	249	4	fix(architect): keep defensive ice clear and refresh pursuit routes
+2026-09-24	263	1	test(macs): add frozen late-phase camp terrain
+2026-09-24	714	15	fix(architect): preserve sword pursuit across layered snow
+2026-09-24	867	25	feat(macs): advance behind a bounded siege mantlet
 2026-09-24	2927	162	feat(macs): refine scouting and add sustained sword guards
+2026-09-25	0	0	Merge pull request #95 from cjaron03/feat/macs-mantlet
+2026-09-25	43	4	fix(macs): score pillar combat after pursuit
+2026-09-25	234	32	fix(macs): resume combat when mantlet cover is mined
+2026-09-25	787	79	feat(macs): add a finite keep-away archer counter
