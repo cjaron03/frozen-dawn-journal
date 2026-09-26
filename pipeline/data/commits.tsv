@@ -578,4 +578,6 @@
 2026-09-25	0	0	Merge pull request #95 from cjaron03/feat/macs-mantlet
 2026-09-25	43	4	fix(macs): score pillar combat after pursuit
 2026-09-25	234	32	fix(macs): resume combat when mantlet cover is mined
-2026-09-25	787	79	feat(macs): add a finite keep-away archer counter
+2026-09-26	57	0	docs(macs): plan the second-favorite exit counter
+2026-09-26	786	55	feat(macs): learn and intercept the second-favorite exit
+2026-09-26	999	79	feat(macs): add a finite keep-away archer counter (#96)
