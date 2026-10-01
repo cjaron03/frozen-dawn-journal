@@ -580,4 +580,13 @@
 2026-09-25	234	32	fix(macs): resume combat when mantlet cover is mined
 2026-09-26	999	79	feat(macs): add a finite keep-away archer counter (#96)
 2026-09-26	1031	19	feat(macs): predict the second-favorite exit (#97)
+2026-09-27	296	15	feat(macs): refine convergence warning and checkpoint field replays
+2026-09-27	332	30	fix(macs): make hotspot avoidance visibly sprint
 2026-09-27	1503	75	feat(macs): converge pawns on observed death hotspots
+2026-09-30	0	0	Merge pull request #98 from cjaron03/feat/macs-pawn-convergence
+2026-09-30	0	0	Merge pull request #99 from cjaron03/feat/maeve-baseline-reconciliation
+2026-09-30	0	0	chore(macs): integrate validated pawn convergence
+2026-09-30	10	3	docs(macs): record verified convergence draft publication
+2026-09-30	461	8	test(macs): qualify base diversion with controlled return
+2026-09-30	477	0	feat(macs): add hidden pacifist launch advancement
+2026-09-30	2982	9	feat(lab): add guarded command bridge and convergence acceptance tools
