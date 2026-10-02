@@ -590,3 +590,9 @@
 2026-09-30	461	8	test(macs): qualify base diversion with controlled return
 2026-09-30	477	0	feat(macs): add hidden pacifist launch advancement
 2026-09-30	2982	9	feat(lab): add guarded command bridge and convergence acceptance tools
+2026-10-02	3	3	docs(fdbot): describe the command as dev-only
+2026-10-02	70	17	fix(fdbot): parse namespaced ids and tags as one token
+2026-10-02	117	40	fix(fdbot): serialize the command tree with a vanilla argument
+2026-10-02	120	7	fix(fdbot): refuse goto into solid blocks
+2026-10-02	282	29	fix(fdbot): place against any adjacent solid face
+2026-10-02	1600	0	feat(fdbot): add a dev-only survival command for playtesters
