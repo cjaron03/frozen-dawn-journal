@@ -596,3 +596,24 @@
 2026-10-02	120	7	fix(fdbot): refuse goto into solid blocks
 2026-10-02	282	29	fix(fdbot): place against any adjacent solid face
 2026-10-02	1600	0	feat(fdbot): add a dev-only survival command for playtesters
+2026-10-03	5	2	fix(eva): emergency patch show activation in typed suit HUD
+2026-10-03	59	8	feat(eva): emergency patch add activation speech and simplify reserve HUD
+2026-10-03	167	34	fix(lab): emergency patch repair Phase 6 terrain preparation
+2026-10-03	288	90	fix(eva): emergency patch reuse oxygen HUD and prepare terrain recovery
+2026-10-03	923	86	fix(survival): emergency patch for late Phase 6 respawn death loops
+2026-10-04	38	0	test(eva): emergency patch verify Continuity navigation
+2026-10-04	128	44	fix(eva): emergency patch prevent overlapping breaths
+2026-10-04	150	1	fix(eva): emergency patch degrade reserve filter breathing
+2026-10-04	201	22	feat(eva): emergency patch add taped visor and recovery breathing
+2026-10-04	206	62	fix(eva): emergency patch combine strained CC0 mask breathing
+2026-10-04	268	26	feat(eva): emergency patch add aging visor diagnostics
+2026-10-04	436	43	feat(eva): emergency patch add exertion and recovery
+2026-10-04	532	27	feat(eva): emergency patch add return-only suit presentation
+2026-10-04	1019	48	feat(eva): emergency patch add ORSA Continuity Protocol
+2026-10-05	0	0	fix(survival): merge emergency EVA patch (#102)
+2026-10-05	19	0	docs(eva): record emergency patch PR handoff
+2026-10-05	25	0	docs(eva): record emergency patch merge gates
+2026-10-05	154	41	fix(eva): emergency patch smooth full-screen visor fog
+2026-10-05	212	61	feat(eva): emergency patch extend service and shorten warnings
+2026-10-05	441	22	feat(eva): emergency patch add aging cooling and suit advisory
+2026-10-05	631	83	feat(eva): emergency patch add ambient bypass and primary handoff
