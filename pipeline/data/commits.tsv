@@ -617,3 +617,5 @@
 2026-10-05	212	61	feat(eva): emergency patch extend service and shorten warnings
 2026-10-05	441	22	feat(eva): emergency patch add aging cooling and suit advisory
 2026-10-05	631	83	feat(eva): emergency patch add ambient bypass and primary handoff
+2026-10-06	1	1	docs(macs): record Scribe stress-matrix result
+2026-10-06	1480	27	feat(macs): add the Scribe Architect (§9.4b)
