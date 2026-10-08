@@ -620,3 +620,13 @@
 2026-10-06	1	1	docs(macs): record Scribe stress-matrix result
 2026-10-06	6	1	build: add optional quick-play world for runClientLab
 2026-10-06	1480	27	feat(macs): add the Scribe Architect (§9.4b)
+2026-10-07	2	0	docs(macs): record the stalled east bearing in Scribe Base owner pass 3
+2026-10-07	24	9	fix(macs): clear stray cover and call Architects from the east in Scribe Base
+2026-10-07	162	51	fix(macs): show real belief confidence at the Scribe Check checkpoint
+2026-10-07	299	3	feat(macs): add the natural MACS Scribe Base playtest world
+2026-10-07	412	2	fix(macs): recognize custom sword damage and shield contacts
+2026-10-08	1	1	docs(macs): name the feat/scribe-architect branch
+2026-10-08	2	0	docs(macs): record the first natural Scribe in Scribe Base
+2026-10-08	224	47	fix(macs): let the Scribe walk on late snow and harden the Scribe Check world
+2026-10-08	303	1	feat(macs): add the MACS Scribe Check playtest world
+2026-10-08	480	1	fix(macs): preserve weapon habits across travel
