@@ -625,8 +625,53 @@
 2026-10-07	162	51	fix(macs): show real belief confidence at the Scribe Check checkpoint
 2026-10-07	299	3	feat(macs): add the natural MACS Scribe Base playtest world
 2026-10-07	412	2	fix(macs): recognize custom sword damage and shield contacts
+2026-10-08	0	0	fix: integrate playtest sword, travel and atmosphere fixes
 2026-10-08	1	1	docs(macs): name the feat/scribe-architect branch
+2026-10-08	1	1	docs(macs): note the owner's cornered Scribe observation
+2026-10-08	1	1	docs(macs): record the Scribe defense decision and Quick 7 save
 2026-10-08	2	0	docs(macs): record the first natural Scribe in Scribe Base
+2026-10-08	2	0	fix(macs): give the Scribe map an empty banner list
+2026-10-08	3	2	feat(macs): stock a bow and arrows in the Scribe Base cabin
+2026-10-08	4	3	fix(macs): roll Scribe bad luck protection from the subject's random
+2026-10-08	5	1	docs(macs): record the first Scribe Base quick pass
+2026-10-08	5	3	feat(macs): announce and mark every ordinary Architect while Scribe Base waits
+2026-10-08	5	4	feat(macs): let Scribe Base wait for another Scribe after one leaves
+2026-10-08	8	0	docs: record playtest fixes integration handoff
+2026-10-08	10	3	fix(tools): refuse to rewrite anything but the Scribe Base pack folder
+2026-10-08	13	4	feat(macs): let Scribe Base wait for a Scribe below three beliefs
+2026-10-08	14	0	docs(macs): record Scribe quick passes 2 and 3, the lost save and the fixed roll
+2026-10-08	14	51	fix(macs): have the Scribe fight back whenever struck up close
+2026-10-08	15	1	fix(macs): keep the Scribe from reporting evidence on itself
+2026-10-08	33	7	feat(macs): let Scribe Base quick mode call ordinary Architects to train
+2026-10-08	38	83	fix(macs): walk the Scribe with ordinary mob navigation
+2026-10-08	43	15	feat(macs): zoom the Scribe map to fit its marks
+2026-10-08	153	9	feat(macs): add a lab-only quick mode to Scribe Base
+2026-10-08	153	11	feat(macs): sketch the subject and chalk pictograms on the Scribe slate
+2026-10-08	163	27	feat(macs): add Scribe bad luck protection and inconclusive record lines
+2026-10-08	166	34	fix(macs): let the Scribe flee off ledges and keep a stand-off from its subject
+2026-10-08	194	104	feat(macs): scratch the Scribe record onto a slate and ink it by certainty
 2026-10-08	224	47	fix(macs): let the Scribe walk on late snow and harden the Scribe Check world
+2026-10-08	250	0	fix(survival): allow building over frozen atmosphere
 2026-10-08	303	1	feat(macs): add the MACS Scribe Check playtest world
 2026-10-08	480	1	fix(macs): preserve weapon habits across travel
+2026-10-08	1573	136	feat(food): add portable ORSA ration warmer
+2026-10-09	0	0	Merge pull request #105 from cjaron03/feat/scribe-architect
+2026-10-09	0	0	merge: bring feat/maeve-director into feat/scribe-architect
+2026-10-09	1	1	docs(macs): move the Scribe handoff to the Quick 11 save
+2026-10-09	1	1	docs(macs): point the Scribe handoff at the merged Quick 10 save
+2026-10-09	1	1	fix(test): give the cornered Scribe GameTest its own scene lane
+2026-10-09	3	2	fix(tools): describe the Scribe map by what Maeve remembers
+2026-10-09	4	0	docs(macs): record Scribe quick pass 7 and the map-icon question
+2026-10-09	4	0	docs(macs): record Scribe quick pass 8 on the merged build
+2026-10-09	4	0	docs(survival): record oxygen notice visual acceptance
+2026-10-09	4	0	fix(build): let the stress server parse the lab packs
+2026-10-09	5	1	docs(macs): record Scribe quick pass 10 and the merge handoff
+2026-10-09	5	1	docs(macs): record Scribe quick pass 9, the stand-off reached
+2026-10-09	12	18	fix(macs): mark Scribe map openings with a blue banner
+2026-10-09	43	0	docs(survival): record player-built airlock and oxygen reserve design
+2026-10-09	44	37	fix(survival): preserve spent torches and legacy saved blocks
+2026-10-09	150	2	test(survival): preserve breach playtest setup and evidence handoff
+2026-10-09	169	2	feat(macs): the Scribe writes on its slate while it watches
+2026-10-09	284	17	fix(survival): arbitrate atmosphere and suffocation notices
+2026-10-09	981	5	fix(survival): extinguish ordinary flames in vacuum
+2026-10-09	1140	96	feat(survival): add sealed-room breaches and recovery feedback
