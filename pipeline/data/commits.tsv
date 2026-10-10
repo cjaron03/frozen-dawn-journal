@@ -673,5 +673,19 @@
 2026-10-09	150	2	test(survival): preserve breach playtest setup and evidence handoff
 2026-10-09	169	2	feat(macs): the Scribe writes on its slate while it watches
 2026-10-09	284	17	fix(survival): arbitrate atmosphere and suffocation notices
+2026-10-09	706	37	feat(thermal): model delayed cooling with depth
 2026-10-09	981	5	fix(survival): extinguish ordinary flames in vacuum
 2026-10-09	1140	96	feat(survival): add sealed-room breaches and recovery feedback
+2026-10-09	1869	15	feat(airlocks): add pressure cycling and silent suit feedback
+2026-10-10	8	0	feat(tools): check entry names against the chapter list width
+2026-10-10	35	24	fix(manual): fit entry names in the chapter list
+2026-10-10	89	17	docs(thermal): explain room climate and thermostat controls
+2026-10-10	247	523	feat(manual): reorganize the ORSA manual and tighten the guide entries
+2026-10-10	546	49	feat(thermal): throttle heaters to a shared target with stable fuel status
+2026-10-10	618	12	feat(airlock): add machinery audio and restore door cues
+2026-10-10	685	31	feat(thermal): add Core-aware room thermostat controls
+2026-10-10	1142	0	feat(tools): add ORSA manual layout linter
+2026-10-10	1142	11	feat(thermal): model conserved air and structure heat
+2026-10-10	1238	191	fix(manual): split overflowing ORSA manual pages and shorten titles
+2026-10-10	1842	62	feat(thermal): keep canonical heater rooms active
+2026-10-10	8137	12	feat(thermal): add airtight heat vent and service grille
