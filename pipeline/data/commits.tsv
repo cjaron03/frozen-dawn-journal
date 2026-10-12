@@ -694,4 +694,17 @@
 2026-10-10	8137	12	feat(thermal): add airtight heat vent and service grille
 2026-10-11	0	0	Merge pull request #106 from cjaron03/feat/blind-architect-integration
 2026-10-11	36	0	docs(blind-architect): record protected integration delivery
+2026-10-11	183	50	feat(oxygen): warn before breathing loss with double beeps
+2026-10-11	705	40	feat(oxygen): shed combustion under sustained room overload
+2026-10-11	1176	95	feat(environment): add breathing scarcity with consistent heat and timing
+2026-10-11	1664	41	feat(oxygen): add reservoirs and shared charging allocation
 2026-10-11	33011	448	feat(blind-architect): add bounded underground Architect variant
+2026-10-12	0	0	Merge remote-tracking branch 'origin/feat/maeve-director' into fix/orsa-manual-layout
+2026-10-12	0	0	feat(integration): combine atmospheric breach and airlocks with Maeve
+2026-10-12	0	0	feat(integration): combine conserved room heat and service controls
+2026-10-12	0	0	feat(integration): combine room oxygen and Core allocation with Maeve
+2026-10-12	0	0	feat(integration): merge atmospheric breach and airlocks (#107)
+2026-10-12	0	0	feat(integration): merge room oxygen and Core allocation (#109)
+2026-10-12	0	0	feat(integration): merge thermal model and service controls (#108)
+2026-10-12	576	329	feat(core): add heat and oxygen allocation with unified controls
+2026-10-12	1332	524	feat(manual): apply the readability template to every guide entry
