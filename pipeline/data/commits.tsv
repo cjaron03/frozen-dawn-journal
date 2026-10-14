@@ -708,3 +708,7 @@
 2026-10-12	0	0	feat(integration): merge thermal model and service controls (#108)
 2026-10-12	576	329	feat(core): add heat and oxygen allocation with unified controls
 2026-10-12	1332	524	feat(manual): apply the readability template to every guide entry
+2026-10-14	792	16	feat(power): add removable cells, battery banks and docks
+2026-10-14	866	18	feat(power): add induction furnace with battery support
+2026-10-14	1042	9	feat(power): add network monitor with battery comparator
+2026-10-14	2663	110	feat(power): add Binder links and Core-powered panel lights
