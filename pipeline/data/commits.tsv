@@ -711,4 +711,7 @@
 2026-10-14	792	16	feat(power): add removable cells, battery banks and docks
 2026-10-14	866	18	feat(power): add induction furnace with battery support
 2026-10-14	1042	9	feat(power): add network monitor with battery comparator
+2026-10-14	1503	275	feat(power): add PIXIE-2 and automatic heat vent control
+2026-10-14	2589	61	feat(power): add RH-5 heating and preserve room pressure
 2026-10-14	2663	110	feat(power): add Binder links and Core-powered panel lights
+2026-10-14	5342	274	fix(heating): seal vent casing and glow active radiator fins
