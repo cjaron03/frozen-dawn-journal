@@ -715,3 +715,24 @@
 2026-10-14	2589	61	feat(power): add RH-5 heating and preserve room pressure
 2026-10-14	2663	110	feat(power): add Binder links and Core-powered panel lights
 2026-10-14	5342	274	fix(heating): seal vent casing and glow active radiator fins
+2026-10-15	75	15	fix(airlock): silence successful door opening notices
+2026-10-15	258	36	feat(heating): add adjustable RH-5 power limits up to 50 kW
+2026-10-15	460	20	feat(airlock): add manual inner-door equalization
+2026-10-15	498	17	feat(power): add charged-cell salvage and surface-mounted relays
+2026-10-15	2862	234	feat(power): add powered airlock cycling and room recovery fixes
+2026-10-15	3255	21	feat(power): add the ORSA CFU-7 Hearthstone Reactor
+2026-10-16	0	0	chore: merge emergency lighting and Power/Air advancements from feat/maeve-director
+2026-10-16	0	0	chore: merge feat/maeve-director into feat/hearthstone-radiation
+2026-10-16	0	0	feat(power): integrate completed power and airlock systems
+2026-10-16	0	0	feat(power): integrate emergency light and Power/Air advancements
+2026-10-16	47	1	test(airlock): finish chunk indexing before measuring recovery
+2026-10-16	63	2	fix(radiation): exempt Creative and Spectator, clean the visor on respawn
+2026-10-16	123	4	fix(power): keep links live while a door changes room geometry
+2026-10-16	151	0	chore(tools): add the Merge Check playtest world generator
+2026-10-16	408	7	feat(radiation): add the ORSA decontamination shower
+2026-10-16	474	2	feat(radiation): add ruined ORSA reactor sites
+2026-10-16	501	15	fix(airlock): preserve vacuum safety and equalize inner-door entry
+2026-10-16	709	4	feat(radiation): add galena, lead shielding and the lead-lined EVA module
+2026-10-16	1227	7	feat(power): add emergency lighting and hidden Power/Air advancements
+2026-10-16	1335	141	feat(audio): add recorded airlock machinery sounds
+2026-10-16	2282	53	feat(radiation): add dose, contamination, fallout and violent meltdowns
