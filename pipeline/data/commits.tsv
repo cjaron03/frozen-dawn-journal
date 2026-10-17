@@ -721,6 +721,8 @@
 2026-10-15	498	17	feat(power): add charged-cell salvage and surface-mounted relays
 2026-10-15	2862	234	feat(power): add powered airlock cycling and room recovery fixes
 2026-10-15	3255	21	feat(power): add the ORSA CFU-7 Hearthstone Reactor
+2026-10-16	0	0	Merge origin/feat/maeve-director into fix/orsa-manual-layout
+2026-10-16	0	0	Merge pull request #112 from cjaron03/feat/hearthstone-radiation
 2026-10-16	0	0	chore: merge emergency lighting and Power/Air advancements from feat/maeve-director
 2026-10-16	0	0	chore: merge feat/maeve-director into feat/hearthstone-radiation
 2026-10-16	0	0	feat(power): integrate completed power and airlock systems
@@ -736,3 +738,19 @@
 2026-10-16	1227	7	feat(power): add emergency lighting and hidden Power/Air advancements
 2026-10-16	1335	141	feat(audio): add recorded airlock machinery sounds
 2026-10-16	2282	53	feat(radiation): add dose, contamination, fallout and violent meltdowns
+2026-10-17	0	0	feat(forge): merge grid-powered Acheron Forge modes (#113)
+2026-10-17	1	1	docs(uplink): record owner approval of the relay archive text
+2026-10-17	4	2	feat(uplink): show the holder's position on Uplink plots
+2026-10-17	6	4	fix(reactor): keep the reserve button and target line inside the screen
+2026-10-17	12	0	docs(manual): record the power, reactor and radiation pass
+2026-10-17	15	46	revert: drop the epigraph's silent beat and waking breath
+2026-10-17	36	13	feat(uplink): count the relay's stations from the seed in the census
+2026-10-17	46	15	feat(client): add a silent beat and waking breath to the epigraph
+2026-10-17	50	8	feat(reactor): add an operator spinning reserve to load-follow
+2026-10-17	55	7	fix(reactor): hot radiators shed frost, snow and ice even when buried
+2026-10-17	94	42	feat(client): restage the epigraph with fades, a howl and a soft handoff
+2026-10-17	129	19	fix(world): stop epoch catch-up stalling and starving reloaded chunks
+2026-10-17	149	2	feat(client): play the First Boot Epigraph before the first ORSA intro
+2026-10-17	300	52	feat(uplink): relay transcripts, scheduled transmit load and a field world
+2026-10-17	917	4423	feat(forge): add grid-powered Acheron Forge modes
+2026-10-17	2819	13	feat(uplink): add the ORSA Uplink transceiver
