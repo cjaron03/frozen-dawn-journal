@@ -745,12 +745,20 @@
 2026-10-17	12	0	docs(manual): record the power, reactor and radiation pass
 2026-10-17	15	46	revert: drop the epigraph's silent beat and waking breath
 2026-10-17	36	13	feat(uplink): count the relay's stations from the seed in the census
+2026-10-17	43	11	fix(gpr): wrap the Plumb Line screen and trace overlay delivery
 2026-10-17	46	15	feat(client): add a silent beat and waking breath to the epigraph
 2026-10-17	50	8	feat(reactor): add an operator spinning reserve to load-follow
+2026-10-17	51	5	fix(power): never wait on a loading chunk during link checks
 2026-10-17	55	7	fix(reactor): hot radiators shed frost, snow and ice even when buried
 2026-10-17	94	42	feat(client): restage the epigraph with fades, a howl and a soft handoff
 2026-10-17	129	19	fix(world): stop epoch catch-up stalling and starving reloaded chunks
 2026-10-17	149	2	feat(client): play the First Boot Epigraph before the first ORSA intro
 2026-10-17	300	52	feat(uplink): relay transcripts, scheduled transmit load and a field world
+2026-10-17	701	120	feat(gpr): make Plumb Line scans readable and printable
 2026-10-17	917	4423	feat(forge): add grid-powered Acheron Forge modes
+2026-10-17	1611	6	feat(gpr): add the ORSA GPR-4 Plumb Line ground radar
 2026-10-17	2819	13	feat(uplink): add the ORSA Uplink transceiver
+2026-10-18	0	0	feat(power): merge work lamp and battery lantern (#115)
+2026-10-18	0	0	feat: merge ORSA Uplink and GPR-4 Plumb Line
+2026-10-18	0	0	feat: merge ORSA Uplink and GPR-4 Plumb Line (#114)
+2026-10-18	4669	23	feat(power): add work lamps and battery lanterns
