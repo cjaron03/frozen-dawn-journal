@@ -758,7 +758,18 @@
 2026-10-17	917	4423	feat(forge): add grid-powered Acheron Forge modes
 2026-10-17	1611	6	feat(gpr): add the ORSA GPR-4 Plumb Line ground radar
 2026-10-17	2819	13	feat(uplink): add the ORSA Uplink transceiver
+2026-10-18	0	0	chore: merge feat/maeve-director into feat/cold-flora
+2026-10-18	0	0	feat(power): merge suit headlamp (#117)
 2026-10-18	0	0	feat(power): merge work lamp and battery lantern (#115)
 2026-10-18	0	0	feat: merge ORSA Uplink and GPR-4 Plumb Line
 2026-10-18	0	0	feat: merge ORSA Uplink and GPR-4 Plumb Line (#114)
+2026-10-18	8	0	docs(power): record merged lighting and headlamp handoff
+2026-10-18	57	16	fix(flora): redraw resin, Sulfur Igniter and Thermal Binder in vanilla style
+2026-10-18	107	15	feat(flora): add dev commands that force natural Cold Flora spawns
+2026-10-18	108	95	fix(flora): give Rimewood a tiered canopy and vanilla-style textures
+2026-10-18	245	112	feat(flora): grow Rimewood and Frostcap from Phase 3 wherever it is cold
+2026-10-18	1629	12	feat(power): add suit headlamp and helmet mount
 2026-10-18	4669	23	feat(power): add work lamps and battery lanterns
+2026-10-18	5423	13	feat(flora): add Rimewood and Frostcap cold flora
+2026-10-19	0	0	chore: merge feat/maeve-director into feat/cold-flora
+2026-10-19	0	0	feat: merge Cold Flora Rimewood and Frostcap (#116)
