@@ -773,3 +773,7 @@
 2026-10-18	5423	13	feat(flora): add Rimewood and Frostcap cold flora
 2026-10-19	0	0	chore: merge feat/maeve-director into feat/cold-flora
 2026-10-19	0	0	feat: merge Cold Flora Rimewood and Frostcap (#116)
+2026-10-20	0	0	chore: merge maeve-director into bomb cyclone
+2026-10-20	8	0	fix(test): finish airlock indexing before timing recovery
+2026-10-20	1118	24	feat: add early-phase auroras and correct nighttime fog
+2026-10-20	5802	520	feat(cyclone): add regional Phase 5 bomb cyclones
