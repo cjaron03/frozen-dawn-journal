@@ -772,8 +772,26 @@
 2026-10-18	4669	23	feat(power): add work lamps and battery lanterns
 2026-10-18	5423	13	feat(flora): add Rimewood and Frostcap cold flora
 2026-10-19	0	0	chore: merge feat/maeve-director into feat/cold-flora
+2026-10-19	0	0	feat(manual): merge Uplink, Plumb Line, lighting and forge power
+2026-10-19	0	0	feat(manual): merge cold flora
 2026-10-19	0	0	feat: merge Cold Flora Rimewood and Frostcap (#116)
+2026-10-19	251	71	feat(manual): add cold flora pages and regroup navigation
+2026-10-20	0	0	chore: merge current maeve-director into bomb cyclone
+2026-10-20	0	0	chore: merge current maeve-director into phase 1 weather
 2026-10-20	0	0	chore: merge maeve-director into bomb cyclone
+2026-10-20	0	0	feat(cyclone): merge regional bomb cyclones (#119)
+2026-10-20	0	0	feat(phase1): merge weather, cold breath and forest ambience (#120)
+2026-10-20	0	0	feat: merge early-phase auroras and nighttime fog (#118)
 2026-10-20	8	0	fix(test): finish airlock indexing before timing recovery
+2026-10-20	58	8	fix(cyclone): restore fast wind ducking for Thermal Sever
 2026-10-20	1118	24	feat: add early-phase auroras and correct nighttime fog
+2026-10-20	2092	87	feat(phase1): enrich weather, cold breath and forest ambience
 2026-10-20	5802	520	feat(cyclone): add regional Phase 5 bomb cyclones
+2026-10-21	0	0	feat(manual): merge ORSA Field Manual layout and content pass (#122)
+2026-10-21	0	0	feat(manual): merge maeve-director weather and cyclone
+2026-10-21	1	1	fix(barometer): craft from vanilla items
+2026-10-21	69	2	feat(manual): add Bomb Cyclones entry
+2026-10-21	81	0	feat(manual): add found gear and ORSA Sites pages
+2026-10-21	93	1	feat(manual): add surface hazards, station terminal and site fixtures
+2026-10-21	221	37	feat(manual): add item lookups, Quick Reference and Mimic photos
+2026-10-21	668	1	feat(phase2): add cold wind with smooth shelter fades
