@@ -787,11 +787,28 @@
 2026-10-20	1118	24	feat: add early-phase auroras and correct nighttime fog
 2026-10-20	2092	87	feat(phase1): enrich weather, cold breath and forest ambience
 2026-10-20	5802	520	feat(cyclone): add regional Phase 5 bomb cyclones
+2026-10-21	0	0	Merge branch 'feat/maeve-director' into feat/gap-advancements
+2026-10-21	0	0	chore: merge feat/maeve-director into feat/gap-advancements
+2026-10-21	0	0	chore: merge feat/maeve-director into feat/ice-fishing
+2026-10-21	0	0	feat(advancements): merge five gap-filler easter eggs (#125)
+2026-10-21	0	0	feat(comfort): merge Jar of Miel (#126)
+2026-10-21	0	0	feat(food): merge ice fishing and late fish (#127)
+2026-10-21	0	0	feat(inventory): merge Creative items and inventory icons (#124)
 2026-10-21	0	0	feat(manual): merge ORSA Field Manual layout and content pass (#122)
 2026-10-21	0	0	feat(manual): merge maeve-director weather and cyclone
+2026-10-21	0	0	fix(barometer): merge vanilla barometer recipe (#123)
 2026-10-21	1	1	fix(barometer): craft from vanilla items
+2026-10-21	4	0	fix(food): guard Ice Auger plugging like a bucket
+2026-10-21	22	3	fix(tools): load the Field Manual in filtered test worlds
+2026-10-21	36	0	test(advancements): add Advancement Check lab replay pack
 2026-10-21	69	2	feat(manual): add Bomb Cyclones entry
 2026-10-21	81	0	feat(manual): add found gear and ORSA Sites pages
 2026-10-21	93	1	feat(manual): add surface hazards, station terminal and site fixtures
 2026-10-21	221	37	feat(manual): add item lookups, Quick Reference and Mimic photos
+2026-10-21	241	3	feat(advancements): add five gap-filler easter eggs
+2026-10-21	288	2	feat(comfort): add Jar of Miel
 2026-10-21	668	1	feat(phase2): add cold wind with smooth shelter fades
+2026-10-21	687	12	feat(inventory): complete Creative access and fix item icons
+2026-10-21	1128	3	feat(food): add ice fishing and late fish
+2026-10-22	0	0	chore: merge feat/maeve-director into feat/seafood-boil
+2026-10-22	1648	7	feat(food): add the Seafood Boil
