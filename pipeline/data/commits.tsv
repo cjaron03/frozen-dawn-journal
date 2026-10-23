@@ -811,4 +811,11 @@
 2026-10-21	687	12	feat(inventory): complete Creative access and fix item icons
 2026-10-21	1128	3	feat(food): add ice fishing and late fish
 2026-10-22	0	0	chore: merge feat/maeve-director into feat/seafood-boil
+2026-10-22	1482	37	feat(maeve): add the Pyro Architect (MACS 9.4a)
 2026-10-22	1648	7	feat(food): add the Seafood Boil
+2026-10-23	0	0	build(gametest): merge the filtered, sprinted quick GameTest loop (#129)
+2026-10-23	0	0	chore: merge feat/maeve-director into build/fast-gametests
+2026-10-23	0	0	chore: merge feat/maeve-director into feat/pyro-architect
+2026-10-23	0	0	feat(food): merge the Seafood Boil (#128)
+2026-10-23	176	2	build(gametest): add a filtered, sprinted quick GameTest loop
+2026-10-23	208	37	fix(maeve): finish the Pyro owner pass
