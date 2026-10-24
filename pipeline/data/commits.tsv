@@ -815,7 +815,20 @@
 2026-10-22	1648	7	feat(food): add the Seafood Boil
 2026-10-23	0	0	build(gametest): merge the filtered, sprinted quick GameTest loop (#129)
 2026-10-23	0	0	chore: merge feat/maeve-director into build/fast-gametests
+2026-10-23	0	0	chore: merge feat/maeve-director into feat/architect-deaths
+2026-10-23	0	0	chore: merge feat/maeve-director into feat/ice-fishing
 2026-10-23	0	0	chore: merge feat/maeve-director into feat/pyro-architect
+2026-10-23	0	0	chore: merge feat/maeve-director into feat/pyro-architect
+2026-10-23	0	0	chore: merge feat/pyro-architect into feat/ice-fishing
+2026-10-23	0	0	feat(architect): merge each variant's own sounds and death (#131)
 2026-10-23	0	0	feat(food): merge the Seafood Boil (#128)
+2026-10-23	0	0	feat(maeve): merge the Pyro Architect (#130)
+2026-10-23	7	3	test(architect): wait for the full death before checking removal
+2026-10-23	9	2	docs: record the Pyro owner redo
 2026-10-23	176	2	build(gametest): add a filtered, sprinted quick GameTest loop
+2026-10-23	178	8	feat(architect): give the Scribe its own egg, sounds and death
 2026-10-23	208	37	fix(maeve): finish the Pyro owner pass
+2026-10-23	257	38	feat(architect): fell the Architect like a beam on death
+2026-10-23	272	0	feat(architect): warp space around a felled Architect
+2026-10-23	316	25	feat(blind-architect): wind the Blind down on death
+2026-10-23	398	6	feat(pyro-architect): burn the Pyro away in soul fire on death
