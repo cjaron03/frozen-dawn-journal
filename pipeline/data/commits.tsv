@@ -824,11 +824,67 @@
 2026-10-23	0	0	feat(food): merge the Seafood Boil (#128)
 2026-10-23	0	0	feat(maeve): merge the Pyro Architect (#130)
 2026-10-23	7	3	test(architect): wait for the full death before checking removal
+2026-10-23	7	4	docs(sfr): update playtest checklist for the review fixes
 2026-10-23	9	2	docs: record the Pyro owner redo
+2026-10-23	21	2	fix(sfr): drop the Controller's whole tritium units when it is broken
+2026-10-23	41	5	fix(sfr): heat linked radiators while the loop is hot
+2026-10-23	54	13	fix(sfr): seal a vacuum-stage channel at the hatch-side pressure and match the hatch against its own room
+2026-10-23	70	10	docs(solstice-reactor): plan unique SFR-1 running and alert sounds
+2026-10-23	82	0	docs(sfr): add SFR-1 core playtest checklist
+2026-10-23	84	20	fix(sfr): abort ignition on any blocker, follow load at the loop's efficiency, buzz on a refused Start
+2026-10-23	96	6	feat(sfr): ghost outline, comparator and controller screen
+2026-10-23	114	3	feat(sfr): add High-Temperature Radiator
+2026-10-23	114	8	feat(sfr): disruption wear and magnet quench effects
+2026-10-23	165	9	feat(sfr): burn, fuel, breeding and disruptions in FusionPhysics
 2026-10-23	176	2	build(gametest): add a filtered, sprinted quick GameTest loop
 2026-10-23	178	8	feat(architect): give the Scribe its own egg, sounds and death
 2026-10-23	208	37	fix(maeve): finish the Pyro owner pass
+2026-10-23	213	34	feat(sfr): show a ghost-block blueprint around a broken torus
+2026-10-23	223	0	docs(solstice-reactor): design the SFR-1 core reactor loop
+2026-10-23	246	13	feat(sfr): vacuum channel, Vacuum Port and Maintenance Hatch
+2026-10-23	252	0	feat(sfr): add FusionPhysics startup state machine
 2026-10-23	257	38	feat(architect): fell the Architect like a beam on death
 2026-10-23	272	0	feat(architect): warp space around a felled Architect
 2026-10-23	316	25	feat(blind-architect): wind the Blind down on death
 2026-10-23	398	6	feat(pyro-architect): burn the Pyro away in soul fire on death
+2026-10-23	407	0	docs(solstice-reactor): add the SFR-1 core implementation plan
+2026-10-23	497	1	feat(sfr): add SFR-1 running and alert sounds
+2026-10-23	640	4	feat(sfr): SFR-1 controller, fuel and power ports
+2026-10-23	1213	2	feat(sfr): add SFR-1 blocks, items and torus validator
+2026-10-24	1	0	docs(sfr): record the 1000C alarm playtest report
+2026-10-24	1	0	docs(sfr): record the first melt-through playtest
+2026-10-24	3	3	docs(sfr): mark the fuel design's open builder calls
+2026-10-24	4	0	docs(sfr): record pod, Column and airlock playtest reports
+2026-10-24	5	4	fix(sfr): heat the loop up about four times faster
+2026-10-24	7	4	fix(sfr): draw blueprint ghosts on the first frame and list parts in chat
+2026-10-24	9	8	fix(sfr): merge Isotope Column job and buffer lines
+2026-10-24	14	3	fix(sfr): keep a helium boost when an unpowered Start falls back to OFF
+2026-10-24	14	7	fix(sfr): clear the Controller screen of the container frame
+2026-10-24	26	4	docs(sfr): fuel chain playtest checklist
+2026-10-24	38	13	feat(sfr): alert once when DMS is disabled instead of alarming in overdrive
+2026-10-24	48	1	feat(sfr): redraw the Deuterium and Tritium Canisters as gas cylinders
+2026-10-24	73	33	feat(sfr): ignition success sound, new burn loop, quiet warm-up
+2026-10-24	91	6	feat(sfr): Isotope Column math and helium cooldown boost
+2026-10-24	95	19	feat(sfr): ghost a suggested layout for the ports and hatch
+2026-10-24	108	8	fix(power): ride generation dips on batteries and keep links through scanning rooms
+2026-10-24	108	10	feat(sfr): Helium Canisters from pumped ash boost the next cooldown
+2026-10-24	148	0	docs(sfr): design the fuel chain slice
+2026-10-24	153	7	feat(sfr): Lithium Target Rod breeds tritium in a CFU-7 rod slot
+2026-10-24	194	0	docs(sfr): plan the fuel chain slice
+2026-10-24	212	3	feat(sfr): fuel chain textures and Isotope Column hum
+2026-10-24	295	39	feat(sfr): overdrive with disruption mitigation and First Wall melt-through
+2026-10-24	298	3	feat(sfr): give the SFR-1 its own fusion-lab textures
+2026-10-24	385	2	feat(sfr): spodumene in pegmatite pods, lithium carbonate and battery salvage
+2026-10-24	518	8	feat(sfr): Isotope Column makes deuterium from ice and refines lithium
+2026-10-25	0	0	chore: merge feat/maeve-director into feat/solstice-reactor
+2026-10-25	1	1	docs(sfr): quote the fuel loop report without inference
+2026-10-25	1	1	docs(sfr): the open flicker is the airlock lights, not the Column
+2026-10-25	2	0	docs(sfr): record the Column flicker recheck
+2026-10-25	2	0	fix(sfr): let SFR-1 sounds play in vacuum
+2026-10-25	2	1	docs(sfr): owner confirms the airlock blackout is fixed
+2026-10-25	2	1	docs(sfr): record the shutdown playtest
+2026-10-25	4	1	docs(sfr): owner confirms the fuel loop, rods line and vacuum sounds
+2026-10-25	7	4	fix(cfu): move reactor damage off the rods line so it fits the panel
+2026-10-25	33	12	fix(heat): ramp electric heaters up instead of jumping to full power
+2026-10-25	35	4	fix(airlock): pump refill air at the base room's temperature
+2026-10-25	413	62	feat(sfr): ramp the burn down on Stop and add a held E-Stop
