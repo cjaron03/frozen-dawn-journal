@@ -888,3 +888,8 @@
 2026-10-25	33	12	fix(heat): ramp electric heaters up instead of jumping to full power
 2026-10-25	35	4	fix(airlock): pump refill air at the base room's temperature
 2026-10-25	413	62	feat(sfr): ramp the burn down on Stop and add a held E-Stop
+2026-10-26	1	1	docs(sfr): record the Lawson Criterion playtest
+2026-10-26	2	0	docs(sfr): record the advancement playtest
+2026-10-26	2	0	docs: record owner heat tick lag recheck
+2026-10-26	232	46	perf(thermal): cache per-room material shares for the heat tick
+2026-10-26	409	1	feat(sfr): add seven SFR-1 advancements
