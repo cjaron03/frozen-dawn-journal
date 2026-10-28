@@ -896,6 +896,21 @@
 2026-10-26	36	1	docs: Helion sites and SFR-1 recipes playtest
 2026-10-26	85	11	feat(uplink): archive fragments plot the nearest unlooted Helion site
 2026-10-26	232	46	perf(thermal): cache per-room material shares for the heat tick
+2026-10-26	236	0	feat(fabricator): per-world blueprints and ORSA Data Slates
 2026-10-26	401	0	feat(sfr): survival recipes for SFR-1 parts and Helion salvage items
 2026-10-26	409	1	feat(sfr): add seven SFR-1 advancements
 2026-10-26	466	0	feat(sfr): buried Helion Confinement Test Facility sites
+2026-10-27	0	0	feat(sfr): merge Helion sites, SFR-1 recipes and the Uplink Helion reveal (#134)
+2026-10-27	2	1	fix(sfr): show the 20-years line in chat above the parts list
+2026-10-27	3	1	fix(fabricator): unreadable slate ids show as blank instead of throwing
+2026-10-27	9	4	docs(sfr): describe the chat line, glow pulse and lab world
+2026-10-27	64	9	feat(fabricator): Data Slates at Helion and CFU-7 sites and in Uplink drops
+2026-10-27	110	96	feat(sfr): pulse the hatch porthole glow and close its edge seams
+2026-10-27	131	8	feat(sfr): FUSION: 20 YEARS AWAY and porthole retinal specks
+2026-10-27	181	7	feat(fabricator): JEI category, advancements and playtest notes
+2026-10-27	227	181	feat(fabricator): SFR-1 and Exodus precision parts move to the Fabricator
+2026-10-27	232	0	feat(sfr): add an off SFR-1 lab command and superflat playtest world
+2026-10-27	618	2	feat(fabricator): powered ORSA Fabricator
+2026-10-27	1226	36	feat(sfr): pink-violet porthole glow while the plasma burns
+2026-10-28	0	0	chore: merge feat/maeve-director into feat/fabricator
+2026-10-28	0	0	feat(sfr): merge the ORSA Fabricator and SFR-1 easter eggs (#135)
