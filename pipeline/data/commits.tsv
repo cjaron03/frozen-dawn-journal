@@ -914,3 +914,20 @@
 2026-10-27	1226	36	feat(sfr): pink-violet porthole glow while the plasma burns
 2026-10-28	0	0	chore: merge feat/maeve-director into feat/fabricator
 2026-10-28	0	0	feat(sfr): merge the ORSA Fabricator and SFR-1 easter eggs (#135)
+2026-10-28	1	19	revert: run the default batch longest timeout first
+2026-10-28	2	0	docs: forbid gradlew --stop beside the owner's lab client
+2026-10-28	2	0	docs: say when architectVerify may overlap runClientLab
+2026-10-28	3	1	build: turn the Gradle daemon on with a 30-minute idle timeout
+2026-10-28	5	2	fix(test): isolate the SFR-1 proximity advancement tests
+2026-10-28	19	1	perf(gametest): run the default batch longest timeout first
+2026-10-29	2	0	docs: describe the sharded gates and the tests they require
+2026-10-29	4	4	fix(test): set the clock before arming the natural-wait tests
+2026-10-29	8	0	fix(test): wait for the PIXIE fixture's flame scan before running
+2026-10-29	21	2	perf(gametest): run shard worlds on the internal disk and delete them after a pass
+2026-10-29	24	18	perf(gametest): balance the gate shards by batch cost and run three
+2026-10-29	36	0	perf(world): stop chunk unloads from blocking on a disk read
+2026-10-29	39	0	perf(ai): cache D* Lite edge costs within one search call
+2026-10-29	75	0	perf: faster gates from a chunk-unload fix and a pathfinding cache (#137)
+2026-10-29	76	65	perf(gametest): run architectMonkey on three servers side by side
+2026-10-29	198	8	perf(gametest): run the gate on two servers side by side
+2026-10-29	268	23	perf(gametest): run the gates on three servers, about 2.5x faster (#136)
