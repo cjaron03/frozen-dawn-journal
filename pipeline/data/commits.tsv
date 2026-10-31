@@ -900,6 +900,8 @@
 2026-10-26	401	0	feat(sfr): survival recipes for SFR-1 parts and Helion salvage items
 2026-10-26	409	1	feat(sfr): add seven SFR-1 advancements
 2026-10-26	466	0	feat(sfr): buried Helion Confinement Test Facility sites
+2026-10-27	0	0	chore: merge feat/fabricator (#135) into feat/icarus-reactor
+2026-10-27	0	0	chore: merge feat/helion-sites (#134) into feat/icarus-reactor
 2026-10-27	0	0	feat(sfr): merge Helion sites, SFR-1 recipes and the Uplink Helion reveal (#134)
 2026-10-27	2	1	fix(sfr): show the 20-years line in chat above the parts list
 2026-10-27	3	1	fix(fabricator): unreadable slate ids show as blank instead of throwing
@@ -913,13 +915,47 @@
 2026-10-27	618	2	feat(fabricator): powered ORSA Fabricator
 2026-10-27	1226	36	feat(sfr): pink-violet porthole glow while the plasma burns
 2026-10-28	0	0	chore: merge feat/maeve-director into feat/fabricator
+2026-10-28	0	0	chore: merge feat/maeve-director into feat/icarus-reactor
 2026-10-28	0	0	feat(sfr): merge the ORSA Fabricator and SFR-1 easter eggs (#135)
 2026-10-28	1	19	revert: run the default batch longest timeout first
 2026-10-28	2	0	docs: forbid gradlew --stop beside the owner's lab client
 2026-10-28	2	0	docs: say when architectVerify may overlap runClientLab
 2026-10-28	3	1	build: turn the Gradle daemon on with a 30-minute idle timeout
+2026-10-28	3	3	fix(icarus): draw the shield as light so it never hides the reactor
+2026-10-28	4	2	test(icarus): require mono only for positional Icarus block sounds
 2026-10-28	5	2	fix(test): isolate the SFR-1 proximity advancement tests
+2026-10-28	14	6	fix(icarus): make the critical shake felt
 2026-10-28	19	1	perf(gametest): run the default batch longest timeout first
+2026-10-28	20	6	fix(icarus): keep the stabilizer sputter out of startup
+2026-10-28	39	2	fix(icarus): draw startup power only in the reserve and stabilizer steps
+2026-10-28	47	4	feat(icarus): hide the core block while the plasma holds it
+2026-10-28	51	8	feat(icarus): recharge the lab banks from a command and the check menu
+2026-10-28	52	35	feat(icarus): rebuild the running core from light
+2026-10-28	66	15	feat(icarus): animate the running core
+2026-10-28	95	19	feat(icarus): plasma song, deeper roar and a Cole wind-down
+2026-10-28	96	36	feat(icarus): declutter the Controller screen
+2026-10-28	100	8	feat(icarus): matter and antimatter in the plasma, with pair tracks
+2026-10-28	123	9	feat(icarus): alarm beacons, heat shimmer and a live core preview
+2026-10-28	124	0	feat(icarus): blast radius and crater profile
+2026-10-28	147	53	feat(icarus): rework the Controller screen
+2026-10-28	184	22	feat(icarus): CLIP, Cole Protocol and save-safe state
+2026-10-28	186	20	feat(icarus): shock ring, gaze flash and ringing ears in air
+2026-10-28	194	27	feat(icarus): make the last minutes feel like the end
+2026-10-28	202	0	docs(icarus): agreed AMR-1 Icarus reactor design
+2026-10-28	222	17	feat(icarus): shield hits, a failing stabilizer and a starving core
+2026-10-28	259	1	feat(icarus): persistent budgeted crater and melt ring
+2026-10-28	278	7	feat(icarus): instant detonation on part loss or shield failure
+2026-10-28	278	13	feat(icarus): coupled cascade, shield, reserve and predictive warnings
+2026-10-28	297	0	feat(icarus): flash, delayed boom, vacuum thud and radiation burst
+2026-10-28	303	0	feat(icarus): Halsey Cascade startup sequence
+2026-10-28	304	1	feat(icarus): hidden Icarus advancements
+2026-10-28	318	41	feat(icarus): textured plasma, forming shield and smoother transitions
+2026-10-28	521	10	feat(icarus): antimatter capsules, Antiparticle Foundry and the Project Icarus slate
+2026-10-28	698	0	docs(icarus): implementation plan
+2026-10-28	834	52	test(icarus): required GameTests, playtest world and status
+2026-10-28	997	12	feat(icarus): controller, ports, dock and the running reactor
+2026-10-28	1112	43	feat(icarus): open multiblock, staged ghost guide shared with the SFR-1
+2026-10-28	2911	9	feat(icarus): living core, stabilizer and injector visuals with vacuum-audible sound
 2026-10-29	2	0	docs: describe the sharded gates and the tests they require
 2026-10-29	4	4	fix(test): set the clock before arming the natural-wait tests
 2026-10-29	8	0	fix(test): wait for the PIXIE fixture's flame scan before running
@@ -927,7 +963,35 @@
 2026-10-29	24	18	perf(gametest): balance the gate shards by batch cost and run three
 2026-10-29	36	0	perf(world): stop chunk unloads from blocking on a disk read
 2026-10-29	39	0	perf(ai): cache D* Lite edge costs within one search call
+2026-10-29	54	2	feat(icarus): warn when mining a part of an armed reactor
+2026-10-29	55	2	feat(icarus): make ignition land and the stabilizers visibly spin up
+2026-10-29	61	0	feat(icarus): show reactor telemetry on the sealed suit HUD
 2026-10-29	75	0	perf: faster gates from a chunk-unload fix and a pathfinding cache (#137)
 2026-10-29	76	65	perf(gametest): run architectMonkey on three servers side by side
+2026-10-29	97	12	feat(icarus): give the Controller confirm sounds and a glowing CLIP hold
 2026-10-29	198	8	perf(gametest): run the gate on two servers side by side
 2026-10-29	268	23	perf(gametest): run the gates on three servers, about 2.5x faster (#136)
+2026-10-30	0	0	chore: merge feat/maeve-director into feat/icarus-reactor
+2026-10-30	5	2	fix(tools): make the terrain world's witness spots land reliably
+2026-10-30	6	2	docs(icarus): record the owner pass and the story-block decision
+2026-10-30	9	4	feat(tools): add a Back button to the terrain world's menu
+2026-10-30	13	7	fix(tools): build the terrain reactor once its chunks have loaded
+2026-10-30	20	4	fix(icarus): make stray annihilations visibly strike the shield
+2026-10-30	25	9	feat(icarus): fuse the crater floor and set fires at its rim
+2026-10-30	28	17	docs: correct and fit the Field Manual reactor and Fabricator pages
+2026-10-30	28	17	docs: correct and fit the Field Manual reactor and Fabricator pages (#139)
+2026-10-30	35	21	test: wait for the room scan in the breach recovery GameTest
+2026-10-30	39	11	fix(icarus): keep the blast cloud clear of fog and show it in vacuum
+2026-10-30	65	5	feat(tools): build the Icarus check reactor on real overworld terrain
+2026-10-30	74	7	fix(icarus): end a no-terrain blast's reactor and take carved light away
+2026-10-30	85	10	fix(icarus): make Wake Me When You Need Me earnable and test every advancement in game
+2026-10-30	85	21	feat(icarus): land ignition on its hit, collapse on Cole, dump on CLIP
+2026-10-30	123	11	feat(icarus): spread a soot pall over the region after a blast
+2026-10-30	124	9	fix(icarus): spare story blocks from craters and award Continuity Beyond
+2026-10-30	219	47	feat(reactors): Hearthstone startup, shutdown, running and SCRAM sounds; ACRONYM "Nickname" names
+2026-10-30	248	31	perf(icarus): carve the crater straight into chunk sections
+2026-10-30	259	1	docs: add SFR-1, Fabricator and Data Slate Field Manual entries
+2026-10-30	339	5	feat(icarus): leave a hot, radioactive crater behind
+2026-10-30	375	0	docs(icarus): add AMR-1 "Icarus" Field Manual entries with a build diagram
+2026-10-30	387	6	feat(icarus): give the detonation a mushroom cloud, shock dome and world light
+2026-10-30	13290	119	feat(icarus): AMR-1 Icarus antimatter reactor (#138)
