@@ -978,20 +978,58 @@
 2026-10-30	13	7	fix(tools): build the terrain reactor once its chunks have loaded
 2026-10-30	20	4	fix(icarus): make stray annihilations visibly strike the shield
 2026-10-30	25	9	feat(icarus): fuse the crater floor and set fires at its rim
+2026-10-30	28	1	feat(hyperion): load-following reactors charge the Hyperion
 2026-10-30	28	17	docs: correct and fit the Field Manual reactor and Fabricator pages
 2026-10-30	28	17	docs: correct and fit the Field Manual reactor and Fabricator pages (#139)
 2026-10-30	35	21	test: wait for the room scan in the breach recovery GameTest
 2026-10-30	39	11	fix(icarus): keep the blast cloud clear of fog and show it in vacuum
 2026-10-30	65	5	feat(tools): build the Icarus check reactor on real overworld terrain
+2026-10-30	73	32	refactor(power): route storage through EnergyStore
 2026-10-30	74	7	fix(icarus): end a no-terrain blast's reactor and take carved light away
 2026-10-30	85	10	fix(icarus): make Wake Me When You Need Me earnable and test every advancement in game
 2026-10-30	85	21	feat(icarus): land ignition on its hit, collapse on Cole, dump on CLIP
 2026-10-30	123	11	feat(icarus): spread a soot pall over the region after a blast
 2026-10-30	124	9	fix(icarus): spare story blocks from craters and award Continuity Beyond
+2026-10-30	199	6	feat(hyperion): Hyperion controller screen
+2026-10-30	213	6	feat(hyperion): cryocooler self-discharge and quench
+2026-10-30	215	0	feat(hyperion): add Hyperion cell physics
 2026-10-30	219	47	feat(reactors): Hearthstone startup, shutdown, running and SCRAM sounds; ACRONYM "Nickname" names
+2026-10-30	233	4	feat(hyperion): Hyperion controller, ports and network storage
 2026-10-30	248	31	perf(icarus): carve the crater straight into chunk sections
 2026-10-30	259	1	docs: add SFR-1, Fabricator and Data Slate Field Manual entries
+2026-10-30	284	2	feat(hyperion): Hyperion lab world and checkpoint
 2026-10-30	339	5	feat(icarus): leave a hot, radioactive crater behind
 2026-10-30	375	0	docs(icarus): add AMR-1 "Icarus" Field Manual entries with a build diagram
 2026-10-30	387	6	feat(icarus): give the detonation a mushroom cloud, shock dome and world light
+2026-10-30	413	0	docs: design the SMS-1 Hyperion grid storage battery
+2026-10-30	451	0	docs: plan the SMS-1 Hyperion implementation
+2026-10-30	533	32	feat(hyperion): Hyperion audio ladder
+2026-10-30	711	2	feat(hyperion): add Hyperion blocks and box validator
+2026-10-30	867	34	feat(hyperion): superconductor look, levitating puck and vapour
 2026-10-30	13290	119	feat(icarus): AMR-1 Icarus antimatter reactor (#138)
+2026-10-31	4	0	docs: record the first Hyperion owner pass
+2026-10-31	76	25	fix(hyperion): playtest fixes and review findings
+2026-11-02	0	0	chore: merge feat/maeve-director into feat/hyperion-storage
+2026-11-02	1	1	docs: ask about playtest worlds when removing a worktree
+2026-11-02	1	1	docs: note the Hyperion silo PR
+2026-11-02	2	1	test: name the link result when the 16-block relay link is refused
+2026-11-02	5	1	fix(test): keep hatched egg mobs from despawning to a stray player
+2026-11-02	6	0	docs: add mockup, checkout and creative-first rules to the handoff
+2026-11-02	7	7	feat(hyperion): size the cryocooler for silos
+2026-11-02	10	0	docs: record the Hyperion silo pass
+2026-11-02	14	2	docs: refresh the agent handoff workflow and checkpoints
+2026-11-02	20	2	docs: refresh the agent handoff workflow and checkpoints (#140)
+2026-11-02	23	58	fix(hyperion): plain window with bars that fill from the left
+2026-11-02	26	17	feat(hyperion): a ring clang for the quench
+2026-11-02	35	227	refactor(hyperion): drop the frame and the cube's cell looks
+2026-11-02	38	7	fix(test): remove a test's real players however it ends
+2026-11-02	86	50	fix(hyperion): give the silo a base, a top and readable bars
+2026-11-02	129	2	feat(hyperion): floating rings
+2026-11-02	147	5	feat(hyperion): map silo state to the gauge
+2026-11-02	170	7	feat(hyperion): frosted pipes and vent breath
+2026-11-02	214	192	feat(hyperion): validate a 3x3 silo
+2026-11-02	228	0	feat(hyperion): draw the silo window and trims
+2026-11-02	235	60	fix(hyperion): review findings on the silo renderer
+2026-11-02	251	334	feat(hyperion): silo textures and models
+2026-11-02	389	0	docs: plan the Hyperion silo rebuild
+2026-11-02	860	0	docs: redesign the Hyperion as a silo
