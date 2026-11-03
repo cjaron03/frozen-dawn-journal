@@ -1010,26 +1010,86 @@
 2026-10-31	4	0	docs: record the first Hyperion owner pass
 2026-10-31	76	25	fix(hyperion): playtest fixes and review findings
 2026-11-02	0	0	chore: merge feat/maeve-director into feat/hyperion-storage
+2026-11-02	0	0	chore: merge feat/maeve-director into feat/hyperion-storage
+2026-11-02	0	0	chore: merge feat/maeve-director into feat/sever-lash
 2026-11-02	1	1	docs: ask about playtest worlds when removing a worktree
 2026-11-02	1	1	docs: note the Hyperion silo PR
-2026-11-02	2	1	test: name the link result when the 16-block relay link is refused
-2026-11-02	5	1	fix(test): keep hatched egg mobs from despawning to a stray player
+2026-11-02	2	2	docs(gametest): describe the shard heap cap accurately
+2026-11-02	3	1	docs: record Hyperion recipes, guide and texture pass
+2026-11-02	4	0	docs: record Hyperion owner pass 4
+2026-11-02	5	3	fix(defense): print Sever Lash Check diagnostics through tellraw
 2026-11-02	6	0	docs: add mockup, checkout and creative-first rules to the handoff
+2026-11-02	7	0	docs(defense): record the first Sever Lash playtest
 2026-11-02	7	7	feat(hyperion): size the cryocooler for silos
+2026-11-02	8	7	fix(hyperion): fade pipe dashes along the run instead of popping
+2026-11-02	9	2	perf(gametest): cap each gate shard's heap and GC threads
+2026-11-02	9	9	test(defense): join Sever Lash test players through GameTestPlayers
 2026-11-02	10	0	docs: record the Hyperion silo pass
 2026-11-02	14	2	docs: refresh the agent handoff workflow and checkpoints
+2026-11-02	19	14	fix(hyperion): stop the final whine when the cells recover
 2026-11-02	20	2	docs: refresh the agent handoff workflow and checkpoints (#140)
+2026-11-02	22	2	fix(hyperion): give the Port a grid of its own
 2026-11-02	23	58	fix(hyperion): plain window with bars that fill from the left
+2026-11-02	25	6	fix(hyperion): give the warning alarm 20 s and glide its pitch
 2026-11-02	26	17	feat(hyperion): a ring clang for the quench
 2026-11-02	35	227	refactor(hyperion): drop the frame and the cube's cell looks
-2026-11-02	38	7	fix(test): remove a test's real players however it ends
+2026-11-02	45	9	fix(test): stop a failed test's leaked players from failing later tests (#141)
+2026-11-02	61	28	fix(defense): Sever Lash bypasses armor; lapse foreign lockouts
+2026-11-02	66	28	feat(hyperion): sharpen the textures and brighten the status bars
+2026-11-02	66	30	feat(hyperion): replace the two-tone warning with a cold ping
 2026-11-02	86	50	fix(hyperion): give the silo a base, a top and readable bars
+2026-11-02	119	6	feat(defense): Sever Lash cuts 12 a second; add an overworld field test
 2026-11-02	129	2	feat(hyperion): floating rings
 2026-11-02	147	5	feat(hyperion): map silo state to the gauge
+2026-11-02	169	10	feat(defense): count Hellwhip over one continuous beam, add playtest world
 2026-11-02	170	7	feat(hyperion): frosted pipes and vent breath
 2026-11-02	214	192	feat(hyperion): validate a 3x3 silo
 2026-11-02	228	0	feat(hyperion): draw the silo window and trims
 2026-11-02	235	60	fix(hyperion): review findings on the silo renderer
 2026-11-02	251	334	feat(hyperion): silo textures and models
+2026-11-02	380	0	feat(hyperion): add survival recipes and the field manual chapter
 2026-11-02	389	0	docs: plan the Hyperion silo rebuild
+2026-11-02	675	21	feat(defense): ORSA LC-4 Sever Lash core
 2026-11-02	860	0	docs: redesign the Hyperion as a silo
+2026-11-03	0	0	chore: merge feat/maeve-director into feat/sever-lash
+2026-11-03	0	0	chore: merge feat/maeve-director into perf/gametest-heap-cap
+2026-11-03	0	0	feat(power): merge the SMS-1 Hyperion silo (#142)
+2026-11-03	1	1	docs(gametest): state the gate lock's limits
+2026-11-03	1	1	fix: say the Icarus slate is a chance at Helion log desks
+2026-11-03	2	0	docs: record the Sever Lash slice 2 gate run
+2026-11-03	2	2	docs: record the Sever Lash slice 2 gate run on the new holds
+2026-11-03	2	2	docs: record the final Sever Lash gate run
+2026-11-03	4	0	docs: record Sever Lash owner playtest 4
+2026-11-03	4	0	docs: record Sever Lash owner playtest 6
+2026-11-03	5	0	docs: record Sever Lash owner playtest 5
+2026-11-03	5	0	docs: record the Sever Lash Helion station check
+2026-11-03	9	6	fix(defense): reset the playtest Last Wall in place, and say the seam is inert
+2026-11-03	11	0	docs: record the owner's whip beam pick for Sever Lash slice 2
+2026-11-03	12	2	fix(gametest): hold the gate lock until stopped servers exit
+2026-11-03	12	11	fix: turn the idle Sever Lash hold the right way
+2026-11-03	22	6	fix(defense): place Lash fire through NeoForge's captured placement
+2026-11-03	23	3	fix(defense): pace Seared on the target's clock, not its duration
+2026-11-03	29	7	fix(defense): gate Lash ignition on placing fire where it goes
+2026-11-03	34	9	fix(defense): ask protection about a refused block once a second
+2026-11-03	41	8	build(gametest): run one gate's servers at a time per machine
+2026-11-03	53	7	docs: plan the rest of Sever Lash slice 1
+2026-11-03	57	53	fix: point the third-person Sever Lash forward
+2026-11-03	59	9	perf(gametest): cap shard heap and run one gate at a time per machine (#144)
+2026-11-03	65	4	feat: add the Sever Lash field manual page and a Helion playtest station
+2026-11-03	66	13	chore(defense): add Sever Lash slice 1 playtest stations
+2026-11-03	67	66	fix: shrink the first-person Sever Lash and raise the firing hold
+2026-11-03	78	77	fix: hold the Sever Lash in the fist, not beside it
+2026-11-03	86	2	feat(defense): file the hellwhip requisition memo at Helion sites
+2026-11-03	88	0	feat: synthesize the Sever Lash sounds
+2026-11-03	97	88	fix: hold the Sever Lash in the fist and fire it two-handed
+2026-11-03	102	19	docs: record Sever Lash slice 2 and add its beam playtest station
+2026-11-03	116	53	docs: record Sever Lash slice 1 finish, rulings and verification
+2026-11-03	140	0	docs: mock up three Sever Lash beam concepts for slice 2
+2026-11-03	204	0	docs: spec the Sever Lash 3D model, hold poses and overheat vent
+2026-11-03	213	4	feat(defense): the held Lash glows red-hot near overheat and vents
+2026-11-03	273	7	feat(defense): salvage Lash Emitters and craft the Sever Lash
+2026-11-03	279	0	feat(defense): the Sever Lash melts, scorches and ignites where it lands
+2026-11-03	334	13	feat(defense): the Sever Lash sears what it cuts
+2026-11-03	464	417	fix: address the Sever Lash slice 2 branch review
+2026-11-03	616	20	feat: draw the Sever Lash as a bending whip beam
+2026-11-03	16981	120	feat: give the Sever Lash its 3D model
