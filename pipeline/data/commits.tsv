@@ -1051,45 +1051,102 @@
 2026-11-02	389	0	docs: plan the Hyperion silo rebuild
 2026-11-02	675	21	feat(defense): ORSA LC-4 Sever Lash core
 2026-11-02	860	0	docs: redesign the Hyperion as a silo
+2026-11-03	0	0	Merge pull request #143 from cjaron03/feat/sever-lash
 2026-11-03	0	0	chore: merge feat/maeve-director into feat/sever-lash
 2026-11-03	0	0	chore: merge feat/maeve-director into perf/gametest-heap-cap
 2026-11-03	0	0	feat(power): merge the SMS-1 Hyperion silo (#142)
 2026-11-03	1	1	docs(gametest): state the gate lock's limits
+2026-11-03	1	1	fix: land the vault playtest's hall button clear of the debris
+2026-11-03	1	1	fix: note the filtered advancement at the Terminus drops station
 2026-11-03	1	1	fix: say the Icarus slate is a chance at Helion log desks
+2026-11-03	1	1	test: expect the terminus debug category
 2026-11-03	2	0	docs: record the Sever Lash slice 2 gate run
+2026-11-03	2	1	docs: base the Terminus T1 PR on feat/maeve-director
+2026-11-03	2	1	docs: record the owner's field manual check
 2026-11-03	2	2	docs: record the Sever Lash slice 2 gate run on the new holds
 2026-11-03	2	2	docs: record the final Sever Lash gate run
+2026-11-03	2	2	fix: describe the crumble in the Terminus playtest stations
+2026-11-03	3	0	docs: record the Terminus crumble recheck
 2026-11-03	4	0	docs: record Sever Lash owner playtest 4
 2026-11-03	4	0	docs: record Sever Lash owner playtest 6
+2026-11-03	4	2	docs: record the Sever Lash slice 2 gate run after the sound pass
 2026-11-03	5	0	docs: record Sever Lash owner playtest 5
 2026-11-03	5	0	docs: record the Sever Lash Helion station check
+2026-11-03	5	0	docs: record the owner's first vault playtest
+2026-11-03	6	0	docs: record the first Terminus playtest
+2026-11-03	6	2	docs: record the Terminus T1 sign-off and the hidden-vault ask
+2026-11-03	7	7	docs: correct Sever Lash comments from the slice 2 delta review
+2026-11-03	9	0	docs: record the third Watch Floor pass
 2026-11-03	9	6	fix(defense): reset the playtest Last Wall in place, and say the seam is inert
+2026-11-03	10	10	fix: give the new housings their own texture and restore the vault's steel
 2026-11-03	11	0	docs: record the owner's whip beam pick for Sever Lash slice 2
 2026-11-03	12	2	fix(gametest): hold the gate lock until stopped servers exit
 2026-11-03	12	11	fix: turn the idle Sever Lash hold the right way
+2026-11-03	13	9	feat: give the vault's evacuation recording its voice
+2026-11-03	17	2	fix: stop the Sever Lash hum when the beam stops
+2026-11-03	18	2	fix: hold a crumbled body hidden until the server removes it
+2026-11-03	19	0	docs: record the owner's rulings on the ORSA System Plot idea
+2026-11-03	22	3	fix: refuse building over the bridge's gap
 2026-11-03	22	6	fix(defense): place Lash fire through NeoForge's captured placement
 2026-11-03	23	3	fix(defense): pace Seared on the target's clock, not its duration
+2026-11-03	29	3	fix: show the Terminus advancements in its playtest world
 2026-11-03	29	7	fix(defense): gate Lash ignition on placing fire where it goes
 2026-11-03	34	9	fix(defense): ask protection about a refused block once a second
+2026-11-03	41	4	fix: open the vault documents in the playtest world, free the block atlas
 2026-11-03	41	8	build(gametest): run one gate's servers at a time per machine
+2026-11-03	45	6	fix: cap Terminus motes per discharge and spare teammates
 2026-11-03	53	7	docs: plan the rest of Sever Lash slice 1
+2026-11-03	54	0	docs: plan the ORSA TR-0 Terminus slices
 2026-11-03	57	53	fix: point the third-person Sever Lash forward
+2026-11-03	58	45	feat: rebuild the Sever Lash sounds on a plasma roar
 2026-11-03	59	9	perf(gametest): cap shard heap and run one gate at a time per machine (#144)
+2026-11-03	60	11	docs: record the Terminus crumble, review fixes and rulings
 2026-11-03	65	4	feat: add the Sever Lash field manual page and a Helion playtest station
+2026-11-03	66	8	fix: tear down a stopped Architect as its own deaths do
+2026-11-03	66	9	feat: light the board by itself after each opening
 2026-11-03	66	13	chore(defense): add Sever Lash slice 1 playtest stations
 2026-11-03	67	66	fix: shrink the first-person Sever Lash and raise the firing hold
+2026-11-03	75	55	docs: redraw the System Plot as a big wall of lamps
 2026-11-03	78	77	fix: hold the Sever Lash in the fist, not beside it
 2026-11-03	86	2	feat(defense): file the hellwhip requisition memo at Helion sites
 2026-11-03	88	0	feat: synthesize the Sever Lash sounds
+2026-11-03	91	13	fix: address the second Terminus branch review
+2026-11-03	97	0	docs: add the Terminus crumble death mockup
+2026-11-03	97	10	fix: give the Watch Floor a real heartbeat
 2026-11-03	97	88	fix: hold the Sever Lash in the fist and fire it two-handed
 2026-11-03	102	19	docs: record Sever Lash slice 2 and add its beam playtest station
+2026-11-03	110	21	feat: give the Terminus a heartbeat charge and a silent discharge
+2026-11-03	115	33	fix: let Terminus targets die in place and gate held use
 2026-11-03	116	53	docs: record Sever Lash slice 1 finish, rulings and verification
+2026-11-03	123	31	feat: reach 24 blocks and add Reduced to Atoms
+2026-11-03	134	30	feat: light the ORSA System Plot in its own room
 2026-11-03	140	0	docs: mock up three Sever Lash beam concepts for slice 2
+2026-11-03	148	0	docs: draw the vault's last rooms
+2026-11-03	170	12	feat: quicken the Watch Floor's rounds
 2026-11-03	204	0	docs: spec the Sever Lash 3D model, hold poses and overheat vent
 2026-11-03	213	4	feat(defense): the held Lash glows red-hot near overheat and vents
+2026-11-03	256	2	docs: record the Terminus T1 build, rulings and playtest range
 2026-11-03	273	7	feat(defense): salvage Lash Emitters and craft the Sever Lash
 2026-11-03	279	0	feat(defense): the Sever Lash melts, scorches and ignites where it lands
+2026-11-03	326	19	feat: show the Terminus toll as taken hearts that come back
 2026-11-03	334	13	feat(defense): the Sever Lash sears what it cuts
+2026-11-03	335	67	feat: light the east gate's tally and give the Custodian a death
+2026-11-03	336	76	feat: leave a marker warning outside the Watch Floor
+2026-11-03	431	1	docs: record the approved Watch Floor design for the Terminus Vault
+2026-11-03	453	44	fix: mount the recorder on the wall and square the projector's faces
 2026-11-03	464	417	fix: address the Sever Lash slice 2 branch review
+2026-11-03	486	1	docs: record the Terminus texture and animation picks
+2026-11-03	492	18	feat: crumble minds the Terminus stops
+2026-11-03	582	25	feat: redress the drill hall with an emitter, lock boxes and hazard bands
 2026-11-03	616	20	feat: draw the Sever Lash as a bending whip beam
+2026-11-03	1448	621	feat: give the puzzle rooms a projector, a cold store and a body scanner
+2026-11-03	1591	50	feat: build the mess hall, the Two-Person Rule and the Morgue Gate
+2026-11-03	3564	47	feat: build the Watch Floor under the Terminus Vault
+2026-11-03	4191	4	feat: build the Terminus Vault under the first Helion Core
+2026-11-03	13514	143	feat: add the ORSA TR-0 Terminus, creative only
 2026-11-03	16981	120	feat: give the Sever Lash its 3D model
+2026-11-04	7	0	docs: record the Terminus Vault's state after the branch review
+2026-11-04	15	7	docs: record the Check 9 pass and bring the last rooms' notes up to date
+2026-11-04	56	4	fix: relink Hyperion ports each second and wait for the whole hall before standing up a Custodian
+2026-11-04	280	5	fix: stop the Morgue's cold at half a heart
+2026-11-04	2861	135	feat: stand the Morgue's A/C out from the wall and put the scanner's screen over the door
