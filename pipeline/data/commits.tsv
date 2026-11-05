@@ -1145,8 +1145,138 @@
 2026-11-03	4191	4	feat: build the Terminus Vault under the first Helion Core
 2026-11-03	13514	143	feat: add the ORSA TR-0 Terminus, creative only
 2026-11-03	16981	120	feat: give the Sever Lash its 3D model
+2026-11-04	0	0	Merge pull request #147 from cjaron03/feat/terminus-vault
+2026-11-04	0	0	Merge pull request #148 from cjaron03/fix/sfr-second-sun-flake
+2026-11-04	0	0	Merge pull request #149 from cjaron03/feat/aurora-shepherd
+2026-11-04	0	0	Merge pull request #150 from cjaron03/fix/room-oxygen-take-flakes
+2026-11-04	0	0	Merge pull request #151 from cjaron03/feat/aurora-vault
+2026-11-04	0	0	Merge pull request #152 from cjaron03/feat/aurora-affinity
+2026-11-04	0	0	Merge pull request #153 from cjaron03/feat/miller-pattern
+2026-11-04	0	0	Merge remote-tracking branch 'origin/feat/maeve-director' into fix/sfr-second-sun-flake
+2026-11-04	0	0	chore: merge feat/maeve-director into feat/aurora-shepherd
+2026-11-04	0	0	chore: merge feat/maeve-director into feat/aurora-shepherd
+2026-11-04	0	0	chore: merge feat/maeve-director into feat/terminus-vault
+2026-11-04	1	1	docs: record the branch review and the gate on Aurora S1
+2026-11-04	1	1	fix: let the second dock finish booting before its test ends
+2026-11-04	1	1	test: list the shepherd debug group in the command tree
+2026-11-04	2	0	docs: record the flame pass and the gate on Aurora S1
+2026-11-04	2	0	docs: record the owner's pass on Aurora in the vault
+2026-11-04	2	0	docs: record the owner's pass on her resting faces
+2026-11-04	2	0	docs: record the owner's pass on the boot logo and idle expressions
+2026-11-04	2	0	docs: record the owner's pass on the boot sequence
+2026-11-04	2	0	docs: record the second review of Aurora S1
+2026-11-04	2	1	fix: keep the Terminus drop test to its own sword
+2026-11-04	2	2	docs: point the Second Sun flake note at the power checkpoint
+2026-11-04	3	3	docs: record approval of Aurora's ambient lines mockup
+2026-11-04	5	0	fix: keep bosses from breaking Aurora's sealed dock
+2026-11-04	5	2	fix: wait for entities in the live SFR-1 ignition test
+2026-11-04	5	5	docs: note that the vault has reached the director in Aurora's design
+2026-11-04	5	8	docs: drop the Eyes up nod from the Aurora addendum
+2026-11-04	6	2	docs: record the owner's Aurora pass and keep the lab's zombies alive
+2026-11-04	6	3	docs: keep her idle expressions on every resting mood
 2026-11-04	7	0	docs: record the Terminus Vault's state after the branch review
+2026-11-04	8	0	docs: record the inner state's handback and its playtest
+2026-11-04	11	3	docs: record the lively addendum in the Aurora spec
+2026-11-04	11	16	docs: record the owner's Aurora names and Nine's site
+2026-11-04	13	5	docs: record the boot sequence and her memory's handback
+2026-11-04	13	22	fix: finish the flame scan before the airlock fixtures step oxygen
 2026-11-04	15	7	docs: record the Check 9 pass and bring the last rooms' notes up to date
+2026-11-04	18	3	fix: stop the two-room test building over the next test's recorder
+2026-11-04	20	3	feat: put Aurora in the vault's paperwork
+2026-11-04	20	9	fix: step the SFR-1 in the Second Sun test so a slow entity load cannot time it out
+2026-11-04	35	34	fix: let the dock finish booting before a Shepherd test ends
+2026-11-04	46	2	feat: let a playtest skip a day on her clocks
+2026-11-04	47	8	feat: give the Aurora Affinity Check things to look at and nods to try
+2026-11-04	47	40	fix: wait for her chunk to tick in the Shepherd GameTests
+2026-11-04	54	3	feat: add a first-meeting replay for Aurora playtests
 2026-11-04	56	4	fix: relink Hyperion ports each second and wait for the whole hall before standing up a Custodian
+2026-11-04	57	18	fix: address the branch review of her inner state
+2026-11-04	62	2	fix: keep her lines from locking a screen
+2026-11-04	66	4	docs: add her self-awareness, six walls and refusal to the Miller Pattern
+2026-11-04	77	5	feat: she warms whoever stands near her
+2026-11-04	94	11	fix: let a conversation that cannot open give way to the hub
+2026-11-04	97	2	docs: record Aurora S1 as built
+2026-11-04	106	0	feat: add the Aurora Boot Check playtest world
+2026-11-04	108	6	feat: draw "Got a minute?" as her strip above the hotbar
+2026-11-04	108	6	fix: keep Aurora steady beside her follower and bring her back when stranded
+2026-11-04	112	4	fix: keep her prompt waiting when the screen closes early
+2026-11-04	118	4	feat: she floats up in front of you to ask for a minute
+2026-11-04	122	14	docs: rewrite Aurora's Mimic callout and imagined sky, and draw her ambient lines
+2026-11-04	123	2	feat: add the Aurora Vault Check playtest world
+2026-11-04	134	0	feat: add the Aurora Affinity Check playtest world
+2026-11-04	137	0	feat: add a lab world and command for looking at each of her faces
+2026-11-04	144	25	feat: give her reactions more than one line
+2026-11-04	170	8	feat: she watches the world and reacts to it
+2026-11-04	177	10	fix: let naming her once be what she notices
+2026-11-04	191	0	docs: spec the Miller Pattern, Aurora's inner state and typed talk
+2026-11-04	198	5	feat: rest her face on what she feels
+2026-11-04	202	2	docs: record Aurora S3 so far and add the lively addendum
+2026-11-04	205	4	docs: plan Aurora's first slice
+2026-11-04	224	35	fix: close what the branch review found in her prompt and unasked lines
+2026-11-04	226	1	docs: plan Aurora slice S2, in the vault
+2026-11-04	229	0	feat: let her feel what comes through the door
+2026-11-04	233	3	feat: seal Aurora's dock and the spare cell into the vault
+2026-11-04	237	0	docs: spec asking Aurora about ORSA
+2026-11-04	245	0	docs: plan Aurora slice S3, affinity
+2026-11-04	255	12	feat: give her tiers, and a formal voice at Wary
 2026-11-04	280	5	fix: stop the Morgue's cold at half a heart
+2026-11-04	289	18	feat: she talks about Enoch when woken in the vault
+2026-11-04	291	0	docs: plan the Miller Pattern's M0 trial and M1 core
+2026-11-04	316	17	feat: show her thinking on her display while a reply waits
+2026-11-04	317	19	feat: let her dialogue depend on the world, and write the vault's nodes
+2026-11-04	340	0	feat: add the facade and diagnostics for her inner state
+2026-11-04	345	0	feat: keep the moments that mattered to her
+2026-11-04	381	3	feat: she wanders off to look at things when you stand still
+2026-11-04	392	9	feat: hide a few things in what she says
+2026-11-04	402	0	feat: add the drives and feelings that fade on game time
+2026-11-04	408	1	feat: add Aurora's conversation logic and saved state
+2026-11-04	412	24	feat: give Aurora a pilot flame and livelier faces
+2026-11-04	449	8	feat: she asks for a minute at the last door and the vault exit
+2026-11-04	483	39	feat: run the BIOS lines before her logo, on first wake and replay
+2026-11-04	485	0	feat: appraise what she saw and keep it in a saved state
+2026-11-04	487	28	feat: boot Aurora with the ORSA logo and give her idle expressions
+2026-11-04	515	5	feat: at Friendly she tells you about the name
+2026-11-04	575	3	feat: she talks when nobody asked her to
+2026-11-04	602	0	feat: add the CS-1 dock
+2026-11-04	611	1	feat: add Aurora's dialogue format and first-meeting tree
+2026-11-04	646	10	feat: let her form theories about each player
+2026-11-04	663	39	feat: seat the cell and let the player choose to boot her
+2026-11-04	687	2	feat: draw Aurora and her talk screen
+2026-11-04	688	1	feat: add Aurora's body, following and reboot
+2026-11-04	692	37	feat: give her a picture of herself and a coherence that silence wears
+2026-11-04	703	17	feat: her score moves with what she sees you do
+2026-11-04	742	0	docs: design Aurora, the ORSA CS-1 Shepherd companion
+2026-11-04	750	2	docs: plan M2 and its boot sequence
+2026-11-04	776	1	feat: run Aurora's conversations on the server
+2026-11-04	858	0	docs: report the typed text matching trial
 2026-11-04	2861	135	feat: stand the Morgue's A/C out from the wall and put the scanner's screen over the door
+2026-11-05	0	0	Merge pull request #154 from cjaron03/feat/miller-m2
+2026-11-05	0	0	Merge pull request #155 from cjaron03/feat/miller-m2b
+2026-11-05	2	0	docs: record the owner's pass on her will
+2026-11-05	2	1	test: give a dropped cell room to land
+2026-11-05	2	9	fix: list the evacuation notice with the ORSA files
+2026-11-05	3	3	docs: record that Nine's husk sits down
+2026-11-05	4	0	docs: record Nine's handback
+2026-11-05	4	4	docs: record the owner's approval of the S4 plan
+2026-11-05	5	4	docs: record that T3 waits for the stars
+2026-11-05	5	5	docs: record that Nine's lamp rides in her handle
+2026-11-05	6	2	docs: point the Aurora spec at the S4 drafts
+2026-11-05	11	4	fix: keep the refusal tests from a server's rain
+2026-11-05	11	8	fix: hold the quiet limit on a young server's clock
+2026-11-05	16	0	fix: a dock builds no second body
+2026-11-05	22	3	docs: record her will's handback
+2026-11-05	25	3	fix: count asking why she is Aurora as naming her
+2026-11-05	63	3	feat: she carries Nine's lamp in her handle
+2026-11-05	98	9	fix: keep Nine's scene at the site and what falls from her
+2026-11-05	119	0	feat: add the will check playtest world
+2026-11-05	129	0	feat: add the Aurora Nine Check playtest world
+2026-11-05	134	14	fix: answer the branch review of her will
+2026-11-05	209	6	feat: she goes quiet for a day after Nine
+2026-11-05	210	1	feat: let the recording cut in over her
+2026-11-05	351	7	feat: let her refuse you
+2026-11-05	351	28	feat: let her lines carry arguments and read her state
+2026-11-05	436	18	feat: give her one thing on her mind and urges that follow it
+2026-11-05	621	5	feat: she tells you about the others
+2026-11-05	621	41	feat: let her urges reach what she says and where she goes
+2026-11-05	794	7	feat: put Nine at the Blast Pit
+2026-11-05	955	0	docs: prepare Aurora S4 for the owner's approval
