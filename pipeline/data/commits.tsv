@@ -1252,31 +1252,103 @@
 2026-11-04	2861	135	feat: stand the Morgue's A/C out from the wall and put the scanner's screen over the door
 2026-11-05	0	0	Merge pull request #154 from cjaron03/feat/miller-m2
 2026-11-05	0	0	Merge pull request #155 from cjaron03/feat/miller-m2b
+2026-11-05	0	0	Merge pull request #156 from cjaron03/feat/aurora-s4
+2026-11-05	0	0	Merge pull request #157 from cjaron03/feat/aurora-s4b
+2026-11-05	0	0	Merge pull request #158 from cjaron03/fix/room-large-region-box
+2026-11-05	0	0	Merge pull request #159 from cjaron03/docs/miller-m3-m4-mockups
+2026-11-05	0	0	Merge pull request #160 from cjaron03/feat/miller-m3
+2026-11-05	0	0	Merge pull request #161 from cjaron03/feat/miller-m4
+2026-11-05	0	0	Merge pull request #162 from cjaron03/docs/session-worktrees
+2026-11-05	0	0	Merge pull request #163 from cjaron03/docs/plan-before-build
+2026-11-05	0	0	chore: merge feat/maeve-director into docs/miller-m3-m4-mockups
+2026-11-05	0	0	chore: merge feat/maeve-director into docs/miller-m5-plan
+2026-11-05	0	0	chore: merge feat/maeve-director into feat/aurora-s4b
+2026-11-05	0	0	chore: merge feat/maeve-director into feat/miller-m3
+2026-11-05	1	1	docs: ban agent attribution on commits and PRs
+2026-11-05	1	1	docs: merge the plan before cutting the build
+2026-11-05	1	1	docs: record F3 and the phases' clock beside her log
+2026-11-05	1	1	docs: record the log's day rollover
+2026-11-05	1	1	docs: record the owner's check of the world's day
+2026-11-05	1	1	fix: name the close call test in the gate list
+2026-11-05	2	0	docs: record the gates on S4b
+2026-11-05	2	0	docs: record the owner's check of the top
 2026-11-05	2	0	docs: record the owner's pass on her will
+2026-11-05	2	1	fix: hear how are you with its question mark
 2026-11-05	2	1	test: give a dropped cell room to land
+2026-11-05	2	2	docs: record the owner's approval of the M3 plan
 2026-11-05	2	9	fix: list the evacuation notice with the ORSA files
+2026-11-05	3	0	docs: record the owner's pass on M4
 2026-11-05	3	3	docs: record that Nine's husk sits down
 2026-11-05	4	0	docs: record Nine's handback
+2026-11-05	4	2	docs: keep each session to one worktree
 2026-11-05	4	4	docs: record the owner's approval of the S4 plan
 2026-11-05	5	4	docs: record that T3 waits for the stars
+2026-11-05	5	4	docs: settle the M3 rulings and add quicker days
 2026-11-05	5	5	docs: record that Nine's lamp rides in her handle
 2026-11-05	6	2	docs: point the Aurora spec at the S4 drafts
+2026-11-05	6	3	fix: keep the Sky Check buttons on the starry day
+2026-11-05	6	3	fix: start the log world's sun on her day
+2026-11-05	6	6	docs: record the owner's approval of the log's feeling
+2026-11-05	7	3	test: hold the fresh set at the numbers the owner accepted
+2026-11-05	7	5	docs: record the owner's approval of the M4 plan
+2026-11-05	8	0	docs: record the arc's handback
+2026-11-05	9	1	docs: hand M4 back for the owner's pass
+2026-11-05	10	0	test: leave nothing behind after the world's day test
+2026-11-05	10	5	fix: catch the word's last letter and a guarded word before a bang
 2026-11-05	11	4	fix: keep the refusal tests from a server's rain
 2026-11-05	11	8	fix: hold the quiet limit on a young server's clock
+2026-11-05	15	4	fix: take the delayed-frontier test's box and corridor down too
 2026-11-05	16	0	fix: a dock builds no second body
+2026-11-05	21	3	docs: record the M3 handback
+2026-11-05	21	17	docs: record the owner's approval of the M3 and M4 mockups
 2026-11-05	22	3	docs: record her will's handback
+2026-11-05	22	3	fix: take the large-region test's boxes down when it ends
 2026-11-05	25	3	fix: count asking why she is Aurora as naming her
+2026-11-05	28	1	feat: give the log lab commands
+2026-11-05	28	2	fix: come back to the first meeting without the logo
+2026-11-05	31	17	docs: recheck the M5 plan against M4 as shipped
+2026-11-05	42	0	test: hold what she says to typing
+2026-11-05	43	30	test: keep the aurora tests out from under a leftover roof
+2026-11-05	57	20	fix: hold her lines until heard and keep the dead off the log
+2026-11-05	62	0	test: write the fresh intent set before anything runs
 2026-11-05	63	3	feat: she carries Nine's lamp in her handle
 2026-11-05	98	9	fix: keep Nine's scene at the site and what falls from her
+2026-11-05	101	33	feat: date her log by the world's day
+2026-11-05	111	0	feat: add the log playtest world
+2026-11-05	111	39	feat: add the Aurora Sky Check playtest world
 2026-11-05	119	0	feat: add the will check playtest world
+2026-11-05	119	26	fix: keep the top from following you off the night
+2026-11-05	128	0	feat: prepare the chat check
 2026-11-05	129	0	feat: add the Aurora Nine Check playtest world
 2026-11-05	134	14	fix: answer the branch review of her will
+2026-11-05	168	39	docs: fold the owner's log decisions into the M3 plan
+2026-11-05	172	4	feat: write her log's lines
+2026-11-05	192	13	feat: draw her stop screen
 2026-11-05	209	6	feat: she goes quiet for a day after Nine
 2026-11-05	210	1	feat: let the recording cut in over her
+2026-11-05	214	6	feat: she tells you what she is afraid of
+2026-11-05	215	0	docs: plan the private log
+2026-11-05	231	0	docs: plan Miller Pattern M5, the rest of her topics
+2026-11-05	253	29	feat: put the bar under her slots
+2026-11-05	302	0	docs: plan Miller Pattern M4, the chat bar and the crash
+2026-11-05	347	14	feat: put her log under Settings
 2026-11-05	351	7	feat: let her refuse you
 2026-11-05	351	28	feat: let her lines carry arguments and read her state
+2026-11-05	357	24	feat: let her know you read it
+2026-11-05	413	12	feat: things turn up in her that nobody loaded
 2026-11-05	436	18	feat: give her one thing on her mind and urges that follow it
+2026-11-05	533	18	feat: let her come apart before the stop screen
+2026-11-05	580	0	docs: draw the M3 and M4 mockups for approval
+2026-11-05	588	18	feat: let her be asked about ORSA
+2026-11-05	592	0	feat: match a typed line to an intent
+2026-11-05	609	4	feat: give her a daily log
 2026-11-05	621	5	feat: she tells you about the others
 2026-11-05	621	41	feat: let her urges reach what she says and where she goes
+2026-11-05	629	13	feat: take her down on the word
+2026-11-05	723	68	feat: let her write the day down
+2026-11-05	782	9	feat: she asks you to take her up
+2026-11-05	787	20	feat: she learns what was done to her
 2026-11-05	794	7	feat: put Nine at the Blast Pit
+2026-11-05	859	18	feat: let her hear what is typed
 2026-11-05	955	0	docs: prepare Aurora S4 for the owner's approval
+2026-11-05	29831	0	feat: give her the table she reads words with
