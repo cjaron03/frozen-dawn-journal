@@ -1265,6 +1265,7 @@
 2026-11-05	0	0	chore: merge feat/maeve-director into feat/aurora-s4b
 2026-11-05	0	0	chore: merge feat/maeve-director into feat/miller-m3
 2026-11-05	1	1	docs: ban agent attribution on commits and PRs
+2026-11-05	1	1	docs: correct Ruling 16 on the org chart line
 2026-11-05	1	1	docs: merge the plan before cutting the build
 2026-11-05	1	1	docs: record F3 and the phases' clock beside her log
 2026-11-05	1	1	docs: record the log's day rollover
@@ -1297,16 +1298,19 @@
 2026-11-05	10	5	fix: catch the word's last letter and a guarded word before a bang
 2026-11-05	11	4	fix: keep the refusal tests from a server's rain
 2026-11-05	11	8	fix: hold the quiet limit on a young server's clock
+2026-11-05	15	2	fix: stop filler reaching her topics
 2026-11-05	15	4	fix: take the delayed-frontier test's box and corridor down too
 2026-11-05	16	0	fix: a dock builds no second body
 2026-11-05	21	3	docs: record the M3 handback
 2026-11-05	21	17	docs: record the owner's approval of the M3 and M4 mockups
 2026-11-05	22	3	docs: record her will's handback
 2026-11-05	22	3	fix: take the large-region test's boxes down when it ends
+2026-11-05	24	5	test: pin the held focus across a page turn
 2026-11-05	25	3	fix: count asking why she is Aurora as naming her
 2026-11-05	28	1	feat: give the log lab commands
 2026-11-05	28	2	fix: come back to the first meeting without the logo
 2026-11-05	31	17	docs: recheck the M5 plan against M4 as shipped
+2026-11-05	34	32	docs: record the owner's marks on the M5 lines
 2026-11-05	42	0	test: hold what she says to typing
 2026-11-05	43	30	test: keep the aurora tests out from under a leftover roof
 2026-11-05	57	20	fix: hold her lines until heard and keep the dead off the log
@@ -1321,8 +1325,13 @@
 2026-11-05	128	0	feat: prepare the chat check
 2026-11-05	129	0	feat: add the Aurora Nine Check playtest world
 2026-11-05	134	14	fix: answer the branch review of her will
+2026-11-05	138	0	test: write the fresh set for her topics
+2026-11-05	148	2	feat: let her conditions join and read a pocket
+2026-11-05	159	0	feat: prepare the topics check
 2026-11-05	168	39	docs: fold the owner's log decisions into the M3 plan
+2026-11-05	169	2	fix: pay a topic's reply once
 2026-11-05	172	4	feat: write her log's lines
+2026-11-05	185	14	feat: let her focus order the menu
 2026-11-05	192	13	feat: draw her stop screen
 2026-11-05	209	6	feat: she goes quiet for a day after Nine
 2026-11-05	210	1	feat: let the recording cut in over her
@@ -1330,6 +1339,7 @@
 2026-11-05	215	0	docs: plan the private log
 2026-11-05	231	0	docs: plan Miller Pattern M5, the rest of her topics
 2026-11-05	253	29	feat: put the bar under her slots
+2026-11-05	293	4	docs: draft the M5 lines for the owner to mark
 2026-11-05	302	0	docs: plan Miller Pattern M4, the chat bar and the crash
 2026-11-05	347	14	feat: put her log under Settings
 2026-11-05	351	7	feat: let her refuse you
@@ -1351,4 +1361,57 @@
 2026-11-05	794	7	feat: put Nine at the Blast Pit
 2026-11-05	859	18	feat: let her hear what is typed
 2026-11-05	955	0	docs: prepare Aurora S4 for the owner's approval
+2026-11-05	1287	105	feat: let her answer the rest of what she knows
 2026-11-05	29831	0	feat: give her the table she reads words with
+2026-11-06	0	0	Merge pull request #164 from cjaron03/feat/miller-m5
+2026-11-06	0	0	Merge pull request #165 from cjaron03/docs/miller-m6-plan
+2026-11-06	0	0	Merge pull request #166 from cjaron03/feat/miller-m6
+2026-11-06	0	0	Merge remote-tracking branch 'origin/feat/maeve-director' into docs/miller-m6-plan
+2026-11-06	0	0	chore: merge feat/maeve-director into feat/miller-m5
+2026-11-06	1	1	docs: catch her projecting something wholesome
+2026-11-06	1	1	docs: mark the caught motion approved
+2026-11-06	1	1	docs: mark the hologram mockup approved
+2026-11-06	1	1	docs: set the Returned hologram scope in the M6 idea
+2026-11-06	2	0	docs: skip the gates on docs-only pull requests
+2026-11-06	2	1	docs: add her own Returned strategies to the M6 idea
+2026-11-06	2	2	docs: mark the M6 plan approved
+2026-11-06	2	2	docs: mark the M6 strategies and worry motion approved
+2026-11-06	3	1	docs: add the Returned hologram to the M6 idea
+2026-11-06	4	1	docs: add the Architect hologram and Returned advice to the M6 idea
+2026-11-06	4	4	docs: record the owner's marks on the M6 lines
+2026-11-06	6	1	fix: keep the torch from answering what scares her
+2026-11-06	6	78	style: keep the chat examples on one line
+2026-11-06	7	2	docs: put the file number on the egg
+2026-11-06	10	0	docs: draft her Returned strategies for the owner's verdict
+2026-11-06	22	22	docs: fix what the branch review found in the M6 plan
+2026-11-06	25	2	fix: let her moments wait until she is left alone
+2026-11-06	25	10	fix: keep Flow for her voice alone
+2026-11-06	28	31	docs: redraw her whistle with small eyes and a note
+2026-11-06	30	4	docs: show the small you and her, in the player's own skin
+2026-11-06	31	0	docs: record the owner's idea for Miller Pattern M6
+2026-11-06	31	4	docs: record the M6 pass
+2026-11-06	32	27	docs: show her worry as motion, not a new face
+2026-11-06	35	2	docs: add the hologram's arrival, the owner's Ruling 30
+2026-11-06	38	1	docs: add Frostbitten and Hollow strategies and the worried face
+2026-11-06	40	2	feat: sort the M5 pass and answer where everyone is
+2026-11-06	75	4	feat: let a click finish her typing, and a sneaking click end it
+2026-11-06	75	11	docs: record the M6 answers and draw the egg
+2026-11-06	78	3	docs: add her small moments and the whistle mockup to the M6 plan
+2026-11-06	80	43	docs: show her getting caught as motion, not a whistle
+2026-11-06	86	7	fix: settle what the branch review found
+2026-11-06	89	7	fix: settle what the review after the pass found
+2026-11-06	119	2	feat: let them confront her, and give the catch a beat
+2026-11-06	155	22	feat: let her hologram leave, and the egg stay long enough to see
+2026-11-06	157	0	feat: prepare the advice check
+2026-11-06	193	1	docs: add the Returned hologram mockup
+2026-11-06	238	0	docs: plan Miller Pattern M6
+2026-11-06	309	3	feat: let her greet first at Close
+2026-11-06	325	8	feat: let her offer what she knows, and let the asker skip ahead
+2026-11-06	328	3	docs: add the M6 face mockups and the owner's picks
+2026-11-06	353	0	docs: draft the M6 lines for the owner to mark
+2026-11-06	412	0	test: write the fresh set for her advice
+2026-11-06	437	42	feat: give her the voice trace, new faces and Flow
+2026-11-06	517	6	feat: let her project the Returned
+2026-11-06	524	12	feat: give her a few small moments
+2026-11-06	548	0	feat: draw her hologram in the world
+2026-11-06	1856	42	feat: let her give advice from the manual
