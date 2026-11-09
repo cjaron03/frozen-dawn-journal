@@ -1427,3 +1427,30 @@
 2026-11-07	91	8	feat: reword Emergency EVA status text
 2026-11-07	136	0	docs: plan the payoff clues branch
 2026-11-07	161	0	test: add the Payoff Clues Check playtest world
+2026-11-09	0	0	Merge pull request #169 from cjaron03/feat/payoff-clues
+2026-11-09	0	0	Merge pull request #170 from cjaron03/docs/manual-search-plan
+2026-11-09	0	0	Merge pull request #171 from cjaron03/docs/payoff-reveal-plan
+2026-11-09	0	0	Merge pull request #172 from cjaron03/feat/manual-search
+2026-11-09	0	0	Merge remote-tracking branch 'origin/feat/maeve-director' into docs/payoff-reveal-plan
+2026-11-09	1	1	docs: mark the payoff reveal built
+2026-11-09	1	1	docs: mark the payoff reveal plan approved
+2026-11-09	2	2	test: expect the dev-only payoff command
+2026-11-09	9	4	fix: drop the molten corium search mapping
+2026-11-09	10	1	docs: record the manual search as built
+2026-11-09	10	2	feat: let the payoff playtest replay the opening
+2026-11-09	11	2	feat: point Start Here at the manual search
+2026-11-09	13	11	docs: limit the payoff to new saves and soften the boot cue
+2026-11-09	30	0	fix: keep letter keys for the front-page search
+2026-11-09	59	4	fix: shield the player while the opening holds them still
+2026-11-09	91	1	feat: show the death-screen line once
+2026-11-09	106	0	feat: add the Manual Search Check playtest world
+2026-11-09	107	0	docs: plan the manual search branch
+2026-11-09	130	0	feat: add the payoff reveal playtest world
+2026-11-09	132	2	feat: change the manual when the payoff fires
+2026-11-09	154	0	docs: plan the payoff reveal branch
+2026-11-09	209	2	feat: add a search bar to the field manual's front page
+2026-11-09	231	14	feat: replay the opening after the payoff and cue every respawn
+2026-11-09	267	60	feat: rebuild the opening and let the payoff replay glitch
+2026-11-09	281	30	feat: give the boot cue, death line and replay their approved look
+2026-11-09	283	20	feat: make manual entries findable by item name
+2026-11-09	524	100	feat: add the shared payoff flag
