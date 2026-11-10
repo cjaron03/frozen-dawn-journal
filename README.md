@@ -46,6 +46,9 @@ through the Architect page, and the check below keeps that door a reward.
                         em dash anywhere
     art/make_icons.py   draws the icons, the journal's social card and a
                         card per chapter into site/assets/
+    art/maeve_counters.py
+                        draws the isometric scenes in Chapter VIII's first
+                        section and writes them into site/maeve.html
 
 To build and look at it:
 
