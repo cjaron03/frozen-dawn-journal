@@ -1,5 +1,5 @@
 <h2>Chapter eight: Maeve</h2>
-<p class="subtitle">The last chapter, still being written. Built to director.html and listed like the rest, marked in progress. A reader who has finished the other seven gets a different opening line and, in section 06, her file on them, built from what their own browser saw them read. No kicker, no date, no number until the reader has scrolled. Eleven commits, 78 files, seven of eight slices on an unmerged branch: the page has stopped being ahead of the code, and in one place the code has overturned it. The instrument is the section 9.15 developer dump made live.</p>
+<p class="subtitle">The last chapter, still being written. Built to director.html and listed like the rest, marked in progress. A reader who has finished the other seven gets a different opening line and, in section 06, her file on them, built from what their own browser saw them read. No kicker, no date, no number until the reader has scrolled. 126 commits and 102 files of her, seven of eight slices built, on the branch the rest of the mod now builds on, not yet released: the page has stopped being ahead of the code, and in one place the code has overturned it. The instrument is the section 9.15 developer dump made live.</p>
 
 <script>
 /* who is reading, decided before anything paints. the markup is already
@@ -128,14 +128,14 @@
 /* ---------- her file, in daylight ---------- */
 .mf { margin:30px 0 0; background:#0a0d11; border:1px solid #241d33; border-radius:8px; overflow:hidden; }
 .mf-top { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:10px 16px;
-          border-bottom:1px solid #1a212a; font-family:var(--mono); font-size:10.5px; color:#59646e; }
+          border-bottom:1px solid #1a212a; font-family:var(--mono); font-size:10.5px; color:#7d8892; }
 .mf-cmd { color:#a98cd8; }
 .mf-rows { margin:0; padding:8px 0; font-family:var(--mono); font-size:12px; line-height:1.55; }
 .mf-rows > div { display:grid; grid-template-columns:132px 1fr; gap:12px; padding:5px 16px; }
-.mf-rows dt { color:#4f5a64; letter-spacing:.06em; }
+.mf-rows dt { color:#7d8892; letter-spacing:.06em; }
 .mf-rows dd { margin:0; color:#a8b3bc; }
 .mf-rows dd.k { color:#cbb6ee; }
-.mf-rows dd.d { color:#59646e; }
+.mf-rows dd.d { color:#8d98a1; }
 .mf-cf dd { display:flex; align-items:center; gap:14px; }
 .mf-cf b { font-weight:500; color:#e9eff3; font-size:15px; }
 .mf-bar { position:relative; display:flex; gap:3px; width:min(240px, 100%); height:8px; }
@@ -175,7 +175,7 @@
 .ml.in li:nth-child(5) .ml-ey { animation-delay:1s }
 .ml.in li:nth-child(6) .ml-ey { animation-delay:1.25s }
 .ml.in li:nth-child(7) .ml-ey { animation-delay:1.5s }
-.ml time { display:block; font-family:var(--mono); font-size:10.5px; color:#6c7883; margin-bottom:6px; }
+.ml time { display:block; font-family:var(--mono); font-size:10.5px; color:#8d98a1; margin-bottom:6px; }
 .ml p { margin:0; font-size:12.5px; line-height:1.5; color:#8d98a1; }
 .ml li.hot .ml-ey { filter:drop-shadow(0 0 7px #a98cd8); }
 .ml li.hot .ml-ey i { width:16px; height:5px; }
@@ -215,7 +215,7 @@
 .ct-c figcaption em { display:block; margin-top:8px; font-style:normal; font-size:12px; color:#7dd3fc; }
 .ct-c figcaption em::before { content:"Beat it: "; color:#3f6f86; }
 .ct-at { position:absolute; right:15px; top:13px; font-family:var(--mono); font-size:10.5px;
-         color:#7a5fa8; padding:1px 6px; border:1px solid #3f3357; border-radius:4px; }
+         color:#a98cd8; padding:1px 6px; border:1px solid #3f3357; border-radius:4px; }
 .ct-at.hi { color:#cbb6ee; border-color:#6b5691; background:#1c1628; }
 .ct-maps { margin-top:6px; grid-template-columns:1fr; }
 .ct-maps .ct-c > svg { max-width:520px; margin:0 auto; }
@@ -2693,7 +2693,7 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
   <div class="ap-cmts ap-wide">
     <div class="ap-cmt"><b>Veteran legibility</b><span>If an individual Architect remembering you is never perceivable, that layer is engineering nobody experiences. Either veterans get a legible tell, or persistent individual history gets cut entirely.</span></div>
     <div class="ap-cmt"><b>The desperation phase</b><span>After an interrupted heal, retreat utility is zeroed for a minute, and what happens in that minute is currently emergent. It is also the emotional peak of the fight. Last stand or last wall, and I have to pick one on purpose.</span></div>
-    <div class="ap-cmt"><b>The shield counter</b><span>If blocked hits void the freeze riders, a shielded player invalidates the entire melee loop. It needs an in character answer, not a weapon swap.</span></div>
+    <div class="ap-cmt"><b>When you carry the shield</b><span>If blocked hits void the freeze riders, a shielded player invalidates the entire melee loop. It needs an in character answer, not a weapon swap.</span></div>
   </div>
 
   <p class="ap-p">There used to be a fourth: whether any of it is frightening. Every gate before slice 07 tested whether her behaviour was <em>legible</em>, and legible is the precondition, not the goal. That one is answered now, by somebody who did not know what he was answering. It is the only question on this page I did not get to close myself.</p>
@@ -2767,13 +2767,14 @@ span.ap-code { display:inline; background:none; border:0; border-radius:0;
   frame.addEventListener('animationend', function(e){
     if (e.animationName === 'apUp') frame.classList.add('done');
   });
-  var OPEN = document.documentElement.classList.contains('mv-open') ? 9300 : 0;
+  var OPEN = document.documentElement.classList.contains('mv-open') ? 9600 : 0;
   setTimeout(function(){ frame.classList.add('done'); }, 2400 + OPEN);
 
   function skipIntro(){
     if (!frame.classList.contains('done')) frame.classList.add('done');
   }
   frame.addEventListener('wheel',     skipIntro, { passive:true });
+  frame.addEventListener('pointerdown', skipIntro, { passive:true });
   frame.addEventListener('touchmove', skipIntro, { passive:true });
   doc.addEventListener('scroll', function(){ if (doc.scrollTop > 0) skipIntro(); }, { passive:true });
   window.addEventListener('keydown', function(e){

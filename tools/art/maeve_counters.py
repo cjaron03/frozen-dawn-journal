@@ -318,6 +318,10 @@ def scene_hotspot():
 
 def write(page=PAGE):
     s = page.read_text()
+    # the arrowheads live in the hand written ct-defs block, not in here
+    for marker in ('ctHd', 'ctHy'):
+        if 'id="%s"' % marker not in s:
+            raise SystemExit('the drawings need marker %s in the ct-defs block of %s' % (marker, page))
     scenes = {'ct1t': scene_shield(), 'ct3t': scene_pillar(), 'ct2t': scene_archer(),
               'ct4t': scene_mantlet(), 'ct6t': scene_hotspot()}
     for tid, svg in scenes.items():
