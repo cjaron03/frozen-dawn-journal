@@ -1431,26 +1431,53 @@
 2026-11-09	0	0	Merge pull request #170 from cjaron03/docs/manual-search-plan
 2026-11-09	0	0	Merge pull request #171 from cjaron03/docs/payoff-reveal-plan
 2026-11-09	0	0	Merge pull request #172 from cjaron03/feat/manual-search
+2026-11-09	0	0	Merge pull request #173 from cjaron03/feat/payoff-reveal
+2026-11-09	0	0	Merge pull request #174 from cjaron03/docs/thaeven-loop-plan
+2026-11-09	0	0	Merge pull request #175 from cjaron03/feat/thaeven-loop
+2026-11-09	0	0	Merge pull request #176 from cjaron03/docs/returned-respawn-echo-plan
 2026-11-09	0	0	Merge remote-tracking branch 'origin/feat/maeve-director' into docs/payoff-reveal-plan
+2026-11-09	0	0	chore: merge feat/maeve-director into feat/payoff-reveal
 2026-11-09	1	1	docs: mark the payoff reveal built
 2026-11-09	1	1	docs: mark the payoff reveal plan approved
+2026-11-09	1	1	docs: record branch 6 as built in the payoff roadmap
+2026-11-09	1	2	chore: retire the old ORSA boot ident
+2026-11-09	2	2	docs: mark the returned respawn echo plan approved
+2026-11-09	2	2	docs: mark the thaeven loop plan approved
 2026-11-09	2	2	test: expect the dev-only payoff command
+2026-11-09	5	1	fix: hold the intro and loop band while the game is paused
 2026-11-09	9	4	fix: drop the molten corium search mapping
 2026-11-09	10	1	docs: record the manual search as built
 2026-11-09	10	2	feat: let the payoff playtest replay the opening
 2026-11-09	11	2	feat: point Start Here at the manual search
 2026-11-09	13	11	docs: limit the payoff to new saves and soften the boot cue
+2026-11-09	18	10	docs: level the Thaeven transmission sounds in the returned respawn echo plan
+2026-11-09	20	6	docs: fix the ring's level first in the returned respawn echo plan
+2026-11-09	26	2	fix: write the lore sync's seen revisions length once
 2026-11-09	30	0	fix: keep letter keys for the front-page search
+2026-11-09	32	13	fix: keep the loop's play and owe-broken commands out of release builds
 2026-11-09	59	4	fix: shield the player while the opening holds them still
+2026-11-09	66	2	fix: owe the return only after the player leaves the arena
 2026-11-09	91	1	feat: show the death-screen line once
 2026-11-09	106	0	feat: add the Manual Search Check playtest world
 2026-11-09	107	0	docs: plan the manual search branch
 2026-11-09	130	0	feat: add the payoff reveal playtest world
 2026-11-09	132	2	feat: change the manual when the payoff fires
+2026-11-09	134	2	docs: plan the returned respawn echo branch
+2026-11-09	149	1	feat: prepare the thaeven loop playtest world
+2026-11-09	153	1	feat: flicker Record III's raw lines in the opening blackout
 2026-11-09	154	0	docs: plan the payoff reveal branch
+2026-11-09	160	0	docs: draw the thaeven loop mockups
 2026-11-09	209	2	feat: add a search bar to the field manual's front page
+2026-11-09	219	3	docs: plan the thaeven loop branch
 2026-11-09	231	14	feat: replay the opening after the payoff and cue every respawn
+2026-11-09	231	77	docs: animate the thaeven loop mockups with the archive's ink
+2026-11-09	264	14	feat: grow the ORSA icon into the masthead at first boot
 2026-11-09	267	60	feat: rebuild the opening and let the payoff replay glitch
 2026-11-09	281	30	feat: give the boot cue, death line and replay their approved look
+2026-11-09	283	1	feat: sing the ORSA sting on terminal and Aurora boots
 2026-11-09	283	20	feat: make manual entries findable by item name
+2026-11-09	342	52	feat: add the loop page to Record I and re-ink it after the payoff
+2026-11-09	385	10	feat: regenerate the ORSA boot spinner with 64 frames
 2026-11-09	524	100	feat: add the shared payoff flag
+2026-11-09	734	4	feat: play the loop lines live during the Heart
+2026-11-09	769	113	feat: run a worn, glitched ORSA beat and voice in the replay
