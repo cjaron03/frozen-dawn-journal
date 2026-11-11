@@ -1445,11 +1445,16 @@
 2026-11-09	2	2	docs: mark the thaeven loop plan approved
 2026-11-09	2	2	test: expect the dev-only payoff command
 2026-11-09	5	1	fix: hold the intro and loop band while the game is paused
+2026-11-09	6	5	fix: rest a respawn's boot cue one minute instead of five
+2026-11-09	8	6	fix: start the Returned Echo Check in Phase 2 so its Hearth builds
+2026-11-09	9	1	feat: add calm and resident-kill buttons to the Returned Echo Check
 2026-11-09	9	4	fix: drop the molten corium search mapping
 2026-11-09	10	1	docs: record the manual search as built
 2026-11-09	10	2	feat: let the payoff playtest replay the opening
+2026-11-09	10	10	fix: bring the respawn ring and the Thaeven beds up to the boot sting's level
 2026-11-09	11	2	feat: point Start Here at the manual search
 2026-11-09	13	11	docs: limit the payoff to new saves and soften the boot cue
+2026-11-09	15	0	fix: carry the Master Architect's moment advancement in the Returned Echo Check
 2026-11-09	18	10	docs: level the Thaeven transmission sounds in the returned respawn echo plan
 2026-11-09	20	6	docs: fix the ring's level first in the returned respawn echo plan
 2026-11-09	26	2	fix: write the lore sync's seen revisions length once
@@ -1460,6 +1465,7 @@
 2026-11-09	91	1	feat: show the death-screen line once
 2026-11-09	106	0	feat: add the Manual Search Check playtest world
 2026-11-09	107	0	docs: plan the manual search branch
+2026-11-09	114	2	feat: ring the respawn tone when a Returned is replaced
 2026-11-09	130	0	feat: add the payoff reveal playtest world
 2026-11-09	132	2	feat: change the manual when the payoff fires
 2026-11-09	134	2	docs: plan the returned respawn echo branch
@@ -1467,6 +1473,7 @@
 2026-11-09	153	1	feat: flicker Record III's raw lines in the opening blackout
 2026-11-09	154	0	docs: plan the payoff reveal branch
 2026-11-09	160	0	docs: draw the thaeven loop mockups
+2026-11-09	174	0	feat: prepare the Returned Echo Check playtest world
 2026-11-09	209	2	feat: add a search bar to the field manual's front page
 2026-11-09	219	3	docs: plan the thaeven loop branch
 2026-11-09	231	14	feat: replay the opening after the payoff and cue every respawn
@@ -1478,6 +1485,15 @@
 2026-11-09	283	20	feat: make manual entries findable by item name
 2026-11-09	342	52	feat: add the loop page to Record I and re-ink it after the payoff
 2026-11-09	385	10	feat: regenerate the ORSA boot spinner with 64 frames
+2026-11-09	440	6	feat: let the Hearth notice a witnessed death
 2026-11-09	524	100	feat: add the shared payoff flag
 2026-11-09	734	4	feat: play the loop lines live during the Heart
 2026-11-09	769	113	feat: run a worn, glitched ORSA beat and voice in the replay
+2026-11-10	0	0	Merge pull request #177 from cjaron03/feat/returned-respawn-echo
+2026-11-10	0	0	Merge pull request #178 from cjaron03/docs/heart-memory-node-plan
+2026-11-10	2	2	docs: mark the heart memory node plan approved
+2026-11-10	2	2	docs: record the returned respawn echo build, pass and review
+2026-11-10	6	3	fix: kill the nearest Returned within earshot in the Returned Echo Check
+2026-11-10	33	4	fix: hold the notice cap for notices in play and start it only at the Major Hearth
+2026-11-10	64	37	fix: ring a killed Returned at once instead of at its replacement
+2026-11-10	151	1	docs: plan the heart memory node branch
