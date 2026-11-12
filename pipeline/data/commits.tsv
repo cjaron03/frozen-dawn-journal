@@ -1492,8 +1492,33 @@
 2026-11-10	0	0	Merge pull request #177 from cjaron03/feat/returned-respawn-echo
 2026-11-10	0	0	Merge pull request #178 from cjaron03/docs/heart-memory-node-plan
 2026-11-10	2	2	docs: mark the heart memory node plan approved
+2026-11-10	2	2	docs: record the heart memory node build, pass and review
 2026-11-10	2	2	docs: record the returned respawn echo build, pass and review
 2026-11-10	6	3	fix: kill the nearest Returned within earshot in the Returned Echo Check
+2026-11-10	10	1	fix: open the playtest Heart to the sky
+2026-11-10	12	2	fix: carry the playtest advancement in its own pack
 2026-11-10	33	4	fix: hold the notice cap for notices in play and start it only at the Major Hearth
 2026-11-10	64	37	fix: ring a killed Returned at once instead of at its replacement
+2026-11-10	68	7	feat: let the Successor say Kevin in the quiet
+2026-11-10	69	30	fix: hold the memory panel while paused and never flash a faint line
+2026-11-10	125	0	feat: prepare the heart memory check playtest world
 2026-11-10	151	1	docs: plan the heart memory node branch
+2026-11-10	161	0	docs: draw the heart memory node mockups
+2026-11-10	649	74	feat: let the last memory node quote the player's run
+2026-11-11	0	0	Merge pull request #179 from cjaron03/feat/heart-memory-node
+2026-11-11	0	0	Merge pull request #180 from cjaron03/docs/ending-b-welcome-plan
+2026-11-11	2	2	docs: mark the ending B welcome plan approved
+2026-11-11	4	4	fix: point the Ending Welcome Check buttons at /fd ending play
+2026-11-11	7	2	docs: record the ending B welcome build
+2026-11-11	48	28	feat: type the ending signal into a glass terminal panel
+2026-11-11	73	12	fix: hold true black before Mars and keep the corrupt header on its panel
+2026-11-11	80	5	feat: count a massacre only when the player emptied a Hearth
+2026-11-11	88	0	feat: prepare the Ending Welcome Check playtest world
+2026-11-11	92	1	docs: plan the ending B welcome branch
+2026-11-11	167	0	docs: draw the low orbit Earth and truth glitch mockup
+2026-11-11	188	0	docs: draw the Ending B epilogue mockup
+2026-11-11	205	51	feat: glitch Ending B's welcome into the compliance line
+2026-11-11	244	115	feat: restyle the ending viewport and HUD as a glass cockpit
+2026-11-11	286	69	feat: let Ending B hear Welcome home first
+2026-11-11	290	0	docs: draw the ending glass cockpit mockup
+2026-11-11	507	18	feat: open the ending in low orbit over the frozen Earth
